@@ -1,0 +1,14 @@
+li{
+  margin-bottom: 2px;
+  
+  margin: 10px;
+}
+
+
+
+  /* Change the link color on hover */
+  li a:hover {
+    background-color: darkseagreen;
+    color: black;
+    box-shadow: 0 0 5px brown;
+  }  

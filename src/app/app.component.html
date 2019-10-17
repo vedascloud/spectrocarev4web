@@ -1,0 +1,16 @@
+<div class="">
+      <app-header *ngIf="isValid()"></app-header>
+
+</div>
+
+<div class="container-fluid">
+   <div class="row">
+       <div class="col-md-2 "> 
+           <app-sidebar *ngIf="isValid()"></app-sidebar>
+        </div>
+        <div class="col-md-10">
+                <router-outlet *ngIf="isValid()"></router-outlet>
+        </div>
+   </div>
+</div>
+<router-outlet *ngIf="!isValid()"></router-outlet>

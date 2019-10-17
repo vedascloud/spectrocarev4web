@@ -1,0 +1,34 @@
+ul {
+    display: flex;
+    margin: 0;
+    padding: 0;    
+}
+
+img{
+    width: 2rem;
+    height: 2rem;   
+}
+form {
+    text-align: left
+}
+
+h3{
+    display: flex;
+    justify-content: center;
+}
+
+h4{
+    display: flex;
+    justify-content: center;
+}
+
+.terms {
+    font-size: 0.99rem
+}
+
+.menbersignupbg{
+    height: 230vh;
+    background-color: #153f69;
+   
+    
+}

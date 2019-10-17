@@ -1,0 +1,8 @@
+ul li a{
+    color: white;
+    padding: 10px;
+    margin: 0;
+}
+ul li a:hover{
+    color:darkorange;
+  }  
