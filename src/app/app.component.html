@@ -1,9 +1,6 @@
-<div class="">
-      <app-header *ngIf="isValid()"></app-header>
+<app-header *ngIf="isValid()"></app-header>
 
-</div>
-
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="isValid()">
    <div class="row">
        <div class="col-md-2 "> 
            <app-sidebar *ngIf="isValid()"></app-sidebar>
@@ -13,4 +10,7 @@
         </div>
    </div>
 </div>
+
+<app-footer *ngIf="isValid()"></app-footer>
+
 <router-outlet *ngIf="!isValid()"></router-outlet>

@@ -1,21 +1,30 @@
-<nav class="navbar align-items-center m-0 p-0 " 
-     style="width: 100%; height: 100vh; min-width: 200px; background-color: #27384a;" 
-     id="sidebar-wrapper" >
+<div class="sidebar h-100" style="width: 100%; min-width: 200px; background-color: #27384a;">
+    <nav class="navbar align-items-center m-0 p-0 "
+     id="sidebar-wrapper">
   
-<ul class="nav  flex-column ml-4 align-self-start" >
-    <li class="nav-item">
-      <a class="nav-link btn btn-light btn-outline-dark" href="#">Profile</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link btn btn-light btn-outline-dark" href="#">Manage User</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link btn btn-light btn-outline-dark" href="#">Report</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link btn btn-light btn-outline-dark" href="#">Bill & Payment</a>
-    </li>
-    
-  </ul>
-
+    <ul class="nav  flex-column ml-4 align-self-start">
+      <li class="nav-item">
+        <a class="nav-link btn btn-light btn-outline-info " 
+           [routerLink] = "['/home']" routerLinkActive="active"
+        >Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn btn-light btn-outline-info" 
+          [routerLink] = "['/manageuser']" routerLinkActive="active"
+      >Manage User</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn btn-light btn-outline-info" 
+          [routerLink] = "['/report']" routerLinkActive="active"
+      >Report</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link btn btn-light btn-outline-info" 
+          [routerLink] = "['/billandpayment']" routerLinkActive="active"
+      >Bill & Payment</a>
+      </li>
+  
+    </ul>
+  
   </nav>
+</div>

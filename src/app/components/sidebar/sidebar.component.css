@@ -4,6 +4,19 @@ li{
   margin: 10px;
 }
 
+.active{
+  background-color: dodgerblue;
+  color: white;
+}
+
+/* div{
+  height: 100vh;
+}
+
+.sidebar{
+  height: 100vh;
+  align-items: stretch;
+} */
 
 
   /* Change the link color on hover */

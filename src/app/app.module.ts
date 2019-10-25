@@ -10,6 +10,16 @@ import { MedicalpersonnelsignupComponent } from './components/medicalpersonnelsi
 import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomeComponent } from './components/home/home.component';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
+import {HttpClientModule} from '@angular/common/http';
+import { ManageuserComponent } from './components/manageuser/manageuser.component';
+import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
+import { TermsandconditionsComponent } from './components/termsandconditions/termsandconditions.component';
+import { PrivacypolicyComponent } from './components/privacypolicy/privacypolicy.component';
+import { ReportComponent } from './components/report/report.component';
+import { BillandpaymentComponent } from './components/billandpayment/billandpayment.component';
+import { ChangepasswordComponent } from './components/changepassword/changepassword.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +29,24 @@ import { HomeComponent } from './components/home/home.component';
     MedicalpersonnelsignupComponent,
     HeaderComponent,
     SidebarComponent,
-    HomeComponent
+    HomeComponent,
+    ManageuserComponent,
+    ForgotpasswordComponent,
+    TermsandconditionsComponent,
+    PrivacypolicyComponent,
+    ReportComponent,
+    BillandpaymentComponent,
+    ChangepasswordComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    FormsModule
+    
   
   ],
   providers: [],

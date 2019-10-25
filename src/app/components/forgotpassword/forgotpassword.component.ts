@@ -3,32 +3,31 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-adminsignin',
-  templateUrl: './adminsignin.component.html',
-  styleUrls: ['./adminsignin.component.css']
+  selector: 'app-forgotpassword',
+  templateUrl: './forgotpassword.component.html',
+  styleUrls: ['./forgotpassword.component.css']
 })
-export class AdminsigninComponent implements OnInit {
+export class ForgotpasswordComponent implements OnInit {
+
   title:string = 'Administrator';
 isAdministrator:boolean = true;
-adminSignINForm:FormGroup;
-medicalSignINForm:FormGroup;
+adminForgotForm:FormGroup;
+medicalForgotForm:FormGroup;
   constructor(private router:Router, private fb:FormBuilder) { }
 
   ngOnInit() {
-    this.adminSignINForm =this.fb.group({
-      email:["",Validators.required],
-      password:['',Validators.required]
+    this.adminForgotForm =this.fb.group({
+      email:["",Validators.required]
     })
-    this.medicalSignINForm =this.fb.group({
-      email:["",Validators.required],
-      password:['',Validators.required]
+    this.medicalForgotForm =this.fb.group({
+      email:["",Validators.required]
     })
   }
   submitForm(){
-    console.log(this.adminSignINForm.value)
+    console.log(this.adminForgotForm.value)
   }
   medicalSubmit(){
-    console.log(this.medicalSignINForm.value)
+    console.log(this.medicalForgotForm.value)
   }
   callMedicalPersonnel(){
     this.isAdministrator = false;
@@ -36,7 +35,7 @@ medicalSignINForm:FormGroup;
   }
   callAdministrator(){
     this.isAdministrator = true;
-    this.title = 'Administrator';
+    this.title = 'Administrator'
   }
   signUp(){
     if(this.isAdministrator === true){
@@ -45,9 +44,9 @@ medicalSignINForm:FormGroup;
       this.router.navigateByUrl('/medicalpersonnelsignup')
     }
   }
-  forgot(){
+  // forgot(){
     
-      this.router.navigateByUrl('/forgot');
+  //     this.router.navigateByUrl('/forgot');
     
-  }
+  // }
 }
