@@ -1,29 +1,102 @@
-<nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #153f69;">
-  <a class="navbar-brand text-uppercase text-white font-weight-bold ml-5" href="#">Spectrocare</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-    <ul class="navbar-nav p-0">
-      <li class="nav-item p-0">
-        <a class="nav-link text-uppercase" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item p-0">
-        <a class="nav-link text-uppercase" href="#">Patient</a>
-      </li>
-      <li class="nav-item p-0">
-        <a class="nav-link text-uppercase" href="#">Admin Center</a>
-      </li>
-      <li class="nav-item p-0">
-        <a class="nav-link" href="#">
-          <img style="width: 2rem; height: 2rem; border-radius: 50%;" src="assets/images/smile.jpg">
-        </a>
-      </li>
-      <li class="nav-item p-0">
-        <a class="nav-link" href="#">Sign Out</a>
-      </li>
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #153f69;">
+    <a class="navbar-brand text-uppercase text-white font-weight-bold ml-5" href="#">Spectrocare</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+      <ul class="navbar-nav p-0">
+        <li class="nav-item p-0">
+          <a class="nav-link text-uppercase" [routerLink]="['/main']" routerLinkActive="active">Home <span
+              class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item p-0">
+          <a class="nav-link text-uppercase" [routerLink]="['/patient']" routerLinkActive="active">Patient</a>
+        </li>
+        <li class="nav-item p-0">
+          <a class="nav-link text-uppercase" [routerLink]="['/admincenter']" routerLinkActive="active">
+            Admin Center</a>
+        </li>
+        <li class="nav-item p-0">
+          <a class="nav-link text-uppercase" [routerLink]="['/adminappointment']" routerLinkActive="active">
+            Appointment</a>
+        </li>
+        <li class="nav-item p-0">
+          <a class="nav-link">
+            <!--Testing-->
+            <!-- <div class="row"> -->
+            <!-- <div class="col"> -->
+            <div ngbDropdown class="d-inline-block">
 
-    </ul>
-  </div>
-</nav>
+              <span class="fa-stack " id="dropdownForm1" ngbDropdownToggle>
+
+                <i class="fa fa-bell fa-stack-1x fa-inverse"></i>
+                <span class="badge">17</span>
+              </span>
+
+              <!-- <button class="btn btn-outline-primary" id="dropdownForm1" ngbDropdownToggle>Toggle dropdown</button> -->
+              <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownForm1">
+                <h5 class="text-center position-sticky"><u>Notifications</u></h5>
+                <div class="scroll px-4 py-3">
+
+                  <div class="card p-2 m-2 mb-1">
+                    <div class="row p-2 text-center">
+                      <span class="notif-title" [routerLink]="['/main']">Medical Personnel Add Notification</span>
+                    </div>
+                    <div class="row justify-content-around">
+                      <button type="submit" class="btn btn-sm btn-success">Accept</button>
+                      <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                    </div>
+                  </div>
+                  <div class="card p-2 m-2 mb-1">
+                    <div class="row p-2 text-center">
+                      <span class="notif-title" [routerLink]="['/main']">Medical Personnel Add Notification</span>
+                    </div>
+                    <div class="row justify-content-around">
+                      <button type="submit" class="btn btn-sm btn-success">Accept</button>
+                      <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                    </div>
+                  </div>
+                  <div class="card p-2 m-2 mb-1">
+                    <div class="row p-2 text-center">
+                      <span class="notif-title" [routerLink]="['/main']">Medical Personnel Add Notification</span>
+                    </div>
+                    <div class="row justify-content-around">
+                      <button type="submit" class="btn btn-sm btn-success">Accept</button>
+                      <button type="submit" class="btn btn-sm btn-danger">Reject</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            <!-- </div> -->
+            <!-- </div> -->
+
+          </a>
+        </li>
+        <li class="nav-item p-0">
+          <a class="nav-link" (click)="openSignOut(content1)">Sign Out</a>
+          <!-- Signout popup -->
+          <ng-template #content1 let-modal>
+            <div class="modal-header bg-primary">
+              <p class="modal-title text-white p-2 font-weight-bold" id="modal-basic-title">Are you sure</p>
+            </div>
+            <div class="modal-body bg-white p-2">
+              <p class="text-justify font-weight-lighter text-muted">
+                Would you like to SignOut from this.
+              </p>
+            </div>
+            <div class="modal-footer">
+              <span class="mouse text-info mr-4" (click)="modal.close('Close click')">Cancel</span>
+              <button type="submit" class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+                (click)="SignOut()">Yes</button>
+            </div>
+          </ng-template>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+</header>

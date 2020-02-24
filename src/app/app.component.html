@@ -1,14 +1,8 @@
-<app-header *ngIf="isValid()"></app-header>
+<app-header *ngIf="Show"></app-header>
+<app-header-one *ngIf="isTrue()"></app-header-one>
 
-<div class="container-fluid" *ngIf="isValid()">
-   <div class="row">
-       <div class="col-md-2 "> 
-           <app-sidebar *ngIf="isValid()"></app-sidebar>
-        </div>
-        <div class="col-md-10">
-                <router-outlet *ngIf="isValid()"></router-outlet>
-        </div>
-   </div>
+<div *ngIf="isValid()">
+        <router-outlet *ngIf="isValid()"></router-outlet>
 </div>
 
 <app-footer *ngIf="isValid()"></app-footer>

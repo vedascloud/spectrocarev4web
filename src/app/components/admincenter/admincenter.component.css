@@ -1,0 +1,68 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: 'Muli';
+}
+
+
+.sidehigh{
+  height: 100% important;
+  background-color: #2c3136;
+}
+
+/* li{
+    margin-bottom: 2px;  
+    margin: 10px;
+  } */
+  
+  .active{
+    background-color: rgb(62, 69, 76);
+      color: white;
+      border-left: 5px solid #53b8c5;
+  }  
+  /*
+  li{
+    width: 100% !important;
+  } */
+    /* Change the link color on hover */
+    .list,li a:hover {
+      background-color: rgb(62, 69, 76);
+      color: white;
+      border-left: 5px solid #53b8c5;
+      /* border-color:  #53b8c5; */
+    }  
+
+    a{
+      font-size: small;
+      padding: 7px;
+      color: rgb(217, 222, 226);
+    }
+
+    .name{
+      background-color:rgb(62, 69, 76);
+    }
+    
+
+     /* .example-container {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    
+    .example-events {
+      width: 300px;
+      height: 200px;
+      overflow: auto;
+      border: 1px solid #555;
+    } */
+    
+    /* ul li ul:hover {
+      visibility: visible;
+      opacity: 1;
+      display: block;
+    } */

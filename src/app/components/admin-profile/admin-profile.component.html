@@ -1,0 +1,438 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 pb-2">
+
+            <div class="row justify-content-between shadow px-2 pt-4">
+                <div class="row ml-3">
+                    <img src="../../../assets/images/ui/Icons/1x/dashboard.png"
+                        style="width: 30px; height: 30px; margin-right: 5px;">
+                    <h5 style="line-height: 30px; font-weight: bold;">Dashboard <p class="p-0 m-0 font-weight-light" style="font-size: medium;">
+                            Profile</p>
+                    </h5>
+
+                </div>
+                <div class="set mr-3 dropdown" style="line-height: 30px;">
+                    <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+                    <div class="dropdown-content">
+                        <ul class="nav  flex-column p-0 " style="background-color: #f2f2f2;">
+                            <li class="nav-item p-0">
+                                <a class="nav-link   " [routerLink]="['/admincenter/adminprofile']"
+                                    routerLinkActive="active">
+                                    <img src="../../../assets/images/ui/Icons/1x/profile.png"
+                                        style="width: 17px;  margin-right: 10px;">
+                                    <span>Profile</span>
+                                </a>
+                            </li>
+                            <li class="nav-item p-0">
+                                <a class="nav-link   " (click)="openSignOut(content1)" routerLinkActive="active">
+                                    <img src="../../../assets/images/ui/Icons/1x/account-logout.png"
+                                        style="width: 17px; margin-right: 10px;">
+                                    <span>Logout</span>
+                                </a>
+                                <!-- Signout popup -->
+                                <ng-template #content1 let-modal>
+                                    <div class="modal-header bg-primary">
+                                        <p class="modal-title text-white p-2 font-weight-bold" id="modal-basic-title">
+                                            Are you sure</p>
+                                    </div>
+                                    <div class="modal-body bg-white p-2">
+                                        <p class="text-justify font-weight-lighter text-muted">
+                                            Would you like to SignOut from this.
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <span class="mouse text-info mr-4"
+                                            (click)="modal.close('Close click')">Cancel</span>
+                                        <button type="submit"
+                                            class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+                                            (click)="SignOut()">Yes</button>
+                                    </div>
+                                </ng-template>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!--  -->
+            </div>
+
+            <!-- <h3 class="text-center shadow p-3">Admin Information</h3> -->
+        </div>
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9 px-4">
+                    <div class="card px-4">
+                        <div class="card-body">
+                            <h6 class="text-center text-white shadow p-3 bg-info "
+                                style="font-weight: 600;letter-spacing: 0.05rem;">Admin Profile</h6>
+                            <div class="row pt-4">
+                                <div class="col-md-7">
+                                    <!---->
+
+
+                                    <form [formGroup]="adminProfileForm" (ngSubmit)="updateAdminGeneralUser()">
+
+
+                                        <table align="center">
+                                            <tr>
+                                                <td>
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="User ID" formControlName="userID"
+                                                            class="inp">
+                                                    </mat-form-field>
+                                                </td>
+                                                <td>
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Identity"
+                                                            formControlName="identity" class="inp">
+                                                        <!--style="font-size: xx-small;"-->
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table align="center">
+                                            <tr>
+                                                <td>
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="First Name" #autoFocusTest
+                                                            formControlName="firstName" class="inp">
+                                                    </mat-form-field>
+                                                </td>
+                                                <td>
+                                                    <mat-form-field class="example-full-width">
+                                                        <input matInput placeholder="Last Name"
+                                                            formControlName="lastName" class="inp">
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div formGroupName="phoneNumber">
+                                            <table align="center">
+                                                <tr>
+                                                    <td>
+                                                        <mat-form-field class="example-full-width">
+                                                            <!-- <input matInput placeholder="Country Code" formControlName="countryCode"> -->
+                                                            <mat-label>Country Code</mat-label>
+                                                            <mat-select name="code" formControlName="countryCode">
+                                                                <mat-option *ngFor="let code of countryCodes"
+                                                                    style="color: black;" [value]="code.value">
+                                                                    {{code.viewValue}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </td>
+                                                    <td>
+                                                        <mat-form-field class="example-full-width">
+                                                            <input matInput placeholder="Phone Number"
+                                                                formControlName="phoneNumber" class="inp">
+                                                        </mat-form-field>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Email" formControlName="emailID" class="inp">
+                                        </mat-form-field><br>
+                                        <mat-form-field>
+                                            <mat-label>Department</mat-label>
+                                            <mat-select name="department" formControlName="department">
+                                                <mat-option *ngFor="let department of departments"
+                                                    [value]="department.value">
+                                                    {{department.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field>
+                                            <input matInput type="{{password}}" placeholder="Password"
+                                                formControlName="password" class="inp">
+                                            <span *ngIf="isPassword" (click)="showPassword()">
+                                                <i class="fa fa-fw fa-eye-slash field-icon3"></i>
+                                            </span>
+                                            <span *ngIf="!isPassword" (click)="showPassword()">
+                                                <i class="fa fa-fw fa-eye field-icon3"></i>
+                                            </span>
+                                        </mat-form-field><br>
+
+                                        <div class="col-md-12 p-3">
+                                            <div class="row justify-content-center">
+                                                <div class="mr-2">
+                                                    <button mat-raised-button
+                                                        style="outline-style: none;border-radius: 20px; background-color: #17a2b8; color: whitesmoke;"
+                                                        routerLinkActive="active"
+                                                        *ngIf="disableUpdateBtn">Update</button>
+                                                    <!--isAdminSystmMngr|-->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <p class="font-weight-light" style="font-size: small;">Last updated date :
+                                            {{presentDate}}
+                                            by {{userID}}</p>
+
+                                    </form>
+                                </div>
+                                <div class="col-md-5">
+                                    <img class="edit" src="../../../assets/images/ui/Icons/1x/edit1.png"
+                                        style="width: 70px;" (click)="openUpdate()">
+
+                                    <div class="changepwd">
+                                        <!-- <button mat-raised-button>Basic</button> -->
+                                        <button mat-raised-button style="outline-style: none;border-radius: 20px;"
+                                            (click)="open(content)" routerLinkActive="active">Change Password</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+
+
+        <!-- <form [formGroup]="adminProfileForm" (ngSubmit)="updateAdminGeneralUser()">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="identity">Identity</label>
+                                    <input type="text" class="form-control bg-light" formControlName="identity" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="hospital_reg_num">Registration No</label>
+                                    <input type="text" class="form-control font-weight-bold bg-light border-danger"
+                                        formControlName="hospital_reg_num" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                                <div formGroupName="phoneNumber">
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend w-25">
+                                               
+                                                <select class="form-control bg-light" formControlName="countryCode">
+                                                    <option>+91</option>
+                                                    <option>+880</option>
+                                                    <option>+886</option>
+                                                    <option>+81</option>
+                                                  </select>
+                                            </div>
+                                            <input type="number" class="form-control bg-light" formControlName="phoneNumber" >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="userID">User ID</label>
+                                    <input type="text" class="form-control font-weight-bold bg-light border-danger"
+                                        formControlName="userID" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" class="form-control bg-light" formControlName="firstName" >
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" class="form-control bg-light"
+                                        formControlName="lastName" >
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="preferLanguage">Prefer Language</label>
+                                   
+                                    <select class="form-control bg-light" formControlName="preferLanguage">
+                                        <option>English</option>
+                                        <option>Chinese</option>
+                                        <option>French</option>
+                                        <option>Spanish</option>
+                                      </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="department">Department</label>
+                                  
+                                        <select class="form-control bg-light" formControlName="department">
+                                            <option>Administrative</option>
+                                            <option>Receptionist</option>
+                                            <option>Pharmacy</option>
+                                            <option>Radiology</option>
+                                            <option>Paramedical</option>
+                                          </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="emailID">Email ID</label>
+                                    <input type="text" class="form-control bg-light" formControlName="emailID" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="{{password}}" class="form-control bg-light" formControlName="password" disabled>
+                                    <span *ngIf="isPassword"  (click)="showPassword()">
+                                        <i class="fa fa-fw fa-eye-slash field-icon"></i>
+                                    </span>
+                                    <span *ngIf="!isPassword"  (click)="showPassword()">
+                                        <i class="fa fa-fw fa-eye field-icon"></i>
+                                    </span>  
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 p-3">
+                        <div class="row justify-content-center">
+                            <div class="mr-2">
+                            <button class="btn btn-success p-2 btn-outline-info text-white font-weight-bold"
+                                        routerLinkActive="active"  *ngIf="isAdminSystmMngr">Update</button> 
+                                    </div>
+                                    <div>
+                                        <a class="btn btn-danger p-2 btn-outline-info text-white font-weight-bold" (click)="open(content)"
+                                        routerLinkActive="active"  >Change Password</a>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form> -->
+
+    </div>
+
+</div>
+
+<!-- Change Password popup -->
+<ng-template #content let-modal>
+    <div class="modal-header" style="background-color: #fafbfc;">
+        <h4 class="modal-title justify-content-center" id="modal-basic-title">Change Password</h4>
+       
+        <button type="button" class="close text-black-50" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span class="cross text-black-50"><i class="fa fa-times" aria-hidden="true"></i></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="changePasswordForm">
+            <div class="form-group">
+                <div class="row p-2 justify-content-around">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <label>UserID</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control bg-light" formControlName="userID">
+
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row p-2">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <label>Old Password</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control bg-light" formControlName="oldPassword">
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row p-2">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <label>New Password</label>
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" class="form-control bg-light" formControlName="newPassword">
+                    </div>
+                    <div class="col-md-1"></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row p-2">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-4">
+                    <label>Confirm Password</label>
+                  </div>
+                  <div class="col-md-6">
+                    <input type="text" class="form-control bg-light" formControlName="confirmpassword" >
+                    <div *ngIf="changePasswordForm.get('confirmpassword').hasError('checkPasswords') && changePasswordForm.get('confirmpassword').touched">
+                      <p>not same</p>
+                    </div>
+                    <div style='color:#ff7355' *ngIf="changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('newPassword').value != changePasswordForm.get('confirmpassword').value && changePasswordForm.get('confirmpassword').value != null">
+                      Password does not match</div>
+                  </div>
+                  <div class="col-md-1"></div>
+                </div>
+              </div>
+
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button  mat-raised-button style="outline-style: none;"
+        (click)="modal.close('Close click')">Cancel
+    </button>
+        <button type="submit" mat-raised-button class="btn btn-sm  " style="font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;"
+            (click)="changePwdSubmit()" [disabled]="changePasswordForm.valid">Change Password</button> <!--[disabled]="changePasswordForm.invalid"-->
+        <!-- mat-raised-button style="outline-style: none;border-radius: 20px;" -->
+    </div>
+</ng-template>

@@ -1,0 +1,312 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="text-center shadow p-3">Book an Appointment</h3>
+        </div>
+    </div>
+    <div class="row p-3" >
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+        <form  [formGroup]="bookAppointmentForm">
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            
+                            <!-- <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Hospital Reg No</label>
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="change form-control bg-light" placeholder="hsptl-1001" formControlName="hospital_reg_num" disabled>   
+                                </div>
+                            </div> -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Date</label>
+                                    <div class="input-group">
+                                        <input class="form-control" placeholder="choose date from calender" style="border-radius: 50px 50px 50px 50px ;"
+                                                ngbDatepicker #d="ngbDatepicker"   formControlName="appointmentDate" readonly> <!-- [value]="dateToShow" -->
+                                        <div class="input-group-append">
+                                          <button style="border-radius: 50px 50px 50px 50px ;" class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+                                            <i class="fas fa-calendar-alt mr-1" aria-hidden="true"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Visit Type</label>
+                                    <select id="selectType" style="border-radius: 50px 50px 50px 50px;" class=" form-control bg-light" formControlName="visitType">
+                                        <option>Online</option>
+                                        <option>Onsite</option>
+                                      </select>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>From Time</label>
+                                    <!-- <input style="border-radius: 50px 50px 50px 50px;" type="text" class="change form-control bg-light" placeholder="" formControlName="appointmentTimeFrom" >   -->
+                                    <input style="border-radius: 50px 50px 50px 50px;" class="form-control bg-light" formControlName="appointmentTimeFrom" (click)="onClick()"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>To Time</label>
+                                    <!-- <input style="border-radius: 50px 50px 50px 50px ;" type="text" class="form-control bg-light" placeholder="" formControlName="appointmentTimeTo"> -->
+                                    <input style="border-radius: 50px 50px 50px 50px;" class="form-control bg-light" formControlName="appointmentTimeTo" (click)="onTimeClick()"/>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+      
+                    <div class="col-md-12">
+                        <div class="row">
+                          
+                           
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Reason</label>
+                                    <textarea style="border-radius: 50px 50px 50px 50px;" placeholder="describe the patient symptoms here..." type="text" class="form-control bg-light" formControlName="reasonForVisit"></textarea>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                        <div class="col-md-6">
+                            <p class="font-weight-bold ">Patient Details</p>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-sm btn-success btn-outline-info text-white font-weight-bold" 
+                            (click)="openPatientModel(content1, patientsList)"
+                            >Choose Patient</button> 
+                        </div>
+                    </div>
+                    </div>
+      
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Patient ID</label>
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="form-control bg-light" formControlName="patientID">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Patient Name</label>
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="form-control bg-light" placeholder="" formControlName="patientName"> 
+                                </div>
+                            </div>
+                           
+                            
+                        </div>
+                    </div>
+      
+                    <div class="col-md-12">
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Medical Record ID</label>                               
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="form-control bg-light" placeholder="" formControlName="medicalRecordID">
+                                  </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                        <div class="col-md-6">
+                            <p class="font-weight-bold ">Doctor Details</p>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-sm btn-success btn-outline-info text-white font-weight-bold" 
+                            (click)="openDoctorModel(content2)"
+                            >Choose Doctor</button> 
+                        </div>
+                    </div>
+                        </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Doctor Medical Personnel ID</label>
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="form-control bg-light" placeholder="" formControlName="doctorMedicalPersonnelID">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Doctor Name</label>                               
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="form-control bg-light" placeholder="" formControlName="doctorName">
+                                  </div>
+                            </div>
+                           
+                           
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label >Department</label>
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="form-control bg-light" placeholder="" formControlName="department">
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                    <!-- <div class="col-md-12">
+                        <p class="font-weight-bold ">Creator Details</p>
+                        </div>
+      
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Creater Medical Personnel ID</label>
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="form-control bg-light" placeholder="" formControlName="createrMedicalPersonnelID">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Creator Name</label>                               
+                                    <input style="border-radius: 50px 50px 50px 50px;" type="text" class="form-control bg-light" placeholder="" formControlName="creatorName">
+                                  </div>
+                            </div>
+                           
+                        </div>
+                    </div> -->
+      
+                </div>
+            </div>
+    
+            <div class="col-md-12 p-3">
+                <div class="row justify-content-center">
+                    
+                        <button class="btn btn-sm btn-success btn-outline-info text-white font-weight-bold" (click)="bookAppointment()"
+                            >Book Appointment</button> 
+                           
+                </div>
+            </div>
+    
+          </form>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+<!-- Open List Of Patient Model -->
+<ng-template #content1 let-modal >
+    <div class="modal-header  p-1 " style="background-color: #05ac05; color: mintcream;" >
+      <h4 class="modal-title ml-auto" id="modal-basic-title">Select Patient</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span class="cross text-danger-50"><i class="fa fa-times" aria-hidden="true"></i></span>
+      </button>
+    </div>
+    <div class="modal-body bg-light p-0">
+        <div class="row justify-content-center">
+
+                <div class="">
+                    <div class="row p-3 justify-content-center">
+                        <span class="font-weight-bold mr-2" >Search by FirstName : </span>
+                        <input class="p-0" type="text" name="searchTerm" (keyup)='search($event.target.value)'>
+                    </div>
+                    <div class="">
+                <table class="table table-sm table-striped">
+                  <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">PatientID</th>
+                    <th scope="col">MedicalRecordID</th>
+                    
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let patients of filteredPatients; let i = index" (click)="selectPatientFromList(patients)">
+                   <th scope="row" style="text-align: start;">{{i +1}}</th>
+                   <td>{{patients.firstName}}</td>
+                   <td>{{patients.lastName}}</td>
+                   <td>{{patients.patientID}}</td>
+                   <td>{{patients.medical_record_id}}</td>
+                  
+                  </tr>
+                  </tbody>
+                </table>
+            </div>
+            
+              
+            </div>
+      
+
+    </div>
+    </div>    
+  </ng-template>
+
+  <!-- Open List Of Doctors Model -->
+<ng-template #content2 let-modal >
+    <div class="modal-header  p-1 " style="background-color: #05ac05; color: mintcream;" >
+      <h4 class="modal-title ml-auto" id="modal-basic-title">Select Doctor</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span class="cross text-danger-50"><i class="fa fa-times" aria-hidden="true"></i></span>
+      </button>
+    </div>
+    <div class="modal-body bg-light p-0">
+        <div class="row justify-content-center">
+
+                <div class="">
+                    <div class="row p-3 justify-content-center">
+                        <span class="font-weight-bold mr-2" >Search by FirstName : </span>
+                        <input class="p-0" type="text" name="searchTerm" (keyup)='searchDoctor($event.target.value)'>
+                    </div>
+                    <div class="">
+                <table class="table table-sm table-striped">
+                  <thead>
+                  <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">FirstName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">DoctorID</th>
+                    <th scope="col">Department</th>
+                    
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr *ngFor="let doctors of filteredMedicalPersonnels; let i = index" (click)="selectDoctorFromList(doctors)">
+                   <th scope="row" style="text-align: start;">{{i +1}}</th>
+                   <td>{{doctors.firstName}}</td>
+                   <td>{{doctors.lastName}}</td>
+                   <td>{{doctors.medical_personnel_id}}</td>
+                   <td>{{doctors.department}}</td>
+                  
+                  </tr>
+                  </tbody>
+                </table>
+            </div>
+            
+              
+            </div>
+      
+
+    </div>
+    </div>    
+  </ng-template>

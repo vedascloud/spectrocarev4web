@@ -1,0 +1,41 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="row d-flex">
+                <div class="col-md-2 p-0">
+                    <div class="sidebar"
+                        style="width: 100%;height: 116vh;  min-width: 200px; background-color: #27384a;">
+                        <nav class="navbar justify-content-center m-0 p-0 ">
+                            <ul class="nav  flex-column align-self-start mt-3">
+                                <li class="nav-item">
+                                    <div >
+                                    <a class="nav-link btn btn-sm btn-light btn-outline-info p-1"
+                                        [routerLink]="['patientprofileform']"
+                                        routerLinkActive="active">Profile</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn btn-sm btn-light btn-outline-info p-1"
+                                        [routerLink]="['patientmedicalrecords']" routerLinkActive="active">Medical Records</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn btn-sm btn-light btn-outline-info p-1"
+                                        [routerLink]="['patientappointmentrecord']"
+                                        routerLinkActive="active">Appointments</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-md-10 p-0">
+                    <router-outlet></router-outlet>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="mb-5"></div>
+        </div>
+    </div>
+  
+</div>

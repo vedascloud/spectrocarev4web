@@ -4,7 +4,7 @@
     font-family: Poppins-Regular;
 }
 .footerbg{
-    background: linear-gradient(to right,#60348a,#5c48b2,#5768f0);
+    /* background: linear-gradient(to right,#a57279,#27384a); */
     position: relative;
     color: #F7F7F7;
     background-size: cover;
@@ -30,6 +30,15 @@
     }
 }
 
+footer{
+    /* position: relative; */
+    background-image: url('../../../assets/images/footer-icons/bg.png') !important;
+    position: absolute;
+}
+
+.copy{
+    color: rgb(129, 132, 134);
+}
 /* ul li a{
     color: white;
     padding: 10px;

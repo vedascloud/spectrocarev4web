@@ -6,3 +6,79 @@ ul li a{
 ul li a:hover{
     color:darkorange;
   }  
+  .active{
+      color: chocolate !important;
+      font-weight: bold;
+  }
+
+  .notif-title:hover{
+    color: blue;
+  }
+
+  
+*/ Modal Styles */
+.modal-content{
+    background: transparent !important;
+    border: none !important;
+    }
+.bg-Custom{
+background-color:#60348a !important;
+padding: 20px;
+text-align: center;
+}
+.btn-clr{
+background-color: #f66 !important; 
+border: none !important;
+outline: none !important;
+padding: 8px 25px !important;
+}
+
+.modal-footer{
+background-color: white !important;
+}
+.modal-header{
+background-color: white;
+}
+
+.badge{
+  color: red;
+  position: relative;
+  margin-left: 60%;
+  margin-top: -60%;
+}
+
+.dropdown-toggle::after {
+  display:none;
+  }
+
+  .scroll {
+    width: 300px !important;
+    height: 50vh !important;
+    overflow: auto;
+
+}
+
+/**** Scroll Bar*****/
+.scroll::-webkit-scrollbar-track
+{
+border-radius: 2px;
+}
+.scroll::-webkit-scrollbar
+{
+width: 5px;
+background-color: #F7F7F7;
+}
+
+.scroll::-webkit-scrollbar-thumb
+{
+border-radius: 10px;
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+background-color: orangered;
+}
+
+
+  /* header{
+    position: fixed !important;
+    
+    width: 100%;
+  } */

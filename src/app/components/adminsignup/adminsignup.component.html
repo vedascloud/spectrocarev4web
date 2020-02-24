@@ -1,251 +1,158 @@
-<div class="menbersignupbg">
+<div class="container-fluid">
 
-    <div class="container ">
+    <header class="w-100 p-3 ">
+        <nav class="navbar navbar-expand-lg navbar-light d-flex w-100 p-0 ">
+          <!-- <h1 class="navbar-brand text-white  ml-5">SpectroCare</h1> -->
+          
+          <h1 class="logo-text " ><!--style="letter-spacing: 3px;"-->
+            Spectro<span class="logo-highlight">Care</span>
+          </h1>
+          <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarNavDropdown">
+            <ul class="navbar-nav p-0">
+              <li class="nav-item p-0 mx-1">
+                <button  class="btn btn-sm text-white text-uppercase active"  [routerLink]="['/adminsignup']" >
+                Administrator
+                </button>
+              </li>
+              <li class="nav-item p-0 mx-1">
+                <button class="btn btn-sm text-white text-uppercase"  [routerLink]="['/medicalpersonnelsignup']" >Medical Personnel</button>
+              </li>
+              <li class="nav-item p-0 mx-1">
+                <button class="btn btn-sm text-white text-uppercase"  [routerLink]="['/medicalpersonnelsignup']" >Patient</button>
+              </li>          
+            </ul>
+          </div>
+        </nav>
+      </header>
 
-        <div class="mb-3">
-            <h3 class="p-3 text-white">Welcome to SpectroCare</h3>
-        </div>
-
-        <div class="row justify-content-center ">
-
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="card">
-
-                    <h4 class="mt-4 mb-4">Create your account</h4>
-
-                    <div class="container">
-                        <div class="row ">
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-sm-8">
-
-                                <div class="d-inline d-flex justify-content-around">
-                                    <button
-                                        class="btn btn-primary btn-sm text-white btn-outline-dark shadow text-uppercase"
-                                        (click)="callAdministrator()">Administrator</button>
-                                    <button class="text-nowrap btn btn-sm btn-outline-dark shadow text-uppercase"
-                                        [routerLink]="['/medicalpersonnelsignup']">medical personnel</button>
-                                </div>
-
-                            </div>
-                            <div class="col-md-2">
-                            </div>
+    <div class="row p-5" >
+        <div class="col-md-3"></div>
+        <div class="col-md-6 align-self-center text-center">
+            <div class="example-container">
+                <form [formGroup]="adminSignUpForm" (ngSubmit)="adminSignUp()" autocomplete="off">
+                    <div formGroupName="hospitalAdmin">
+                        <mat-form-field>
+                            <input matInput placeholder="User Name" formControlName="userID">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Password" formControlName="password">
+                        </mat-form-field>
+                        <table align="center">
+                            <tr>
+                                <td>
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="First Name" formControlName="firstName">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Last Name" formControlName="lastName">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                        </table>
+                        <div formGroupName="phoneNumber">
+                            <table align="center">
+                                <tr>
+                                    <td>
+                                        <mat-form-field class="example-full-width">
+                                            <!-- <input matInput placeholder="Country Code" formControlName="countryCode"> -->
+                                            <mat-label>Country Code</mat-label>
+                                            <mat-select  name="code"
+                                                formControlName="countryCode">
+                                                <mat-option *ngFor="let code of countryCodes"
+                                                    [value]="code.value">
+                                                    {{code.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <mat-form-field>
+                            <mat-label>Department</mat-label>
+                            <mat-select  name="department" formControlName="department">
+                                <mat-option *ngFor="let department of departments" [value]="department.value">
+                                    {{department.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Email ID" formControlName="emailID">
+                        </mat-form-field>
+                    </div>
+                    <span class="span"></span>
+                    <div formGroupName="hospitalInformation">
+                        <mat-form-field>
+                            <input matInput placeholder="Hospital Registration No " formControlName="hospital_reg_num">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Hospital / Clinic Name" formControlName="hospitalName">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Email ID" formControlName="emailID">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Address" formControlName="address">
+                        </mat-form-field>
+                        <div formGroupName="phoneNumber">
+                            <table align="center">
+                                <tr>
+                                    <td>
+                                        <mat-form-field class="example-full-width">
+                                            <!-- <input matInput placeholder="Country Code" formControlName="countryCode"> -->
+                                            <mat-label>Country Code</mat-label>
+                                            <mat-select  name="code"
+                                                formControlName="countryCode">
+                                                <mat-option *ngFor="let code of countryCodes"
+                                                    [value]="code.value">
+                                                    {{code.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                    <td>
+                                        <mat-form-field class="example-full-width">
+                                            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                                        </mat-form-field>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <mat-form-field>
+                            <input matInput placeholder="City" formControlName="city">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="State" formControlName="state">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Country" formControlName="country">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput placeholder="Post Code" formControlName="postCode">
+                        </mat-form-field>
+                        <mat-checkbox class="text-white">
+                            <span style="font-size: 15px;">I accept the terms and conditions & privacy policy</span>
+                        </mat-checkbox>
+                        <button mat-raised-button class="loginbtn mb-3 mt-3"
+                            style="letter-spacing: 1px; outline-style: none;">SIGN UP</button>
+                        <div class="row  p-2 justify-content-center">
+                            <span (click)="signUp()">
+                                <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
+                                Already have an account?
+                                <a> LOGIN</a>
+                            </span>
                         </div>
                     </div>
-
-                    <div class="container">
-
-                        <!-- </div> -->
-                        <div class="row mt-4">
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-md-8 ">
-                                <form [formGroup]="adminSignUpForm" (ngSubmit)="adminSignUp()">
-
-                                    <div formGroupName="hospitalInformation">
-                                            <div class="form-group">
-                                                    <label for="exampleInputEmail1"> <b>Hospital Information</b></label>
-                                                    
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1" class="mr-2">Enterprise Register
-                                                        Number</label>
-                                                    <img style="width: 1rem; height: 1rem;" placement="right"
-                                                        ngbTooltip="The registration number cannot be changed after the account is registered. Please make sure you provide the correct registration number."
-                                                        src="assets/images/info.png">
-                                                    <input type="text" class="form-control bg-light" id="exampleInputPassword1"
-                                                        formControlName="hospital_reg_num" placeholder="">
-                                                </div>
-            
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Hospital / Clinic Name</label>
-                                                    <input type="text" class="form-control bg-light" id="exampleInputPassword1"
-                                                        formControlName="hospitalName" placeholder="">
-                                                </div>
-            
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">EmailID</label>
-                                                    <input type="email" class="form-control bg-light" id="exampleInputEmail1"
-                                                        formControlName="emailID" aria-describedby="emailHelp" placeholder="">
-                                                </div>
-            
-                                                <div formGroupName="phoneNumber">
-                                                        <div class="form-group">
-                                                                <label for="exampleInputEmail1">Phone Number</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                        <select class="form-control bg-light m-0 "
-                                                                            formControlName="countryCode">
-                                                                            <option selected>+91</option>
-                                                                            <option value="1">+92</option>
-                                                                            <option value="1">+886</option>
-                        
-                                                                        </select>
-                                                                    </div>
-                                                                    <input type="text" class="form-control" formControlName="phoneNumber"
-                                                                        aria-label="Text input with dropdown button">
-                                                                </div>
-                        
-                                                            </div>
-                                                </div>
-                                                
-            
-                                                <div class="form-group">
-            
-                                                    <label for="exampleInputPassword1">Address</label>
-                                                    <textarea type="text" class="form-control bg-light" id="exampleInputPassword1"
-                                                        formControlName="address" placeholder="">
-                                                                            </textarea>
-                                                </div>
-            
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">City</label>
-                                                    <input type="text" class="form-control bg-light" id="exampleInputPassword1"
-                                                        formControlName="city" placeholder="">
-                                                </div>
-            
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">State</label>
-                                                    <input type="text" class="form-control bg-light" id="exampleInputPassword1"
-                                                        formControlName="state" placeholder="">
-                                                </div>
-            
-                                                <div class="form-group">
-            
-                                                    <div class="row justify-content-between">
-                                                        <div class="col-6">
-                                                            <label for="exampleInputPassword1">Country</label>
-                                                            <input type="text" class="form-control bg-light"
-                                                                id="exampleInputPassword1" formControlName="country" placeholder="">
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <label for="exampleInputPassword1">Postcode</label>
-                                                            <input type="number" class="form-control bg-light"
-                                                                id="exampleInputPassword1" formControlName="postCode"
-                                                                placeholder="">
-                                                        </div>
-                                                    </div>
-            
-                                                </div>
-            
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Lattitude</label>
-                                                    <input type="number" class="form-control bg-light" id="exampleInputPassword1"
-                                                        formControlName="latitude" placeholder="">
-                                                </div>
-            
-                                                <div class="form-group">
-                                                    <label for="exampleInputPassword1">Longitude</label>
-                                                    <input type="number" class="form-control bg-light" id="exampleInputPassword1"
-                                                        formControlName="longitude" placeholder="">
-                                                </div>
-                                    </div>
-
-                                    
-                                    <div formGroupName="hospitalAdmin">
-                                            <div class="form-group">
-                                                    <label for="exampleInputEmail1"> <b>Hospital Admin</b></label>                                            
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <label for="InputUserId" placement="right" ngbTooltip="Tooltip on left">User
-                                                    ID</label>
-                                                <input type="userId" class="form-control bg-light" id="InputUserId"
-                                                    formControlName="userID" aria-describedby="userIdHelp" placeholder="">
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <label for="exampleInputPassword1" class="mr-2">Password</label>
-                                                <img style="width: 1rem; height: 1rem;" placement="right"
-                                                    ngbTooltip="Must be atleast 8 characters" src="assets/images/info.png">
-                                                <input type="password" class="form-control bg-light" id="exampleInputPassword1"
-                                                    formControlName="password" placeholder="">
-                                            </div>
-        
-                                            <div class="form-group">
-        
-                                                <div class="row">
-        
-                                                    <div class="col-md-6">
-                                                        <label for="exampleInputPassword1">First Name</label>
-                                                        <input type="text" class="form-control bg-light"
-                                                            formControlName="firstName" id="exampleInputPassword1"
-                                                            placeholder="">
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label for="exampleInputPassword1">Last Name</label>
-                                                        <input type="text" class="form-control bg-light"
-                                                            formControlName="lastName" id="exampleInputPassword1"
-                                                            placeholder="">
-                                                    </div>
-                                                </div>
-        
-                                            </div>
-    
-                                            <div formGroupName="phoneNumber">
-                                                    <div class="form-group">
-                                                            <label for="exampleInputEmail1">Phone Number</label>
-                                                            <div class="input-group">
-                                                                <div class="input-group-prepend">
-                                                                    <select class="form-control bg-light m-0 " formControlName="countryCode">
-                                                                        <option selected>+91</option>
-                                                                        <option value="1">+92</option>
-                                                                        <option value="1">+886</option>
-                    
-                                                                    </select>
-                                                                </div>
-                                                                <input type="text" class="form-control" formControlName="phoneNumber"
-                                                                    aria-label="Text input with dropdown button">
-                                                            </div>
-                    
-                                                        </div>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">EmailID</label>
-                                                <input type="email" class="form-control bg-light" id="exampleInputEmail1"
-                                                    formControlName="emailID" aria-describedby="emailHelp" placeholder="">
-                                            </div>
-        
-        
-                                            <div class="form-group">
-                                                <label for="exampleInputPassword1" class="mr-2">PrefereLanguage</label>
-                                                <input type="text" class="form-control bg-light" id="exampleInputPassword1"
-                                                    formControlName="preferLanguage" placeholder="">
-                                            </div>
-                                    </div>
-
-                                    
-
-                                    <div class="form-group">
-                                        <label class="terms align-self-center ">
-                                            <input class="align-self-center mr-1" 
-                                                type="checkbox">I accept the
-                                            <a class="anchortag" style="color: #00b0ff"
-                                                [routerLink]="['/termsandconditions']"> Terms and Conditions </a> &
-                                            <a class="anchortag" style="color: #00b0ff"
-                                                [routerLink]="['/privacypolicy']"> Privacy Policy</a>
-                                        </label>
-                                    </div>
-
-                                    <div class="row justify-content-center">
-                                        <button type="submit" class="btn btn-info  mt-2 mb-4 text-white "
-                                         [disabled]="adminSignUpForm.invalid"   >Create
-                                            Account</button>
-                                    </div>
-
-                                </form>
-
-                            </div>
-                            <div class="col-md-2">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
-            <div class="col-md-3"></div>
         </div>
+        <div class="col-md-3"></div>
     </div>
-
 </div>

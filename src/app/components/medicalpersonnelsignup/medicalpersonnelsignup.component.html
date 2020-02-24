@@ -1,187 +1,289 @@
-<div class="medicalpersonnelsignupbg">
+<div class="container-fluid">
 
-    <div class="container ">
+    <header class="w-100 p-3 ">
+        <nav class="navbar navbar-expand-lg navbar-light d-flex w-100 p-0 ">
+          <!-- <h1 class="navbar-brand text-white  ml-5">SpectroCare</h1> -->
+          
+          <h1 class="logo-text " ><!--style="letter-spacing: 3px;"-->
+            Spectro<span class="logo-highlight">Care</span>
+          </h1>
+          <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarNavDropdown">
+            <ul class="navbar-nav p-0">
+              <li class="nav-item p-0 mx-1">
+                <button  class="btn btn-sm text-white text-uppercase "  [routerLink]="['/adminsignup']" >
+                Administrator
+                </button>
+              </li>
+              <li class="nav-item p-0 mx-1">
+                <button class="btn btn-sm text-white text-uppercase active"  [routerLink]="['/medicalpersonnelsignup']" >Medical Personnel</button>
+              </li>
+              <li class="nav-item p-0 mx-1">
+                <button class="btn btn-sm text-white text-uppercase"  [routerLink]="['/medicalpersonnelsignup']" >Patient</button>
+              </li>          
+            </ul>
+          </div>
+        </nav>
+      </header>
 
+    <div class="row p-5">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 align-self-center text-center">
+            <div class="example-container">
+                <form [formGroup]="medicalSignUpForm" (ngSubmit)="adminSignUp()" autocomplete="off">
+                    <div class="p-2">
+                        <img src="../../../assets/images/ui/Icons/1x/profile-1.png" style="width: 70px; height: 70px;">
+                    </div>
+                    <mat-form-field>
+                        <input matInput placeholder="User Name" formControlName="userId">
+                    </mat-form-field>
+                    <table align="center" >
+                        <tr>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Identity</mat-label>
+                                    <mat-select  name="identity" formControlName="identity">
+                                        <mat-option *ngFor="let identity of identitys" [value]="identity.value">
+                                            {{identity.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <mat-label>Gender</mat-label>
+                                    <mat-select  name="gender" formControlName="gender">
+                                        <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                                            {{gender.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+                    <table align="center">
+                        <tr>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="First Name" formControlName="firstName">
+                                </mat-form-field>
+                            </td>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Last Name" formControlName="lastName">
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+                    <mat-form-field>
+                        <input matInput placeholder="Email" formControlName="email">
+                    </mat-form-field>
+                    <div formGroupName="phoneNumber">
+                        <table align="center">
+                            <tr>
+                                <td>
+                                    <mat-form-field class="example-full-width">
+                                        <mat-label>Country Code</mat-label>
+                                        <mat-select  name="code"
+                                            formControlName="countryCode">
+                                            <mat-option *ngFor="let code of countryCodes" [value]="code.value">
+                                                {{code.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <mat-form-field>
+                        <input matInput placeholder="Password" formControlName="password">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Confirm Password" formControlName="confirmPassword">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Hospital Reg No" formControlName="hospital_reg_num">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Reg No" formControlName="rgNo">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Department</mat-label>
+                        <mat-select  name="department" formControlName="department">
+                            <mat-option *ngFor="let department of departments" [value]="department.value">
+                                {{department.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-checkbox class="text-white">
+                        <span style="font-size: 15px;">I accept the terms and conditions & privacy policy</span>
+                    </mat-checkbox>
+                    <button mat-raised-button class="loginbtn mb-3 mt-3"
+                        style="letter-spacing: 1px; outline-style: none;">SIGN UP</button>
+                    <div class="row  p-2 justify-content-center">
+                        <span (click)="signUp()">
+                            <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
+                            Already have an account?
+                            <a> LOGIN</a>
+                        </span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+
+<!-- <div class="medicalpersonnelsignupbg">
+    <div class="container">
         <div class="mb-3">
             <h3 class="p-3 text-white">Welcome to SpectroCare</h3>
         </div>
-
         <div class="row justify-content-center ">
-
             <div class="col-md-3"></div>
             <div class="col-md-6">
-                <div class="card">
-
+                <div class="card mb-5">
                     <h4 class="mt-4 mb-4">Create your account</h4>
-
                     <div class="container">
                         <div class="row ">
                             <div class="col-md-2">
                             </div>
                             <div class="col-sm-8">
-
                                 <div class="d-inline d-flex justify-content-around">
-                                    <button 
-                                        class="btn btn-sm btn-outline-dark shadow text-uppercase"
+                                    <button class="btn btn-sm btn-outline-dark shadow text-uppercase"
                                         [routerLink]="['/adminsignup']">Administrator</button>
-
                                     <button
-                                        
                                         class="text-nowrap btn btn-sm btn-primary btn-outline-dark shadow text-uppercase text-white">medical
-                                        personnel</button>
+                                        personnel
+                                    </button>
                                 </div>
-
                             </div>
                             <div class="col-md-2">
                             </div>
                         </div>
                     </div>
-
-                    <div class="container">
-
-                    <div class="row mt-4">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-8 ">
-                            <form [formGroup]="medicalSignUpForm" (ngSubmit)="medicalSignUp()">
-                                <div class="form-group">
-                                    <label for="InputUserId">User ID</label>
-                                    <input type="userId" class="form-control bg-light" id="InputUserId"
-                                    formControlName="userId"
-                                        aria-describedby="userIdHelp" placeholder="">
-                                </div>
-
-                                <div class="form-group">
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="exampleInputPassword1">Identity</label>
-                                            <select class="form-control bg-light m-0 " 
-                                            formControlName="identity">
-                                                <option selected>Doctor</option>
-                                                <option value="1">Nurse</option>
-                                                <option value="1">List Item 1</option>
-
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="exampleInputPassword1">Gender</label>
-                                            <select class="form-control bg-light m-0 "
-                                            formControlName="gender">
-                                                <option selected>Male</option>
-                                                <option value="1">Female</option>
-                                                <option value="2">Others</option>
-                                            </select>
+                    <div class="container ">
+                        <div class="row mt-4">
+                            <div class="col-md-2">
+                            </div>
+                            <div class="col-md-8 ">
+                                <form [formGroup]="medicalSignUpForm" (ngSubmit)="medicalSignUp()">
+                                    <div class="form-group">
+                                        <label for="InputUserId">User ID</label>
+                                        <input type="userId" class="form-control bg-light"
+                                            formControlName="userId">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">Identity</label>
+                                                <select class="form-control bg-light m-0 " formControlName="identity">
+                                                    <option selected>Doctor</option>
+                                                    <option value="1">Nurse</option>
+                                                    <option value="1">List Item 1</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">Gender</label>
+                                                <select class="form-control bg-light m-0 " formControlName="gender">
+                                                    <option selected>Male</option>
+                                                    <option value="1">Female</option>
+                                                    <option value="2">Others</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
-
-                                </div>
-
-                                <div class="form-group">
-
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label for="exampleInputPassword1">Last Name</label>
-                                            <input type="text" class="form-control bg-light"
-                                                id="exampleInputPassword1"
-                                                formControlName="lastName" placeholder="">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="exampleInputPassword1">First Name</label>
-                                            <input type="text" class="form-control bg-light"
-                                                id="exampleInputPassword1"
-                                                formControlName="firstName" placeholder="">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">Last Name</label>
+                                                <input type="text" class="form-control bg-light"
+                                                 formControlName="lastName">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="exampleInputPassword1">First Name</label>
+                                                <input type="text" class="form-control bg-light"
+                                                    formControlName="firstName">
+                                            </div>
                                         </div>
                                     </div>
-
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Email</label>
-                                    <input type="email" class="form-control bg-light" id="exampleInputEmail1"
-                                    formControlName="email"    
-                                    aria-describedby="emailHelp" placeholder="">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Phone Number</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <select class="form-control bg-light m-0 "
-                                            formControlName="phCode">
-                                                <option selected>+91</option>
-                                                <option value="1">+92</option>
-                                                <option value="1">+886</option>
-
-                                            </select>
-                                        </div>
-                                        <input type="text" class="form-control"
-                                        formControlName="number"
-                                            aria-label="Text input with dropdown button">
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Email</label>
+                                        <input type="email" class="form-control bg-light"
+                                            formControlName="email">
                                     </div>
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1" class="mr-2">Password</label>
-                                    <img style="width: 1rem; height: 1rem;" placement="right"
-                                        ngbTooltip="Must be atleast 8 characters" src="../../../assets/images/info.png">
-                                    <input type="password" class="form-control bg-light" id="exampleInputPassword1"
-                                    formControlName="password"    
-                                    placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1" class="mr-2">Confirm Password</label>
-                                    <img style="width: 1rem; height: 1rem;" placement="right"
-                                        ngbTooltip="Must be same a password" src="../../../assets/images/info.png">
-                                    <input type="password" class="form-control bg-light" id="exampleInputPassword1"
-                                    formControlName="confirmPassword"
-                                        placeholder="">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1" class="mr-2">Hospital Registration No</label>
-                                    <img style="width: 1rem; height: 1rem;" placement="right"
-                                        ngbTooltip="Please enter the registration number of your hospital/clinic. If the registration number does not exist, please contact the administrator."
-                                        src="../../../assets/images/info.png">
-                                    <input type="text" class="form-control bg-light" id="exampleInputPassword1"
-                                    formControlName="rgNo"    
-                                    placeholder="">
-
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Department</label>
-                                    <input type="text" class="form-control bg-light" id="exampleInputPassword1"
-                                    formControlName="department"
-                                        placeholder="">
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="terms align-self-center ">
-                                        <input class="align-self-center mr-1" type="checkbox"
-                                        formControlName="checkBox">I accept the
-                                        <a class="anchortag" style="color: #00b0ff" [routerLink] = "['/termsandconditions']"> Terms and Conditions </a> &
-                                        <a class="anchortag" style="color: #00b0ff" [routerLink] = "['/privacypolicy']"> Privacy Policy</a>
-                                    </label>
-                                </div>
-
-                                <div class="row justify-content-center">
-                                    <button type="button" class="btn btn-info mt-2 mb-4 text-white "
-                                        [routerLink]="['/adminsignin']"
-                                        [disabled]="medicalSignUpForm.invalid">Create Account</button>
-                                </div>
-
-                            </form>
-
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Phone Number</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <select class="form-control bg-light m-0 " formControlName="phCode">
+                                                    <option selected>+91</option>
+                                                    <option value="1">+92</option>
+                                                    <option value="1">+886</option>
+                                                </select>
+                                            </div>
+                                            <input type="text" class="form-control" formControlName="number"
+                                                aria-label="Text input with dropdown button">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1" class="mr-2">Password</label>
+                                        <img style="width: 1rem; height: 1rem;" placement="right"
+                                            ngbTooltip="Must be atleast 8 characters"
+                                            src="../../../assets/images/info.png">
+                                        <input type="password" class="form-control bg-light"
+                                            formControlName="password">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1" class="mr-2">Confirm Password</label>
+                                        <img style="width: 1rem; height: 1rem;" placement="right"
+                                            ngbTooltip="Must be same a password" src="../../../assets/images/info.png">
+                                        <input type="password" class="form-control bg-light"
+                                            formControlName="confirmPassword">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1" class="mr-2">Hospital Registration No</label>
+                                        <img style="width: 1rem; height: 1rem;" placement="right"
+                                            ngbTooltip="Please enter the registration number of your hospital/clinic. If the registration number does not exist, please contact the administrator."
+                                            src="../../../assets/images/info.png">
+                                        <input type="text" class="form-control bg-light" 
+                                            formControlName="rgNo">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputPassword1">Department</label>
+                                        <input type="text" class="form-control bg-light" 
+                                            formControlName="department">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="terms align-self-center ">
+                                            <input class="align-self-center mr-1" type="checkbox"
+                                                formControlName="checkBox">I accept the
+                                            <a class="anchortag" style="color: #00b0ff"
+                                                [routerLink]="['/termsandconditions']"> Terms and Conditions </a> &
+                                            <a class="anchortag" style="color: #00b0ff"
+                                                [routerLink]="['/privacypolicy']"> Privacy Policy</a>
+                                        </label>
+                                    </div>
+                                    <div class="row justify-content-center">
+                                        <button type="button" class="btn btn-info mt-2 mb-4 text-white "
+                                            [routerLink]="['/adminsignin']"
+                                            [disabled]="medicalSignUpForm.invalid">Create Account</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                            </div>
                         </div>
-                        <div class="col-md-2">
-                        </div>
-                    </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3"></div>
         </div>
     </div>
-
-</div>
+</div> -->

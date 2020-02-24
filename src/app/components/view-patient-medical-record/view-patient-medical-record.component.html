@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="card w-100 text-center">
+            <div class="card-header">
+                <h3>Patient Profile</h3>
+                <div class="container">
+                    <ul class="row justify-content-center list-unstyled">
+                        <li>
+                            <button class="btn btn-outline-dark"
+                                [routerLink]="['/patient/viewpatientmedicalrecord/patientprofile']"
+                                routerLinkActive="active">Profile</button>
+                        </li>
+                        <li>
+                            <button class="btn  btn-outline-dark"
+                                [routerLink]="['/patient/viewpatientmedicalrecord/patientappointmentrecord']"
+                                routerLinkActive="active">Appointment Record</button>
+                        </li>
+                        <li>
+                            <button class="btn  btn-outline-dark"
+                                [routerLink]="['/patient/viewpatientmedicalrecord/patientscreeningrecord']"
+                                routerLinkActive="active">Screening Record</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body ">
+                <router-outlet></router-outlet>
+            </div>
+            <div class="card-footer">
+            </div>
+        </div>
+    </div>
+</div>

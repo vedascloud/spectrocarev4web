@@ -1,0 +1,37 @@
+<div class="container-fluid m-0 p-0">
+    <div class="row">
+      <div class="col-md-2 p-3" style="background-color: #27384a">
+          <div class="sidebar" style="width: 100%; height: 100vh; background-color: #27384a;">
+              <nav class="navbar align-items-center justify-content-center m-0 p-0 "
+               id="sidebar-wrapper">
+              <ul class="nav  flex-column align-self-start">
+                <li class="nav-item">
+                  <a class="nav-link btn btn-sm p-1 btn-light btn-block btn-outline-info" 
+                     [routerLink] = "['/adminappointment/upcomingappointment']" routerLinkActive="active"
+                  >Upcoming Appointment</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link btn btn-sm p-1 btn-light btn-outline-info" 
+                     [routerLink] = "['/adminappointment/pastappointment']" routerLinkActive="active"
+                  >Past Appointment</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link btn btn-sm btn-light p-1 btn-outline-info" 
+                    [routerLink] = "['/adminappointment/bookappointment']" routerLinkActive="active"
+                    >Book Appointment</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link btn btn-sm btn-light p-1 btn-outline-info" [routerLink]="['/adminappointment/appointmentcalendar']"
+                    routerLinkActive="active">Calendar</a>
+                </li>
+               
+                
+              </ul>
+            </nav>
+          </div>
+      </div>
+      <div class="col-md-10">
+          <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>

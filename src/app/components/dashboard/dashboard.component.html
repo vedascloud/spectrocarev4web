@@ -1,0 +1,244 @@
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- <div class=""> -->
+
+            <div class="row justify-content-between shadow p-4">
+                <div class="d-flex ml-5">
+                    <img src="../../../assets/images/ui/Icons/1x/dashboard.png"
+                        style="width: 30px; height: 30px; margin-right: 5px;">
+                    <h5 style="line-height: 30px;">Dashboard</h5>
+                </div>
+                <div class=" mr-5 dropdown" >
+                    <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+                    <div class="dropdown-content">
+                        <ul class="nav  flex-column p-0 " style="background-color: #f2f2f2;">
+                            <li class="nav-item">
+                                <a class="nav-link   " [routerLink]="['/admincenter/adminprofile']"
+                                    routerLinkActive="active">
+                                    <img src="../../../assets/images/ui/Icons/1x/profile.png"  style="width: 20px;  margin-right: 10px;">
+                                    Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link   " (click)="openSignOut(content1)"
+                                    routerLinkActive="active">
+                                    <img src="../../../assets/images/ui/Icons/1x/account-logout.png" style="width: 20px; margin-right: 10px;">
+                                    Logout</a>
+                                <!-- Signout popup -->
+                                <ng-template #content1 let-modal>
+                                    <div class="modal-header bg-primary">
+                                        <p class="modal-title text-white p-2 font-weight-bold" id="modal-basic-title">
+                                            Are you sure</p>
+                                    </div>
+                                    <div class="modal-body bg-white p-2">
+                                        <p class="text-justify font-weight-lighter text-muted">
+                                            Would you like to SignOut from this.
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <span class="mouse text-info mr-4"
+                                            (click)="modal.close('Close click')">Cancel</span>
+                                        <button type="submit"
+                                            class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+                                            (click)="SignOut()">Yes</button>
+                                    </div>
+                                </ng-template>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+                <!--  -->
+            </div>
+
+            <!-- </div> -->
+
+            <div class="container p-3">
+                <div class="d-flex p-0">
+                    <div class="col-md-9 p-0">
+                        <div class="">
+                            <div class="d-flex p-0 mb-2">
+                                <div class="clsone col-md-4">
+                                    <div class="card " style="height: 25vh;">
+                                        <div class="card-body">
+                                            <div style="display: block; margin: -15px;">
+                                                <canvas baseChart width="100%" height="70px" [datasets]="barChartData"
+                                                    [labels]="barChartLabels" [options]="barChartOptions"
+                                                    [plugins]="barChartPlugins" [legend]="barChartLegend"
+                                                    [chartType]="barChartType">
+                                                </canvas>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clstwo col-md-4">
+                                    <div class="card " style="height: 25vh;">
+                                        <div class="card-body">
+
+                                            <div style="display: block;margin: -15px;">
+                                                <canvas baseChart width="100%" height="70px" [datasets]="lineChartData"
+                                                    [labels]="lineChartLabels" [options]="lineChartOptions"
+                                                    [colors]="lineChartColors" [legend]="lineChartLegend"
+                                                    [chartType]="lineChartType" [plugins]="lineChartPlugins">
+                                                </canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="clsthree col-md-4">
+                                    <div class="card " style="height: 25vh;">
+                                        <div class="card-body">
+
+                                            <div style="display: block;margin: -15px;">
+                                                <canvas baseChart width="100%" height="70px" [datasets]="lineChartDataTwo"
+                                                    [labels]="lineChartLabelsTwo" [options]="lineChartOptionsTwo"
+                                                    [colors]="lineChartColorsTwo" [legend]="lineChartLegendTwo"
+                                                    [chartType]="lineChartTypeTwo" [plugins]="lineChartPluginsTwo">
+                                                </canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card " style="height: 75vh;">
+                                    <div class="card-body">
+                                        <div style="display: block;margin: -15px;">
+                                            <h5>Total Progress</h5> 
+                                            <span>Showing status from the last year</span>
+                                            <canvas baseChart width="100%" height="55px" [datasets]="lineChartDataFour"
+                                                [labels]="lineChartLabelsFour" [options]="lineChartOptionsFour"
+                                                [colors]="lineChartColorsFour" [legend]="lineChartLegendFour"
+                                                [chartType]="lineChartTypeFour" [plugins]="lineChartPluginsFour">
+                                            </canvas>
+                                        </div>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 p-0">
+                        <div class="card mb-3 "  style="height: 30vh;">
+                            <div class="card-body">
+                                <div style="display: block;">
+                                    <canvas baseChart width="100%" height="60px" [datasets]="lineChartDataThree"
+                                        [labels]="lineChartLabelsThree" [options]="lineChartOptionsThree"
+                                        [colors]="lineChartColorsThree" [legend]="lineChartLegendThree"
+                                        [chartType]="lineChartTypeThree" [plugins]="lineChartPluginsThree">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mb-3" style="height: 21vh;">
+                            <div class="card-body">
+                                <div class="chart-wrapper">
+                                    <div style="display: block;">
+                                        <canvas baseChart width="100%" height="50px" [data]="doughnutChartData"
+                                            [labels]="doughnutChartLabels" [chartType]="doughnutChartType">
+                                        </canvas>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card mb-3" style="height: 21vh;">
+                            <div class="card-body">
+                                <div style="display: block;">
+                                    <canvas baseChart width="100%" height="50px" [data]="doughnutChartDataTwo"
+                                        [labels]="doughnutChartLabelsTwo" [chartType]="doughnutChartTypeTwo">
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card " style="height: 21vh;">
+                            <div class="card-body">
+                                <div style="display: block;">
+                                    <canvas baseChart width="100%" height="50px" [data]="doughnutChartDataThree"
+                                        [labels]="doughnutChartLabelsThree" [chartType]="doughnutChartTypeThree"
+                                       ><!-- [colors]="doughnutChartColoursThree"-->
+                                    </canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="container p-3">
+                <div class="d-flex p-0">
+                    <div class="col-md-9 p-0">
+                        <div class="">
+                            <div class="d-flex p-0 mb-2">
+                                <div class="col-md-4">
+                                    <div class="card " style="height: 25vh;">
+                                        <div class="card-body">
+                                            <span>Appointments</span> <br>
+                                            <span>Line Chart</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card " style="height: 25vh;">
+                                        <div class="card-body">
+                                            <span>Appointments</span> <br>
+                                            <span>Line Chart</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card " style="height: 25vh;">
+                                        <div class="card-body">
+                                            <span>Appointments</span> <br>
+                                            <span>Line Chart</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="card " style="height: 75vh;">
+                                    <div class="card-body">
+                                        <span>Appointments</span> <br> <br>
+                                        <span>Line Chart</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 p-0">
+                        <div class="card mb-3 " style="height: 30vh;">
+                            <div class="card-body">
+                                <span>Appointments</span> <br> <br>
+                                <span>Line Chart</span>
+                            </div>
+                        </div>
+                        <div class="card mb-3" style="height: 21vh;">
+                            <div class="card-body">
+                                <span>Appointments</span> <br> <br>
+                                <span>Line Chart</span>
+                            </div>
+                        </div>
+                        <div class="card mb-3" style="height: 21vh;">
+                            <div class="card-body">
+                                <span>Appointments</span> <br> <br>
+                                <span>Line Chart</span>
+                            </div>
+                        </div>
+                        <div class="card " style="height: 21vh;">
+                            <div class="card-body">
+                                <span>Appointments</span> <br> <br>
+                                <span>Line Chart</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+    </div>
+
+</div>

@@ -1,4 +1,5 @@
 .privacybg{
     height: 100vh;
-    background-color: dodgerblue;
+    /* background-color: dodgerblue; */
+    background: linear-gradient(to right,#fa234f,#27384a);
 }

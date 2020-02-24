@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Patients Appointments</h3>
+                </div>
+                <div class="card-body m-0 ">
+                    <form>
+                        <table class="table table-sm table-bordered w-auto">
+                            <thead>
+                                <tr>
+                                    <th scope="col">No</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Time</th>
+                                    <th scope="col">Doctor</th>
+                                    <th scope="col">Reason for visit</th>
+                                    <th scope="col">Visit Type</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>1</th>
+                                    <td>13-11-2019</td>
+                                    <td>10:00:03</td>
+                                    <td>Smith</td>
+                                    <td>Diabetes tracking</td>
+                                    <td>Online</td>
+                                    <td>Close</td>
+                                    <td><a [routerLink] ="'/patient/viewpatientmedicalrecord/viewpatientappointmentsummary'">View Summary</a></td>
+                                    <!--<td><a [routerLink] = "['/patient/viewpatientmedicalrecord/patientappointmentrecord/viewpatientappointmentsummary']">View Summary</a></td>-->
+                                </tr>
+                                <tr>
+                                    <th>2</th>
+                                    <td>13-11-2019</td>
+                                    <td>12:00:15</td>
+                                    <td>Alex</td>
+                                    <td>Heartbeat fast</td>
+                                    <td>Onsite</td>
+                                    <td>Close</td>
+                                    <td><a [routerLink] ="'/patient/viewpatientmedicalrecord/viewpatientappointmentsummary'">View Summary</a></td>
+                                    <!--<td><a [routerLink] = "['/patient/viewpatientmedicalrecord/patientappointmentrecord/viewpatientappointmentsummary']">View Summary</a></td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="justify-content-around">
+                            <a class="btn btn-sm btn-success m-3 p-2" style="line-height:1;" href="#">Update</a>
+                            <button class="btn btn-sm btn-success m-0 p-2" style="line-height:1;">Next</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>
