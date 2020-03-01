@@ -42,6 +42,7 @@ export class AppComponent {
     (this.router.url !="/adminsignin" )&&
     (this.router.url !="/adminsignup") &&
     (this.router.url != "/medicalpersonnelsignup") &&
+    (this.router.url != "/header") &&
     (this.router.url != "/admincenter/dashboard")&&
     (this.router.url !="/admincenter/home") &&
     (this.router.url != "/admincenter/adminprofile")&&

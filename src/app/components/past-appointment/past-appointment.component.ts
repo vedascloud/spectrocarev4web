@@ -30,6 +30,10 @@ export class PastAppointmentComponent implements OnInit {
   previousAppointments:any=[];
   upcomingAppointments:any =[];
     term:any=""
+    titleArray:any =
+  {title:"Appointment",
+  subTitle:"Past Appointments",
+img:"assets/images/ui/Icons/1x/admin center.png"};
 
   constructor(private loginService: LoginService, private modalService: NgbModal, private fb: FormBuilder, private config:NgbDatepickerConfig,private _snackBar: MatSnackBar) {
     const current = new Date()

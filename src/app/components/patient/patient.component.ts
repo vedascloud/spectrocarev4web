@@ -35,7 +35,12 @@ export class PatientComponent implements OnInit {
   term:any;
   favoriteSeason: string;
   seasons: string[] = ['Normal', 'Abnormal', 'Not Examined'];
-  
+  physicalExamination: any =[];
+
+  titleArray:any =
+  {title:"Patient",
+  subTitle:"",
+img:"assets/images/ui/Icons/1x/admin center.png"};
   
   @ViewChild('fileInput', { static: true }) el: ElementRef;
 
@@ -164,8 +169,9 @@ export class PatientComponent implements OnInit {
 
   openPhysicalExamTab(selectedpatientPhysicalReocrdsData){
     this.isViewPhysicalRecord = false;
+    this.physicalExamination = selectedpatientPhysicalReocrdsData.physicalExamination
     //let havingData = selectedpatientPhysicalReocrdsData;
-    console.log("It contains : ",selectedpatientPhysicalReocrdsData.bodyIndex);
+    console.log("It contains : ",this.physicalExamination);
 
     if(selectedpatientPhysicalReocrdsData.bodyIndex === undefined){
       this.bodyIndexDataForm.patchValue({
@@ -349,7 +355,10 @@ export class PatientComponent implements OnInit {
         if(resFromPatientPhysicalRecordsFetch.response === 3){
           this.loading = false;
           this.patientPhysicalReocrdsData = resFromPatientPhysicalRecordsFetch.physical_exam_records;
-          this.phy = this.patientPhysicalReocrdsData;
+          this.phy = resFromPatientPhysicalRecordsFetch;
+          
+          console.log("the patient data : ",resFromPatientPhysicalRecordsFetch);
+          
         }
         else{
           this.patientPhysicalReocrdsData = [];

@@ -2,146 +2,297 @@
 
     <header class="w-100 p-3 ">
         <nav class="navbar navbar-expand-lg navbar-light d-flex w-100 p-0 ">
-          <!-- <h1 class="navbar-brand text-white  ml-5">SpectroCare</h1> -->
-          
-          <h1 class="logo-text " ><!--style="letter-spacing: 3px;"-->
-            Spectro<span class="logo-highlight">Care</span>
-          </h1>
-          <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarNavDropdown">
-            <ul class="navbar-nav p-0">
-              <li class="nav-item p-0 mx-1">
-                <button  class="btn btn-sm text-white text-uppercase active"  [routerLink]="['/adminsignup']" >
-                Administrator
-                </button>
-              </li>
-              <li class="nav-item p-0 mx-1">
-                <button class="btn btn-sm text-white text-uppercase"  [routerLink]="['/medicalpersonnelsignup']" >Medical Personnel</button>
-              </li>
-              <li class="nav-item p-0 mx-1">
-                <button class="btn btn-sm text-white text-uppercase"  [routerLink]="['/medicalpersonnelsignup']" >Patient</button>
-              </li>          
-            </ul>
-          </div>
-        </nav>
-      </header>
+            <!-- <h1 class="navbar-brand text-white  ml-5">SpectroCare</h1> -->
 
-    <div class="row p-5" >
-        <div class="col-md-3"></div>
-        <div class="col-md-6 align-self-center text-center">
-            <div class="example-container">
-                <form [formGroup]="adminSignUpForm" (ngSubmit)="adminSignUp()" autocomplete="off">
+            <h1 class="logo-text ">
+                <!--style="letter-spacing: 3px;"-->
+                Spectro<span class="logo-highlight">Care</span>
+            </h1>
+            <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarNavDropdown">
+                <ul class="navbar-nav p-0">
+                    <li class="nav-item p-0 mx-1">
+                        <button class="btn btn-sm text-white text-uppercase active" [routerLink]="['/adminsignup']">
+                            Administrator
+                        </button>
+                    </li>
+                    <li class="nav-item p-0 mx-1">
+                        <button class="btn btn-sm text-white text-uppercase"
+                            [routerLink]="['/medicalpersonnelsignup']">Medical Personnel</button>
+                    </li>
+                    <li class="nav-item p-0 mx-1">
+                        <button class="btn btn-sm text-white text-uppercase"
+                            [routerLink]="['/medicalpersonnelsignup']">Patient</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="row">
+        <div class="col-md-12">
+        <div class="example-container">
+            <form [formGroup]="adminSignUpForm" (ngSubmit)="adminSignUp()" autocomplete="off">
+                <div class="col-md-4 align-self-center text-center m-auto">
                     <div formGroupName="hospitalAdmin">
-                        <mat-form-field>
-                            <input matInput placeholder="User Name" formControlName="userID">
-                        </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Password" formControlName="password">
-                        </mat-form-field>
-                        <table align="center">
-                            <tr>
-                                <td>
-                                    <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="First Name" formControlName="firstName">
-                                    </mat-form-field>
-                                </td>
-                                <td>
-                                    <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="Last Name" formControlName="lastName">
-                                    </mat-form-field>
-                                </td>
-                            </tr>
-                        </table>
-                        <div formGroupName="phoneNumber">
-                            <table align="center">
-                                <tr>
-                                    <td>
-                                        <mat-form-field class="example-full-width">
-                                            <!-- <input matInput placeholder="Country Code" formControlName="countryCode"> -->
-                                            <mat-label>Country Code</mat-label>
-                                            <mat-select  name="code"
-                                                formControlName="countryCode">
-                                                <mat-option *ngFor="let code of countryCodes"
-                                                    [value]="code.value">
-                                                    {{code.viewValue}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </td>
-                                    <td>
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
-                                        </mat-form-field>
-                                    </td>
-                                </tr>
-                            </table>
+                        <!--Upload IMg-->
+                        <div class="justify-content-center" style="text-align: -webkit-center;">
+                            <div style="border-radius: 50% !important;width: 60px;height: 60px;">
+                                <img class="upload" (click)="fileInput.click()"
+                                    style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 50px;min-height: 50px;"
+                                    src="{{previewImg}}">
+                                <!--border: 2px solid rgb(150, 211, 235);-->
+                            </div>
+                            <div class="container">
+                                <div class="row ">
+                                    <div class="img-move input-group mb-3">
+                                        <input type="file" class="form-control" name="file" id="inputGroupFile01"
+                                            #fileInput aria-describedby="inputGroupFileAddon01"
+                                            accept=".png, .jpg, .jpeg" (change)="fileProgress($event)" class="d-none">
+                                        <span class="upload m-auto" (click)="fileInput.click()"
+                                            style=" color: rgb(196, 190, 190) !important;font-weight: 200;">
+                                            Upload Photo
+                                        </span>
+                                        <!-- <button class="btn m-auto btn-sm font-weight-normal  " style=" color: rgb(133, 128, 128) !important;" 
+                                            (click)="fileInput.click()" type="button" >
+                                            Upload Photo
+                                        </button> -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <mat-form-field>
-                            <mat-label>Department</mat-label>
-                            <mat-select  name="department" formControlName="department">
-                                <mat-option *ngFor="let department of departments" [value]="department.value">
-                                    {{department.viewValue}}
-                                </mat-option>
-                            </mat-select>
+                        <!-- Upload IMG Ends-->
+
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="User ID *" formControlName="userID">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.userID').hasError('required')">
+                                User ID is Required!
+                            </mat-error>
+                            <!-- <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.userID').hasError('minlength')">
+                                User ID should be atleast 4 characters long!
+                            </mat-error>
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.userID').hasError('maxlength')">
+                                User ID can be atmax 8 characters long!
+                            </mat-error> -->
                         </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Email ID" formControlName="emailID">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="First Name *" formControlName="firstName">
+                                <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.firstName').hasError('required')">
+                                    First Name is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                            <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Last Name *" formControlName="lastName">
+                                <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.lastName').hasError('required')">
+                                    Last Name is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <mat-label>Gender *</mat-label>
+                                <mat-select name="gender" formControlName="gender">
+                                    <mat-option *ngFor="let gender of gender" [value]="gender.value" style="font-size: 14px;">
+                                        {{gender.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.gender').hasError('required')">
+                                    Gender is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                            <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <mat-label>Department *</mat-label>
+                                <mat-select name="department" formControlName="department">
+                                    <mat-option *ngFor="let department of departments" [value]="department.value" style="font-size: 14px;">
+                                        {{department.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.department').hasError('required')">
+                                    Department is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        </div>
+
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Email *" formControlName="emailID">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.emailID').hasError('required')">
+                                Email is Required!
+                            </mat-error>
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.emailID').hasError('email')">
+                                Email is in this way abc@gmail.com
+                            </mat-error>
+                        </mat-form-field>
+
+                        <div class="row" formGroupName="phoneNumber" autocomplete="off">
+                            <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <mat-label>Country Code *</mat-label>
+                                <mat-select name="code" formControlName="countryCode">
+                                    <mat-option *ngFor="let code of countryCodes" [value]="code.value" style="font-size: 14px;">
+                                        {{code.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="adminSignUpForm.get('hospitalAdmin.phoneNumber.countryCode').hasError('required')">
+                                    Country Code is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                            <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Phone Number *" formControlName="phoneNumber">
+                                <mat-error
+                                    *ngIf="adminSignUpForm.get('hospitalAdmin.phoneNumber.phoneNumber').hasError('required')">
+                                    Phone Number is Required!
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="adminSignUpForm.get('hospitalAdmin.phoneNumber.phoneNumber').hasError('minlength')">
+                                    Phone Number must be 10 numbers!
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="adminSignUpForm.get('hospitalAdmin.phoneNumber.phoneNumber').hasError('maxlength')">
+                                    Phone Number must be 10 numbers!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        </div>
+
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Password *" formControlName="password">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.password').hasError('required')">
+                                Password is Required!
+                            </mat-error>
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.password').hasError('minlength')">
+                                Password should have minimum 8 letters!
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Confirm Password *" formControlName="confirmPassword">
+                            <mat-error
+                                *ngIf="adminSignUpForm.get('hospitalAdmin.confirmPassword').hasError('required')">
+                                ConfirmPassword is Required!
+                            </mat-error>
+                            <mat-error
+                                *ngIf="adminSignUpForm.get('hospitalAdmin.confirmPassword').hasError('NoPassswordMatch') && adminSignUpForm.get('hospitalAdmin.confirmPassword').touched && adminSignUpForm.get('hospitalAdmin.confirmPassword').value != null">
+                                Password does not same
+                            </mat-error>
+                            <!-- <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.password').value != adminSignUpForm.get('hospitalAdmin.confirmPassword').value && adminSignUpForm.get('hospitalAdmin.confirmPassword').value != null">
+                            Password does not match
+                            </mat-error> -->
+                            <!--adminSignUpForm.get('hospitalAdmin.confirmPassword').touched &&-->
                         </mat-form-field>
                     </div>
-                    <span class="span"></span>
+                </div>
+                
+                <div class="span mb-2 mt-2"></div>
+
+                <div class="col-md-4 align-self-center text-center m-auto">
                     <div formGroupName="hospitalInformation">
-                        <mat-form-field>
-                            <input matInput placeholder="Hospital Registration No " formControlName="hospital_reg_num">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Hospital / Clinic Name *" formControlName="hospitalName">
+                            <mat-error
+                                *ngIf="adminSignUpForm.get('hospitalInformation.hospitalName').hasError('required')">
+                                Hoospital / Clinic Name is Required!
+                            </mat-error>
                         </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Hospital / Clinic Name" formControlName="hospitalName">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Registration Number *" formControlName="hospital_reg_num">
+                            <mat-error
+                                *ngIf="adminSignUpForm.get('hospitalInformation.hospital_reg_num').hasError('required')">
+                                Registration Number Name is Required!
+                            </mat-error>
                         </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Email ID" formControlName="emailID">
+
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Email *" formControlName="emailID">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalInformation.emailID').hasError('required')">
+                                Email is Required!
+                            </mat-error>
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalInformation.emailID').hasError('email')">
+                                Email is in this way abc@gmail.com
+                            </mat-error>
                         </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Address" formControlName="address">
-                        </mat-form-field>
-                        <div formGroupName="phoneNumber">
-                            <table align="center">
-                                <tr>
-                                    <td>
-                                        <mat-form-field class="example-full-width">
-                                            <!-- <input matInput placeholder="Country Code" formControlName="countryCode"> -->
-                                            <mat-label>Country Code</mat-label>
-                                            <mat-select  name="code"
-                                                formControlName="countryCode">
-                                                <mat-option *ngFor="let code of countryCodes"
-                                                    [value]="code.value">
-                                                    {{code.viewValue}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </td>
-                                    <td>
-                                        <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
-                                        </mat-form-field>
-                                    </td>
-                                </tr>
-                            </table>
+
+                        <div class="row" formGroupName="phoneNumber" autocomplete="off">
+                            <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <mat-label>Country Code *</mat-label>
+                                <mat-select name="code" formControlName="countryCode">
+                                    <mat-option *ngFor="let code of countryCodes" [value]="code.value" style="font-size: 14px;">
+                                        {{code.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="adminSignUpForm.get('hospitalInformation.phoneNumber.countryCode').hasError('required')">
+                                    Country Code is Required!
+                                </mat-error>
+                            </mat-form-field>
                         </div>
-                        <mat-form-field>
-                            <input matInput placeholder="City" formControlName="city">
+                            <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Phone Number *" formControlName="phoneNumber">
+                                <mat-error
+                                    *ngIf="adminSignUpForm.get('hospitalInformation.phoneNumber.phoneNumber').hasError('required')">
+                                    Phone Number is Required!
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="adminSignUpForm.get('hospitalInformation.phoneNumber.phoneNumber').hasError('minlength')">
+                                    Phone Number must be 10 numbers!
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="adminSignUpForm.get('hospitalInformation.phoneNumber.phoneNumber').hasError('maxlength')">
+                                    Phone Number must be 10 numbers!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        </div>
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Address *" formControlName="address">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalInformation.address').hasError('required')">
+                                Address is Required!
+                            </mat-error>
                         </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="State" formControlName="state">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="City *" formControlName="city">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalInformation.city').hasError('required')">
+                                City is Required!
+                            </mat-error>
                         </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Country" formControlName="country">
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="State / Province / Region *" formControlName="state">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalInformation.state').hasError('required')">
+                                State / Province / Region is Required!
+                            </mat-error>
                         </mat-form-field>
-                        <mat-form-field>
-                            <input matInput placeholder="Post Code" formControlName="postCode">
+
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Postcode *" formControlName="postCode">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalInformation.postCode').hasError('required')">
+                                PostCode is Required!
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Country *" formControlName="country">
+                            <mat-error *ngIf="adminSignUpForm.get('hospitalInformation.country').hasError('required')">
+                                Country is Required!
+                            </mat-error>
                         </mat-form-field>
                         <mat-checkbox class="text-white">
-                            <span style="font-size: 15px;">I accept the terms and conditions & privacy policy</span>
+                            <span style="font-size: 15px;">I accept the <a (click)="termsandconditions()">terms and conditions</a> & <a (click)="privacypolicy()">privacy policy</a></span>
                         </mat-checkbox>
-                        <button mat-raised-button class="loginbtn mb-3 mt-3"
-                            style="letter-spacing: 1px; outline-style: none;">SIGN UP</button>
+                        <button class="loginbtn btn mb-3 mt-3"
+                            style="letter-spacing: 1px; outline-style: none;background-color: #53B9C6 !important;" [disabled]="!adminSignUpForm.valid">SIGN UP</button> <!--[disabled]="adminSignUpForm.invalid"-->
                         <div class="row  p-2 justify-content-center">
                             <span (click)="signUp()">
                                 <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
@@ -150,9 +301,10 @@
                             </span>
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+
+            </form>
         </div>
-        <div class="col-md-3"></div>
+    </div>
     </div>
 </div>

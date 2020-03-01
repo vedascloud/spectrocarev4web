@@ -1,113 +1,26 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
 <div class="container">
   <div class="row">
-    <div class="col-md-12 ">
-      <div class="row justify-content-between shadow px-2 pt-4">
-        <div class="row ml-3">
-          <img src="../../../assets/images/ui/Icons/1x/admin center.png"
-            style="width: 25px; height: 25px; margin-right: 20px;">
-          <h5 style="line-height: 30px;font-weight: bold;">Admin Center 
-            <p class="p-0 m-0 font-weight-light"
-              style="font-size: medium;">Manage User</p>
-          </h5>
-        </div>
-        <div class=" mr-3 dropdown" >
-          <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
-          <div class="dropdown-content">
-              <ul class="nav  flex-column p-0 " style="background-color: #f2f2f2;">
-                  <li class="nav-item">
-                      <a class="nav-link   " [routerLink]="['/admincenter/adminprofile']"
-                          routerLinkActive="active">
-                          <img src="../../../assets/images/ui/Icons/1x/profile.png"  style="width: 17px;  margin-right: 10px;">
-                          Profile
-                          
-                      </a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link   " (click)="openSignOut(content11)"
-                          routerLinkActive="active">
-                          <img src="../../../assets/images/ui/Icons/1x/account-logout.png" style="width: 17px; margin-right: 10px;">
-                          Logout
-                      </a> <!--(click)="openSignOut(content1)"-->
-                      <!-- Signout popup -->
-                      <ng-template #content11 let-modal>
-                          <div class="modal-header bg-primary">
-                              <p class="modal-title text-white p-2 font-weight-bold" id="modal-basic-title">
-                                  Are you sure</p>
-                          </div>
-                          <div class="modal-body bg-white p-2">
-                              <p class="text-justify font-weight-lighter text-muted">
-                                  Would you like to SignOut from this.
-                              </p>
-                          </div>
-                          <div class="modal-footer">
-                              <span class="mouse text-info mr-4"
-                                  (click)="modal.close('Close click')">Cancel</span>
-                              <button type="submit"
-                                  class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white" (click)="SignOut()"
-                                  >Yes</button> <!--(click)="SignOut()"-->
-                          </div>
-                      </ng-template>
-                  </li>
-
-              </ul>
-          </div>
-      </div>
-        <!-- <div class="set mr-3 dropdown" style="line-height: 30px;">
-          <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
-          <div class="dropdown-content">
-            <ul class="nav  flex-column p-0 " style="background-color: #f2f2f2;">
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/admincenter/adminprofile']" routerLinkActive="active">
-                  <img src="../../../assets/images/ui/Icons/1x/profile.png" style="width: 17px;  margin-right: 10px;">
-                  <span>Profile</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link   " (click)="openSignOut(content11)" routerLinkActive="active">
-                 
-                  <img src="../../../assets/images/ui/Icons/1x/account-logout.png"
-                    style="width: 17px; margin-right: 10px;">
-                  <span>Logout</span>
-                </a>
-                
-                <ng-template #content11 let-modal>
-                  <div class="modal-header bg-primary">
-                    <p class="modal-title text-white p-2 font-weight-bold" id="modal-basic-title">
-                      Are you sure</p>
-                  </div>
-                  <div class="modal-body bg-white p-2">
-                    <p class="text-justify font-weight-lighter text-muted">
-                      Would you like to SignOut from this.
-                    </p>
-                  </div>
-                  <div class="modal-footer">
-                    <span class="mouse text-info mr-4" (click)="modal.close('Close click')">Cancel</span>
-                    <button type="submit" class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"  (click)="SignOut()">Yes</button>
-                   
-                  </div>
-                </ng-template>
-              </li>
-            </ul>
-          </div>
-        </div> -->
-      </div>
+    <div class="col-md-12 p-0">
+      <app-header [titleData]="titleArray"></app-header>
     </div>
     <div class="w-100">
       <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event)">
         <!--Administrative User Part Start-->
-        <mat-tab label="Administrative User" >
+        <mat-tab label="Administrative User">
           <div class="container-fluid ">
             <div class="row">
               <div class="col-md-12 p-3">
                 <!--Administrative User Data Handling-->
-                <div class="card " *ngIf=" isViewAdmin "> <!--isAdminAdd &&-->
+                <div class="card " *ngIf=" isViewAdmin ">
+                  <!--isAdminAdd &&-->
                   <div class="card-body p-2">
                     <div>
                       <div class="row p-2">
                         <div class="col-md-3 text-center p-0">
                           <button class="btn btn-sm btn-info text-white p-2 w-50 mr-4" (click)="open(content)"
-                            style="border: none; width: 10%;font-weight: normal;"> <!--background-color: #53B9C6;-->
+                            style="border: none; width: 10%;font-weight: normal;">
+                            <!--background-color: #53B9C6;-->
                             <img src="../../../assets/images/ui/Icons/1x/add.png"
                               style="width: 10px;margin-right: 7px;">
                             Add New
@@ -115,11 +28,10 @@
                           <!--(click)="open(content)" // (click)="openAddNew()"-->
                         </div>
                         <div class="col-md-9 row  ">
-                         
-                            <input type="text" [(ngModel)]="term" class="bg-transparent p-1 w-100 "
-                              placeholder="Search by User"
-                              style="border-radius: 5px; outline-style: none !important;">
-                           
+
+                          <input type="text" [(ngModel)]="term" class="bg-transparent p-1 w-100 "
+                            placeholder="Search by User" style="border-radius: 5px; outline-style: none !important;">
+
                         </div>
                       </div>
                       <div>
@@ -150,9 +62,10 @@
                                   aria-label="Example icon-button with a menu">
                                   <mat-icon>more_vert</mat-icon>
                                 </button>
-                                <mat-menu #menu="matMenu" class="menudata" >
-                                  <div >
-                                    <button mat-menu-item (click)=" openViewOne(adminTeam)"  > <!--openViewOne(adminTeam) || openView()-->
+                                <mat-menu #menu="matMenu" class="menudata">
+                                  <div>
+                                    <button mat-menu-item (click)=" openViewOne(adminTeam)">
+                                      <!--openViewOne(adminTeam) || openView()-->
                                       <mat-icon>visibility</mat-icon>
                                       <span>View</span>
                                     </button>
@@ -174,9 +87,10 @@
                                         </div>
                                         <div class="col-md-8 p-2">
                                           <h5 class=" font-weight-small" style="font-size: 100 !important;">
-                                            Are you sure you want to delete?.
+                                            Delete User Account
                                           </h5><br>
-                                          <span class="text-muted">Make sure, you are deleting {{adminTeam.identity}} role with name <b class="mr-1">{{adminTeam.firstName}}</b> <b>{{adminTeam.lastName}}</b> in {{adminTeam.department}} department</span>
+                                          <span class="text-muted">Are you sure you want to delete this user account? (<b class="mr-1">{{adminTeam.firstName}}</b>
+                                            <b>{{adminTeam.lastName}}</b>) </span>
                                           <!-- <p>{{adminTeam | json}}</p> -->
                                         </div>
                                       </div>
@@ -217,7 +131,7 @@
                                     <tr>
                                       <td>
                                         <mat-form-field class="example-full-width">
-                                          <input matInput placeholder="User ID" formControlName="userID" class="inp" >
+                                          <input matInput placeholder="User ID" formControlName="userID" class="inp">
                                         </mat-form-field>
                                       </td>
                                       <td>
@@ -236,8 +150,8 @@
                                     <tr>
                                       <td>
                                         <mat-form-field class="example-full-width">
-                                          <input matInput placeholder="First Name" formControlName="firstName" #autoFocusTest
-                                            class="inp">
+                                          <input matInput placeholder="First Name" formControlName="firstName"
+                                            #autoFocusTest class="inp">
                                         </mat-form-field>
                                       </td>
                                       <td>
@@ -283,23 +197,14 @@
                                     </mat-select>
                                   </mat-form-field>
                                   <mat-form-field>
-                                    <mat-label>Prefered Language</mat-label>
+                                    <mat-label>Preferred Language</mat-label>
                                     <mat-select name="preferLanguage" formControlName="preferLanguage">
                                       <mat-option *ngFor="let department of preferLanguages" [value]="department.value">
                                         {{department.viewValue}}
                                       </mat-option>
                                     </mat-select>
                                   </mat-form-field>
-                                  <!-- <mat-form-field>
-                                    <input matInput type="{{password}}" placeholder="Password"
-                                      formControlName="password" class="inp">
-                                    <span *ngIf="isPassword" (click)="showPassword()">
-                                      <i class="fa fa-fw fa-eye-slash field-icon3"></i>
-                                    </span>
-                                    <span *ngIf="!isPassword" (click)="showPassword()">
-                                      <i class="fa fa-fw fa-eye field-icon3"></i>
-                                    </span>
-                                  </mat-form-field><br> -->
+                                 
                                   <div class="col-md-12 p-3">
                                     <div class="row justify-content-center">
                                       <div class="mr-2">
@@ -316,8 +221,44 @@
                                 </form>
                               </div>
                               <div class="col-md-5">
-                                <img class="edit" src="../../../assets/images/ui/Icons/1x/edit1.png"
-                                  style="width: 70px;" (click)="openUpdate()">
+                                <div class="row justify-content-between">
+                                  <!--Upload IMg-->
+                                  <div class="justify-content-center"
+                                      style="text-align: -webkit-center;padding-left: 20px;">
+                                      <div style="border-radius: 50% !important;width: 100px;height: 100px;">
+                                          <img class=""
+                                              style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 100px;min-height: 100px;"
+                                              src="{{previewImg}}">
+                                          <!---->
+                                      </div>
+
+
+                                      <div class="container">
+                                          <div class="row ">
+                                              <div class="img-move input-group mb-3 mt-3">
+                                                  <input type="file" class="form-control" name="file"
+                                                      id="inputGroupFile01" #fileInput
+                                                      aria-describedby="inputGroupFileAddon01"
+                                                      accept=".png, .jpg, .jpeg" (change)="fileProgress($event)"
+                                                      class="d-none">
+                                                  <button mat-raised-button
+                                                      style="outline-style: none;border-radius: 20px; color: black !important;"
+                                                      (click)="fileInput.click()" type="button">
+                                                      <!--background-color: rgb(197, 213, 219);  class="btn m-auto btn-sm font-weight-normal  "-->
+                                                      Upload Photo
+                                                  </button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- Upload IMG Ends-->
+                                  <div>
+                                      <img class="edit" src="../../../assets/images/ui/Icons/1x/edit1.png"
+                                          style="width: 70px;" (click)="openUpdate()">
+                                  </div>
+                              </div>
+                                <!-- <img class="edit" src="../../../assets/images/ui/Icons/1x/edit1.png"
+                                  style="width: 70px;" (click)="openUpdate()"> -->
                                 <!-- <div class="changepwd">
                                   <button mat-raised-button style="outline-style: none;border-radius: 20px;"
                                     (click)="open4(content4)" routerLinkActive="active">Change Password</button>
@@ -331,124 +272,7 @@
                     </div>
                   </div>
                 </div>
-                <!--View Data Ends here-->
-
-                <!--Add Admin User starts here-->
-                <div class=" justify-content-center" *ngIf="!isAdminAdd">
-                  <div class="shadow w-100 p-2 row justify-content-between">
-                    <h6>Add Admin User</h6>
-                    <mat-icon (click)="closeAddNew()">cancel</mat-icon>
-                  </div>
-                  <div class="container-fluid pt-3">
-                    <div class="row">
-                      <div class="col-md-8 px-4">
-                        <div class="card px-4">
-                          <div class="card-body">
-                            <div class="row pt-4">
-                              <div class="col-md-9">
-                                <form [formGroup]="addAdminGenUserForm" (ngSubmit)="addAdminGenUserSubmit()">
-                                  <mat-form-field>
-                                    <input matInput placeholder="User ID" formControlName="userID" class="inp" #autoFocusTest>
-                                  </mat-form-field><br>
-                                  <!-- <mat-form-field>
-                                    <mat-label>Identity</mat-label>
-                                    <mat-select name="identity" formControlName="identity">
-                                      <mat-option *ngFor="let identity of identitys" [value]="identity.value">
-                                        {{identity.viewValue}}
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field> -->
-                                  <table align="center">
-                                    <tr>
-                                      <td>
-                                        <mat-form-field class="example-full-width">
-                                          <input matInput placeholder="First Name" formControlName="firstName"
-                                            class="inp">
-                                        </mat-form-field>
-                                      </td>
-                                      <td>
-                                        <mat-form-field class="example-full-width">
-                                          <input matInput placeholder="Last Name" formControlName="lastName"
-                                            class="inp">
-                                        </mat-form-field>
-                                      </td>
-                                    </tr>
-                                  </table>
-                                  <div formGroupName="phoneNumber">
-                                    <table align="center">
-                                      <tr>
-                                        <td>
-                                          <mat-form-field class="example-full-width">
-                                            <mat-label>Country Code</mat-label>
-                                            <mat-select name="code" formControlName="countryCode">
-                                              <mat-option *ngFor="let code of countryCodes" style="color: black;"
-                                                [value]="code.value">
-                                                {{code.viewValue}}
-                                              </mat-option>
-                                            </mat-select>
-                                          </mat-form-field>
-                                        </td>
-                                        <td>
-                                          <mat-form-field class="example-full-width">
-                                            <input matInput placeholder="Phone Number" formControlName="phoneNumber"
-                                              class="inp">
-                                          </mat-form-field>
-                                        </td>
-                                      </tr>
-                                    </table>
-                                  </div>
-                                  <mat-form-field>
-                                    <input matInput placeholder="Email" formControlName="emailID" class="inp">
-                                  </mat-form-field><br>
-                                  <mat-form-field>
-                                    <mat-label>Department</mat-label>
-                                    <mat-select name="department" formControlName="department">
-                                      <mat-option *ngFor="let department of departments" [value]="department.value">
-                                        {{department.viewValue}}
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-                                  <mat-form-field>
-                                    <mat-label>Prefered Language</mat-label>
-                                    <mat-select name="preferLanguage" formControlName="preferLanguage">
-                                      <mat-option *ngFor="let identity of preferLanguages" [value]="identity.value">
-                                        {{identity.viewValue}}
-                                      </mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
-                                  <mat-form-field>
-                                    <input matInput type="{{password}}" placeholder="Password"
-                                      formControlName="password" class="inp">
-                                    <span *ngIf="isPassword" (click)="showPassword()">
-                                      <i class="fa fa-fw fa-eye-slash field-icon3"></i>
-                                    </span>
-                                    <span *ngIf="!isPassword" (click)="showPassword()">
-                                      <i class="fa fa-fw fa-eye field-icon3"></i>
-                                    </span>
-                                  </mat-form-field><br>
-                                  <div class="col-md-12 p-3">
-                                    <div class="row justify-content-center">
-                                      <div class="mr-2">
-                                        <button mat-raised-button
-                                          style="outline-style: none;border-radius: 5px; background-color: #17a2b8; color: whitesmoke;"
-                                          routerLinkActive="active" >Save</button> <!--*ngIf="disableUpdateBtn"-->
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <!-- <p class="font-weight-light" style="font-size: small;">Last updated date :
-                                    {{presentDate}}
-                                    by {{userID}}</p> -->
-                                </form>
-                              </div>
-                              <div class="col-md-3"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-4"></div>
-                    </div>
-                  </div>
-                </div>
+                <!--View Data Ends here-->                
                 <!--View Admin User Ends here-->
               </div>
             </div>
@@ -464,8 +288,7 @@
                 <div class="card " *ngIf=" isViewAdmin">
                   <div class="p-2">
                     <input type="text" [(ngModel)]="term" class="bg-transparent p-1 w-100 "
-                              placeholder="Serch by UserID / Name"
-                              style="border-radius: 5px; outline-style: none !important;">
+                      placeholder="Serch by UserID / Name" style="border-radius: 5px; outline-style: none !important;">
                   </div>
                   <div class="card-body p-2">
                     <div>
@@ -484,9 +307,10 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr class=" shadow small " *ngFor="let adminTeam of adminTeamData | filter:term; let i = index">
+                            <tr class=" shadow small "
+                              *ngFor="let adminTeam of medicalPersonnels | filter:term; let i = index">
                               <td scope="row" class="text-center">{{i+1}}</td>
-                              <td class="pl-3">{{adminTeam.identity}}</td>
+                              <td class="pl-3">{{adminTeam.department}}</td>
                               <td class="pl-3">{{adminTeam.userID}}</td>
                               <td class="pl-3">{{adminTeam.firstName}}</td>
                               <td class="pl-3">{{adminTeam.department}}</td>
@@ -494,7 +318,8 @@
                               <td class="pl-3">{{adminTeam.phoneNumber.phoneNumber}}</td>
                               <td class="menu text-center text-info p-2">
                                 <img src="../../../assets/images/ui/Icons/1x/view.png" style="width: 30%;"
-                                  (click)=" openViewOne(adminTeam)"><!--openViewOne(adminTeam) ||openView()-->
+                                  (click)=" openViewOne(adminTeam)">
+                                <!--openViewOne(adminTeam) ||openView()-->
                                 <!-- <button mat-menu-item (click)="openViewOne(adminTeam) || openView()">
                                   <mat-icon>visibility</mat-icon>
                                   <span>View</span>
@@ -592,45 +417,53 @@
                                     </mat-select>
                                   </mat-form-field>
                                   <mat-form-field>
-                                    <mat-label>Prefered Language</mat-label>
+                                    <mat-label>Preferred Language</mat-label>
                                     <mat-select name="preferLanguage" formControlName="preferLanguage">
                                       <mat-option *ngFor="let department of preferLanguages" [value]="department.value">
                                         {{department.viewValue}}
                                       </mat-option>
                                     </mat-select>
                                   </mat-form-field>
-                                  <!-- <mat-form-field>
-                                                    <input matInput type="{{password}}" placeholder="Password"
-                                                      formControlName="password" class="inp">
-                                                    <span *ngIf="isPassword" (click)="showPassword()">
-                                                      <i class="fa fa-fw fa-eye-slash field-icon3"></i>
-                                                    </span>
-                                                    <span *ngIf="!isPassword" (click)="showPassword()">
-                                                      <i class="fa fa-fw fa-eye field-icon3"></i>
-                                                    </span>
-                                                  </mat-form-field><br> -->
-                                  <!-- <div class="col-md-12 p-3">
-                                    <div class="row justify-content-center">
-                                      <div class="mr-2">
-                                        <button mat-raised-button
-                                          style="outline-style: none;border-radius: 20px; background-color: #17a2b8; color: whitesmoke;"
-                                          routerLinkActive="active" *ngIf="disableUpdateBtn"
-                                          (click)="updateAdminGenUserSubmit()">Update</button>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <p class="font-weight-light" style="font-size: small;">Last updated date :
-                                    {{presentDate}}
-                                    by {{userID}}</p> -->
+                                 
                                 </form>
                               </div>
                               <div class="col-md-5">
-                                <!-- <img class="edit" src="../../../assets/images/ui/Icons/2x/edit@2x.png"
-                                                  style="width: 60px;" (click)="openUpdate()"> -->
-                                <!-- <div class="changepwd">
-                                                  <button mat-raised-button style="outline-style: none;border-radius: 20px;"
-                                                    (click)="open4(content4)" routerLinkActive="active">Change Password</button>
-                                                </div> -->
+                                <div class="row justify-content-between">
+                                  <!--Upload IMg-->
+                                  <div class="justify-content-center"
+                                      style="text-align: -webkit-center;padding-left: 20px;">
+                                      <div style="border-radius: 50% !important;width: 100px;height: 100px;">
+                                          <img class=""
+                                              style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 100px;min-height: 100px;"
+                                              src="{{previewImg}}">
+                                          <!---->
+                                      </div>
+
+
+                                      <div class="container">
+                                          <div class="row ">
+                                              <div class="img-move input-group mb-3 mt-3">
+                                                  <input type="file" class="form-control" name="file"
+                                                      id="inputGroupFile01" #fileInput
+                                                      aria-describedby="inputGroupFileAddon01"
+                                                      accept=".png, .jpg, .jpeg" (change)="fileProgress($event)"
+                                                      class="d-none">
+                                                  <button mat-raised-button
+                                                      style="outline-style: none;border-radius: 20px; color: black !important;"
+                                                      (click)="fileInput.click()" type="button">
+                                                      <!--background-color: rgb(197, 213, 219);  class="btn m-auto btn-sm font-weight-normal  "-->
+                                                      Upload Photo
+                                                  </button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <!-- Upload IMG Ends-->
+                                  <!-- <div>
+                                      <img class="edit" src="../../../assets/images/ui/Icons/1x/edit1.png"
+                                          style="width: 70px;" (click)="openUpdate()">
+                                  </div> -->
+                              </div>
                               </div>
                             </div>
                           </div>
@@ -654,25 +487,55 @@
 <!--Add Admin General User Page using Model-->
 
 <ng-template #content let-modal>
-  <div class="modal-header p-2  justify-content-between" style="background-color: #53b9c6; color: mintcream;">
+  <div class="modal-header p-2  justify-content-between" style="background-color: #3e454c; color: mintcream;">
     <h5 class="modal-title justify-content-start pl-3" id="modal-basic-title">Add Admin User</h5>
     <div class="matIcon pr-3">
       <mat-icon (click)="modal.dismiss('Cross click')">cancel</mat-icon>
     </div>
   </div>
-  <div class="modal-body  p-1"> <!--bg-light-->
+  <div class="modal-body  p-3">
+    <!--bg-light-->
     <form [formGroup]="addAdminGenUserForm">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <div class="row">
-              <div class="col-md-6">
+              <div class="col-md-2">
+                <!--Upload IMg-->
+                <div class="justify-content-center mt-5" style="text-align: -webkit-center;">
+                  <div style="border-radius: 50% !important;width: 100px;height: 100px;">
+                    <img class=""
+                      style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 100px;min-height: 100px;"
+                      src="{{previewImg}}">
+                    <!---->
+                  </div>
+
+
+                  <div class="container">
+                    <div class="row ">
+                      <div class="img-move input-group mb-3 mt-3">
+                        <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
+                          aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg"
+                          (change)="fileProgress($event)" class="d-none">
+                        <button class="btn m-auto btn-sm font-weight-normal  "
+                          style="background-color: rgb(197, 213, 219); color: black !important;"
+                          (click)="fileInput.click()" type="button">
+                          Upload Photo
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Upload IMG Ends-->
+              </div>
+              <div class="col-md-5">
                 <div class="form-group">
                   <div class="row">
                     <div class="col-md-2"></div>
-                    <div class="col-md-9" >
-                      <label>UserID</label>
-                      <input type="text" class="form-control bg-white" formControlName="userID" style=" border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                    <div class="col-md-9">
+                      <label>User ID</label>
+                      <input type="text" class="form-control bg-white" formControlName="userID"
+                        style=" box-shadow: 0 2px 3px 0 #53b9c6;">
                     </div>
                     <div class="col-md-1"></div>
                   </div>
@@ -682,7 +545,8 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-9">
                       <label>First Name</label>
-                      <input type="text" class="form-control bg-white" formControlName="firstName" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <input type="text" class="form-control bg-white" formControlName="firstName"
+                        style="box-shadow: 0 2px 3px 0 #53b9c6;">
                     </div>
                     <div class="col-md-1"></div>
                   </div>
@@ -693,16 +557,18 @@
                   <div class="col-md-9">
                     <label>Phone Number</label>
                     <div class="input-group">
-                      <div class="input-group-prepend " style="width: 90px;border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <div class="input-group-prepend " style="width: 90px;box-shadow: 0 2px 3px 0 #53b9c6;">
                         <!-- <input type="text" class="form-control bg-light" formControlName="countryCode"> -->
-                        <select class="form-control bg-white" id="sel" formControlName="countryCode" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                        <select class="form-control bg-white" id="sel" formControlName="countryCode"
+                          style="box-shadow: 0 2px 3px 0 #53b9c6;">
                           <option>+91</option>
                           <option>+86</option>
                           <option>+886</option>
                           <option>+81</option>
                         </select>
                       </div>
-                      <input type="tel" class="form-control bg-white" formControlName="phoneNumber" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <input type="tel" class="form-control bg-white" formControlName="phoneNumber"
+                        style="box-shadow: 0 2px 3px 0 #53b9c6;">
                     </div>
                   </div>
                   <div class="col-md-1"></div>
@@ -712,7 +578,8 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-9">
                       <label>Password</label>
-                      <input type="text" class="form-control bg-white" formControlName="password" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <input type="text" class="form-control bg-white" formControlName="password"
+                        style="box-shadow: 0 2px 3px 0 #53b9c6;">
                     </div>
                     <div class="col-md-1"></div>
                   </div>
@@ -722,11 +589,14 @@
                     <div class="col-md-2"></div>
                     <div class="col-md-9">
                       <label>Confirm Password</label>
-                      <input type="text" class="form-control bg-white" formControlName="confirmpassword" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
-                      <div *ngIf="addAdminGenUserForm.get('confirmpassword').hasError('checkPasswords') && addAdminGenUserForm.get('confirmpassword').touched">
+                      <input type="text" class="form-control bg-white" formControlName="confirmpassword"
+                        style="box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <div
+                        *ngIf="addAdminGenUserForm.get('confirmpassword').hasError('checkPasswords') && addAdminGenUserForm.get('confirmpassword').touched">
                         <p>not same</p>
                       </div>
-                      <div style='color:#ff7355' *ngIf="addAdminGenUserForm.get('confirmpassword').touched && addAdminGenUserForm.get('password').value != addAdminGenUserForm.get('confirmpassword').value && addAdminGenUserForm.get('confirmpassword').value != null">
+                      <div style='color:#ff7355'
+                        *ngIf="addAdminGenUserForm.get('confirmpassword').touched && addAdminGenUserForm.get('password').value != addAdminGenUserForm.get('confirmpassword').value && addAdminGenUserForm.get('confirmpassword').value != null">
                         Password does not match</div>
                     </div>
                     <div class="col-md-1"></div>
@@ -735,13 +605,14 @@
 
 
               </div>
-              <div class="col-md-6">
+              <div class="col-md-5">
                 <div class="form-group">
                   <div class="row ">
                     <div class="col-md-1"></div>
                     <div class="col-md-9">
                       <label>Email</label>
-                      <input type="text" class="form-control bg-white" formControlName="emailID" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <input type="text" class="form-control bg-white" formControlName="emailID"
+                        style="box-shadow: 0 2px 3px 0 #53b9c6;">
                     </div>
                     <div class="col-md-2"></div>
                   </div>
@@ -752,7 +623,8 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-9">
                       <label>Last Name</label>
-                      <input type="text" class="form-control bg-white" formControlName="lastName" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <input type="text" class="form-control bg-white" formControlName="lastName"
+                        style="box-shadow: 0 2px 3px 0 #53b9c6;">
                     </div>
                     <div class="col-md-2"></div>
                   </div>
@@ -764,9 +636,10 @@
                     <div class="col-md-1"></div>
 
                     <div class="col-md-9">
-                      <label>Prefer Language</label>
+                      <label>Preferred Language</label>
                       <!-- <input type="text" class="form-control bg-light" formControlName="preferLanguage"> -->
-                      <select class="form-control bg-white" formControlName="preferLanguage" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <select class="form-control bg-white" formControlName="preferLanguage"
+                        style="box-shadow: 0 2px 3px 0 #53b9c6;">
                         <option>English</option>
                         <option>Chinese</option>
                         <option>French</option>
@@ -783,7 +656,8 @@
                     <div class="col-md-9">
                       <label>Department</label>
                       <!-- <input type="text" class="form-control bg-light" formControlName="department"> -->
-                      <select class="form-control bg-white" formControlName="department" style="border-radius: 50px;box-shadow: 0 2px 3px 0 #53b9c6;">
+                      <select class="form-control bg-white" formControlName="department"
+                        style="box-shadow: 0 2px 3px 0 #53b9c6;">
                         <option>Administrative</option>
                         <option>Receptionist</option>
                         <option>Pharmacy</option>

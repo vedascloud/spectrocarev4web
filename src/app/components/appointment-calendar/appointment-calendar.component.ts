@@ -45,6 +45,10 @@ const colors: any = {
   styleUrls: ['./appointment-calendar.component.css']
 })
 export class AppointmentCalendarComponent implements OnInit {
+  titleArray:any =
+  {title:"Appointment",
+  subTitle:"Appointment Calender",
+img:"assets/images/ui/Icons/1x/admin center.png"};
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   view: CalendarView = CalendarView.Month;

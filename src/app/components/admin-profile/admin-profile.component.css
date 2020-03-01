@@ -78,9 +78,9 @@ background-color: white;
 
   .changepwd{
     float: left;
-    margin-top: 370px;
+    margin-top: 140px;
     position: relative;
-    z-index: 2;
+    /* z-index: 1; */
   }
 
   .dropdown-content {

@@ -1,84 +1,69 @@
-ul li a{
-    color: white;
-    padding: 10px;
-    margin: 0;
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
 }
-ul li a:hover{
-    color:darkorange;
-  }  
-  .active{
-      color: chocolate !important;
-      font-weight: bold;
-  }
 
-  .notif-title:hover{
-    color: blue;
-  }
-
-  
-*/ Modal Styles */
-.modal-content{
-    background: transparent !important;
-    border: none !important;
-    }
-.bg-Custom{
-background-color:#60348a !important;
-padding: 20px;
-text-align: center;
+.dropdown-content a {
+  color: rgb(68, 65, 65);
+  /* padding: 12px 16px; */
+  text-decoration: none;
+  display: block;
 }
+.dropdown-content a:hover {
+  background-color: rgb(62, 69, 76);
+  color: white;
+  border-left: 5px solid #53b8c5;
+  /* background-color: #e0dede; */
+}
+
 .btn-clr{
-background-color: #f66 !important; 
-border: none !important;
-outline: none !important;
-padding: 8px 25px !important;
-}
-
-.modal-footer{
-background-color: white !important;
-}
-.modal-header{
-background-color: white;
-}
-
-.badge{
-  color: red;
-  position: relative;
-  margin-left: 60%;
-  margin-top: -60%;
-}
-
-.dropdown-toggle::after {
-  display:none;
+  background-color: #f66 !important; 
+  border: none !important;
+  outline: none !important;
+  padding: 8px 25px !important;
   }
+/* .dropdown-content a:hover {background-color: #928989;} */
+.dropdown:hover .dropdown-content {display: block;}
 
-  .scroll {
-    width: 300px !important;
-    height: 50vh !important;
-    overflow: auto;
+ 
+.change-icon-color li .white{
+  display: none;
+}
+
+.change-icon-color li:hover .white{
+  display: inline ;
 
 }
 
-/**** Scroll Bar*****/
-.scroll::-webkit-scrollbar-track
-{
-border-radius: 2px;
-}
-.scroll::-webkit-scrollbar
-{
-width: 5px;
-background-color: #F7F7F7;
+.change-icon-color li:hover .black{
+  display: none;
 }
 
-.scroll::-webkit-scrollbar-thumb
-{
-border-radius: 10px;
--webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-background-color: orangered;
+.stylebtn:hover{
+  background-color: rgb(62, 69, 76);
+  color: white;
+  border-left: 5px solid #53b8c5;
 }
 
+.mat-menu-item:hover{
+  background-color:grey;
+  color: white;
+  border-left: 5px solid #53b8c5;
+}
+.mat-menu-item:hover .mat-icon{
+  color: white;
+}
 
-  /* header{
-    position: fixed !important;
-    
-    width: 100%;
-  } */
+::ng-deep .mat-menu-content:not(:empty) {
+   padding-top: 0px !important; 
+   padding-bottom: 0px !important; 
+}
+
+button{
+  outline: none;
+}

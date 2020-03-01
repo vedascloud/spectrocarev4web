@@ -1,4 +1,4 @@
-import { Component, OnInit ,ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit ,ViewChild, ElementRef, ChangeDetectorRef} from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { JsonPipe } from '@angular/common';
@@ -37,6 +37,12 @@ export class ManageuserComponent implements OnInit {
   isMedicalUser: boolean = false;
   password: string = "password";
   term:any;
+  previewImg: any;
+
+  titleArray:any =
+  {title:"Admin Center",
+  subTitle:"Manage User",
+  img:"assets/images/ui/Icons/1x/admin center.png"};
 
    //show date
   n =  new Date();
@@ -74,11 +80,13 @@ export class ManageuserComponent implements OnInit {
   ];
 
   @ViewChild('autoFocusTest',{static:false}) nativeEl:ElementRef;
+  
+  @ViewChild('fileInput', { static: true }) el: ElementRef;
 
-  constructor(private router:Router,private loginService: LoginService, private modalService: NgbModal, private fb: FormBuilder,private _snackBar: MatSnackBar) { }
+  constructor(private router:Router,private loginService: LoginService, private modalService: NgbModal, private fb: FormBuilder,private _snackBar: MatSnackBar,private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
-
+    this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
     this.checkAdministrator = localStorage.getItem("AdministratorSystemManager");
     console.log("admin stm mgr : ",this.checkAdministrator);
     this.loading = true;
@@ -93,10 +101,11 @@ export class ManageuserComponent implements OnInit {
       
       //this.fetchMedicalPersonsData();
       this.fetchAdminGenralData();
-     
+      this.fetchMedicalPersonnelsData();
      
     }
 
+    //Add Admin General User
     this.addAdminGenUserForm = this.fb.group({
       adminManagerUserID:[""],
       userID:["",[Validators.required]],
@@ -112,7 +121,8 @@ export class ManageuserComponent implements OnInit {
       phoneNumber: this.fb.group({
         countryCode:['',Validators.required],
         phoneNumber:['',Validators.required],
-      })
+      }),
+      profilePic: [""],
     },
     {
       validators:this.checkPasswords
@@ -135,7 +145,8 @@ export class ManageuserComponent implements OnInit {
       phoneNumber: this.fb.group({
         countryCode:[''],
         phoneNumber:[''],
-      })
+      }),
+      profilePic: [""],
     });
 
     this.adminGeneralUserProfileForm.disable();
@@ -159,6 +170,27 @@ export class ManageuserComponent implements OnInit {
     })
 
   }
+
+   //Image Upload
+   fileProgress(event: any) {
+    let reader = new FileReader(); // HTML5 FileReader API
+    let file = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      reader.readAsDataURL(file);
+      // When file uploads set it to file formcontrol
+      reader.onload = () => {
+        this.addAdminGenUserForm.get('profilePic').setValue(file);
+        this.previewImg = reader.result
+      }
+      // ChangeDetectorRef since file is loading outside the zone
+      this.cd.markForCheck();
+    }
+  }
+  removeUploadedFile() {
+    let newFileList = Array.from(this.el.nativeElement.files);
+    this.addAdminGenUserForm.get('profilePic').setValue(null)
+  }
+  //Img Upload complete here
 
    //Mat Snack Bar
    openSnackBar(message:string,action:string){
@@ -218,6 +250,41 @@ export class ManageuserComponent implements OnInit {
       }
     );
   }
+
+  fetchMedicalPersonnelsData(){
+    let fetchMedPersonUserData = {
+      "userID": this.userID,
+      "category":"All",
+      "hospital_reg_num":this.signObj.hospitalAdmin.hospital_reg_num,
+    }
+    //Get Medical Personnel Data
+    this.loginService.getMedicalPersonnelData(fetchMedPersonUserData,this.signObj.access_token).subscribe(
+      (resForFetchMedicalPersonnelData)=>{
+        console.log("Req For Fetching Medical Personnel User Data : ",fetchMedPersonUserData);
+        console.log("the Fetched Medical Personnels data : ",resForFetchMedicalPersonnelData);
+
+        if(resForFetchMedicalPersonnelData.response === 3){
+          this.loading= false;         
+          this.medicalPersonnels = resForFetchMedicalPersonnelData.medicalPersonnels;
+          console.log("Medical Personnels data : ",this.medicalPersonnels);
+        }
+        else{
+          this.loading= false;
+        }
+
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          this.loading= false;
+          console.log("Client Side Error")
+        } else {
+          this.loading= false;
+          console.log(err)
+        }
+      }
+    );
+  }
+
   //Tab Change Event
   onTabChange(event){
     console.log("event",event)
@@ -227,11 +294,16 @@ export class ManageuserComponent implements OnInit {
   addAdminGenUserSubmit(){
     console.log(this.signObj.access_token);
     console.log(this.addAdminGenUserForm.value);
-    let payLoad = this.addAdminGenUserForm.value
-    delete payLoad.confirmpassword
-    console.log("payload",payLoad)
+    let payLoad = this.addAdminGenUserForm.value;
+    delete payLoad.confirmpassword;
+    delete payLoad.profilePic;
+    console.log("payload", payLoad);
     
-    this.loginService.addAdminGenUser(this.addAdminGenUserForm.value, this.signObj.access_token).subscribe(
+    let formData = new FormData();
+    formData.append("adminData",JSON.stringify(payLoad));
+    formData.append("profilePic",this.addAdminGenUserForm.get('profilePic').value);
+    
+    this.loginService.addAdminGenUser(formData, this.signObj.access_token).subscribe(
       (addAdminGenUserRes)=>{
         console.log(addAdminGenUserRes);
         
@@ -277,33 +349,6 @@ export class ManageuserComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-  
-
-  //Open Update Admin Model
-  openUpdateModel(content2, selectedAdmin) {
-    console.log(selectedAdmin);
-    this.adminGeneralUserProfileForm.patchValue({
-      userID:selectedAdmin.userID,
-       verificationStatus:selectedAdmin.verificationStatus,
-       identity:selectedAdmin.identity,
-       preferLanguage:selectedAdmin.preferLanguage,
-       hospital_reg_num:selectedAdmin.hospital_reg_num,
-       registerTime:selectedAdmin.registerTime,
-       firstName:selectedAdmin.firstName,
-       lastName:selectedAdmin.lastName,
-       emailID:selectedAdmin.emailID,
-       department:selectedAdmin.department,
-       phoneNumber:{
-        phoneNumber:selectedAdmin.phoneNumber.phoneNumber,
-        countryCode:selectedAdmin.phoneNumber.countryCode
-      }
-    });
-    this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title',centered:true, size:'lg' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
 
   openViewOne(adminTeam){
     console.log("Selected Admin User To View Data : ",adminTeam);
@@ -323,6 +368,17 @@ export class ManageuserComponent implements OnInit {
         countryCode:adminTeam.phoneNumber.countryCode
       }
     });
+    //this.previewImg= "http://3.92.226.247:3000"+adminTeam.profilePic;
+    if(adminTeam.profilePic === ""){
+      
+      this.previewImg= "../../../assets/images/ui/Icons/1x/profile-1.png";
+     }
+     else if(adminTeam.profilePic === "../../../assets/images/ui/Icons/1x/profile-1.png"){
+      this.previewImg= this.signObj.hospitalAdmin.profilePic;
+     }
+     else{
+     this.previewImg= "http://3.92.226.247:3000"+adminTeam.profilePic;//"http://3.92.226.247:3000"+
+    }
     this.openView()
   }
 
@@ -407,16 +463,6 @@ export class ManageuserComponent implements OnInit {
     }
   }
 
-  // openUpdate(){
-  //   if (this.disableUpdateBtn === false) {
-  //     this.disableUpdateBtn = true;
-  //     this.addAdminGenUserForm.enable();
-  //   }
-  //   else{
-  //     this.disableUpdateBtn = false;
-  //   }
-  // }
-
   open4(content4) {
     this.modalService.open(content4, { ariaLabelledBy: 'modal-basic-title',centered:true }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -460,8 +506,6 @@ export class ManageuserComponent implements OnInit {
     );
   }
 
- 
-
   openAddNew(){
     this.isAdminAdd = false;
     this.nativeEl.nativeElement.focus();
@@ -497,18 +541,6 @@ export class ManageuserComponent implements OnInit {
       this.adminGeneralUserProfileForm.disable();
     }
   }
-
-  // //Signout Modal
-  // openSignOut(content11) {
-  //   this.modalService.open(content11, { centered: true, size: "sm" })
-  //   }
-  //   SignOut() {
-  //     console.log("SignOut Called")
-  //     localStorage.clear()
-  //     this.router.navigateByUrl('/administrator')
-  //     this.modalService.dismissAll()
-  //     //this.openSnackBar(resForCancelAppointment.message,"");
-  //   }
 
     //Signout Modal
    openSignOut(content11) {

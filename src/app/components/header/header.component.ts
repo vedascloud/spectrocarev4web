@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 
@@ -8,34 +8,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+@Input() titleData:any
+title:string;
+img:string;
+subTitle:string;
   constructor(private modalService: NgbModal, private router:Router) { }
 
   ngOnInit() {
+    console.log("Title Array : ",this.titleData);
+    this.title = this.titleData.title;
+    this.img = this.titleData.img;
+    this.subTitle = this.titleData.subTitle;
+    
   }
 
-  //Signout Modal
-  openSignOut(content1) {
-    this.modalService.open(content1, { centered: true, size: "sm" })
-    }
-    SignOut() {
-      console.log("SignOut Called")
-      localStorage.clear()
-      this.router.navigateByUrl('/adminsignin')
-      this.modalService.dismissAll()
-    // let petObj = {
-    // "clientId": clientObj.clientId,
-    // "username": clientObj.username
-    // }
-    // console.log(petObj)
-    // this.clientService.deletePet(petObj).subscribe((res) => {
-    // this.deleteResponse = res;
-    // if (this.deleteResponse.response == "3") {
-    // this.modalService.dismissAll();
-  
-    // }
-    // }, (err) => {
-    // console.log(err)
-    // })
-    }
+    //Signout Modal
+    openSignOut(content1) {
+      this.modalService.open(content1, { centered: true, size: "sm" })
+      }
+      SignOut() {
+        console.log("SignOut Called")
+        localStorage.clear()
+        this.router.navigateByUrl('/administrator')
+        this.modalService.dismissAll()
+      
+      }
+    
 }

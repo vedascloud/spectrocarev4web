@@ -24,6 +24,10 @@ export class BookAppointmentComponent implements OnInit {
   filteredPatients: any = [];
   medicalPersonnels: any = [];
   filteredMedicalPersonnels: any = [];
+  titleArray:any =
+  {title:"Appointment",
+  subTitle:"Book Appointment",
+img:"assets/images/ui/Icons/1x/admin center.png"};
 
   constructor(private router: Router,private modalService: NgbModal,private loginService: LoginService, private fb: FormBuilder, private config: NgbDatepickerConfig, private _snackBar: MatSnackBar,private atp: AmazingTimePickerService) {
     const current = new Date()

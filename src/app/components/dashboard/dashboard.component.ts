@@ -13,7 +13,10 @@ import { Color, Label,MultiDataSet } from 'ng2-charts';
 })
 export class DashboardComponent implements OnInit {
 
-  
+  titleArray:any =
+    {title:"Dashboard",
+    subTitle:"",
+  img:"../../../assets/images/ui/Icons/1x/dashboard.png"};
   getAppointmentLabels(){
     var labels = [];
     for(var i=1;i<=31;i++){
@@ -149,6 +152,7 @@ export class DashboardComponent implements OnInit {
   constructor(private modalService: NgbModal, private router:Router,private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    
   }
 
   //Mat Snack Bar

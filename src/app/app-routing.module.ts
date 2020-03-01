@@ -46,13 +46,13 @@ import { MedicalPersonnelComponent } from './components/medical-personnel/medica
 import { PatientModuleComponent } from './components/patient-module/patient-module.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AllMedicalRecordComponent } from './components/all-medical-record/all-medical-record.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 
 const routes: Routes = [
   {path:"adminsignin",component:AdminsigninComponent},
   {path:"adminsignup",component:AdminsignupComponent},
-
   {path:"administrator",component:AdministartorComponent},
   {path:"medicalpersonnel",component:MedicalPersonnelComponent},
   {path:"patientmodule",component:PatientModuleComponent},

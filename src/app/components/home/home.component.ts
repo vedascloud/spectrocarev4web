@@ -20,7 +20,10 @@ export class HomeComponent implements OnInit {
   isAdminSystmMngr:boolean;
   disableUpdateBtn:boolean = false;
   closeResult: string;
-
+  titleArray:any =
+  {title:"Admin Center",
+  subTitle:"Profile",
+img:"assets/images/ui/Icons/1x/admin center.png"};
  // signInRes:any = localStorage.getItem("SignInRes");
   loading:boolean;
 

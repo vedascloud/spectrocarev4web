@@ -1,102 +1,88 @@
-<header>
-  <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #153f69;">
-    <a class="navbar-brand text-uppercase text-white font-weight-bold ml-5" href="#">Spectrocare</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-      <ul class="navbar-nav p-0">
-        <li class="nav-item p-0">
-          <a class="nav-link text-uppercase" [routerLink]="['/main']" routerLinkActive="active">Home <span
-              class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item p-0">
-          <a class="nav-link text-uppercase" [routerLink]="['/patient']" routerLinkActive="active">Patient</a>
-        </li>
-        <li class="nav-item p-0">
-          <a class="nav-link text-uppercase" [routerLink]="['/admincenter']" routerLinkActive="active">
-            Admin Center</a>
-        </li>
-        <li class="nav-item p-0">
-          <a class="nav-link text-uppercase" [routerLink]="['/adminappointment']" routerLinkActive="active">
-            Appointment</a>
-        </li>
-        <li class="nav-item p-0">
-          <a class="nav-link">
-            <!--Testing-->
-            <!-- <div class="row"> -->
-            <!-- <div class="col"> -->
-            <div ngbDropdown class="d-inline-block">
+<div class="container-fluid">
+    
+    <div class="row justify-content-between shadow pl-4 pr-4 pt-4 pb-3">
+        <div class="d-flex ml-5">
+            <img src="{{img}}"
+                style="width: 30px; height: 30px; margin-right: 5px;">
+            <h5 style="line-height: 30px;font-weight: bold; margin: 0px;">{{title}}
+            <p style="font-size: small;margin: 0px;">{{subTitle}}</p></h5>
 
-              <span class="fa-stack " id="dropdownForm1" ngbDropdownToggle>
+        </div>
+        <div class=" mr-5 dropdown" >
 
-                <i class="fa fa-bell fa-stack-1x fa-inverse"></i>
-                <span class="badge">17</span>
-              </span>
+            <button mat-icon-button [matMenuTriggerFor]="menu"  class="p-0">
+                <mat-icon>settings</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu"  xPosition="before">
+                <button class="" mat-menu-item [routerLink]="['/admincenter/adminprofile']">
+                  <mat-icon>person</mat-icon>
+                  <span>Profile</span>
+                </button>
+                <button class="" mat-menu-item (click)="openSignOut(content1)">
+                  <mat-icon>logout</mat-icon>
+                  <span>Logout</span>
+                </button>
+              </mat-menu>
 
-              <!-- <button class="btn btn-outline-primary" id="dropdownForm1" ngbDropdownToggle>Toggle dropdown</button> -->
-              <div ngbDropdownMenu class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownForm1">
-                <h5 class="text-center position-sticky"><u>Notifications</u></h5>
-                <div class="scroll px-4 py-3">
+            <!-- <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
+            <div class="dropdown-content">
+                <ul class="nav change-icon-color flex-column p-0 " style="background-color: #f2f2f2;">
+                    <li class="nav-item">
+                        <a class="nav-link   " [routerLink]="['/admincenter/adminprofile']"
+                            routerLinkActive="active">
+                            <img class="black" src="../../../assets/images/ui/Icons/1x/profile.png"  style="width: 20px;  margin-right: 10px;">
+                            <img class="white" src="../../../assets/images/ui/Icons/1x/Icon awesome-user-alt.png"  style="width: 20px;  margin-right: 10px;">
+                            Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link   " (click)="openSignOut(content1)"
+                            routerLinkActive="active">
+                            <img class="black" src="../../../assets/images/ui/Icons/1x/account-logout.png" style="width: 20px; margin-right: 10px;">
+                            <img class="white" src="../../../assets/images/ui/Icons/1x/Icon open-account-logout.png" style="width: 20px; margin-right: 10px;">
+                            Logout</button>
+                       
+                        <ng-template #content1 let-modal>
+                            <div class="modal-header" style="background-color: #2c3136;">
+                                <p class="modal-title text-white p-1 font-weight-bold" id="modal-basic-title">
+                                    Are you sure</p>
+                            </div>
+                            <div class="modal-body bg-white p-2">
+                                <p class="text-justify font-weight-normal "> 
+                                    Would you like to SignOut from this.
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <span class="mouse text-info mr-4"
+                                    (click)="modal.close('Close click')">Cancel</span>
+                                <button type="submit"
+                                    class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+                                    (click)="SignOut()">Yes</button>
+                            </div>
+                        </ng-template>
+                    </li>
 
-                  <div class="card p-2 m-2 mb-1">
-                    <div class="row p-2 text-center">
-                      <span class="notif-title" [routerLink]="['/main']">Medical Personnel Add Notification</span>
-                    </div>
-                    <div class="row justify-content-around">
-                      <button type="submit" class="btn btn-sm btn-success">Accept</button>
-                      <button type="submit" class="btn btn-sm btn-danger">Reject</button>
-                    </div>
-                  </div>
-                  <div class="card p-2 m-2 mb-1">
-                    <div class="row p-2 text-center">
-                      <span class="notif-title" [routerLink]="['/main']">Medical Personnel Add Notification</span>
-                    </div>
-                    <div class="row justify-content-around">
-                      <button type="submit" class="btn btn-sm btn-success">Accept</button>
-                      <button type="submit" class="btn btn-sm btn-danger">Reject</button>
-                    </div>
-                  </div>
-                  <div class="card p-2 m-2 mb-1">
-                    <div class="row p-2 text-center">
-                      <span class="notif-title" [routerLink]="['/main']">Medical Personnel Add Notification</span>
-                    </div>
-                    <div class="row justify-content-around">
-                      <button type="submit" class="btn btn-sm btn-success">Accept</button>
-                      <button type="submit" class="btn btn-sm btn-danger">Reject</button>
-                    </div>
-                  </div>
+                </ul>
+            </div> -->
 
+            <ng-template #content1 let-modal>
+                <div class="modal-header" style="background-color: #2c3136;">
+                    <p class="modal-title text-white p-1 font-weight-bold" id="modal-basic-title">
+                        Are you sure</p>
                 </div>
-              </div>
-            </div>
-            <!-- </div> -->
-            <!-- </div> -->
-
-          </a>
-        </li>
-        <li class="nav-item p-0">
-          <a class="nav-link" (click)="openSignOut(content1)">Sign Out</a>
-          <!-- Signout popup -->
-          <ng-template #content1 let-modal>
-            <div class="modal-header bg-primary">
-              <p class="modal-title text-white p-2 font-weight-bold" id="modal-basic-title">Are you sure</p>
-            </div>
-            <div class="modal-body bg-white p-2">
-              <p class="text-justify font-weight-lighter text-muted">
-                Would you like to SignOut from this.
-              </p>
-            </div>
-            <div class="modal-footer">
-              <span class="mouse text-info mr-4" (click)="modal.close('Close click')">Cancel</span>
-              <button type="submit" class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
-                (click)="SignOut()">Yes</button>
-            </div>
-          </ng-template>
-        </li>
-
-      </ul>
+                <div class="modal-body bg-white p-2">
+                    <p class="text-justify font-weight-normal "> 
+                        Would you like to SignOut from this.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <span class="mouse text-info mr-4"
+                        (click)="modal.close('Close click')">Cancel</span>
+                    <button type="submit"
+                        class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+                        (click)="SignOut()">Yes</button>
+                </div>
+            </ng-template>
+        </div>
+        
     </div>
-  </nav>
-</header>
+</div>

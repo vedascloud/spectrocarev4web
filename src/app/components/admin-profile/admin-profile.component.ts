@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild,ElementRef } from '@angular/core';
+import { Component, OnInit,ViewChild,ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators ,AbstractControl} from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
@@ -24,6 +24,11 @@ export class AdminProfileComponent implements OnInit {
   isPassword: boolean = true;
   password: string = "password";
   disableUpdateBtn:boolean = false;
+  previewImg: any;
+  titleArray:any =
+  {title:"Dashboard",
+  subTitle:"Profile",
+img:"assets/images/ui/Icons/1x/dashboard.png"};
   
    //show date
    n =  new Date();
@@ -46,11 +51,13 @@ export class AdminProfileComponent implements OnInit {
   ];
 
   @ViewChild('autoFocusTest',{static:false}) nativeEl:ElementRef;
-  constructor(private router:Router, private fb:FormBuilder,private loginService:LoginService,private modalService: NgbModal,private _snackBar: MatSnackBar) { }
+  
+  @ViewChild('fileInput', { static: true }) el: ElementRef;
+  constructor(private router:Router, private fb:FormBuilder,private loginService:LoginService,private modalService: NgbModal,private _snackBar: MatSnackBar,private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     
-
+    this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
     this.checkAdministrator = localStorage.getItem("AdministratorSystemManager");
 
     var signInRes = localStorage.getItem("SignInRes");
@@ -74,7 +81,8 @@ export class AdminProfileComponent implements OnInit {
       phoneNumber: this.fb.group({
         countryCode:[''],
         phoneNumber:[''],
-      })
+      }),
+      profilePic: [""]
     });
 
     this.adminProfileForm.disable()
@@ -105,6 +113,27 @@ export class AdminProfileComponent implements OnInit {
 
   }
 
+  //Image Upload
+  fileProgress(event: any) {
+    let reader = new FileReader(); // HTML5 FileReader API
+    let file = event.target.files[0];
+    if (event.target.files && event.target.files[0]) {
+      reader.readAsDataURL(file);
+      // When file uploads set it to file formcontrol
+      reader.onload = () => {
+        this.adminProfileForm.get('profilePic').setValue(file);
+        this.previewImg = reader.result
+      }
+      // ChangeDetectorRef since file is loading outside the zone
+      this.cd.markForCheck();
+    }
+  }
+  removeUploadedFile() {
+    let newFileList = Array.from(this.el.nativeElement.files);
+    this.adminProfileForm.get('profilePic').setValue(null)
+  }
+  //Img Upload complete here
+
   checkPasswords(c:AbstractControl):{invalid:boolean}{
     if (c.get('newPassword').value !== c.get('confirmpassword').value) {
       return {invalid: true};
@@ -116,21 +145,31 @@ export class AdminProfileComponent implements OnInit {
     
     // console.log("Admin Data : ",JSON.parse(adminData));
      this.adminProfileForm.patchValue({
-       userID:hospitalData.hospitalAdmin.userID,
-       verificationStatus:hospitalData.hospitalAdmin.verificationStatus,
-       identity:hospitalData.hospitalAdmin.identity,
-       preferLanguage:hospitalData.hospitalAdmin.preferLanguage,
-       hospital_reg_num:hospitalData.hospitalAdmin.hospital_reg_num,
-       password:hospitalData.hospitalAdmin.password,
-       firstName:hospitalData.hospitalAdmin.firstName,
-       lastName:hospitalData.hospitalAdmin.lastName,
-       emailID:hospitalData.hospitalAdmin.emailID,
-       department:hospitalData.hospitalAdmin.department,
+       userID:this.signObj.hospitalAdmin.userID,
+       verificationStatus:this.signObj.hospitalAdmin.verificationStatus,
+       identity:this.signObj.hospitalAdmin.identity,
+       preferLanguage:this.signObj.hospitalAdmin.preferLanguage,
+       hospital_reg_num:this.signObj.hospitalAdmin.hospital_reg_num,
+       password:this.signObj.hospitalAdmin.password,
+       firstName:this.signObj.hospitalAdmin.firstName,
+       lastName:this.signObj.hospitalAdmin.lastName,
+       emailID:this.signObj.hospitalAdmin.emailID,
+       department:this.signObj.hospitalAdmin.department,
        phoneNumber:{
-        phoneNumber:hospitalData.hospitalAdmin.phoneNumber.phoneNumber,
-        countryCode:hospitalData.hospitalAdmin.phoneNumber.countryCode
+        phoneNumber:this.signObj.hospitalAdmin.phoneNumber.phoneNumber,
+        countryCode:this.signObj.hospitalAdmin.phoneNumber.countryCode
       }
      })
+     if(this.signObj.hospitalAdmin.profilePic === ""){
+      
+      this.previewImg= "../../../assets/images/ui/Icons/1x/profile-1.png";
+     }
+     else if(this.signObj.hospitalAdmin.profilePic === "../../../assets/images/ui/Icons/1x/profile-1.png"){
+      this.previewImg= this.signObj.hospitalAdmin.profilePic;
+     }
+     else{
+     this.previewImg= "http://3.92.226.247:3000"+this.signObj.hospitalAdmin.profilePic;//"http://3.92.226.247:3000"+
+    }
    }
 
     //Mat Snack Bar
@@ -142,24 +181,56 @@ export class AdminProfileComponent implements OnInit {
    //Update Admin General User Data
    updateAdminGeneralUser(){
      console.log("admin data : ",this.adminProfileForm.value);
-    this.loginService.updateAdminGenUser(this.adminProfileForm.value,this.signObj.access_token).subscribe(
+     let payLoad = this.adminProfileForm.value
+     let formData = new FormData()
+     delete payLoad.profilePic;
+     delete payLoad.verificationStatus;
+     delete payLoad.password;
+     delete payLoad.emailID;
+     delete payLoad.identity;
+     console.log("payload from admin profile : ",payLoad);
+     
+     formData.append("adminData",JSON.stringify(payLoad));
+     formData.append("profilePic",this.adminProfileForm.get('profilePic').value)
+    this.loginService.updateAdminGenUser(formData,this.signObj.access_token).subscribe(
       (updateAdminGenUserData)=>{
-       console.log("req for update admin profile data : ",updateAdminGenUserData);
-        if(updateAdminGenUserData.response === 3){
+       console.log("res from update admin profile data : ",updateAdminGenUserData);
+        if(updateAdminGenUserData.response === 3 && updateAdminGenUserData.profilePic !== ""){
           //updating local storage
-          this.signObj.hospitalInformation.phoneNumber.phoneNumber = this.adminProfileForm.value.phoneNumber.phoneNumber;
-          this.signObj.hospitalInformation.phoneNumber.countryCode = this.adminProfileForm.value.phoneNumber.countryCode;
-          this.signObj.hospitalAdmin.firstName=this.adminProfileForm.value.firstName;
-          this.signObj.hospitalAdmin.lastName=this.adminProfileForm.value.lastName;
-          this.signObj.hospitalAdmin.preferLanguage=this.adminProfileForm.value.preferLanguage;
-          this.signObj.hospitalAdmin.department=this.adminProfileForm.value.department;
+          this.signObj.hospitalAdmin.phoneNumber.phoneNumber = payLoad.phoneNumber.phoneNumber;
+          this.signObj.hospitalAdmin.phoneNumber.countryCode = payLoad.phoneNumber.countryCode;
+          this.signObj.hospitalAdmin.firstName=payLoad.firstName;
+          this.signObj.hospitalAdmin.lastName=payLoad.lastName;
+          this.signObj.hospitalAdmin.preferLanguage=payLoad.preferLanguage;
+          this.signObj.hospitalAdmin.department=payLoad.department;
+
+          this.signObj.hospitalAdmin.profilePic=updateAdminGenUserData.profilePic;//"http://3.92.226.247:3000"+
 
           console.log("After update the hospital signObj data is : ",this.signObj);
-
+          console.log("updated phone num : "+this.signObj.hospitalInformation.phoneNumber.phoneNumber);
+          console.log("ph num from payload : ",payLoad.phoneNumber.phoneNumber);
           localStorage.setItem("SignInRes", JSON.stringify(this.signObj));
          
           this.openSnackBar(updateAdminGenUserData.message,"");
          //alert(updateAdminGenUserData.message);
+        }
+        else if(updateAdminGenUserData.response === 3 && updateAdminGenUserData.profilePic === ""){
+          
+            this.signObj.hospitalAdmin.phoneNumber.phoneNumber = payLoad.phoneNumber.phoneNumber;
+            this.signObj.hospitalAdmin.phoneNumber.countryCode = payLoad.phoneNumber.countryCode;
+            this.signObj.hospitalAdmin.firstName=payLoad.firstName;
+            this.signObj.hospitalAdmin.lastName=payLoad.lastName;
+            this.signObj.hospitalAdmin.preferLanguage=payLoad.preferLanguage;
+            this.signObj.hospitalAdmin.department=payLoad.department;
+            this.signObj.hospitalAdmin.profilePic= "../../../assets/images/ui/Icons/1x/profile-1.png";
+            localStorage.setItem("SignInRes", JSON.stringify(this.signObj));
+         console.log("local storage data without img path : ",this.signObj);
+         
+           this.openSnackBar(updateAdminGenUserData.message,"");
+
+           
+            this.previewImg= "../../../assets/images/ui/Icons/1x/profile-1.png";
+         
         }
         else{
           this.openSnackBar(updateAdminGenUserData.message,"");

@@ -1,5 +1,7 @@
-.termsbg{
-    height: 100vh;
-    /* background-color: dodgerblue; */
-    background: linear-gradient(to right,#fa234f,#27384a);
-}
+
+.termsbg {
+    height: 100%;
+    font-family: 'Muli', sans-serif;
+    background-image: url(/assets/images/ui/Icons/1x/Background_1.png);
+    background-size: cover;
+  }

@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BillandpaymentComponent implements OnInit {
 
+  titleArray:any =
+  {title:"Admin Center",
+  subTitle:"Bill & Payment",
+img:"assets/images/ui/Icons/1x/admin center.png"};
   constructor() { }
 
   ngOnInit() {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
 import { MatSnackBar } from '@angular/material';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-administartor',
@@ -19,15 +20,19 @@ export class AdministartorComponent implements OnInit {
 
   ngOnInit() {
     this.adminSignINForm = this.fb.group({
-      "userID": ['', [Validators.required, Validators.minLength(4), Validators.maxLength(20), Validators.pattern('[a-zA-Z]+')]],
-      //"userID": ["", [Validators.required]],
+      "userID": ['', [Validators.required]],
       "password": ['', [Validators.required, Validators.minLength(8)]]
     })
   }
 
   //Mat Snack Bar
   openSnackBar(message:string,action:string){
-    this._snackBar.open(message,action,{duration:5000})
+    this._snackBar.open(message,action,{duration:5000, panelClass: ['theme-snackbar']})
+  }
+
+  //Mat Snack Bar
+  openSnackBar1(message:string,action:string){
+    this._snackBar.open(message,action,{duration:5000, panelClass: ['red-snackbar']})
   }
    // validation error messages to display on web pages
    validationMessageErrors = {
@@ -79,26 +84,33 @@ export class AdministartorComponent implements OnInit {
         }
         else{
           localStorage.setItem("AdministratorSystemManager","0");
+          
         }
 
       } 
       else if(res.response === 0){
-        this.openSnackBar(res.message,"");
+        this.openSnackBar1(res.message,"");
+        //this.bg_clr ="red_clr"
         //alert("No account associated with this user ID");
       }
       else {
-        this.openSnackBar(res.message,"");
+        this.openSnackBar1(res.message,"");
+        //this.bg_clr ="red_clr"
         //alert("Your Details didn't Match")
       }
-    }, (err) => {
-      console.log(err)
-    })
+    }, 
+    (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log("Client Side Error")
+      } else {
+        console.log(err)
+      }
+    }
+    )
   }
 
-  signUp() {
-   
-      this.router.navigateByUrl('/adminsignup');
-    
+  signUp() {   
+      this.router.navigateByUrl("/adminsignup");    
   }
 
   forgot() {

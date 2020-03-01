@@ -42,13 +42,14 @@ export class AdmincenterComponent implements OnInit {
 
   closeSubList(){
     this.listInlist = false;
-    
+    this.listInPatient = false;
+    this.listInAppointment = false;
   }
 
   openPatientList(){
     this.listInPatient = !this.listInPatient;
-    this.closeSubList();
-    this.closeAppointmentList();
+    this.listInlist = false;
+    this.listInAppointment = false;
   }
   closePatientList(){
     this.listInPatient = false;
@@ -56,8 +57,9 @@ export class AdmincenterComponent implements OnInit {
 
   openAppointmentList(){
     this.listInAppointment = !this.listInAppointment;
-    this.closeSubList();
-    this.closePatientList();
+    this.listInlist = false;
+    this.listInPatient = false;
+    
   }
   closeAppointmentList(){
     this.listInAppointment = false;

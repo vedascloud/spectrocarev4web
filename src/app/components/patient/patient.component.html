@@ -1,7 +1,11 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
-<div class="container-fluid">
-    <div class="row justify-content-between shadow px-2 py-4">
-        <div class="row ml-3">
+<div class="container">
+    <div class="row ">
+        <div class="col-md-12 p-0">
+            <app-header [titleData]="titleArray"></app-header>
+          </div>
+        <!--justify-content-between shadow px-2 py-4-->
+        <!-- <div class="row ml-3">
             <img src="../../../assets/images/ui/Icons/1x/admin center.png"
                 style="width: 25px; height: 25px; margin-right: 20px;">
             <h5 style="line-height: 30px;font-weight: bold;">Patient</h5>
@@ -24,7 +28,7 @@
                                 style="width: 17px; margin-right: 10px;">
                             <span>Logout</span>
                         </a>
-                        <!-- Signout popup -->
+                        
                         <ng-template #content1 let-modal>
                             <div class="modal-header bg-primary">
                                 <p class="modal-title text-white p-2 font-weight-bold" id="modal-basic-title">
@@ -45,7 +49,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
@@ -276,13 +280,6 @@
                                     </div>
                                 </div>
                             </mat-tab>
-                            <!-- <mat-tab label="Body Index">
-                                <div class="demo-tab-content ">
-                                    <p>{{patientPhysicalReocrdsData | json}}</p>
-                                    Body Index
-                                </div>
-                               
-                            </mat-tab> -->
                             <mat-tab label="Physical Exam">
                                 <div class="demo-tab-content ">
                                     <div class="row">
@@ -443,16 +440,16 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <tr>
+                                                                    <tr *ngFor="let physicalExamination of physicalExamination; let i = index">
                                                                         <td class="p-4" style="text-align: start;">
-                                                                            General Appearence</td>
+                                                                            {{physicalExamination.category}}</td>
                                                                         <td>
                                                                             <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
+                                                                                <input type="radio" name="categoryOpt_{{i}}" [(ngModel)]="physicalExamination.result" value="Normal" >
                                                                                 <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
+                                                                                <input type="radio" name="categoryOpt_{{i}}" [(ngModel)]="physicalExamination.result" value="Abnormal">
                                                                                 <label>Abnormal</label><br>
-                                                                                <input type="radio">
+                                                                                <input type="radio" name="categoryOpt_{{i}}" [(ngModel)]="physicalExamination.result" value="Not Examined">
                                                                                 <label>Not Examined</label>
                                                                             </div>
                                                                             <!-- <mat-radio-group
@@ -469,255 +466,17 @@
                                                                             </mat-radio-group> -->
                                                                         </td>
                                                                         <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">Vital
-                                                                            Signs</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">Head
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">HEENT
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">Neck
-                                                                        </td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">Chest
-                                                                            and Lungs</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">
-                                                                            Cardiovascular</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">
-                                                                            Abdomen</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">
-                                                                            Genitourinary</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">
-                                                                            Rectal</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">
-                                                                            Musculoskeletal</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">Lymph
-                                                                            Nodes</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">
-                                                                            Extremities / Skin</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">
-                                                                            Neurological</td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td class="p-4" style="text-align: start;">Other
-                                                                            : </td>
-                                                                        <td>
-                                                                            <div class="" style="margin-left: 40px;">
-                                                                                <input type="radio">
-                                                                                <label>Normal</label><br>
-                                                                                <input type="radio" value="abnormal">
-                                                                                <label>Abnormal</label><br>
-                                                                                <input type="radio">
-                                                                                <label>Not Examined</label>
-                                                                            </div>
-                                                                        </td>
-                                                                        <td>
-                                                                            <textarea class="p-3 w-100"></textarea>
+                                                                            <textarea class="form-control border-0" rows="3">{{physicalExamination.description}}</textarea>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
                                                         </form>
 
-                                                        <!-- <div *ngFor="let data of phy">
-                                                            {{data | json}}
-                                                        </div> -->
+                                                        <!-- <div >
+                                                            {{phy | json}}
+                                                        </div > -->
+                                                         <!--*ngFor="let data of phy"-->
                                                     </div>
                                                 </div>
                                             </div>

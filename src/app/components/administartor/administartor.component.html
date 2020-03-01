@@ -10,21 +10,11 @@
                         <div class="text-danger" *ngIf="validationErrors.userID" class="text-danger">
                             {{validationErrors.userID}}
                         </div> -->
-                        <input matInput placeholder="Email / User Name" formControlName="userID">
+                        <input matInput placeholder="User ID / Email" formControlName="userID">
                         <mat-error *ngIf="adminSignINForm.get('userID').hasError('required')">
-                            Email / UserName is Required!
-                          </mat-error>
-                          <mat-error *ngIf="adminSignINForm.get('userID').hasError('minlength')">
-                            Email / UserName should be atleast 4 characters long!
-                          </mat-error>
-                      
-                          <mat-error *ngIf="adminSignINForm.get('userID').hasError('maxlength')">
-                            Email / UserName can be atmax n characters long!
-                          </mat-error>
-                      
-                          <!-- <mat-error *ngIf="adminSignINForm.get('userID').hasError('pattern')">
-                            Email / UserName must follow this pattern! (a-z,A-Z)
-                          </mat-error> -->
+                            User ID / Email is Required!
+                        </mat-error>
+
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput placeholder="Password" type="{{password}}" formControlName="password">
@@ -39,16 +29,15 @@
                         </div> -->
                         <mat-error *ngIf="adminSignINForm.get('password').hasError('required')">
                             Password is Required!
-                          </mat-error>                      
-                          <mat-error *ngIf="adminSignINForm.get('password').hasError('minlength')">
-                            Password must be atmax 8 characters long!
-                          </mat-error>
+                        </mat-error>
+
                     </mat-form-field>
-                    <button mat-raised-button class="loginbtn mb-3 mt-3" style="letter-spacing: 1px; outline-style: none;">LOGIN</button>
+                    <button  class="loginbtn btn btn-info mt-3"
+                        style="letter-spacing: 1px; outline-style: none;" [disabled]="!adminSignINForm.valid" >LOGIN</button>
                     <div class="row p-2 ml-5">
                         <span (click)="forgot()">
                             <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
-                            Forgot <a> Username / Password ? </a></span>
+                            Forgot <a> Password ? </a></span>
                     </div>
                     <div class="row  p-2 ml-5">
                         <span (click)="signUp()"> <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
@@ -60,6 +49,6 @@
         <div class="col-md-4 align-self-center"></div>
     </div>
     <div>
-        
+
     </div>
 </div>

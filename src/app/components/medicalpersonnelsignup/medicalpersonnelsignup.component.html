@@ -2,122 +2,212 @@
 
     <header class="w-100 p-3 ">
         <nav class="navbar navbar-expand-lg navbar-light d-flex w-100 p-0 ">
-          <!-- <h1 class="navbar-brand text-white  ml-5">SpectroCare</h1> -->
-          
-          <h1 class="logo-text " ><!--style="letter-spacing: 3px;"-->
-            Spectro<span class="logo-highlight">Care</span>
-          </h1>
-          <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarNavDropdown">
-            <ul class="navbar-nav p-0">
-              <li class="nav-item p-0 mx-1">
-                <button  class="btn btn-sm text-white text-uppercase "  [routerLink]="['/adminsignup']" >
-                Administrator
-                </button>
-              </li>
-              <li class="nav-item p-0 mx-1">
-                <button class="btn btn-sm text-white text-uppercase active"  [routerLink]="['/medicalpersonnelsignup']" >Medical Personnel</button>
-              </li>
-              <li class="nav-item p-0 mx-1">
-                <button class="btn btn-sm text-white text-uppercase"  [routerLink]="['/medicalpersonnelsignup']" >Patient</button>
-              </li>          
-            </ul>
-          </div>
-        </nav>
-      </header>
+            <!-- <h1 class="navbar-brand text-white  ml-5">SpectroCare</h1> -->
 
-    <div class="row p-5">
-        <div class="col-md-3"></div>
-        <div class="col-md-6 align-self-center text-center">
+            <h1 class="logo-text ">
+                <!--style="letter-spacing: 3px;"-->
+                Spectro<span class="logo-highlight">Care</span>
+            </h1>
+            <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarNavDropdown">
+                <ul class="navbar-nav p-0">
+                    <li class="nav-item p-0 mx-1">
+                        <button class="btn btn-sm text-white text-uppercase " [routerLink]="['/adminsignup']">
+                            Administrator
+                        </button>
+                    </li>
+                    <li class="nav-item p-0 mx-1">
+                        <button class="btn btn-sm text-white text-uppercase active"
+                            [routerLink]="['/medicalpersonnelsignup']">Medical Personnel</button>
+                    </li>
+                    <li class="nav-item p-0 mx-1">
+                        <button class="btn btn-sm text-white text-uppercase"
+                            [routerLink]="['/medicalpersonnelsignup']">Patient</button>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 align-self-center text-center">
             <div class="example-container">
                 <form [formGroup]="medicalSignUpForm" (ngSubmit)="adminSignUp()" autocomplete="off">
-                    <div class="p-2">
-                        <img src="../../../assets/images/ui/Icons/1x/profile-1.png" style="width: 70px; height: 70px;">
+                    <!--Upload IMg-->
+                    <div class="justify-content-center" style="text-align: -webkit-center;">
+                        <div style="border-radius: 50% !important;width: 50px;height: 50px;">
+                            <img class=""
+                                style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 50px;min-height: 50px;"
+                                src="{{previewImg}}">
+                            <!--border: 2px solid rgb(150, 211, 235);-->
+                        </div>
+                        <div class="container">
+                            <div class="row ">
+                                <div class="img-move input-group mb-3">
+                                    <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
+                                        aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg"
+                                        (change)="fileProgress($event)" class="d-none">
+                                    <span class="m-auto" (click)="fileInput.click()"
+                                        style=" color: rgb(196, 190, 190) !important;font-weight: 200;">
+                                        Upload Photo
+                                    </span>
+                                    <!-- <button class="btn m-auto btn-sm font-weight-normal  " style=" color: rgb(133, 128, 128) !important;" 
+                                        (click)="fileInput.click()" type="button" >
+                                        Upload Photo
+                                    </button> -->
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <mat-form-field>
-                        <input matInput placeholder="User Name" formControlName="userId">
+                    <!-- Upload IMG Ends-->
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="User ID *" formControlName="userId">
+                        <mat-error *ngIf="medicalSignUpForm.get('userId').hasError('required')">
+                            User ID is Required!
+                        </mat-error>
+                        <!-- <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.userID').hasError('minlength')">
+                            User ID should be atleast 4 characters long!
+                        </mat-error>
+                        <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.userID').hasError('maxlength')">
+                            User ID can be atmax 8 characters long!
+                        </mat-error> -->
                     </mat-form-field>
-                    <table align="center" >
-                        <tr>
-                            <td>
-                                <mat-form-field class="example-full-width">
-                                    <mat-label>Identity</mat-label>
-                                    <mat-select  name="identity" formControlName="identity">
-                                        <mat-option *ngFor="let identity of identitys" [value]="identity.value">
-                                            {{identity.viewValue}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </td>
-                            <td>
-                                <mat-form-field class="example-full-width">
-                                    <mat-label>Gender</mat-label>
-                                    <mat-select  name="gender" formControlName="gender">
-                                        <mat-option *ngFor="let gender of genders" [value]="gender.value">
-                                            {{gender.viewValue}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </td>
-                        </tr>
-                    </table>
-                    <table align="center">
-                        <tr>
-                            <td>
-                                <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="First Name" formControlName="firstName">
-                                </mat-form-field>
-                            </td>
-                            <td>
-                                <mat-form-field class="example-full-width">
-                                    <input matInput placeholder="Last Name" formControlName="lastName">
-                                </mat-form-field>
-                            </td>
-                        </tr>
-                    </table>
-                    <mat-form-field>
-                        <input matInput placeholder="Email" formControlName="email">
-                    </mat-form-field>
-                    <div formGroupName="phoneNumber">
-                        <table align="center">
-                            <tr>
-                                <td>
-                                    <mat-form-field class="example-full-width">
-                                        <mat-label>Country Code</mat-label>
-                                        <mat-select  name="code"
-                                            formControlName="countryCode">
-                                            <mat-option *ngFor="let code of countryCodes" [value]="code.value">
-                                                {{code.viewValue}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-                                </td>
-                                <td>
-                                    <mat-form-field class="example-full-width">
-                                        <input matInput placeholder="Phone Number" formControlName="phoneNumber">
-                                    </mat-form-field>
-                                </td>
-                            </tr>
-                        </table>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                        <mat-form-field class="full-width ">
+                            <mat-label>Identity *</mat-label>
+                            <mat-select name="code" formControlName="identity">
+                                <mat-option *ngFor="let code of identitys" [value]="code.value">
+                                    {{code.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="medicalSignUpForm.get('identity').hasError('required')">
+                                Identity is Required!
+                            </mat-error>
+                        </mat-form-field>
                     </div>
-                    <mat-form-field>
-                        <input matInput placeholder="Password" formControlName="password">
+                        <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <mat-label>Gender *</mat-label>
+                                <mat-select name="code" formControlName="gender">
+                                    <mat-option *ngFor="let code of genders" [value]="code.value">
+                                        {{code.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="medicalSignUpForm.get('gender').hasError('required')">
+                                    Gender is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="First Name *" formControlName="firstName">
+                                <mat-error *ngIf="medicalSignUpForm.get('firstName').hasError('required')">
+                                    First Name is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Last Name *" formControlName="lastName">
+                                <mat-error *ngIf="medicalSignUpForm.get('lastName').hasError('required')">
+                                    Last Name is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Email *" formControlName="email">
+                        <mat-error *ngIf="medicalSignUpForm.get('email').hasError('required')">
+                            Email is Required!
+                        </mat-error>
+                        <mat-error *ngIf="medicalSignUpForm.get('email').hasError('email')">
+                            Email is in this way abc@gmail.com
+                        </mat-error>
                     </mat-form-field>
-                    <mat-form-field>
-                        <input matInput placeholder="Confirm Password" formControlName="confirmPassword">
+
+                    <div class="row" formGroupName="phoneNumber" autocomplete="off">
+                        <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <mat-label>Country Code *</mat-label>
+                                <mat-select name="code" formControlName="countryCode">
+                                    <mat-option *ngFor="let code of countryCodes" [value]="code.value">
+                                        {{code.viewValue}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="medicalSignUpForm.get('phoneNumber.countryCode').hasError('required')">
+                                    Country Code is Required!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field class="full-width">
+                                <input matInput placeholder="Phone Number *" formControlName="phoneNumber">
+                                <mat-error
+                                    *ngIf="medicalSignUpForm.get('phoneNumber.phoneNumber').hasError('required')">
+                                    Phone Number is Required!
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="medicalSignUpForm.get('phoneNumber.phoneNumber').hasError('minlength')">
+                                    Phone Number must be 10 numbers!
+                                </mat-error>
+                                <mat-error
+                                    *ngIf="medicalSignUpForm.get('phoneNumber.phoneNumber').hasError('maxlength')">
+                                    Phone Number must be 10 numbers!
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Password *" formControlName="password">
+                        <mat-error *ngIf="medicalSignUpForm.get('password').hasError('required')">
+                            Password is Required!
+                        </mat-error>
+                        <mat-error *ngIf="medicalSignUpForm.get('password').hasError('minlength')">
+                            Password should have minimum 8 letters!
+                        </mat-error>
                     </mat-form-field>
-                    <mat-form-field>
-                        <input matInput placeholder="Hospital Reg No" formControlName="hospital_reg_num">
+
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Confirm Password *" formControlName="confirmPassword">
+                        <mat-error *ngIf="medicalSignUpForm.get('confirmPassword').hasError('required')">
+                            ConfirmPassword is Required!
+                        </mat-error>
+                        <mat-error
+                            *ngIf="medicalSignUpForm.get('confirmPassword').hasError('NoPassswordMatch') && medicalSignUpForm.get('confirmPassword').touched && medicalSignUpForm.get('confirmPassword').value != null">
+                            Password does not same
+                        </mat-error>
+
                     </mat-form-field>
-                    <mat-form-field>
+
+                    <mat-form-field class="full-width">
+                        <input matInput placeholder="Hospital Registration Number *" formControlName="hospital_reg_num">
+                        <mat-error *ngIf="medicalSignUpForm.get('hospital_reg_num').hasError('required')">
+                            Hospital Registration Number is Required!
+                        </mat-error>
+
+                    </mat-form-field>
+
+                    <!-- <mat-form-field>
                         <input matInput placeholder="Reg No" formControlName="rgNo">
-                    </mat-form-field>
+                    </mat-form-field> -->
                     <mat-form-field>
                         <mat-label>Department</mat-label>
-                        <mat-select  name="department" formControlName="department">
+                        <mat-select name="department" formControlName="department">
                             <mat-option *ngFor="let department of departments" [value]="department.value">
                                 {{department.viewValue}}
                             </mat-option>
                         </mat-select>
+                        <mat-error *ngIf="medicalSignUpForm.get('department').hasError('required')">
+                            Department is Required!
+                        </mat-error>
                     </mat-form-field>
 
                     <mat-checkbox class="text-white">
@@ -136,7 +226,7 @@
                 </form>
             </div>
         </div>
-        <div class="col-md-3"></div>
+        <div class="col-md-4"></div>
     </div>
 </div>
 

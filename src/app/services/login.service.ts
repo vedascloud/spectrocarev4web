@@ -38,6 +38,11 @@ pMedPersonID:string="";
     return this._http.post("http://3.92.226.247:3000/api/hospital/getadmins",addAdminAndGenData,{headers:{'x-access-token': accessToken}});
   }
 
+    //Get Admin adn Gen-User Data
+    getMedicalPersonnelData(fetchMedicalPersonnelData,accessToken):any{
+      return this._http.post("http://3.92.226.247:3000/api/hospital/getmedicalpersonnels",fetchMedicalPersonnelData,{headers:{'x-access-token': accessToken}});
+    }
+
   //Get Medical-Personnel & Patient data
   getMedicalPatientData(mpData):any{
     let token:any = mpData.token;
@@ -135,20 +140,20 @@ pMedPersonID:string="";
   //Update Admin General User
   updateAdminGenUser(updateAdminGenData,accessToken):any{
     console.log("admin gen user data for checking from service : ",updateAdminGenData);
-    const needToUpdate = {
-        "userID":updateAdminGenData.userID,
-        "hospital_reg_num":updateAdminGenData.hospital_reg_num,
-        "firstName":updateAdminGenData.firstName,
-        "lastName":updateAdminGenData.lastName,
-        "phoneNumber":{
-          "countryCode":updateAdminGenData.phoneNumber.countryCode,
-          "phoneNumber":updateAdminGenData.phoneNumber.phoneNumber
-        },
-        "preferLanguage":updateAdminGenData.preferLanguage,
-        "department":updateAdminGenData.department
-    }
-    console.log("admin gen user data for checking before sending to api req from service : ",needToUpdate);
-    return this._http.post("http://3.92.226.247:3000/api/hospital/updateadmin",needToUpdate,{headers:{'x-access-token':accessToken}});
+    // const needToUpdate = {
+    //     "userID":updateAdminGenData.userID,
+    //     "hospital_reg_num":updateAdminGenData.hospital_reg_num,
+    //     "firstName":updateAdminGenData.firstName,
+    //     "lastName":updateAdminGenData.lastName,
+    //     "phoneNumber":{
+    //       "countryCode":updateAdminGenData.phoneNumber.countryCode,
+    //       "phoneNumber":updateAdminGenData.phoneNumber.phoneNumber
+    //     },
+    //     "preferLanguage":updateAdminGenData.preferLanguage,
+    //     "department":updateAdminGenData.department
+    // }
+  //  console.log("admin gen user data for checking before sending to api req from service : ",needToUpdate);
+    return this._http.post("http://3.92.226.247:3000/api/hospital/updateadmin",updateAdminGenData,{headers:{'x-access-token':accessToken}});
   }
 
   //Delete Admin General User

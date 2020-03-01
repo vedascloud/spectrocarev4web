@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportComponent implements OnInit {
 
+  titleArray:any =
+  {title:"Admin Center",
+  subTitle:"Report",
+img:"assets/images/ui/Icons/1x/admin center.png"};
+
   constructor() { }
 
   ngOnInit() {
