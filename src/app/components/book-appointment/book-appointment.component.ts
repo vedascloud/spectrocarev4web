@@ -189,7 +189,7 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
         console.log(bookAppointmentRes);
         
         if(bookAppointmentRes.response === 3){
-          this.router.navigateByUrl("adminappointment/upcomingappointment");
+          this.router.navigateByUrl("admincenter/upcomingappointment");
          alert(bookAppointmentRes.message);
         }
         else{

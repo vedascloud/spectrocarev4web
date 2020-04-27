@@ -45,6 +45,15 @@
       background-color:rgb(62, 69, 76);
     }
     
+    .profile:hover{
+      cursor: pointer;
+    
+    }
+
+    .profile{
+      
+      outline: none;
+    }
 
      /* .example-container {
       position: absolute;

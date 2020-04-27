@@ -1,133 +1,109 @@
-<!--<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>-->
-
 <div class="menbersigninbg" style="">
     <div class="container">
         <div class="">
-        <div class="mb-3">
-            <h3 class="p-3 text-white">Welcome to SpectroCare</h3>
-        </div>
-        <div class="row justify-content-center ">
-            <div class="col-md-3"></div>
-            <div class="col-md-6">
-                <div class="card mb-5">
-                    <h4 class="mt-4 mb-4">Sign In as {{title}}</h4>
-                    <div class="container">
-                        <div class="row ">
-                            <div class="col-md-2">
+            <div class="mb-3">
+                <h3 class="p-3 text-white">Welcome to SpectroCare</h3>
+            </div>
+            <div class="row justify-content-center ">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="card mb-5">
+                        <h4 class="mt-4 mb-4">Sign In as {{title}}</h4>
+                        <div class="container">
+                            <div class="row ">
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="d-inline d-flex justify-content-around">
+                                        <button [ngClass]="{'btn-primary text-white':isAdministrator === true}"
+                                            class="btn btn-sm  btn-outline-dark shadow text-uppercase"
+                                            (click)="callAdministrator()">Administrator</button>
+                                        <button [ngClass]="{'btn-primary text-white':isAdministrator === false}"
+                                            class="text-nowrap btn btn-sm btn-outline-dark shadow text-uppercase"
+                                            (click)="callMedicalPersonnel()">medical personnel</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                </div>
                             </div>
-                            <div class="col-sm-8">
-                               <div class="d-inline d-flex justify-content-around">
-                                <button [ngClass]="{'btn-primary text-white':isAdministrator === true}" 
-                                        class="btn btn-sm  btn-outline-dark shadow text-uppercase"
-                                        (click)="callAdministrator()">Administrator</button>
-                                <button [ngClass]="{'btn-primary text-white':isAdministrator === false}"
-                                        class="text-nowrap btn btn-sm btn-outline-dark shadow text-uppercase"
-                                        (click)="callMedicalPersonnel()">medical personnel</button>
-                               </div>
-                            </div>
-                            <div class="col-md-2">
-                            </div> 
                         </div>
-                    </div>
-                    <div class="container" *ngIf="isAdministrator">
-                        <div class="row ml-5 mr-5 mt-4">
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-md-8 ">
-                                <form [formGroup]="adminSignINForm" (ngSubmit)="submitForm()">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Email / UserID</label>
-                                        <input type="email" class="form-control bg-light" formControlName="userID"  (keyup)="validationForm()">
+                        <div class="container" *ngIf="isAdministrator">
+                            <div class="row ml-5 mr-5 mt-4">
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-md-8 ">
+                                    <form [formGroup]="adminSignINForm" (ngSubmit)="submitForm()">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Email / UserID</label>
+                                            <input type="email" class="form-control bg-light" formControlName="userID"
+                                                (keyup)="validationForm()">
                                             <div class="text-danger" *ngIf="validationErrors.userID"
-                                             class="text-danger">{{validationErrors.userID}}
+                                                class="text-danger">{{validationErrors.userID}}
                                             </div>
-                                             <!-- <p *ngIf="adminSignINForm.controls['userID'].errors?.touched && adminSignINForm.controls['userID'].errors?.required" class="text-danger">Add your email</p>
-                                             <p *ngIf="adminSignINForm.controls['userID'].errors?.email" class="text-danger">Enter Valid email</p> -->
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Password</label>
-                                        <input type="{{password}}" formControlName="password" (keyup)="validationForm()" class="form-control bg-light">
-                                        <span *ngIf="isPassword"  (click)="showPassword()">
-                                            <i class="fa fa-fw fa-eye field-icon"></i>
-                                        </span>
-                                        <span *ngIf="!isPassword"  (click)="showPassword()">
-                                            <i class="fa fa-fw fa-eye-slash field-icon"></i>
-                                        </span>    
-                                        <div class="text-danger" *ngIf="validationErrors.password"
-                                            class="text-danger">{{validationErrors.password}}
-                                            </div>
-                                            <!-- <p *ngIf="adminSignINForm.controls['password'].errors?.touched && adminSignINForm.controls['password'].errors?.required" class="text-danger">Add your Password</p>
-                                            <p *ngIf="adminSignINForm.controls['password'].errors?.minlength" class="text-danger">Password should be atleast 8 charecters</p> -->
-                                    </div>
-                                    <div class="form-group d-flex justify-content-between">
-                                        <a class="text-info" (click)="forgot()" for="forgotPassword">Forgot password ?</a>
-                                        <button class="btn btn-sm btn-success  shadow"
-                                                [disabled]="adminSignINForm.invalid">Login
-                                        </button>
-                                    </div>
-
-
-                                    <!-- <div class="example-container">
-                                        <mat-form-field>
-                                          <input matInput placeholder="Email-ID / User-ID">
-                                        </mat-form-field>
-                                      
-                                        <mat-form-field>
-                                            <input matInput placeholder="Password" type="{{password}}"  (keyup)="validationForm()">
-                                            <span *ngIf="isPassword"  (click)="showPassword()">
-                                                <i class="fa fa-fw fa-eye field-icon1"></i>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="{{password}}" formControlName="password"
+                                                (keyup)="validationForm()" class="form-control bg-light">
+                                            <span *ngIf="isPassword" (click)="showPassword()">
+                                                <i class="fa fa-fw fa-eye field-icon"></i>
                                             </span>
-                                            <span *ngIf="!isPassword"  (click)="showPassword()">
-                                                <i class="fa fa-fw fa-eye-slash field-icon1"></i>
-                                            </span> 
-                                          </mat-form-field>   
-                                                
-                                          
-                                          <button mat-raised-button class="loginbtn">LOGIN</button>
-                                    </div> -->
+                                            <span *ngIf="!isPassword" (click)="showPassword()">
+                                                <i class="fa fa-fw fa-eye-slash field-icon"></i>
+                                            </span>
+                                            <div class="text-danger" *ngIf="validationErrors.password"
+                                                class="text-danger">{{validationErrors.password}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group d-flex justify-content-between">
+                                            <a class="text-info" (click)="forgot()" for="forgotPassword">Forgot password
+                                                ?</a>
+                                            <button class="btn btn-sm btn-success  shadow"
+                                                [disabled]="adminSignINForm.invalid">Login
+                                            </button>
+                                        </div>
 
-
-                                </form>
-                            </div>
-                            <div class="col-md-2">
+                                    </form>
+                                </div>
+                                <div class="col-md-2">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="container" *ngIf="!isAdministrator">
-                        <div class="row ml-5 mr-5 mt-4">
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-md-8 ">
-                                <form [formGroup]="medicalSignINForm" (ngSubmit)="medicalSubmit()">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail1">Email</label>
-                                        <input type="email" class="form-control bg-light" formControlName="email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Password</label>
-                                        <input type="password" class="form-control bg-light" formControlName="password">
-                                    </div>
-                                    <div class="form-group d-flex justify-content-between">
+                        <div class="container" *ngIf="!isAdministrator">
+                            <div class="row ml-5 mr-5 mt-4">
+                                <div class="col-md-2">
+                                </div>
+                                <div class="col-md-8 ">
+                                    <form [formGroup]="medicalSignINForm" (ngSubmit)="medicalSubmit()">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Email</label>
+                                            <input type="email" class="form-control bg-light" formControlName="email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="password" class="form-control bg-light"
+                                                formControlName="password">
+                                        </div>
+                                        <div class="form-group d-flex justify-content-between">
                                             <a class="text-info" (click)="forgot()">Forgot password ?</a>
                                             <button class="btn btn-sm btn-success px-2 shadow"
-                                                    [routerLink] = "['/admincenter']"
-                                                    [disabled]="medicalSignINForm.invalid"
-                                            >Login</button>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-md-2">
+                                                [routerLink]="['/admincenter']"
+                                                [disabled]="medicalSignINForm.invalid">Login</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-2">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="after-buttons mb-5">
-                        <h6 class="text-center mt-3">Don't have account yet ?
-                            <a  class="text-info" (click)="signUp()">Sign Up.</a>here.</h6>
+                        <div class="after-buttons mb-5">
+                            <h6 class="text-center mt-3">Don't have account yet ?
+                                <a class="text-info" (click)="signUp()">Sign Up.</a>here.</h6>
+                        </div>
                     </div>
                 </div>
+                <div class="col-md-3"></div>
             </div>
-            <div class="col-md-3"></div>
         </div>
-    </div>
     </div>
 </div>

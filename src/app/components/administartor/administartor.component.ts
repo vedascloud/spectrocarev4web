@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
@@ -15,14 +15,16 @@ export class AdministartorComponent implements OnInit {
   adminSignINForm: FormGroup;
   password: string = "password";
   isPassword: boolean = true;
-
+  isLoading: boolean = false;
+  mySubscription:any;
   constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService,private _snackBar: MatSnackBar) { }
 
-  ngOnInit() {
+  ngOnInit() {    
     this.adminSignINForm = this.fb.group({
       "userID": ['', [Validators.required]],
       "password": ['', [Validators.required, Validators.minLength(8)]]
     })
+    this.adminSignINForm.markAsTouched()
   }
 
   //Mat Snack Bar
@@ -70,11 +72,13 @@ export class AdministartorComponent implements OnInit {
   }
 
   submitForm() {
+    this.isLoading = true;
     console.log("Admin SignIn Req Data : ",this.adminSignINForm.value)
   
     this.loginService.adminLogin(this.adminSignINForm.value).subscribe((res) => {
       console.log("SignIn Res", res)
       if (res.response === 3) {
+        this.isLoading = false;
         localStorage.setItem("userID", this.adminSignINForm.value.userID);
         localStorage.setItem("SignInRes", JSON.stringify(res));
         this.router.navigateByUrl('/admincenter/dashboard');
@@ -89,11 +93,13 @@ export class AdministartorComponent implements OnInit {
 
       } 
       else if(res.response === 0){
+        this.isLoading = false;
         this.openSnackBar1(res.message,"");
         //this.bg_clr ="red_clr"
         //alert("No account associated with this user ID");
       }
       else {
+        this.isLoading = false;
         this.openSnackBar1(res.message,"");
         //this.bg_clr ="red_clr"
         //alert("Your Details didn't Match")
@@ -101,8 +107,10 @@ export class AdministartorComponent implements OnInit {
     }, 
     (err: HttpErrorResponse) => {
       if (err.error instanceof Error) {
+        this.isLoading = false;
         console.log("Client Side Error")
       } else {
+        this.isLoading = false;
         console.log(err)
       }
     }

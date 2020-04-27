@@ -1,28 +1,60 @@
-li{
-    margin-bottom: 2px;
-    
-    margin: 10px;
-  }
-  
-  .active{
-    background-color: dodgerblue;
-    color: white;
-  }
-  
-    /* Change the link color on hover */
-    li a:hover {
-      background-color: darkseagreen;
-      color: black;
-      box-shadow: 0 0 5px brown;
-    }  
+.edit-img{
+  margin-left: 90px;
+  margin-top: -30px;
+}
 
-    label{
-      font-weight: bold;
-    }
+.head-bg{
+ background-color:  rgba(0,0,0,0.03);
+}
 
-    .img-move{
-      position: relative;
-      transform: translateX(-50%,-50%) !important;
-    }
-   
-  
+.updata{
+  margin-top: -40px;
+}
+
+.size12{
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.profileTitle{
+  font-size: 16px;
+}
+
+span{
+  font-size: 12px;
+}
+
+.handCursor:hover{
+  cursor: pointer;
+}
+
+.modelBodyHead{
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.label{
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.size11{
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.delete-btn{
+  margin-left: 55%;
+  margin-top: -19%;
+}
+
+.btn-clr {
+  background-color: #f66 !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.headText{
+  font-weight: 500;
+}
+

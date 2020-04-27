@@ -2,83 +2,23 @@
     <div class="row">
         <div class="col-md-12 p-0">
             <app-header [titleData]="titleArray"></app-header>
-            <!-- <div class="row justify-content-between shadow px-2 pt-4">
-                <div class="row ml-3">
-                    <img src="../../../assets/images/ui/Icons/1x/dashboard.png"
-                        style="width: 30px; height: 30px; margin-right: 5px;">
-                    <h5 style="line-height: 30px; font-weight: bold;">Dashboard <p class="p-0 m-0 font-weight-light"
-                            style="font-size: medium;">
-                            Profile</p>
-                    </h5>
-
-                </div>
-                <div class="set mr-3 dropdown" style="line-height: 30px;">
-                    <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
-                    <div class="dropdown-content">
-                        <ul class="nav  flex-column p-0 " style="background-color: #f2f2f2;">
-                            <li class="nav-item p-0">
-                                <a class="nav-link   " [routerLink]="['/admincenter/adminprofile']"
-                                    routerLinkActive="active">
-                                    <img src="../../../assets/images/ui/Icons/1x/profile.png"
-                                        style="width: 17px;  margin-right: 10px;">
-                                    <span>Profile</span>
-                                </a>
-                            </li>
-                            <li class="nav-item p-0">
-                                <a class="nav-link   " (click)="openSignOut(content1)" routerLinkActive="active">
-                                    <img src="../../../assets/images/ui/Icons/1x/account-logout.png"
-                                        style="width: 17px; margin-right: 10px;">
-                                    <span>Logout</span>
-                                </a>
-                               
-                                <ng-template #content1 let-modal>
-                                    <div class="modal-header  justify-content-center"
-                                        style="background-color: #3e454c;">
-                                        <p class="modal-title text-white p-1 font-weight-bold" id="modal-basic-title">
-                                            Log out</p>
-                                    </div>
-                                    <div class="modal-body bg-white ">
-                                        <p class="text-justify font-weight-lighter text-muted">
-                                            Are you sure you want to log out?
-                                        </p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <span class="mouse text-info mr-4"
-                                            (click)="modal.close('Close click')">Cancel</span>
-                                        <button type="submit"
-                                            class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
-                                            (click)="SignOut()">Yes</button>
-                                    </div>
-                                </ng-template>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-               
-            </div> -->
-
-            <!-- <h3 class="text-center shadow p-3">Admin Information</h3> -->
         </div>
-
-
         <div class="container p-3">
             <div class="row">
                 <div class="col-md-10 px-4">
-                    <div class="card px-4">
+                    <div class="card-bg card px-4">
                         <div class="card-body">
                             <h6 class="text-center text-white shadow p-3 bg-info "
                                 style="font-weight: 600;letter-spacing: 0.05rem;">Admin Profile</h6>
-                            <div class="row pt-4">
+                            <div class="adminProfile row pt-4">
                                 <div class="col-md-7">
-                                    <!---->
                                     <form [formGroup]="adminProfileForm" (ngSubmit)="updateAdminGeneralUser()">
                                         <table align="center">
                                             <tr>
                                                 <td>
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="User ID" formControlName="userID"
-                                                            class="inp">
+                                                        <input type="text" matInput placeholder="User ID"
+                                                            formControlName="userID" class="inp">
                                                     </mat-form-field>
                                                 </td>
                                                 <td>
@@ -107,33 +47,30 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                        <div formGroupName="phoneNumber">
-                                            <table align="center">
-                                                <tr>
-                                                    <td>
-                                                        <mat-form-field class="example-full-width">
-                                                            <!-- <input matInput placeholder="Country Code" formControlName="countryCode"> -->
-                                                            <mat-label>Country Code</mat-label>
-                                                            <mat-select name="code" formControlName="countryCode">
-                                                                <mat-option *ngFor="let code of countryCodes"
-                                                                    style="color: black;" [value]="code.value">
-                                                                    {{code.viewValue}}
-                                                                </mat-option>
-                                                            </mat-select>
-                                                        </mat-form-field>
-                                                    </td>
-                                                    <td>
-                                                        <mat-form-field class="example-full-width">
-                                                            <input matInput placeholder="Phone Number"
-                                                                formControlName="phoneNumber" class="inp">
-                                                        </mat-form-field>
-                                                    </td>
-                                                </tr>
-                                            </table>
+
+                                        <div class="pb-3 ">
+                                            <label class="numberLabel" style="font-size: small;">Phone Number</label>
+                                            <div class="phno" >
+                                                <ngx-intl-tel-input  class="adminProfilePh" #myInput
+                                                    [ngStyle]="{'color':'red !important'}"
+                                                    readonly="true"
+                                                    [cssClass]="'custom'"
+                                                    [preferredCountries]="preferredCountries"
+                                                    [enableAutoCountrySelect]="false" [enablePlaceholder]="false"
+                                                    [searchCountryFlag]="true"
+                                                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                                    [selectFirstCountry]="false" [maxLength]="15"
+                                                    [tooltipField]="TooltipLabel.Name" [phoneValidation]="true"
+                                                    [separateDialCode]="separateDialCode" name="phone"
+                                                    formControlName="checkPhone">
+                                                </ngx-intl-tel-input>
+                                            </div>
+                                            <!--[selectedCountryISO]="CountryISO.India"-->
+                                            <div *ngIf="adminProfileForm.get('checkPhone').touched && adminProfileForm.get('checkPhone').dirty && adminProfileForm.get('checkPhone').hasError('required')"
+                                                style="color: red;font-size: small;">
+                                                Phone Number is required.
+                                            </div>
                                         </div>
-                                        <!-- <mat-form-field>
-                                            <input matInput placeholder="Email" formControlName="emailID" class="inp">
-                                        </mat-form-field><br> -->
                                         <mat-form-field>
                                             <mat-label>Department</mat-label>
                                             <mat-select name="department" formControlName="department">
@@ -143,31 +80,35 @@
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
-                                        <!-- <mat-form-field>
+                                        <mat-form-field>
                                             <input matInput type="{{password}}" placeholder="Password"
                                                 formControlName="password" class="inp">
                                             <span *ngIf="isPassword" (click)="showPassword()">
-                                                <i class="fa fa-fw fa-eye-slash field-icon3"></i>
+                                                <i class="fa fa-fw fa-eye-slash field-icon3" style="cursor: pointer;"></i>
                                             </span>
                                             <span *ngIf="!isPassword" (click)="showPassword()">
-                                                <i class="fa fa-fw fa-eye field-icon3"></i>
+                                                <i class="fa fa-fw fa-eye field-icon3" style="cursor: pointer;"></i>
                                             </span>
-                                        </mat-form-field><br> -->
+                                        </mat-form-field><br>
 
                                         <div class="col-md-12 p-3">
                                             <div class="row justify-content-center">
                                                 <div class="mr-2">
+                                                    <div *ngIf="isLoading"
+                                                        style="display: flex; justify-content: center;">
+                                                        <mat-progress-spinner class="example-margin" color="primary"
+                                                            mode="indeterminate" [diameter]="30">
+                                                        </mat-progress-spinner>
+                                                    </div>
                                                     <button mat-raised-button
                                                         style="outline-style: none;border-radius: 20px; background-color: #17a2b8; color: whitesmoke;"
                                                         routerLinkActive="active"
-                                                        *ngIf="disableUpdateBtn">Update</button>
-                                                    <!--isAdminSystmMngr|-->
+                                                        *ngIf="disableUpdateBtn && !isLoading">Update</button>
                                                 </div>
-
                                             </div>
                                         </div>
 
-                                        <p class="font-weight-light" style="font-size: small;">Last updated date :
+                                        <p class="font-weight-light" style="font-size: small;padding-top: 20px;">Last updated date :
                                             {{presentDate}}
                                             by {{userID}}</p>
 
@@ -181,12 +122,10 @@
                                             style="text-align: -webkit-center;padding-left: 20px;">
                                             <div style="border-radius: 50% !important;width: 100px;height: 100px;">
                                                 <img class=""
-                                                    style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 100px;min-height: 100px;"
+                                                    style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 100px;min-height: 100px;max-height: 100px;max-width: 100px;width: 100px;height: 100px;"
                                                     src="{{previewImg}}">
                                                 <!---->
                                             </div>
-
-
                                             <div class="container">
                                                 <div class="row ">
                                                     <div class="img-move input-group mb-3 mt-3">
@@ -208,16 +147,13 @@
                                         <!-- Upload IMG Ends-->
                                         <div>
                                             <img class="edit" src="../../../assets/images/ui/Icons/1x/edit1.png"
-                                                style="width: 70px;" (click)="openUpdate()">
+                                                style="width: 70px;cursor: pointer;" (click)="openUpdate()">
                                         </div>
                                     </div>
-
-
-                                    <!-- <div class="changepwd">
-                                       
+                                    <div class="changepwd">
                                         <button mat-raised-button style="outline-style: none;border-radius: 20px;"
                                             (click)="open(content)" routerLinkActive="active">Change Password</button>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -292,14 +228,12 @@
                             <p>not same</p>
                         </div>
                         <div style='color:#ff7355'
-                            *ngIf="changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('newPassword').value != changePasswordForm.get('confirmpassword').value && changePasswordForm.get('confirmpassword').value != null">
+                            *ngIf="changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').dirty && changePasswordForm.get('newPassword').value != changePasswordForm.get('confirmpassword').value && changePasswordForm.get('confirmpassword').value != null">
                             Password does not match</div>
                     </div>
                     <div class="col-md-1"></div>
                 </div>
             </div>
-
-
         </form>
     </div>
     <div class="modal-footer">
@@ -308,7 +242,5 @@
         <button type="submit" mat-raised-button class="btn btn-sm  "
             style="font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;"
             (click)="changePwdSubmit()" [disabled]="changePasswordForm.valid">Change Password</button>
-        <!--[disabled]="changePasswordForm.invalid"-->
-        <!-- mat-raised-button style="outline-style: none;border-radius: 20px;" -->
     </div>
 </ng-template>

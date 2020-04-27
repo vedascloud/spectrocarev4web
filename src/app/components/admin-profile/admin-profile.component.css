@@ -1,65 +1,19 @@
 * {
   font-family: 'Muli';
 }
-label{
-    font-weight: bold;
-}
-
 button {
   outline: none !important;
 }
-
-.btn-danger:hover{
-    font-size: large;
-    font-weight: bold;
-    color: black;
-    background-color:#dc3545;
-}
-
-.btn-success:hover{
-    /* font-size: large; */
-    font-weight: bold;
-    color: black;
-    background-color:green;
-}
-
 .close{
     outline: none !important;
 }
-
-
 */ Modal Styles */
-.modal-content{
-    background: transparent !important;
-    border: none !important;
-    }
-.bg-Custom{
-background-color:#60348a !important;
-padding: 20px;
-text-align: center;
-}
-.btn-clr{
-background-color: #f66 !important; 
-border: none !important;
-outline: none !important;
-padding: 8px 25px !important;
-}
-
 .modal-footer{
 background-color: white !important;
 }
 .modal-header{
 background-color: white;
 }
-
-.field-icon {
-    float: right;
-    margin-left: -25px;
-    margin-top: -25px;
-    position: relative;
-    z-index: 2;
-  }
-
   .field-icon3 {
     float: right;
     margin-left: -25px;
@@ -82,84 +36,25 @@ background-color: white;
     position: relative;
     /* z-index: 1; */
   }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    color: rgb(68, 65, 65);
-    /* padding: 12px 16px; */
-    text-decoration: none;
-    display: block;
-  }
-  
-  .dropdown-content a:hover {background-color: #e0dede;}
-  .dropdown:hover .dropdown-content {display: block;}
-
    
-*/ Modal Styles */
-.modal-content{
-    background: transparent !important;
-    border: none !important;
-    }
-.bg-Custom{
-background-color:#60348a !important;
-padding: 20px;
-text-align: center;
-}
-.btn-clr{
-background-color: #f66 !important; 
-border: none !important;
-outline: none !important;
-padding: 8px 25px !important;
-}
-
-.modal-footer{
-background-color: white !important;
-}
-.modal-header{
-background-color: white;
-}
-
-.badge{
-  color: red;
-  position: relative;
-  margin-left: 60%;
-  margin-top: -60%;
-}
-
-.example-full-width {
+ ::ng-deep  .example-full-width {
   width: 100% !important;
   padding: 5px;
 }
-
 
 table{
   width: 100% !important;
 }
 
-.mat-form-field {
+::ng-deep .adminProfile .mat-form-field {
   width: 100% !important;
 }
 
-::ng-deep .mat-form-field {
-  width: 100% !important;
-}
-
-::ng-deep .mat-form-field-label {
-  /* color: white !important;
-      style="color: #3E454C;" rgba(32, 31, 31, 0.5) */
+::ng-deep .adminProfile .mat-form-field .mat-form-field-label {
   color: #3E454C !important;
 }
 
-::ng-deep .mat-form-field-underline {
+::ng-deep .adminProfile .mat-form-field .mat-form-field-underline {
   background-color: rgba(12, 12, 12, 0.5) !important;
   width: 100% !important;
 }
@@ -168,12 +63,35 @@ table{
   color: black;
 }
 
-::ng-deep .mat-select-value-text {
+::ng-deep .adminProfile .mat-form-field .mat-select-value-text {
   color: black !important;
 }
 
-::ng-deep.mat-form-field-ripple {
+::ng-deep .adminProfile .mat-form-field .mat-form-field-ripple {
   /*change color of underline when focused*/
   background-color: #53B9C6 !important;
   ;
 }
+
+::ng-deep .adminProfile .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+  width: 444px !important; 
+  border: none !important;
+  background: transparent !important;
+  border-bottom: 1px solid #3E454C !important;
+  color: rgb(14, 13, 13) !important;
+  scroll-behavior: unset;
+  scroll-padding-inline: inherit;
+}
+
+::ng-deep .adminProfile .intl-tel-input .search-container input{
+  color: rgb(25, 28, 29) !important;
+}
+
+::ng-deep .adminProfile .intl-tel-input.separate-dial-code .selected-dial-code {
+  color: rgb(17, 17, 17) !important;
+}
+
+::ng-deep .adminProfile .country-dropdown {
+  width: 28rem !important;
+}
+

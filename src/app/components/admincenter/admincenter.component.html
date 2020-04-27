@@ -1,15 +1,6 @@
-<!-- <mat-sidenav  #sidenav mode="side" [(opened)]="opened" (opened)="events.push('open!')"
-               (closed)="events.push('close!')">
-    <div class="bg-danger">Sidenav content</div >
-  </mat-sidenav>
-  <div>
-    <button (click)="sidenav.toggle()">Hi</button>
-  </div> -->
-
 <div class="container-fluid m-0 p-0 ">
   <div class="row">
     <div class="col-md-2 sidehigh">
-      <!--style="background-color: #27384a"-->
       <mat-sidenav #sidenav mode="side" opened (opened)="events.push('open!')" (closed)="events.push('close!')">
         <div class="">
           <div class="name p-4 text-center" style="background-color: rgb(62,69,76);">
@@ -20,10 +11,10 @@
             <nav class="navbar align-items-center justify-content-center m-0 p-0 " id="sidebar-wrapper">
               <div class="w-100 ml-1">
                 <div class="text-center p-2 m-2">
-                  <img src="../../../assets/images/ui/Icons/1x/admin image.png" style="width: 80px; height: 80px; "
-                    class="mb-1">
+                  <img src="{{pic}}" style="width: 80px; height: 80px;border-radius: 50%; border: 2px solid rgb(150, 211, 235);"
+                    class="profile mb-1" [routerLink]="['/admincenter/adminprofile']"> <!--previewImg src="../../../assets/images/ui/Icons/1x/admin image.png" -->
                   <br>
-                  <span class="text-white mb-1 " style="letter-spacing: 1.5px;font-weight: 700;">KEVIN</span>
+                  <span class="profile text-white mb-1 " style="" [routerLink]="['/admincenter/adminprofile']">{{signObj.hospitalAdmin.firstName}} {{signObj.hospitalAdmin.lastName}}</span> <!--letter-spacing: 1.5px; font-weight: 700;-->
                   <br>
 
                   <span style="color:  #53b8c5;font-weight: 700;"> <i class="dot fa fa-circle fa-sm mr-1 " aria-hidden="true"></i>
@@ -49,12 +40,8 @@
                             routerLinkActive="active">Manage User</a>
                           </li>
                           <li class="nav-item pl-4">
-                            <a class="nav-link  pl-4  " [routerLink]="['/admincenter/report']"
-                            routerLinkActive="active">Report</a>
-                          </li>
-                          <li class="nav-item pl-4">
-                            <a class="nav-link  pl-4  " [routerLink]="['/admincenter/billandpayment']"
-                            routerLinkActive="active">Bill & Payment</a>
+                            <a class="nav-link  pl-4  " [routerLink]="['/admincenter/invoices']"
+                            routerLinkActive="active">Invoices</a>
                           </li>
                         </ul>
                       </div>
@@ -122,49 +109,3 @@
 </div>
 
 
-<!-- <div class="container-fluid m-0 p-0">
-  <div class="row">
-    <div class="col-md-2" style="background-color: #27384a">
-        <div class="sidebar" style="width: 100%; height: 100vh; background-color: #27384a;">
-            <nav class="navbar align-items-center justify-content-center m-0 p-0 "
-             id="sidebar-wrapper">
-            <ul class="nav  flex-column align-self-start">
-              <li class="nav-item">
-                <a class="nav-link btn btn-sm p-1 btn-light btn-block btn-outline-info" 
-                   [routerLink] = "['/admincenter/home']" routerLinkActive="active"
-                >Hospital Profile</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link btn btn-sm p-1 btn-light btn-outline-info" 
-                   [routerLink] = "['/admincenter/adminprofile']" routerLinkActive="active"
-                >Admin Profile</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link btn btn-sm btn-light p-1 btn-outline-info" 
-                  [routerLink] = "['/admincenter/manageuser']" routerLinkActive="active"
-                  >Manage User</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link btn btn-sm btn-light p-1 btn-outline-info" [routerLink]="['/admincenter/managemedicalpersons']"
-                  routerLinkActive="active">Medical Personnels</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link btn btn-sm btn-light p-1 btn-outline-info" 
-                  [routerLink] = "['/admincenter/report']" routerLinkActive="active"
-              >Report</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link btn btn-sm btn-light p-1 btn-outline-info" 
-                  [routerLink] = "['/admincenter/billandpayment']" routerLinkActive="active"
-              >Bill & Payment</a>
-              </li>
-              
-            </ul>
-          </nav>
-        </div>
-    </div>
-    <div class="col-md-10">
-        <router-outlet></router-outlet>
-    </div>
-  </div>
-</div> -->

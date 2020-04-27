@@ -27,9 +27,6 @@ export class ChangepasswordComponent implements OnInit {
       if(res.response === 3){
         this.router.navigateByUrl('/adminsignin')
       }
-      // else if(res.response === 0){
-      //   alert("New Password is already taken before. please choose another");
-      // }
       else{
         alert(res.message);
         //alert("Your Details didn't Match")

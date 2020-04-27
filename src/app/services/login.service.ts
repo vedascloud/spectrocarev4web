@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {BehaviorSubject} from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,9 @@ res:any;
 accessToken:string;
 id:string="";
 pMedPersonID:string="";
+previewImg: any;
+public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
+
   constructor(private _http:HttpClient) {
    }
 
@@ -81,6 +85,259 @@ pMedPersonID:string="";
     return this._http.post("http://3.92.226.247:3000/api/hospital/getpatients",options,{headers:{'x-access-token': access_token}});
   }
 
+  //Get  Patient Family History data
+  getPatientFamilyHistoryData(data):any{
+    let access_token:any = data.token;
+    const options = {
+        "hospital_reg_num":data.hospital_reg_num,
+        "byWhom":data.byWhom,
+        "byWhomID":data.byWhomID,
+        //"medical_personnel_id":data.medical_personnel_id,
+        "patientID": data.patientID,
+        "medical_record_id": data.medical_record_id
+    }
+    console.log("Fetch Patient Family History : ",options)
+    return this._http.post("http://3.92.226.247:3000/api/patient/familyhistory/fetch",
+    options,{ headers: {'x-access-token': access_token} });
+  }
+
+  //Add Patient Family History
+  addPatientFamilyHistoryData(addPatientFamilyHistory,accessToken):any{       
+    console.log("the req data for add pat fam history from service : ",addPatientFamilyHistory);    
+    return this._http.post("http://3.92.226.247:3000/api/patient/familyhistory/multiple",
+    addPatientFamilyHistory,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Add Patient Family History
+  addPatientIllnessMedicationManualData(addPatientMedicationManualData,accessToken):any{       
+    console.log("the req data for add pat fam history from service : ",addPatientMedicationManualData);    
+    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness/medication/mannually",
+    addPatientMedicationManualData,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Delete Patient Family History
+  deletePatientFamilyHistoryData(deletePatientFamilyHistory,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientFamilyHistory.medical_record_id,
+        "hospital_reg_num":deletePatientFamilyHistory.hospital_reg_num,
+        "patientID":deletePatientFamilyHistory.patientID,
+        "byWhom":deletePatientFamilyHistory.byWhom,
+        "byWhomID":deletePatientFamilyHistory.byWhomID
+      }
+      }
+    console.log("Delete Patien Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/familyhistory/all",options);
+  }
+
+  //Get  Patient Allergies data
+  getPatientAllergiesData(data):any{
+    let access_token:any = data.token;
+    const options = {
+        "hospital_reg_num":data.hospital_reg_num,
+        "byWhom":data.byWhom,
+        "byWhomID":data.byWhomID,
+        //"medical_personnel_id":data.medical_personnel_id,
+        "patientID": data.patientID,
+        "medical_record_id": data.medical_record_id
+    }
+    console.log("Fetch Patient Allergies req data :",options)
+    return this._http.post("http://3.92.226.247:3000/api/patient/allergies/fetch",options,{ headers: {'x-access-token': access_token} });
+  }
+
+  //Add Patient Allergies History
+  addPatientAllergiesData(addPatientAllergies,accessToken):any{       
+    console.log("the req data for add patient allergies from service : ",addPatientAllergies);    
+    return this._http.post("http://3.92.226.247:3000/api/patient/allergies/multiple",
+    addPatientAllergies,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Delete Patient Allergies History
+  deletePatientAllergiesData(deletePatientAllergies,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientAllergies.medical_record_id,
+        "hospital_reg_num":deletePatientAllergies.hospital_reg_num,
+        "patientID":deletePatientAllergies.patientID,
+        "byWhom":deletePatientAllergies.byWhom,
+        "byWhomID":deletePatientAllergies.byWhomID
+      }
+      }
+    console.log("Delete Patien Allergies Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/allergies/all",options);
+  }
+
+  //Add Patient Physical Exam Records Manually 
+  addPatientPhysicalExamRecordsManually(addPatPhyExamRecordsManullyData,accessToken):any{
+    return this._http.post("http://3.92.226.247:3000/api/patient/physicalexamrecord",
+    addPatPhyExamRecordsManullyData,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Add Patient Immunization Records Manually 
+  addPatientImmunizationData(addPatImmunizationData,accessToken):any{
+    return this._http.post("http://3.92.226.247:3000/api/patient/immunization",
+    addPatImmunizationData,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Add Patient Medical Record Illness
+  addPatientMedicalRecordIllnessData(addPatMedicalRecordIllnessData,accessToken):any{
+    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness",
+    addPatMedicalRecordIllnessData,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Update Pat Immunization Data
+  updatePatientImmunizationData(editImmunizationData,accessToken):any{
+    return this._http.put("http://3.92.226.247:3000/api/patient/immunization",
+    editImmunizationData,{headers:{'x-access-token': accessToken}});
+  }
+
+  //Update Pat Immunization Data
+  updatePatientIllnessData(editedIllnessData,accessToken):any{
+    return this._http.put("http://3.92.226.247:3000/api/patient/medicalrecord/illness",
+    editedIllnessData,{headers:{'x-access-token': accessToken}});
+  }
+
+  //Update Patient Physical Exam Records Manually 
+  updatePatientPhysicalExamRecordsManually(updatePatPhyExamRecordsManullyData,accessToken):any{
+    console.log("sended data : ",updatePatPhyExamRecordsManullyData);
+    
+    return this._http.put("http://3.92.226.247:3000/api/patient/physicalexamrecord",
+    updatePatPhyExamRecordsManullyData,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Fetch Patient PhysicalExamRecords 
+  getPatientPhysicalExamRecordsData(fetchPatientPhysicalExamRecords,accessToken):any{       
+    console.log("the req data for add patient phy exam records from service : ",fetchPatientPhysicalExamRecords);    
+    return this._http.post("http://3.92.226.247:3000/api/patient/physicalexamrecord/fetch",
+    fetchPatientPhysicalExamRecords,{headers:{'x-access-token':accessToken}});
+  }
+
+   //Fetch Patient ImmunizationsRecords 
+   getPatientImmunizationRecordsData(fetchPatientImmunizationRecords,accessToken):any{       
+    console.log("the req data for add patient phy exam records from service : ",fetchPatientImmunizationRecords);    
+    return this._http.post("http://3.92.226.247:3000/api/patient/immunization/fetch",
+    fetchPatientImmunizationRecords,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Fetch Patient Medical Records Illness 
+  getPatientMedicalRecordsIllnessData(fetchPatientMedicalRecordsIllness,accessToken):any{       
+    console.log("the req data for fetch fetchPatientMedicalRecordsIllness records from service : ",fetchPatientMedicalRecordsIllness);    
+    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness/fetchall",
+    fetchPatientMedicalRecordsIllness,{headers:{'x-access-token':accessToken}});
+  }
+  //Delete Patient PhysicalExamRecords Single
+  deletePatientPhysicalExamRecordData(deletePatientRecord,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientRecord.medical_record_id,
+        "hospital_reg_num":deletePatientRecord.hospital_reg_num,
+        "patientID":deletePatientRecord.patientID,
+        "physical_exam_id": deletePatientRecord.physical_exam_id,
+        "medical_personnel_id": deletePatientRecord.medical_personnel_id
+      }
+      }
+    console.log("Delete Patien Phy exam record Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/physicalexamrecord",options);
+  }
+
+  //Delete Patient Immunization Reocrd
+  deletePatientImmunizationRecordData(deletePatientImmunizationRecord,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientImmunizationRecord.medical_record_id,
+        "hospital_reg_num":deletePatientImmunizationRecord.hospital_reg_num,
+        "patientID":deletePatientImmunizationRecord.patientID,
+        "immunization_record_id": deletePatientImmunizationRecord.immunization_record_id,
+        "medical_personnel_id": deletePatientImmunizationRecord.medical_personnel_id
+      }
+      }
+    console.log("Delete Patien Phy exam record Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/immunization",options);
+  }
+
+  //Fetch Patient Screening Records 
+  getPatientScreeningRecordsData(fetchPatientScreeningRecords,accessToken):any{       
+    console.log("the req data for fetch pat screening records from service : ",fetchPatientScreeningRecords);    
+    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/screeningrecord/fetchall",
+    fetchPatientScreeningRecords,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Fetch Patient Appointments Records 
+  getPatientAppointmentsData(fetchPatientAppointmentsRecords,accessToken):any{       
+    console.log("the req data for fetch pat appointments records from service : ",fetchPatientAppointmentsRecords);    
+    return this._http.post("http://3.92.226.247:3000/api/appointments/allappointmentsforPatient",
+    fetchPatientAppointmentsRecords,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Delete Patient PhysicalExamRecords Single
+  deletePatientScreeningRecordsData(deletePatientFile,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientFile.medical_record_id,
+        "illnessScreeningID":deletePatientFile.illnessScreeningID,
+        "patientID":deletePatientFile.patientID,
+        "byWhomType": "admin",
+        "byWhomID": deletePatientFile.byWhomID
+      }
+      }
+    console.log("Delete Patien Screening record Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/medicalrecord/screeningrecord",options);
+  }
+
+  addPatientPhysicalExamRecordAttachmentData(addPatPhyExamAttachmentData,accessToken):any{
+    return this._http.post("http://3.92.226.247:3000/api/patient/physicalexamrecord/attachment",addPatPhyExamAttachmentData,{headers:{'x-access-token':accessToken}});
+  
+  }
+
+  addPatientScreeningRecordsData(addPatientScreeningRecordData,accessToken):any{
+    console.log("addPatientScreeningRecordData data for checking from service : ",addPatientScreeningRecordData);
+    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/screeningrecord",addPatientScreeningRecordData,{headers:{'x-access-token':accessToken}});
+  }
+
+  //Delete Patient PhysicalExamRecords All
+  deleteAllPatientPhysicalExamRecordsData(deletePatientAllFile,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientAllFile.medical_record_id,
+        "hospital_reg_num":deletePatientAllFile.hospital_reg_num,
+        "patientID":deletePatientAllFile.patientID,
+        "medical_personnel_id": deletePatientAllFile.medical_personnel_id
+      }
+      }
+    console.log("DeletePatien Physical exam records Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/physicalexamrecord/all",options);
+  }
+
   //Delete Patient data
   deletePatientInfo(pInfo):any{
     let access_token:any = pInfo.token;
@@ -125,34 +382,24 @@ pMedPersonID:string="";
   }
 
   //Update Patient Data
-  updatePatient(patientData,accessToken):any{
-    
+  updatePatient(patientData,accessToken):any{    
     return this._http.put("http://3.92.226.247:3000/api/patient/generalinfo",patientData,{headers:{'x-access-token': accessToken}});
-
+  }
+  
+  //Update Patient Illness Medication Attachment Data
+  addPatientMedicalHistoryIllnessMedicationAttachment(patientData,accessToken):any{    
+    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness/medication/attachment",
+    patientData,{headers:{'x-access-token': accessToken}});
   }
 
   //Add Admin General User
-  addAdminGenUser(addAdminGenData,accessToken):any{
-    
+  addAdminGenUser(addAdminGenData,accessToken):any{    
     return this._http.post("http://3.92.226.247:3000/api/hospital/admingeneraluser",addAdminGenData,{headers:{'x-access-token': accessToken}});
   }
 
   //Update Admin General User
   updateAdminGenUser(updateAdminGenData,accessToken):any{
     console.log("admin gen user data for checking from service : ",updateAdminGenData);
-    // const needToUpdate = {
-    //     "userID":updateAdminGenData.userID,
-    //     "hospital_reg_num":updateAdminGenData.hospital_reg_num,
-    //     "firstName":updateAdminGenData.firstName,
-    //     "lastName":updateAdminGenData.lastName,
-    //     "phoneNumber":{
-    //       "countryCode":updateAdminGenData.phoneNumber.countryCode,
-    //       "phoneNumber":updateAdminGenData.phoneNumber.phoneNumber
-    //     },
-    //     "preferLanguage":updateAdminGenData.preferLanguage,
-    //     "department":updateAdminGenData.department
-    // }
-  //  console.log("admin gen user data for checking before sending to api req from service : ",needToUpdate);
     return this._http.post("http://3.92.226.247:3000/api/hospital/updateadmin",updateAdminGenData,{headers:{'x-access-token':accessToken}});
   }
 
@@ -193,13 +440,4 @@ pMedPersonID:string="";
     return this._http.post("http://3.92.226.247:3000/api/appointments/bookappointment",reqDataForBookAppointment,{headers:{'x-access-token': accessToken}})
   }
 
-  // //Fetch Patient Family History
-  // fetchPatientFamilyHistory(fetchPatientFamilyHistory,accessToken):any {
-  //   return this._http.post("http://3.92.226.247:3000/api/patient/familyhistory/fetch",fetchPatientFamilyHistory,{headers:{'x-access-token': accessToken}});
-  // }
-
-  //Get Data for testing purpose used in home(main-home) page
-  // getData():any{
-  //   return this._http.get("http://3.84.49.133/V-Mart/product");
-  // }
 }

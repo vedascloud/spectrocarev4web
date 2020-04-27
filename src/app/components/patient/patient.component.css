@@ -1,4 +1,7 @@
 
+  body {
+    font-family: 'Muli', sans-serif;
+}
   .dropdown-content {
     display: none;
     position: absolute;
@@ -11,7 +14,6 @@
   
   .dropdown-content a {
     color: rgb(68, 65, 65);
-    /* padding: 12px 16px; */
     text-decoration: none;
     display: block;
   }
@@ -70,19 +72,6 @@ th {
   z-index: 2;
 }
 
-/* ::ng-deep .mat-button-toggle {
-  background-color:#3E454C;
-  border-right: 1px solid wheat;
-  color: white;
-  font-weight: 400;
-  font-size: small;
-}
-
-::ng-deep .mat-button-toggle-group {
-  flex-wrap: wrap;
-  overflow-x: scroll;
-} */
-
 .demo-tab-group {
   border: 1px solid #e8e8e8;
   
@@ -99,19 +88,6 @@ th {
 .modal-header {
   background-color: white;
 }
-/* ::ng-deep .mat-tab-label{
-  background-color: #343a40 !important;
-  margin: 5px;
-} */
-
-/* .demo-tab-group {
-  background-color: #3e454c;
-  
-}
-
-.demo-tab-content{
-  background-color: whitesmoke
-} */
 
 .mat-button-toggle-group{
   border-radius: 50px;
@@ -125,4 +101,51 @@ th {
 
 .example-radio-button {
   margin: 5px;
+}
+
+::ng-deep .patientProfileForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+  width: 15rem !important; 
+  border: none !important;
+  background: transparent !important;
+  /* border-bottom: 1px solid #53B9C6 !important; */
+  color: rgb(2, 2, 2) !important;
+  scroll-behavior: unset;
+  scroll-padding-inline: inherit;
+}
+
+::ng-deep .patientProfileForm .intl-tel-input .selected-flag{
+  background: transparent !important;
+}
+::ng-deep .patientProfileForm .intl-tel-input.separate-dial-code .selected-dial-code { 
+  color: rgb(8, 8, 8) !important;
+}
+
+::ng-deep .patientProfileForm .country-dropdown {
+  width: 15rem !important;
+}
+
+
+thead th { position: sticky;z-index: 1; top: 0; }
+.scroll {
+  /* width: 700px !important; */
+  height: 65vh !important;
+  overflow: auto;
+}
+.scroll::-webkit-scrollbar-track
+{
+border-radius: 2px;
+
+}
+.scroll::-webkit-scrollbar
+{
+width: 10px;
+height: 10px;
+background-color: #F7F7F7;
+}
+
+.scroll::-webkit-scrollbar-thumb
+{
+border-radius: 10px;
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+background-color: #53B9C6;
 }

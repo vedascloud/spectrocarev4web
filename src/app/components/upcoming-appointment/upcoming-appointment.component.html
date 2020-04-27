@@ -5,31 +5,31 @@
             <app-header [titleData]="titleArray"></app-header>
         </div>
     </div>
-    <div class="row justify-content-center p-2">
-        <div class="col-md-auto p-0" style="line-height: 2;">
-            <span class="font-weight-bold mx-2">Search By : </span>
-        </div>
-        <div class="col-md-4 p-0">
-            <input type="text" [(ngModel)]="term" class="bg-transparent p-1  "
-                style="border-radius: 5px; outline: none; width: 100%;">
-            <!-- <span class="text-black-50">
-                <i class="fa fa-search " aria-hidden="true"></i>
-            </span> -->
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="p-3">
-                <!-- style="height: 70%; overflow-y: scroll;" -->
+    <div class="card mt-3">
+        <div class="card-body p-2">
+            <div>
+                <div class="row p-2">
+                    <div class="col-md-12">
+                    <input type="text" [(ngModel)]="term" class=" p-2 w-100 " placeholder="Search by key"
+                        style="border-radius: 5px; outline-style: none !important;">
+                    </div>
+                </div>
+
                 <div class="row">
-                    <div class="card bg-light m-3" *ngFor="let appointmentsData of upcomingAppointments | filter:term"
-                        style="width: 20rem; border-radius: 10px;box-shadow: 0 5px 6px 0 rgba(0,0,0,0.3);">
-                        <div class="card-body " style="height: 9rem;">
-                            <div class="row justify-content-between">
-                                <p style="font-weight: bold;font-size: large;"><span class="font-weight-bold">
-                                        <i class="fa fa-user-md mr-1" aria-hidden="true"></i>
-                                    </span>{{appointmentsData.doctorName}}</p>
-                                <p [ngClass]="{'text-success': appointmentsData.appointmentStatus == 'Accepted',
+                    <div class="col-md-12">
+                        <div class="p-3">
+                            <!-- style="height: 70%; overflow-y: scroll;" -->
+                            <div class="row">
+                                <div class="card bg-light m-3"
+                                    *ngFor="let appointmentsData of upcomingAppointments | filter:term"
+                                    style="width: 20rem; border-radius: 10px;box-shadow: 0 5px 6px 0 rgba(0,0,0,0.3);">
+                                    <div class="card-body " style="height: 9rem;">
+                                        <div class="row justify-content-between">
+                                            <p style="font-weight: bold;font-size: large;"><span
+                                                    class="font-weight-bold">
+                                                    <i class="fa fa-user-md mr-1" aria-hidden="true"></i>
+                                                </span>{{appointmentsData.doctorName}}</p>
+                                            <p [ngClass]="{'text-success': appointmentsData.appointmentStatus == 'Accepted',
                                             'text-warning': appointmentsData.appointmentStatus == 'Waiting for confirmation',                                           
                                             'text-black-50': appointmentsData.appointmentStatus == 'Denied',
                                             'text-info': appointmentsData.appointmentStatus == 'Confirmed',
@@ -37,18 +37,23 @@
                                             'text-danger': appointmentsData.appointmentStatus == 'Rejected'
                                             
                                           }">{{appointmentsData.appointmentStatus}}</p>
-                            </div>
-                            <div class="row justify-content-between">
-                                <p><i class="fa fa-clock mr-1"></i>{{appointmentsData.appointmentTimeFrom}} to
-                                    {{appointmentsData.appointmentTimeTo}}</p>
-                                <p></p>
-                            </div>
-                            <div class="row justify-content-between">
-                                <p><i class="fas fa-calendar-alt mr-1"
-                                        aria-hidden="true"></i>{{appointmentsData.appointmentDate}}</p>
-                                <span (click)="openUpdateModel(content2, appointmentsData)" class="text-info">Full
-                                    Info</span>
-                                <!-- (click)="open(content)" (click)="openUpdateModel(content2, adminTeam)"-->
+                                        </div>
+                                        <div class="row justify-content-between">
+                                            <p><i class="fa fa-clock mr-1"></i>{{appointmentsData.appointmentTimeFrom}}
+                                                to
+                                                {{appointmentsData.appointmentTimeTo}}</p>
+                                            <p></p>
+                                        </div>
+                                        <div class="row justify-content-between">
+                                            <p><i class="fas fa-calendar-alt mr-1"
+                                                    aria-hidden="true"></i>{{appointmentsData.appointmentDate}}</p>
+                                            <span (click)="openUpdateModel(content2, appointmentsData)"
+                                                class="text-info">Full
+                                                Info</span>
+                                            <!-- (click)="open(content)" (click)="openUpdateModel(content2, adminTeam)"-->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

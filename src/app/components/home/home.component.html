@@ -1,310 +1,106 @@
-<!--<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate">
-</ngx-loading>
--->
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 p-0">
 
             <app-header [titleData]="titleArray"></app-header>
 
-            <!-- <div class="row justify-content-between shadow px-2 pt-4">
-                <div class="row ml-3">
-                    <img src="../../../assets/images/ui/Icons/1x/admin center.png"
-                        style="width: 25px; height: 25px; margin-right: 20px;">
-                    <h5 style="line-height: 30px;font-weight: bold;">Admin Center 
-                        <p class="p-0 m-0 font-weight-light" style="font-size: medium;">Profile</p>
-                    </h5>
-                    
-                </div>
-                <div class="mr-3 dropdown" >
-                    <i class="fa fa-cog fa-lg" aria-hidden="true"></i>
-                    <div class="dropdown-content">
-                        <ul class="nav  flex-column p-0 " style="background-color: #f2f2f2;">
-                            <li class="nav-item">
-                                <a class="nav-link   " [routerLink]="['/admincenter/adminprofile']"
-                                    routerLinkActive="active">
-                                    <img src="../../../assets/images/ui/Icons/1x/profile.png"  style="width: 17px;  margin-right: 10px;">
-                                    <span>Profile
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link   " (click)="openSignOut(content1)"
-                                    routerLinkActive="active">
-                                    <img src="../../../assets/images/ui/Icons/1x/account-logout.png" style="width: 17px; margin-right: 10px;">
-                                    <span>Logout</span>
-                                </a> 
-                                <ng-template #content1 let-modal>
-                                    <div class="modal-header bg-primary">
-                                        <p class="modal-title text-white p-2 font-weight-bold" id="modal-basic-title">
-                                            Are you sure</p>
-                                    </div>
-                                    <div class="modal-body bg-white p-2">
-                                        <p class="text-justify font-weight-lighter text-muted">
-                                            Would you like to SignOut from this.
-                                        </p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <span class="mouse text-info mr-4"
-                                            (click)="modal.close('Close click')">Cancel</span>
-                                        <button type="submit"
-                                            class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white" (click)="SignOut()"
-                                            >Yes</button> 
-                                    </div>
-                                </ng-template>
-                            </li>
-
-                        </ul>
-                    </div>
-                </div>
-               
-            </div> -->
-
-           
         </div>
-
-
         <div class="container p-3">
             <div class="row">
-            <div class="col-md-9 px-4">
-                <div class="card px-4">
-                    <div class="card-body">
-                        <h6 class="text-center text-white shadow p-3 bg-info " style="font-weight: 600;letter-spacing: 0.05rem;">Hospital / Clinic Profile</h6>
-                        <div class="row pt-4">
-                            <div class="col-md-9"><!---->
+                <div class="col-md-9 px-4">
+                    <div class="card px-4">
+                        <div class="card-body">
+                            <h6 class="text-center text-white shadow p-3 bg-info "
+                                style="font-weight: 600;letter-spacing: 0.05rem;">Hospital / Clinic Profile</h6>
+                            <div class="home row pt-4">
+                                <div class="col-md-9">
+                                    <form [formGroup]="homeForm" (ngSubmit)="updateAdminInfo()">
 
-                                
-                                <form [formGroup]="homeForm" (ngSubmit)="updateAdminInfo()" >
-
-                                    <mat-form-field > <!--*ngIf="!autoFocus"-->
-                                        <input matInput placeholder="Hospital Name" formControlName="hospitalName" class="inp" #autoFocusTest >
-                                    </mat-form-field><br>
-                                    <mat-form-field>
-                                        <input matInput placeholder="Hospital Reg Number" formControlName="hospital_reg_num" class="inp">
-                                    </mat-form-field><br>
-                                  
-                                    <div formGroupName="phoneNumber">
+                                        <mat-form-field>
+                                            <input matInput placeholder="Hospital Name" formControlName="hospitalName"
+                                                class="inp" #autoFocusTest>
+                                        </mat-form-field><br>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Hospital Reg Number"
+                                                formControlName="hospital_reg_num" class="inp">
+                                        </mat-form-field><br>
+                                        <div class="pb-3">
+                                            <label class="numberLabel" style="font-size: small;">Phone Number</label>
+                                            <ngx-intl-tel-input class="homePh" #myInput [ngStyle]="{'color':'black !important'}" [cssClass]="'custom'"
+                                                [preferredCountries]="preferredCountries"
+                                                [enableAutoCountrySelect]="false" [enablePlaceholder]="false"
+                                                [searchCountryFlag]="true"
+                                                [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                                [selectFirstCountry]="false" [maxLength]="15"
+                                                [tooltipField]="TooltipLabel.Name" [phoneValidation]="true"
+                                                [separateDialCode]="separateDialCode" name="phone"
+                                                formControlName="checkPhone">
+                                            </ngx-intl-tel-input>
+                                            <div *ngIf="homeForm.get('checkPhone').touched && homeForm.get('checkPhone').dirty && homeForm.get('checkPhone').hasError('required')"
+                                                style="color: red;font-size: small;">
+                                                Phone Number is required.
+                                            </div>
+                                        </div>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Email" formControlName="emailID" class="inp">
+                                        </mat-form-field><br>
+                                        <mat-form-field>
+                                            <input matInput placeholder="Address" formControlName="address" class="inp">
+                                        </mat-form-field><br>
                                         <table align="center">
                                             <tr>
                                                 <td>
                                                     <mat-form-field class="example-full-width">
-                                                        <!-- <input matInput placeholder="Country Code" formControlName="countryCode"> -->
-                                                        <mat-label>Country Code</mat-label>
-                                                        <mat-select  name="code"
-                                                            formControlName="countryCode">
-                                                            <mat-option *ngFor="let code of countryCodes"
-                                                                [value]="code.value">
-                                                                {{code.viewValue}}
-                                                            </mat-option>
-                                                        </mat-select>
+                                                        <input matInput placeholder="City" formControlName="city"
+                                                            class="inp">
                                                     </mat-form-field>
                                                 </td>
                                                 <td>
                                                     <mat-form-field class="example-full-width">
-                                                        <input matInput placeholder="Phone Number" formControlName="phoneNumber" class="inp">
+                                                        <input matInput placeholder="State / Province / Region"
+                                                            formControlName="state" class="inp">
                                                     </mat-form-field>
                                                 </td>
                                             </tr>
                                         </table>
-                                    </div>
-                                    <mat-form-field>
-                                        <input matInput placeholder="Email" formControlName="emailID" class="inp">
-                                    </mat-form-field><br>
-                                    <mat-form-field>
-                                        <input matInput placeholder="Address" formControlName="address" class="inp">
-                                    </mat-form-field><br>
-                                    <table align="center">
-                                        <tr>
-                                            <td>
-                                                <mat-form-field class="example-full-width">
-                                                    <input matInput placeholder="City" formControlName="city" class="inp">
-                                                </mat-form-field>
-                                            </td>
-                                            <td>
-                                                <mat-form-field class="example-full-width">
-                                                    <input matInput placeholder="State / Province / Region" formControlName="state" class="inp">
-                                                </mat-form-field>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <mat-form-field>
-                                        <input matInput placeholder="Postcode" formControlName="postCode" class="inp">
-                                    </mat-form-field><br>
-                                   
-                                   
-
-                                    <div class="col-md-12 p-3">
-                                        <div class="row justify-content-center">
-                                            <div class="mr-2">
-                                            <button mat-raised-button style="outline-style: none;border-radius: 20px; background-color: #17a2b8; color: whitesmoke;"
-                                                        routerLinkActive="active"  *ngIf="disableUpdateBtn">Update</button> <!--isAdminSystmMngr|--> 
+                                        <mat-form-field>
+                                            <input matInput placeholder="Postcode" formControlName="postCode"
+                                                class="inp">
+                                        </mat-form-field><br>
+                                        <div class="col-md-12 p-3">
+                                            <div class="row justify-content-center">
+                                                <div class="mr-2">
+                                                    <div *ngIf="isLoading" style="display: flex; justify-content: center;">
+                                                        <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
+                                                            [diameter]="30">
+                                                        </mat-progress-spinner>
                                                     </div>
-                                                   
+                                                    <button mat-raised-button
+                                                        style="outline-style: none;border-radius: 20px; background-color: #17a2b8; color: whitesmoke;"
+                                                        routerLinkActive="active"
+                                                        *ngIf="disableUpdateBtn && !isLoading">Update</button>
+                                                    <!--isAdminSystmMngr|-->
+                                                </div>
+
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <p class="font-weight-light" style="font-size: small;">Last updated date :
-                                        {{presentDate}}
-                                        by {{userID}}</p>
-                                   
-                                </form>
-                            </div>
-                            <div class="col-md-3">
-                                <img class="edit" src="../../../assets/images/ui/Icons/2x/edit@2x.png" style="width: 60px;" (click)="openUpdate()">
+                                        <p class="font-weight-light" style="font-size: small;">Last updated date :
+                                            {{presentDate}}
+                                            by {{userID}}</p>
 
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3"></div>
-        </div>
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- <div class="container">
-    <div class="row ">
-        <div class="col-md-12">
-            <h3 class="text-center shadow p-3">Hospital Information</h3>
-            <div class="text-center">
-                <img style="height: 30vh;" class="img-fluid p-0" src="{{previewImg}}">
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <div class="input-group mb-3 mt-3">
-                            <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
-                                aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg"
-                                (change)="fileProgress($event)" class="d-none">
-                            <button class="btn btn-sm btn-primary font-weight-bold" (click)="fileInput.click()"
-                                type="button">Choose hospital image</button>
-                        </div>
-                    </div>
-                    <div class="col-md-4"></div>
-                </div>
-            </div>
-            <form [formGroup]="homeForm" (ngSubmit)="updateAdminInfo()">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="hospitalName">Hospital / Clinic Name</label>
-                                <input type="text" class="form-control bg-light" formControlName="hospitalName">
-                            </div>
-                            <div formGroupName="phoneNumber">
-                                <div class="form-group">
-                                    <label>Phone Number</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend w-25">
-                                            <input type="text" class="form-control bg-light"
-                                                formControlName="countryCode">
-                                        </div>
-                                        <input type="number" class="form-control bg-light"
-                                            formControlName="phoneNumber">
-                                    </div>
-                                  
+                                    </form>
+                                </div>
+                                <div class="col-md-3">
+                                    <img class="edit" src="../../../assets/images/ui/Icons/2x/edit@2x.png"
+                                        style="width: 60px;cursor: pointer;" (click)="openUpdate()" >
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="hospital_reg_num">Registration No</label>
-                                <input type="text" class="form-control font-weight-bold bg-light border-danger"
-                                    formControlName="hospital_reg_num" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="emailID">Email</label>
-                                <input type="email" class="form-control bg-light" formControlName="emailID">
-                            </div>
-                        </div>
-                        <div class="col-md-2"></div>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="city">City</label>
-                                <input type="text" class="form-control bg-light" formControlName="city">
-                            </div>
-                            <div class="form-group">
-                                <label for="state">State</label>
-                                <input type="text" class="form-control bg-light" formControlName="state">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="country">Country</label>
-                                <input type="text" class="form-control bg-light" formControlName="country">
-                            </div>
-                            <div class="form-group">
-                                <label for="postCode">Post Code</label>
-                                <input type="number" class="form-control bg-light" formControlName="postCode">
-                            </div>
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label for="address">Address</label>
-                                <textarea type="text" class="form-control bg-light" formControlName="address">
-                                </textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <div class="mx-5 mb-3">
-                        <button type="submit" class="btn btn-success" *ngIf="isAdminSystmMngr">Update</button>
-                    </div>
-                </div>
-            </form>
+                <div class="col-md-3"></div>
+            </div>
         </div>
     </div>
-</div> -->
-
-<!--Get Current Location Start Here-->
-<!-- <div class="container">
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-8">
-                            <a class="font-weight-bold" style="color:dodgerblue;" (click)="getCurrentLocation()" *ngIf="isAdminSystmMngr">
-                                Use Current Location</a>
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
-                </div> -->
-<!--Get Current Location Ends Here-->
-<!-- <div class="container">
-                    <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="latitude">Latitude</label>
-                                <input type="text" class="form-control bg-light" formControlName="latitude">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="longitude">Longitude</label>
-                                <input type="text" class="form-control bg-light" formControlName="longitude">
-                            </div>
-                        </div>
-                        <div class="col-md-2"></div>
-                    </div>
-                </div> -->
+</div>

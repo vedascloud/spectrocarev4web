@@ -77,9 +77,5 @@ openSnackBar1(message:string,action:string){
       this.router.navigateByUrl('/medicalpersonnelsignup')
     }
   }
-  // forgot(){
-    
-  //     this.router.navigateByUrl('/forgot');
-    
-  // }
+
 }

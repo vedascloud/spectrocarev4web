@@ -3,7 +3,12 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { MatSnackBar } from '@angular/material';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
+
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+
+import { SearchCountryField, TooltipLabel, CountryISO } from 'ngx-intl-tel-input';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-adminsignup',
@@ -11,10 +16,28 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./adminsignup.component.css']
 })
 export class AdminsignupComponent implements OnInit {
+
+  separateDialCode = true;
+  SearchCountryField = SearchCountryField;
+  TooltipLabel = TooltipLabel;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.India, CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Taiwan, CountryISO.China, CountryISO.Malaysia];
+  changePreferredCountries() {
+    this.preferredCountries = [CountryISO.India, CountryISO.Canada];
+  }
+
+  closeResult: string;
   title: string = 'Administrator';
   isAdministrator: boolean = true;
   adminSignUpForm: FormGroup;
   previewImg: any;
+  url: any;
+  password: string = "password";
+  password1: string = "password";
+  isPassword: boolean = true;
+  isPasswordOne: boolean = true;
+  isLoading: boolean = false;
+  isButton:boolean = false;
 
   gender = [
     { value: 'Male', viewValue: 'Male' },
@@ -27,18 +50,13 @@ export class AdminsignupComponent implements OnInit {
     { value: 'Cardiology', viewValue: 'Cardiology' }
   ];
 
-  countryCodes = [
-    { value: '+91', viewValue: '+91' },
-    { value: '+886', viewValue: '+886' },
-    { value: '+60', viewValue: '+60' }
-  ];
-
   @ViewChild('fileInput', { static: true }) el: ElementRef;
-
-  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService, private _snackBar: MatSnackBar, private cd: ChangeDetectorRef) { }
+  // @ViewChild('phoneCode',{static:true}) phoneCodeElement:ElementRef;
+  // @ViewChild('container-fluid',{static:true}) scrollElement:ElementRef;
+  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService, private _snackBar: MatSnackBar,
+    private modalService: NgbModal, private cd: ChangeDetectorRef, private http: HttpClient) { }
 
   ngOnInit() {
-    this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
     this.adminSignUpForm = this.fb.group({
       hospitalInformation: this.fb.group({
         hospital_reg_num: ['', [Validators.required]],
@@ -52,9 +70,10 @@ export class AdminsignupComponent implements OnInit {
         latitude: ['0.0'],
         longitude: ['0.0'],
         phoneNumber: this.fb.group({
-          countryCode: ['', [Validators.required]],
-          phoneNumber: ['', [Validators.required, Validators.minLength(10)]],
-        })
+          countryCode: [''],
+          phoneNumber: [''],
+        }),
+        checkPhone: ['', [Validators.required]],
       }),
       hospitalAdmin: this.fb.group({
         userID: ['', [Validators.required]],//,Validators.minLength(4),Validators.maxLength(8)
@@ -64,36 +83,65 @@ export class AdminsignupComponent implements OnInit {
         firstName: ['', [Validators.required]],
         lastName: ['', [Validators.required]],
         phoneNumber: this.fb.group({
-          countryCode: ['', [Validators.required]],
-          phoneNumber: ['', [Validators.required, Validators.minLength(10)]],
+          countryCode: [''],
+          phoneNumber: [''],
         }),
+        checkPhone: ['', [Validators.required]],
         emailID: ['', [Validators.required, Validators.email]],
-        preferLanguage: ['English', [Validators.required]],
+        preferLanguage: ['English'],
         department: ['', [Validators.required]],
-
       }, {
         validators: this.passwordConfirming
       }
       ),
-
       profilePic: [""],
     })
+    this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
     //this.getCurrentLocation()
+    this.setImg()
+  }
+
+  setImg() {
+    this.url = "http://3.92.226.247:3000/Email-Template-Data/profile-1.png"
+    this.http.get(this.url, { responseType: "blob" }).subscribe((file) => {
+      let imgFile = new File([file], "userimg.jpg")
+      this.adminSignUpForm.get('profilePic').setValue(imgFile)
+    })
+  }
+
+  showPassword() {
+    if (this.isPassword === true) {
+      this.password = "text";
+      this.isPassword = false;
+    } else {
+      this.password = "password"
+      this.isPassword = true;
+    }
+  }
+
+  showPasswordOne() {
+    if (this.isPasswordOne === true) {
+      this.password1 = "text";
+      this.isPasswordOne = false;
+    } else {
+      this.password1 = "password"
+      this.isPasswordOne = true;
+    }
   }
 
   passwordConfirming(c: AbstractControl) { //: { invalid: boolean }
-
     if (c.get('password').value !== c.get('confirmPassword').value) {
       c.get('confirmPassword').setErrors({ NoPassswordMatch: true });
       //return { invalid: true };
     }
-
   }
+
   checkPasswords(c: AbstractControl): { invalid: boolean } {
     if (c.get('password').value !== c.get('confirmPassword').value) {
       return { invalid: true };
     }
   }
+
   //Image Upload
   fileProgress(event: any) {
     let reader = new FileReader(); // HTML5 FileReader API
@@ -109,6 +157,7 @@ export class AdminsignupComponent implements OnInit {
       this.cd.markForCheck();
     }
   }
+
   removeUploadedFile() {
     let newFileList = Array.from(this.el.nativeElement.files);
     this.adminSignUpForm.get('profilePic').setValue(null)
@@ -133,56 +182,119 @@ export class AdminsignupComponent implements OnInit {
     }
   }
 
-   //Mat Snack Bar
-   openSnackBar(message:string,action:string){
-    this._snackBar.open(message,action,{duration:5000, panelClass: ['theme-snackbar']})
+  //Mat Snack Bar
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, { duration: 5000, panelClass: ['theme-snackbar'] })
   }
 
   //Mat Snack Bar
-  openSnackBar1(message:string,action:string){
-    this._snackBar.open(message,action,{duration:5000, panelClass: ['red-snackbar']})
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, { duration: 5000, panelClass: ['red-snackbar'] })
   }
 
+  hideButton(){
+    this.isButton=true;
+  }
   adminSignUp() {
+   // this.hideButton();
+    this.isLoading = true;
+    let countryCode1 = this.adminSignUpForm.get(["hospitalInformation", "checkPhone"]).value;
+    console.log("CountryDetails 1 :", countryCode1);
+    var str1 = countryCode1.number;
+    str1 = str1.replace(/ +/g, "");
+    this.adminSignUpForm.patchValue({
+      hospitalInformation: {
+        phoneNumber: {
+          countryCode: countryCode1.dialCode,
+          phoneNumber: str1
+        }
+      }
+    })
+    let countryCode = this.adminSignUpForm.get(["hospitalAdmin", "checkPhone"]).value;
+    console.log("CountryDetails : ", countryCode);
+    var str = countryCode.number;
+    str = str.replace(/ +/g, "");
+    this.adminSignUpForm.patchValue({
+      hospitalAdmin: {
+        phoneNumber: {
+          countryCode: countryCode.dialCode,
+          phoneNumber: str
+        }
+      }
+    })
     console.log(this.adminSignUpForm.value);
-
     let payLoad = this.adminSignUpForm.value
-   delete payLoad.hospitalAdmin.gender;
-  delete payLoad.profilePic;
+    delete payLoad.hospitalAdmin.checkPhone
+    delete payLoad.hospitalInformation.checkPhone
+    delete payLoad.hospitalAdmin.gender;
+    delete payLoad.profilePic;
     delete payLoad.hospitalAdmin.confirmPassword;
-    console.log("payload", payLoad)
-    
+    console.log("Admin Signup Req Data After payload : ", payLoad)
     let formData = new FormData()
-    formData.append("hospitalData",JSON.stringify(payLoad));
-    formData.append("profilePic",this.adminSignUpForm.get('profilePic').value)
-
-    console.log("Form Data : "+formData);
+    formData.append("hospitalData", JSON.stringify(payLoad));
+    formData.append("profilePic", this.adminSignUpForm.get('profilePic').value)
+    console.log("Form Data : " + formData);
     this.loginService.adminRegister(formData).subscribe((posRes) => {
       console.log("Pos", posRes)
       if (posRes.response === 3) {
+        this.isLoading = false;
         this.openSnackBar(posRes.message, "");
         //alert(posRes.message)
         this.router.navigateByUrl('/administrator')
       }
       else if (posRes.response === 5) {
-        this.openSnackBar1(posRes.message,"");
+        this.isLoading = false;
+        this.openSnackBar1(posRes.message, "");
         //alert(posRes.message);
       }
       else {
-        this.openSnackBar1(posRes.message,"");
+        this.isLoading = false;
+        this.openSnackBar1(posRes.message, "");
         //alert(posRes.message)
       }
-    }, 
-    (err: HttpErrorResponse) => {
-      if (err.error instanceof Error) {
-        this.openSnackBar1("Please try another time...","");
-        console.log("Client Side Error")
-      } else {
-        this.openSnackBar1("Please try another time...","");
-        console.log(err)
+    },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          this.isLoading = false;
+          this.openSnackBar1("Please try another time...", "");
+          console.log("Client Side Error : ", err);
+        } else {
+          this.isLoading = false;
+          this.openSnackBar1("Please try another time...", "");
+          console.log(err)
+        }
       }
-    }
     )
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  openTerms(content) {
+    this.isButton = false;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'xl' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  openPrivacyPolicy(content1) {
+    this.isButton = false;
+    this.modalService.open(content1, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'xl' }).result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      }, 
+      (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
 
   signUp() {
@@ -201,5 +313,9 @@ export class AdminsignupComponent implements OnInit {
   callAdministrator() {
     this.isAdministrator = true;
     this.title = 'Administrator'
+  }
+
+  changeBtn(){
+    this.isButton=true
   }
 }

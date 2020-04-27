@@ -9,7 +9,7 @@ export class AllMedicalRecordComponent implements OnInit {
   titleArray:any =
   {title:"Patient",
   subTitle:"Medical Records",
-img:"assets/images/ui/Icons/1x/admin center.png"};
+img:"assets/images/ui/Icons/patient-medical-module/Group 2494.png"};
   constructor() { }
 
   ngOnInit() {

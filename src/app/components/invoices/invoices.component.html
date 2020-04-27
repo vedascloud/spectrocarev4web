@@ -1,0 +1,494 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 p-0">
+            <app-header [titleData]="titleArray"></app-header>
+        </div>
+
+        <div class=" w-100">
+            <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event)">
+                <mat-tab label="Invoices">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-12 p-3">
+                                <div class="card ">
+                                    <div class="card-body p-2">
+                                        <div>
+                                            <div class="row py-1">
+                                                <div class="col-md-3 text-center ">
+                                                    <button class="btn btn-sm btn-info text-white p-2 w-75 "
+                                                        (click)="openCreateInvoiceModal(viewCreateInvoiceContent)"
+                                                        style="border: none; width: 10%;font-weight: normal;font-size: 14px;">
+
+                                                        <img src="../../../assets/images/ui/Icons/1x/add.png"
+                                                            style="width: 10px;margin-right: 7px;">
+                                                        Create New Invoice
+                                                    </button>
+
+                                                </div>
+                                                <div class="col-md-6 row mr-2 ">
+                                                    <input type="text" [(ngModel)]="term"
+                                                        class="bg-transparent px-1 w-100 " placeholder="Search by Key"
+                                                        style="border-radius: 5px; outline-style: none !important; font-size: 14px;">
+                                                </div>
+                                                <div class="col-md-3  ">
+                                                    <div class="form-control">
+                                                        <mat-select (selectionChange)="showData($event.value)"
+                                                            [value]="selected" style="font-size: 14px;">
+                                                            <mat-option *ngFor="let letSearch of searchByValue"
+                                                                [value]="letSearch.viewValue">
+                                                                {{letSearch.viewValue}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="scroll">
+                                                <table class="table text-center">
+                                                    <thead class="thead-dark ">
+                                                        <tr class="medium" style="font-weight: 300;font-size: 12px;">
+                                                            <th scope="col" class="border text-center">No</th>
+                                                            <th scope="col" class="border  text-center">Invoice</th>
+                                                            <th scope="col" class="border text-center">Client</th>
+                                                            <th scope="col" class="border text-center">Terms</th>
+                                                            <th scope="col" class="border  text-center">Amount</th>
+                                                            <th scope="col" class="border text-center">Issue Date</th>
+                                                            <th scope="col" class="border text-center">Status</th>
+                                                            <th scope="col" class="border  text-center">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class=" shadow small "
+                                                            *ngFor="let selectedInvoicesData of selectedData | filter:term; let i = index">
+
+                                                            <td scope="row" class="text-center">{{i+1}}</td>
+                                                            <td class="" style="padding-left: 50px;">
+                                                                {{selectedInvoicesData.Invoice}}</td>
+                                                            <td class="" style="padding-left: 80px;">
+                                                                {{selectedInvoicesData.Client}}</td>
+                                                            <td class="" style="padding-left: 50px;">
+                                                                {{selectedInvoicesData.Items}}</td>
+                                                            <td class="" style="padding-left: 50px;">
+                                                                {{selectedInvoicesData.Amount}}</td>
+                                                            <td class="" style="padding-left: 50px;">
+                                                                {{selectedInvoicesData.Issuedate}}</td>
+                                                            <td class="" style="padding-left: 70px;" [ngClass]="{'text-success': selectedInvoicesData.Status == 'Paid',
+                                            'text-warning': selectedInvoicesData.Status == 'Draft',                                           
+                                            'text-danger':selectedInvoicesData.Status == 'Unpaid',
+                                            'text-info': selectedInvoicesData.Status == 'Overdue'                                            
+                                          }">{{selectedInvoicesData.Status}}</td>
+                                                            <td class="menu text-center text-info"
+                                                                style="padding: 0px;">
+                                                                <button mat-icon-button [matMenuTriggerFor]="menu"
+                                                                    aria-label="Example icon-button with a menu">
+                                                                    <mat-icon>more_vert</mat-icon>
+                                                                </button>
+                                                                <mat-menu #menu="matMenu" class="menudata">
+
+                                                                    <button mat-menu-item class="menuItembtn"
+                                                                        (click)="openViewModal(viewContent)">
+                                                                        <span>View Details</span>
+                                                                    </button>
+
+                                                                    <button mat-menu-item
+                                                                        (click)="openEditModal(editContent)">
+                                                                        <span>Edit Invoice</span>
+                                                                    </button>
+
+                                                                    <button mat-menu-item
+                                                                        (click)="openDeleteModal(deleteContent)">
+                                                                        <span>Delete Invoice</span>
+                                                                    </button>
+
+                                                                    <button mat-menu-item
+                                                                        (click)="openSendReminderModal(sendReminderContent)">
+                                                                        <span>Send Reminders</span>
+                                                                    </button>
+
+                                                                </mat-menu>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </mat-tab>
+                <mat-tab label="Payment Transactions">
+                    Payment Transactions Data
+                </mat-tab>
+                <mat-tab label="Device Usage Report">
+                    Device Usage Reports
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
+
+<ng-template #viewCreateInvoiceContent let-modal>
+
+    <div class="modal-header p-2 px-4  justify-content-between"
+        style="background-color: rgb(82, 192, 211);color: white;">
+        <h5 class="modal-title justify-content-center" id="modal-basic-title">Create New Invoice</h5>
+
+        <mat-icon class="handCursor" (click)="modal.close('Close click')">cancel</mat-icon>
+    </div>
+    <div class="modal-body bg-white p-2 ">
+        <div class="container">
+            <div class="row mb-1 justify-content-around">
+                <div class="col-md-6 ">
+                    <div class="card" style="width: 23rem; height: 15rem;">
+                        <div class="card-header p-2">Client</div>
+                        <div class="card-body mx-2 pt-0">
+                            <div class="pb-2">
+                                <div class="row">
+                                    <span>Bill to : </span>
+                                </div>
+                                <div class="row">
+                                    <input type="text" style="border-radius: 5px;height: 30px;" class=" form-control ">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <span class="col " class="mr-4">Email</span>
+                                <span class="col">: Babu@gmail.com</span>
+                            </div>
+                            <div class="row">
+                                <span class="col " class="mr-3">Phone</span>
+                                <span class="col">: 9848022338</span>
+                            </div>
+                            <div class="row">
+                                <span class="col" class="mr-1">Address</span>
+                                <span class="col">: Sai radha residency, vijaya nagar colony, anantapur, ap</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 " style="padding-left: 0px;">
+                    <div class="card " style="width: 23rem; height: 15rem; ">
+                        <div class="card-header p-2">Invoice</div>
+                        <div class="card-body mx-2 pt-0">
+                            <div class="pb-2">
+                                <div class="row">
+                                    <span>Invoice #</span>
+                                </div>
+                                <div class="row">
+                                    <input type="text" style="border-radius: 5px; height: 30px;" class=" form-control ">
+                                </div>
+                            </div>
+                            <div class="p-1">
+                                <div class="row">
+                                    <span>Invoice Date</span>
+                                </div>
+                                <div class="row">
+                                    <input style="border-radius: 5px; height: 30px;" class="w-100 form-control bg-white"
+                                        ngbDatepicker #d="ngbDatepicker" readonly>
+                                    <div class="calenderLogo">
+                                        <button style="outline-style: none;" class="p-0 btn  calendar"
+                                            (click)="d.toggle()" type="button">
+                                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-1">
+                                <div class="row">
+                                    <span>Payment Due Date</span>
+                                </div>
+                                <div class="row">
+                                    <input style="line-height: 1; height: 30px; border-radius: 5px;"
+                                        class="w-100 form-control bg-white" ngbDatepicker #d1="ngbDatepicker" readonly>
+                                    <div class="calenderLogo">
+                                        <button style="outline-style: none;" class="p-0 btn  calendar "
+                                            (click)="d1.toggle()" type="button">
+                                            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="row p-2 m-0 justify-content-between" style="background-color:#f7f7f7">
+                            <span>Service</span>
+
+                            <mat-icon class="handCursor" (click)="addRow()">add_circle_outline</mat-icon>
+                        </div>
+
+                        <table class="table text-center " border="1">
+                            <thead class="thead-dark ">
+                                <tr class="medium" style="font-weight: normal;">
+                                    <th scope="col" class="border text-center">No</th>
+                                    <th scope="col" class="border  text-center">Item</th>
+                                    <th scope="col" class="border text-center">Cost</th>
+                                    <th scope="col" class="border text-center">Unit</th>
+                                    <th scope="col" class="border  text-center">Vat</th>
+                                    <th scope="col" class="border text-center">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class=" shadow small ">
+                                    <td scope="row" class="text-center">1</td>
+                                    <td class="text-center">Urinetest</td>
+                                    <td class="text-center"><span
+                                            style="font-weight: 600; margin-right: 3px;">&#36;</span>80</td>
+                                    <td class="text-center">1</td>
+                                    <td class="text-center"><span
+                                            style="font-weight: 600; margin-right: 3px;">&#36;</span>0</td>
+                                    <td class="text-center"><span
+                                            style="font-weight: 600; margin-right: 3px;">&#36;</span>80</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="pr-4" style="text-align: end;">
+                            <div class="">
+                                <span>Sub total : <span
+                                        style="font-weight: 600; margin-right: 3px;">&#36;</span>80</span>
+                            </div>
+                            <div class="">
+                                <span>Vat : <span style="font-weight: 600; margin-right: 3px;">&#36;</span>2</span>
+                            </div>
+                            <div class="">
+                                <span>Total Amount: <span
+                                        style="font-weight: 600; margin-right: 3px;">&#36;</span>120</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-center p-1">
+        <button class="btn  btn-sm mouse  mr-4 text-dark " (click)="modal.close('Close click')"
+            style="border: 1px solid black; width: 20%;">Save Draft</button>
+        <button class="btn  btn-sm mouse text-white mr-4 " (click)="modal.close('Close click')"
+            style="background-color:rgb(82, 192, 211) ;width: 17%;">Create</button>
+    </div>
+</ng-template>
+
+<ng-template #viewContent let-modal>
+    <div class="modal-header p-2 px-4  justify-content-between"
+        style="background-color: rgb(82, 192, 211);color: white;">
+        <h5 class="modal-title justify-content-center" id="modal-basic-title">Invoice Details</h5>
+        <div style="text-align: end;">
+            <img src="../../../assets/images/ui/Icons/awesome-file-pdf.png" width="18%"
+                (click)="modal.close('Close click')" class="handCursor pt-0 px-1">
+            <img src="../../../assets/images/ui/Icons/awesome-file-pdf.png" width="18%"
+                (click)="modal.close('Close click')" class="handCursor pt-0 px-1">
+            <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-cancel@2x.png" width="20%"
+                (click)="modal.close('Close click')" class="handCursor pt-0 px-1">
+        </div>
+    </div>
+    <div class="modal-body bg-white p-2 ">
+        <div style="border: 1px solid black;">
+            <div class="headerPart p-2 justify-content-between d-flex">
+                <div class="p-0"> <span>Invoice # 1001</span></div>
+                <div class="p-0"><span style="font-weight: 500;">SpectroCare</span></div>
+            </div>
+            <table cellspacing="80">
+                <tr>
+                    <th class="px-3 py-1">Invoice Date</th>
+                    <th class="px-3 py-1">Payment Due Date</th>
+                    <th class="px-3 py-1">Status</th>
+                </tr>
+                <tr>
+                    <td class="px-3 py-1">2020/03/16</td>
+                    <td class="px-3 py-1">2020/03/20</td>
+                    <td class="px-3 py-0"
+                        style="border: 1px solid black;border-radius: 5px;">
+                        Unpaid</td>
+                </tr>
+            </table>
+
+            <div class="mx-2 my-2" style="border-bottom: 1px solid black ;"></div>
+
+            <table cellspacing="80">
+                <tr>
+                    <th class="px-3 py-1">
+                        <span>Bill To : Abc Babu</span>
+                    </th>
+
+                    <th class="px-3 py-1">
+                        <span>Send From : Babu</span>
+                    </th>
+                </tr>
+
+                <tr>
+                    <td class="px-3 py-1">
+                        <span>H.No:420, Vijaya nagar colony, anantapur, ap.</span>
+                    </td>
+                    <td class="px-3 py-1">
+                        <span>H.No:420, Vijaya nagar colony, anantapur, ap.</span>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="mx-2 my-2" style="border-bottom: 1px solid black ;"></div>
+
+            <div class="mx-3">
+                <table class="table text-center" border="1">
+                    <thead class="thead-dark ">
+                        <tr class="medium" style="font-weight: normal;">
+                            <th scope="col" class="border text-center">No</th>
+                            <th scope="col" class="border  text-center">Item</th>
+                            <th scope="col" class="border text-center">Cost</th>
+                            <th scope="col" class="border text-center">Unit</th>
+                            <th scope="col" class="border  text-center">Vat</th>
+                            <th scope="col" class="border text-center">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class=" shadow small ">
+                            <td scope="row" class="text-center">1</td>
+                            <td class="text-center">Urinetest</td>
+                            <td class="text-center"><span style="font-weight: 600; margin-right: 3px;">&#36;</span>80
+                            </td>
+                            <td class="text-center">1</td>
+                            <td class="text-center"><span style="font-weight: 600; margin-right: 3px;">&#36;</span>0
+                            </td>
+                            <td class="text-center"><span style="font-weight: 600; margin-right: 3px;">&#36;</span>80
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pr-4" style="text-align: end;">
+                    <div class="">
+                        <span>Sub total : <span style="font-weight: 600; margin-right: 3px;">&#36;</span>80</span>
+                    </div>
+                    <div class="">
+                        <span>Vat : <span style="font-weight: 600; margin-right: 3px;">&#36;</span>2</span>
+                    </div>
+                    <div class="">
+                        <span>Total Amount: <span style="font-weight: 600; margin-right: 3px;">&#36;</span>120</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer justify-content-center p-1">
+        <button class="btn w-25 btn-sm mouse  mr-4 text-dark " (click)="modal.close('Close click')"
+            style="border: 1px solid black; width: 20%;">Edit Invoice</button>
+        <button class="btn w-25 btn-sm mouse text-white mr-4 " (click)="modal.close('Close click')"
+            style="background-color:rgb(82, 192, 211) ;width: 17%;">Send to Client</button>
+    </div>
+</ng-template>
+
+<ng-template #editContent let-modal>
+    <div class="modal-header justify-content-center" style="background-color: #7c9ab8;">
+        <p class="modal-title text-white  p-1 font-weight-bold" id="modal-basic-title">
+            Edit Invoice</p>
+    </div>
+    <div class="modal-body bg-white p-2 ">
+        <div class="d-flex p-1">
+            <div class="col-md-4 text-center p-3 m-0">
+                <img src="../../../assets/images/ui/Icons/1x/delete_1.png" style="width: 80%; margin-top: 10px;">
+            </div>
+            <div class="col-md-8 p-2">
+                <h5 class=" font-weight-small" style="font-size: 100 !important;">
+                    Edit Invoice
+                </h5><br>
+                <span class="text-muted">Are you
+                    sure you want to delete this
+                    user account?
+                    (<b class="mr-1">Babu</b>
+                    <b>Busy</b>)
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn  btn-info mouse  mr-4" (click)="modal.close('Close click')">Oops!
+            No Cancel</button>
+        <button type="submit" class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+            (click)="deleteProject()">Save</button>
+    </div>
+</ng-template>
+
+<ng-template #deleteContent let-modal>
+    <div class="modal-body bg-white p-2 ">
+        <div class="d-flex p-1">
+            <div class="col-md-4 text-center p-3 m-0">
+                <img src="../../../assets/images/ui/Icons/1x/delete_1.png" style="width: 80%; margin-top: 10px;">
+            </div>
+            <div class="col-md-8 p-2">
+                <h5 class=" font-weight-small" style="font-size: 100 !important;">
+                    Delete Invoice
+                </h5><br>
+                <span class="text-muted">Are you
+                    sure you want to delete this
+                    invoice
+                    (<b class="mr-1">Babu</b>
+                    <b>Busy</b>)
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn  btn-info mouse  mr-4" (click)="modal.close('Close click')">Oops!
+            No Cancel</button>
+        <button type="submit" class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+            (click)="deleteProject()">Delete</button>
+    </div>
+</ng-template>
+
+<ng-template #sendReminderContent let-modal>
+    <div class="modal-body bg-white p-2 ">
+        <div class="d-flex p-1">
+            <div class="col-md-4 text-center p-3 m-0">
+                <img src="../../../assets/images/ui/Icons/1x/delete_1.png" style="width: 80%; margin-top: 10px;">
+            </div>
+            <div class="col-md-8 p-2">
+                <h5 class=" font-weight-small" style="font-size: 100 !important;">
+                    Send Reminder
+                </h5><br>
+                <span class="text-muted">You are
+                    about to send reminder to Babu
+                    to his email
+                    (<b class="mr-1">Babu</b>
+                    <b>Busy</b>)
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn  btn-info mouse  mr-4" (click)="modal.close('Close click')">Oops!
+            No Cancel</button>
+        <button type="submit" class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+            (click)="deleteProject()">Delete</button>
+    </div>
+</ng-template>
+
+<ng-template #sendInvoiceContent let-modal>
+    <div class="modal-body bg-white p-2 ">
+        <div class="d-flex p-1">
+            <div class="col-md-4 text-center p-3 m-0">
+                <img src="../../../assets/images/ui/Icons/1x/delete_1.png" style="width: 80%; margin-top: 10px;">
+            </div>
+            <div class="col-md-8 p-2">
+                <h5 class=" font-weight-small" style="font-size: 100 !important;">
+                    Send Invoice
+                </h5><br>
+                <span class="text-muted">Want to send this invoice to Babu via babu@gmail.com
+                    (<b class="mr-1">Babu</b>
+                    <b>Busy</b>)
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn  btn-info mouse  mr-4" (click)="modal.close('Close click')">Cancel</button>
+        <button type="submit" class=" m-1 btn btn-sm p-0 rounded-pill btn-clr text-white"
+            (click)="deleteProject()">Send</button>
+    </div>
+</ng-template>

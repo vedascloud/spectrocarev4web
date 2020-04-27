@@ -3,9 +3,6 @@
 * {
   font-family: 'Muli';
 }
-label{
-    font-weight: bold;
-}
 
 .btn-danger:hover{
     font-size: large;
@@ -133,32 +130,28 @@ background-color: white;
   margin-top: -60%;
 }
 
-.example-full-width {
+::ng-deep .example-full-width {
   width: 100% !important;
   padding: 5px;
 }
-
 
 table{
   width: 100% !important;
 }
 
-.mat-form-field {
+::ng-deep .home .mat-form-field {
   width: 100% !important;
 }
 
-::ng-deep .mat-form-field-label {
-  /* color: white !important; */
-  color: rgba(32, 31, 31, 0.5) !important;
+::ng-deep .home .mat-form-field .mat-form-field-label {
+  color: #3E454C !important;
 }
 
-::ng-deep .mat-form-field-underline {
+::ng-deep .home .mat-form-field .mat-form-field-underline {
   background-color: rgba(12, 12, 12, 0.5) !important;
 }
-::ng-deep.mat-form-field-ripple {
-  /*change color of underline when focused*/
+::ng-deep .home .mat-form-field .mat-form-field-ripple {
   background-color: #53B9C6 !important;
-  ;
 }
 .inp {
   color: black;
@@ -166,4 +159,27 @@ table{
 
 ::ng-deep .mat-select-value-text {
   color: black !important;
+}
+
+::ng-deep .home .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel]:not(.phFromAddAdminUser) {
+  width: 518px !important; 
+  border: none !important;
+  background: transparent !important;
+  border-bottom: 1px solid #3E454C !important;
+  color: rgb(14, 13, 13) !important;
+  scroll-behavior: unset;
+  scroll-padding-inline: inherit;
+}
+
+::ng-deep .home .intl-tel-input .search-container input{
+  color: rgb(5, 5, 5) !important;
+}
+
+
+::ng-deep .home .intl-tel-input.separate-dial-code .selected-dial-code {
+  color: rgb(17, 17, 17) !important;
+}
+
+::ng-deep .home .country-dropdown {
+  width: 32.5rem !important;
 }

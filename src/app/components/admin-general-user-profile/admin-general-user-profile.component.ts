@@ -58,10 +58,6 @@ export class AdminGeneralUserProfileComponent implements OnInit {
       })
     });
 
-    // this.loading = true;
-    // this.autoAddAdminGeneralUserProfileData(this.adminTeamData);
-    // this.loading = false;
-
     //get All Admin General Users Data
     this.signInRes = localStorage.getItem("SignInRes");
     if (this.signInRes) {
@@ -170,19 +166,5 @@ export class AdminGeneralUserProfileComponent implements OnInit {
      );
    }
 
-  //  //Delete Admin General User Data
-  //  deleteAdminGeneralUser(){
-  //    this.loginService.deleteAdminGenUser(this.adminGeneralUserProfileForm.value,this.signObj.access_token).subscribe(
-  //      ()=>{},
-  //      (err:HttpErrorResponse)=>{
-  //       if(err.error instanceof Error){
-  //         console.log("Client Side Error",err);
-          
-  //       }else{
-  //         console.log("Server Side",err)
-  //       }
-  //     }
-  //    );
-  //  }
 
 }

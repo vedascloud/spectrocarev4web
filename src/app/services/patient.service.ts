@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class PatientService {
   signInRes:any;
 res:any;
 accessToken:string;
-
+public isEditable:BehaviorSubject<boolean> = new BehaviorSubject(false)
   constructor(private _http:HttpClient) { }
 
   //Get  Patients data
@@ -49,4 +50,8 @@ accessToken:string;
   fetchPatientMedicalRecordsData(fetchPatientMedicalReocrds,accessToken):any{
     return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness/fetchall",fetchPatientMedicalReocrds,{headers:{'x-access-token':accessToken}});
   }
+
+  
+
+
 }

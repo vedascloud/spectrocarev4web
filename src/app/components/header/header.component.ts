@@ -1,11 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { th } from 'date-fns/locale';
 
 @Component({
+  
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  
 })
 export class HeaderComponent implements OnInit {
 @Input() titleData:any
@@ -29,7 +32,12 @@ subTitle:string;
       SignOut() {
         console.log("SignOut Called")
         localStorage.clear()
-        this.router.navigateByUrl('/administrator')
+        // this.router.navigateByUrl('/administrator', { skipLocationChange: true }).then(() => {
+        //   this.router.navigate(['administrator']);
+        //   });
+        this.router.navigateByUrl('/administrator').then(()=>{
+         //location.reload();
+        });
         this.modalService.dismissAll()
       
       }

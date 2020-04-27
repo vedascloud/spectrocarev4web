@@ -46,10 +46,6 @@ export class DashboardComponent implements OnInit {
     //{ data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
   ];
 
-  
-
-  //
-
   public lineChartData: ChartDataSets[] = [
     { data: [40,55,56,20,65,30,80,42,47,75,55,90], label: 'Patients' },
   ];
@@ -135,18 +131,10 @@ export class DashboardComponent implements OnInit {
   ];
   public doughnutChartTypeTwo: ChartType = 'doughnut';
 
-  // DoughnutThree
-  //public doughnutChartLabels: Label[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
   public doughnutChartLabelsThree: Label[] = ['const','remaining','Total Number Of Screening Records'];
   public doughnutChartDataThree: MultiDataSet = [
     [0,850, 150]
   ];
-  // public doughnutChartColoursThree: Color[] = [
-  //   {
-  //     borderColor: 'black',
-  //     backgroundColor: 'lightblue',    
-  //   },
-  // ];
   public doughnutChartTypeThree: ChartType = 'doughnut';
 
   constructor(private modalService: NgbModal, private router:Router,private _snackBar: MatSnackBar) { }
@@ -159,17 +147,6 @@ export class DashboardComponent implements OnInit {
   openSnackBar(message:string,action:string){
     this._snackBar.open(message,action,{duration:5000})
   }
-  //this.openSnackBar(resForCancelAppointment.message,"");
 
-  //Signout Modal
-  openSignOut(content1) {
-    this.modalService.open(content1, { centered: true, size: "sm" })
-    }
-    SignOut() {
-      console.log("SignOut Called")
-      localStorage.clear()
-      this.router.navigateByUrl('/administrator')
-      this.modalService.dismissAll()
-    
-    }
+  
 }

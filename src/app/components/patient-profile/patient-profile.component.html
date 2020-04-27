@@ -1,35 +1,156 @@
-<div class="container">
-  <ul class="nav nav-pills mb-3 justify-content-around" id="pills-tab" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link" id="pills-home-tab" data-toggle="pill" role="tab" aria-controls="pills-home"
-        [routerLink]="['/patient/viewpatientmedicalrecord/patientprofile/generalinformation']"
-        routerLinkActive="active">General Information</a>
-    </li>
-    <!-- <li class="nav-item">
-            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" role="tab" aria-controls="pills-profile"
-            [routerLink]="['/patient/viewpatientmedicalrecord/patientprofile/bodyindex']"
-            routerLinkActive="active" >Body Index</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" role="tab" aria-controls="pills-contact"
-            [routerLink]="['/patient/viewpatientmedicalrecord/patientprofile/physicalexamhisory']"
-            routerLinkActive="active" >Physical Exam History</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="pills-home-tab" data-toggle="pill" role="tab" aria-controls="pills-home"
-            [routerLink]="['/patient/viewpatientmedicalrecord/patientprofile/familyhisory']"
-            routerLinkActive="active" >Family History</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" role="tab" aria-controls="pills-profile"
-            [routerLink]="['/patient/viewpatientmedicalrecord/patientprofile/medicalhistory']"
-            routerLinkActive="active" >Medical History</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" role="tab" aria-controls="pills-contact"
-            [routerLink]="['/patient/viewpatientmedicalrecord/patientprofile/vaccination']"
-            routerLinkActive="active" >Vaccination</a>
-          </li> -->
-  </ul>
-  <!-- <router-outlet></router-outlet> -->
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="container-fluid">
+  <div class="row ">
+    <div class="col-md-12 p-0">
+      <app-header [titleData]="titleArray"></app-header>
+    </div>
+
+  </div>
+</div>
+<div class="container-fluid" style="background-color: #F8FCFD;" *ngIf="selectedPatient">
+  <div class="row border-bottom p-3 pb-1 pl-4 bg-white">
+    <span class="size12 handCursor" style="color: #53b8c5;font-weight: 800;"
+      [routerLink]="['/admincenter/patient']">Patient List</span>
+    <span class="pl-1 size12"> &gt; {{selectedPatient.firstName}} {{selectedPatient.lastName}}</span>
+  </div>
+  <div class="row p-1">
+    <div class="col-md-9 pr-0">
+      <div class="border bg-white p-2">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="justify-content-center " style="text-align: -webkit-center;">
+              <form [formGroup]="patientProfileForm">
+                <div style="border-radius: 50% !important;width: 100px;height: 100px;">
+                  <img class=""
+                    style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 80px;height: 80px;min-width: 80px;min-height: 80px;"
+                    src="{{previewImg}}" onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+                </div>
+              </form>
+
+              <div class="container">
+                <div class="row ">
+                  <div class="img-move input-group ">
+                    <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
+                      aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg"
+                      (change)="fileProgress($event)" class="d-none">
+                    <img class="edit-img" (click)="fileInput.click()" style="height: 20px;"
+                      src="../../../assets/images/ui/Icons/patient-medical-module/edit_1@2x.png" width="15px"
+                      height="15px">
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 justify-content-center mt-2 ml-2">
+            <div class="row pb-2">
+              <span class="size12 col p-0" style="margin-right: -52px;">Gender</span>
+              <span class="column1 pr-3">:</span>
+              <span class="size11 col p-0 ">{{selectedPatient.gender}}</span>
+            </div>
+            <div class="row pb-2">
+              <span class="size12 col p-0" style="margin-right: -52px;">Date of Birth</span>
+              <span class="column1  pr-3">:</span>
+              <span class="size11 col p-0 ">{{selectedPatient.dob}}</span>
+            </div>
+            <div class="row">
+              <span class="size12 col p-0" style="margin-right: -52px;">Age</span>
+              <span class="column1 pr-3">:</span>
+              <span class="size11 col p-0 "> {{selectedPatient.age}}</span>
+            </div>
+
+          </div>
+          <div class="col-md-5 justify-content-center mt-2">
+            <div class="row pb-2">
+              <span class="size12 col p-0" style="margin-right: -90px;">Phone Number</span>
+              <span class="column1 pr-3 pl-3">:</span>
+              <span class="size11 col p-0 pl-1"> {{selectedPatient.phoneNumber.phoneNumber}}</span>
+            </div>
+            <div class="row">
+              <span class="col size12 p-0" style="margin-right: -90px;">Address</span>
+              <span class="column1 pr-3 pl-3">:</span>
+              <span class="size11 col p-0 pl-1">{{selectedPatient.address}}</span>
+            </div>
+          </div>
+        </div>
+        <div class=" pl-4" style="margin-top: -20px;">
+          <div style="font-weight: 500;">
+            <span class="size12">{{selectedPatient.firstName}} {{selectedPatient.lastName}}</span>
+          </div>
+          <div style="color: #53b8c5;">
+            <span class="pr-2">{{selectedPatient.emailID}}</span>
+            <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon awesome-check-circle.png"
+              width="20rem">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3 ">
+      <div class="border bg-white p-0">
+        <div class="text-center head-bg p-1">
+          <span class="size12">Appointments</span>
+        </div>
+
+        <div class="p-2">
+          <div class="row py-1">
+            <div class="col-md-6 " style="border-right: 1px solid black;">
+              <div class=" text-center">
+                <span class="size12">Past</span>
+              </div>
+              <div class=" text-center">
+                <span class="size10">12</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class=" text-center">
+                <span class="size12">Upcoming</span>
+              </div>
+              <div class=" text-center">
+                <span class="size10">4</span>
+              </div>
+            </div>
+          </div>
+          <div class="text-center pb-1 pt-1">
+            <button class="btn btn-sm text-white "
+              style="background-color: #53b8c5; border-radius: 20px;width: 70%;font-weight: 550;"> Book
+              Appointment</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row p-1">
+    <div class="col-12">
+      <button class="btn btn-sm bg-dark text-white mr-1 " style="width: 18%;" (click)="callPatientGeneralInfo()">General
+        Information</button>
+      <!--[routerLink]="['/admincenter/patientgeneralinfo']"-->
+      <button class="btn btn-sm bg-dark text-white mr-1 " style="width: 18%;"
+        (click)="callPatientMedicalReocrds()">Medical Records</button>
+      <!--[routerLink]="['/admincenter/patientmedicalrecords']"-->
+      <button class="btn btn-sm bg-dark text-white mr-1 " style="width: 18%;"
+        (click)="callPatientAppointmentRecords()">Appointment Record</button>
+      <!--[routerLink]="['/admincenter/patientappointmentrecords']"-->
+      <button class="btn btn-sm bg-dark text-white " style="width: 19%;"
+        (click)="callPatientScreeningRecord()">Screening Record</button>
+      <!--[routerLink]="['/admincenter/patientscreeningrecord']"-->
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="!isViewPatientGeneralInfo">
+  <app-patient-profilee></app-patient-profilee>
+</div>
+
+<div *ngIf="!isViewPatientMedicalRecords">
+  <app-patient-medical-records></app-patient-medical-records>
+</div>
+
+<div *ngIf="!isViewPatientAppointmentRecord">
+  <app-patient-appointment-record></app-patient-appointment-record>
+</div>
+
+<div *ngIf="!isViewPatientScreeningRecords">
+  <app-patient-screening-record></app-patient-screening-record>
 </div>

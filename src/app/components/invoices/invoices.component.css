@@ -1,0 +1,39 @@
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+    background: rgb(82, 192, 211);
+    height: 3px;
+  }
+
+  .btn-clr {
+    background-color: #f66 !important;
+    border: none !important;
+    outline: none !important;
+    padding: 8px 25px !important;
+  }
+
+  .headerTitle{
+    color: rgb(53, 50, 50);background-color:rgb(167, 171, 172);
+    padding: 7px;
+  }
+
+  .headerPart{
+    background-color: rgba(0,0,0,0.03);
+  }
+
+  .cross{
+    color: black;
+  }
+
+  th{
+    margin: 15px;
+    font-size: 12px;
+    font-weight: 300;
+  }
+
+  .calenderLogo{
+    margin-left: 280px;
+    margin-top: -28px;
+  }
+
+  .handCursor{
+    cursor: pointer;
+  }
