@@ -80,6 +80,79 @@ background-color: #53B9C6;
     overflow-x: hidden;
   }
 
+  .scroll3 {
+    height: 75vh !important;
+    overflow: auto;
+  }
+  .scroll3::-webkit-scrollbar-track
+  {
+  border-radius: 2px;
+  }
+  .scroll3::-webkit-scrollbar
+  {
+  width: 10px;
+  height: 10px;
+  background-color: #F7F7F7;
+  }
+  
+  .scroll3::-webkit-scrollbar-thumb
+  {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #53B9C6;
+  }
+
+  .scroll4 {
+    height: 60vh !important;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  .scroll4::-webkit-scrollbar-track
+  {
+  border-radius: 2px;
+  }
+  .scroll4::-webkit-scrollbar
+  {
+  width: 10px;
+  height: 10px;
+  background-color: #F7F7F7;
+  }
+  
+  .scroll4::-webkit-scrollbar-thumb
+  {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #53B9C6;
+  }
+
+  .scrollDoctor {
+    height: 80vh !important;
+    overflow: auto;
+  }
+  .scrollDoctor::-webkit-scrollbar-track
+  {
+  border-radius: 2px;
+  }
+  .scrollDoctor::-webkit-scrollbar
+  {
+  width: 10px;
+  height: 10px;
+  background-color: #F7F7F7;
+  }
+  
+  .scrollDoctor::-webkit-scrollbar-thumb
+  {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #53B9C6;
+  }
+
+  .highlighted {
+    font-weight: 600;
+    color: white;
+    background-color: #53B9C6;
+}
+
 mat-button-toggle {
     padding: 0px !important;
 }
@@ -106,6 +179,11 @@ padding: 0px 12px !important;
 
   .calenderLogo{
     margin-left: -25px ;
+  }
+
+  .searchLogo{
+    margin-left: 200px;
+    margin-top: -20px;
   }
 
   .cm{

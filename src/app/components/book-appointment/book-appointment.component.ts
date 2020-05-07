@@ -7,7 +7,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AmazingTimePickerService } from 'amazing-time-picker';
 
-
 @Component({
   selector: 'app-book-appointment',
   templateUrl: './book-appointment.component.html',
@@ -24,12 +23,16 @@ export class BookAppointmentComponent implements OnInit {
   filteredPatients: any = [];
   medicalPersonnels: any = [];
   filteredMedicalPersonnels: any = [];
-  titleArray:any =
-  {title:"Appointment",
-  subTitle:"Book Appointment",
-img:"assets/images/ui/Icons/1x/admin center.png"};
+  titleArray: any =
+    {
+      title: "Appointment",
+      subTitle: "Book Appointment",
+      img: "assets/images/ui/Icons/1x/admin center.png"
+    };
 
-  constructor(private router: Router,private modalService: NgbModal,private loginService: LoginService, private fb: FormBuilder, private config: NgbDatepickerConfig, private _snackBar: MatSnackBar,private atp: AmazingTimePickerService) {
+  constructor(private router: Router, private modalService: NgbModal, private loginService: LoginService, 
+    private fb: FormBuilder, private config: NgbDatepickerConfig, private _snackBar: MatSnackBar, 
+    private atp: AmazingTimePickerService) {
     const current = new Date()
     config.minDate = { year: current.getFullYear(), month: current.getMonth() + 1, day: current.getDate() }
   }
@@ -56,8 +59,6 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
       }
       this.getDoctorData(medicalObj);
 
-
-
     }
 
     this.bookAppointmentForm = this.fb.group({
@@ -75,8 +76,6 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
       createrMedicalPersonnelID: [""],
       medicalRecordID: [""],
       department: [""],
-      
-      
     });
 
     this.autoAddAppointmentData(this.signObj);
@@ -125,8 +124,8 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
   autoAddAppointmentData(data) {
     this.bookAppointmentForm.patchValue({
       hospital_reg_num: data.hospitalAdmin.hospital_reg_num,
-      creatorName:data.hospitalAdmin.firstName,
-      createrMedicalPersonnelID:data.hospitalAdmin.userID
+      creatorName: data.hospitalAdmin.firstName,
+      createrMedicalPersonnelID: data.hospitalAdmin.userID
     })
   }
 
@@ -165,53 +164,53 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
 
       this.bookAppointmentForm.patchValue({
         doctorName: obj.firstName,
-        doctorMedicalPersonnelID:obj.medical_personnel_id,
+        doctorMedicalPersonnelID: obj.medical_personnel_id,
         department: obj.department
       })
     }
   }
 
-  bookAppointment(){
-    
+  bookAppointment() {
+
     let ngbDate = this.bookAppointmentForm.controls['appointmentDate'].value;
     let myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
-    console.log("date mydate",myDate);
-    
+    console.log("date mydate", myDate);
+
     this.bookAppointmentForm.patchValue({ appointmentDate: myDate.toLocaleDateString() })
-    console.log("sended date format : ",myDate.toLocaleDateString().split("/").reverse().join("/"));
+    console.log("sended date format : ", myDate.toLocaleDateString().split("/").reverse().join("/"));
     var dateAr = myDate.toLocaleDateString().split('/');
     var newDate = dateAr[2] + '/' + dateAr[0] + '/' + dateAr[1];
-    console.log("new date yyyy/mm/dd to assign form : ",newDate);
+    console.log("new date yyyy/mm/dd to assign form : ", newDate);
     console.log("req form data : ", this.bookAppointmentForm.value);
-    
+
     this.loginService.bookAppointmentService(this.bookAppointmentForm.value, this.signObj.access_token).subscribe(
-      (bookAppointmentRes)=>{
+      (bookAppointmentRes) => {
         console.log(bookAppointmentRes);
-        
-        if(bookAppointmentRes.response === 3){
+
+        if (bookAppointmentRes.response === 3) {
           this.router.navigateByUrl("admincenter/upcomingappointment");
-         alert(bookAppointmentRes.message);
+          alert(bookAppointmentRes.message);
         }
-        else{
+        else {
           alert(bookAppointmentRes.message);
         }
       },
-      (err:HttpErrorResponse)=>{
-        if(err.error instanceof Error){
-         
-          console.log("Client Side Error",err);
-          
-        }else{
-         
-          console.log("Server Side",err);
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+
+          console.log("Client Side Error", err);
+
+        } else {
+
+          console.log("Server Side", err);
         }
       }
     );
   }
 
   //Open PatientList Model
-  openPatientModel(content1, patientsList) {    
-    this.modalService.open(content1, { ariaLabelledBy: 'modal-basic-title', centered: true,size:"lg" }).result.then((result) => {
+  openPatientModel(content1, patientsList) {
+    this.modalService.open(content1, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -219,8 +218,8 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
   }
 
   //Open DoctorsList Model
-  openDoctorModel(content2) {    
-    this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title', centered: true,size:"lg" }).result.then((result) => {
+  openDoctorModel(content2) {
+    this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -237,7 +236,7 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
     }
   }
 
-  selectPatientFromList(value:any){
+  selectPatientFromList(value: any) {
     console.log(value);
     let index = -1
     index = this.patientsList.findIndex(val => {
@@ -247,7 +246,7 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
       let obj = this.patientsList[index]
       console.log("obj", obj)
       this.bookAppointmentForm.patchValue({
-        patientID:obj.patientID,
+        patientID: obj.patientID,
         patientName: obj.firstName + " " + obj.lastName,
         medicalRecordID: obj.medical_record_id
       })
@@ -256,17 +255,17 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
   }
 
   search(term: string) {
-    console.log("term",term)
-    if(!term) {
+    console.log("term", term)
+    if (!term) {
       this.filteredPatients = this.patientsList;
     } else {
-      this.filteredPatients = this.patientsList.filter(x => 
-         x.firstName.trim().toLowerCase().includes(term.trim().toLowerCase())
+      this.filteredPatients = this.patientsList.filter(x =>
+        x.firstName.trim().toLowerCase().includes(term.trim().toLowerCase())
       );
     }
   }
 
-  selectDoctorFromList(value:any){
+  selectDoctorFromList(value: any) {
     console.log(value);
     let index = -1
     index = this.medicalPersonnels.findIndex(val => {
@@ -277,7 +276,7 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
       console.log("obj", obj)
       this.bookAppointmentForm.patchValue({
         doctorName: obj.firstName + " " + obj.lastName,
-        doctorMedicalPersonnelID:obj.medical_personnel_id,
+        doctorMedicalPersonnelID: obj.medical_personnel_id,
         department: obj.department
       })
       this.modalService.dismissAll()
@@ -285,12 +284,12 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
   }
 
   searchDoctor(term: string) {
-    console.log("term",term)
-    if(!term) {
+    console.log("term", term)
+    if (!term) {
       this.filteredMedicalPersonnels = this.medicalPersonnels;
     } else {
-      this.filteredMedicalPersonnels = this.medicalPersonnels.filter(x => 
-         x.firstName.trim().toLowerCase().includes(term.trim().toLowerCase())
+      this.filteredMedicalPersonnels = this.medicalPersonnels.filter(x =>
+        x.firstName.trim().toLowerCase().includes(term.trim().toLowerCase())
       );
     }
   }
@@ -300,56 +299,56 @@ img:"assets/images/ui/Icons/1x/admin center.png"};
     amazingTimePicker.afterClose().subscribe(time => {
       console.log(time);
       var d = new Date();
-var amOrPm = (d.getHours() < 12) ? "AM" : "PM";
-var hour = (d.getHours() < 12) ? d.getHours() : d.getHours() - 12;
-console.log("time to am/pm : ",d.getDate() + ' / ' + d.getMonth() + ' / ' + d.getFullYear() + ' ' + hour + ':' + d.getMinutes() + ' ' + amOrPm);
+      var amOrPm = (d.getHours() < 12) ? "AM" : "PM";
+      var hour = (d.getHours() < 12) ? d.getHours() : d.getHours() - 12;
+      console.log("time to am/pm : ", d.getDate() + ' / ' + d.getMonth() + ' / ' + d.getFullYear() + ' ' + hour + ':' + d.getMinutes() + ' ' + amOrPm);
 
-return   d.getDate() + ' / ' + d.getMonth() + ' / ' + d.getFullYear() + ' ' + hour + ':' + d.getMinutes() + ' ' + amOrPm;
+      return d.getDate() + ' / ' + d.getMonth() + ' / ' + d.getFullYear() + ' ' + hour + ':' + d.getMinutes() + ' ' + amOrPm;
     });
   }
 
   //For Time Picker
-  public convertTime24to12(time24, type){
+  public convertTime24to12(time24, type) {
     var tmpArr = time24.split(':'), time12;
-    if(+tmpArr[0] == 12) {
-    time12 = tmpArr[0] + ':' + tmpArr[1] + ' PM';
-    } 
+    if (+tmpArr[0] == 12) {
+      time12 = tmpArr[0] + ':' + tmpArr[1] + ' PM';
+    }
     else {
-      if(+tmpArr[0] == 0) {
-      time12 = '12:' + tmpArr[1] + ' AM';
-      } 
+      if (+tmpArr[0] == 0) {
+        time12 = '12:' + tmpArr[1] + ' AM';
+      }
       else {
-        if(+tmpArr[0] > 12) {
-        time12 = (+tmpArr[0]-12) + ':' + tmpArr[1] + ' PM';
-        } 
+        if (+tmpArr[0] > 12) {
+          time12 = (+tmpArr[0] - 12) + ':' + tmpArr[1] + ' PM';
+        }
         else {
-        time12 = (+tmpArr[0]) + ':' + tmpArr[1] + ' AM';
+          time12 = (+tmpArr[0]) + ':' + tmpArr[1] + ' AM';
         }
       }
     }
-    if(type === "from"){
-      this.bookAppointmentForm.patchValue({appointmentTimeFrom: time12})
+    if (type === "from") {
+      this.bookAppointmentForm.patchValue({ appointmentTimeFrom: time12 })
     }
-    else{
-      this.bookAppointmentForm.patchValue({appointmentTimeTo: time12})
+    else {
+      this.bookAppointmentForm.patchValue({ appointmentTimeTo: time12 })
     }
     return time12;
-    }
-    onTimeClick(){
-      let type = "to"
-      const amazingTimePicker = this.atp.open();
-      amazingTimePicker.afterClose().subscribe(time => {
-        console.log(time);
-        this.convertTime24to12(time,type)
-      });      
-    }
-    onClick(){
-      let type = "from"
-      const amazingTimePicker = this.atp.open();
-      amazingTimePicker.afterClose().subscribe(time => {
-        console.log(time);
-        this.convertTime24to12(time,type)
-      });    
-    }
+  }
+  onTimeClick() {
+    let type = "to"
+    const amazingTimePicker = this.atp.open();
+    amazingTimePicker.afterClose().subscribe(time => {
+      console.log(time);
+      this.convertTime24to12(time, type)
+    });
+  }
+  onClick() {
+    let type = "from"
+    const amazingTimePicker = this.atp.open();
+    amazingTimePicker.afterClose().subscribe(time => {
+      console.log(time);
+      this.convertTime24to12(time, type)
+    });
+  }
 
 }

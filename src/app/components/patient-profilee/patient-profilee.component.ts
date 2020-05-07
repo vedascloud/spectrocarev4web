@@ -545,8 +545,9 @@ export class PatientProfileeComponent implements OnInit {
       "hospital_reg_num": this.selectedPatient.hospital_reg_num,
       "patientID": this.selectedPatient.patientID,
       "medical_record_id": this.selectedPatient.medical_record_id,
-      "medical_personnel_id":this.selectedPatient.medical_personnel_id
-    }
+      "byWhomID":this.selectedPatient.medical_personnel_id,
+      "byWhom":"medical personnel"
+     }
     console.log("the req for fetch pat phy exam records obj : ", this.fetchPatientPhysicalExamObj);
 
     this.loginService.getPatientPhysicalExamRecordsData(this.fetchPatientPhysicalExamObj, this.signObj.access_token).
@@ -576,9 +577,10 @@ export class PatientProfileeComponent implements OnInit {
   //Fetch Patient Screening Records
   fetchPatientScreeningRecords(){
     this.fetchPatientScreeningRecordsObj = {
+      "hospital_reg_num": this.selectedPatient.hospital_reg_num,
       "patientID": this.selectedPatient.patientID,
       "medical_record_id": this.selectedPatient.medical_record_id,
-      "byWhomType": "admin",
+      "byWhom": "admin",
       "byWhomID":this.signObj.hospitalAdmin.userID,
       "illnessID":this.selectedPatient.illnessID
     }

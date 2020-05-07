@@ -12,7 +12,9 @@
               <div class="w-100 ml-1">
                 <div class="text-center p-2 m-2">
                   <img src="{{pic}}" style="width: 80px; height: 80px;border-radius: 50%; border: 2px solid rgb(150, 211, 235);"
-                    class="profile mb-1" [routerLink]="['/admincenter/adminprofile']"> <!--previewImg src="../../../assets/images/ui/Icons/1x/admin image.png" -->
+                    class="profile mb-1" [routerLink]="['/admincenter/adminprofile']"
+                    onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';"
+                    > <!--previewImg src="../../../assets/images/ui/Icons/1x/admin image.png" -->
                   <br>
                   <span class="profile text-white mb-1 " style="" [routerLink]="['/admincenter/adminprofile']">{{signObj.hospitalAdmin.firstName}} {{signObj.hospitalAdmin.lastName}}</span> <!--letter-spacing: 1.5px; font-weight: 700;-->
                   <br>
