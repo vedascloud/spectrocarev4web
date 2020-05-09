@@ -16,10 +16,24 @@
                   <!--isAdminAdd &&-->
                   <div class="card-body p-2">
                     <div>
-                      <div class="row p-2">
+                      <div class="row pr-1 pl-3 pb-1" style="justify-content: space-around;">
+                        <div class="col-md-2"
+                            style="background-color: #17a2b8;border-radius: 5px; justify-content: center; text-align: center;height: 34px;">
+                            <button class="btn btn-sm" style="color: white;padding-top: 10px;line-height: 1;" (click)="open(content)">
+                               + Add New Patient</button>
+                        </div>
+                        <div class="col-md-10">
+                            <input type="text" [(ngModel)]="term" class=" p-2 w-100 " placeholder="Search by Key"
+                                style="border-radius: 5px; outline-style: none !important; font-weight: 300;padding-right: 100%;height: 34px;padding-left: 40px !important">
+                                <div class="searchIcon" style="margin-left: 10px;margin-top: -28px;">
+                                  <i class="fas fa-search" aria-hidden="true"></i>
+                              </div>
+                        </div>
+                    </div>
+                      <!-- <div class="row pb-1" style="justify-content: space-around;">
                         <div class="col-md-3 text-center p-0">
-                          <button class="btn btn-sm btn-info text-white p-2 w-50 mr-4" (click)="open(content)"
-                            style="border: none; width: 10%;font-weight: normal;">
+                          <button class="btn btn-sm btn-info text-white p-2 mr-4" (click)="open(content)"
+                            style="border: none; width: 230px;font-weight: normal;">
                             <img src="../../../assets/images/ui/Icons/1x/add.png"
                               style="width: 10px;margin-right: 7px;">
                             Add New
@@ -28,10 +42,11 @@
                         <div class="col-md-9 row  ">
 
                           <input type="text" [(ngModel)]="term" class="bg-transparent p-1 w-100 "
-                            placeholder="Search by User" style="border-radius: 5px; outline-style: none !important;">
+                            placeholder="Search by User" style="border-radius: 5px; outline-style: none !important;
+                            margin-left: inherit;padding-right: 0;">
 
                         </div>
-                      </div>
+                      </div> -->
                       <div class="scroll">
                         <table class="table text-center">
                           <thead class="thead-dark ">

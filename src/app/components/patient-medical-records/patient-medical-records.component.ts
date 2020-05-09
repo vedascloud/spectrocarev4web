@@ -10,7 +10,6 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 
 interface SearchByValue {
-
   viewValue: string;
 }
 
@@ -19,6 +18,7 @@ interface SearchByValue {
   templateUrl: './patient-medical-records.component.html',
   styleUrls: ['./patient-medical-records.component.css']
 })
+
 export class PatientMedicalRecordsComponent implements OnInit {
 
   basicExamForm: FormGroup;
@@ -78,7 +78,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
   illnessMedicationID: any;
   editPatientIllnessMedicationObj: any;
   editPatIllnessObj: any;
-  medicinesData:any = [];
+  medicinesData: any = [];
 
   searchByValue: SearchByValue[] = [
     { viewValue: 'All' },
@@ -98,6 +98,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
   illnessMedicationRecordsData: any = [];
   illnessSurgicalRecordsData: any = [];
   illnessDiagnosisRecordsData: any = [];
+  
+  medicationAttachmentData: any=[];
 
   data: any;
   dateToShow: any;
@@ -119,6 +121,14 @@ export class PatientMedicalRecordsComponent implements OnInit {
   viewPatientDiagnostic: boolean = true;
   viewPatientMedications: boolean = true;
   viewPatientSurgical: boolean = true;
+
+  viewManualInputView2: boolean = false;
+  viewAttachmentView2: boolean = false;
+  viewPatientIllness2: boolean = true;
+  viewPatientDiagnostic2: boolean = true;
+  viewPatientMedications2: boolean = true;
+  viewPatientSurgical2: boolean = true;
+
   file: any;
   fileName: any;
   fileSize: any;
@@ -367,10 +377,11 @@ export class PatientMedicalRecordsComponent implements OnInit {
     })
 
     this.editPatIllnessDiagnosisForm = this.fb.group({
-      currentStatus: [""],
-      symptoms: [""],
-      moreInfo: [""],
-      isCurrentIllness: ["true"]
+      diagnosisDate: [""],
+      doctorName: [""],
+      diagnosis: [""],
+      prescription: [""],
+      remark: [""]
     })
 
     this.addPatIllnessSurgicalForm = this.fb.group({
@@ -384,10 +395,11 @@ export class PatientMedicalRecordsComponent implements OnInit {
     })
 
     this.editPatIllnessSurgicalForm = this.fb.group({
-      currentStatus: [""],
-      symptoms: [""],
-      moreInfo: [""],
-      isCurrentIllness: ["true"]
+      lastUpdateDate: [""],
+      time: [""],
+      doctorName: [""],
+      surgeryProcedure: [""],
+      surgeryInformation: [""]
     })
 
     this.addPatientMedHistoryFileForm = this.fb.group({
@@ -497,6 +509,10 @@ export class PatientMedicalRecordsComponent implements OnInit {
         doctorName: this.medicalPersonnelObj.firstName + " " + this.medicalPersonnelObj.lastName,
         doctorMedicalPersonnelID: this.medicalPersonnelObj.medical_personnel_id,
       })
+
+      
+      //this.modalService.close();
+      //this.modalService.dismissAll()
     }
   }
 
@@ -605,6 +621,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
             this.loading = false;
             this.illnessMedicationID = res.illnessMedicationID;
             this.viewAttachment();
+            alert(res.message);
             this.openSnackBar(res.message, "");
             this.ngOnInit();
           }
@@ -799,6 +816,24 @@ export class PatientMedicalRecordsComponent implements OnInit {
     this.viewManualInputView = false;
   }
 
+  viewManualInput2() {
+    this.textColor = 'white';
+    this.textColor1 = 'black';
+    this.color = '#53B9C6';
+    this.color1 = 'white'
+    this.viewManualInputView2 = true;
+    this.viewAttachmentView2 = false;
+  }
+
+  viewAttachment2() {
+    this.textColor = 'black';
+    this.textColor1 = 'white';
+    this.color = 'white'
+    this.color1 = '#53B9C6';
+    this.viewAttachmentView2 = true;
+    this.viewManualInputView2 = false;
+  }
+
   //Image Upload
   fileProgress(event: any) {
     this.isNoFile = true;
@@ -819,6 +854,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
   }
   removeUploadedFile() {
     // let newFileList = Array.from(this.el.nativeElement.files);
+    //this.isNoFile = ;
     this.addPatientPhysicalExamFileForm.get('profilePic').setValue(null)
     this.fileName = null;
     this.fileSize = null;
@@ -938,17 +974,19 @@ export class PatientMedicalRecordsComponent implements OnInit {
         console.log("res from add patient Medial-Record Illness Attachment data : ", updateAdminGenUserData);
         if (updateAdminGenUserData.response === 3) {
           this.isLoading = false;
-          this.removeUploadedFile2();
+          this.removeUploadedFile2();      
+          alert(updateAdminGenUserData.message);    
+          this.openSnackBar(updateAdminGenUserData.message, "");
           this.openPatientSurgical();
           //this.modalService.dismissAll();
-          this.openSnackBar(updateAdminGenUserData.message, "");
           this.ngOnInit();
         }
         else {
           this.isLoading = false;
           //this.loading = false;
-          this.modalService.dismissAll();
+          alert(updateAdminGenUserData.message);
           this.openSnackBar(updateAdminGenUserData.message, "");
+          this.modalService.dismissAll();
         }
       },
       (err: HttpErrorResponse) => {
@@ -1026,15 +1064,15 @@ export class PatientMedicalRecordsComponent implements OnInit {
         if (updateAdminGenUserData.response === 3) {
           this.isLoading = false;
           this.removeUploadedFile();
-          this.modalService.dismissAll();
           this.openSnackBar(updateAdminGenUserData.message, "");
+          this.modalService.dismissAll();
           this.ngOnInit();
         }
         else {
           this.isLoading = false;
           //this.loading = false;
-          this.modalService.dismissAll();
           this.openSnackBar(updateAdminGenUserData.message, "");
+          this.modalService.dismissAll();
         }
       },
       (err: HttpErrorResponse) => {
@@ -1056,7 +1094,18 @@ export class PatientMedicalRecordsComponent implements OnInit {
   //Add Patient Physical Exam Manually
   addPatientPhysicalExamManually(physicalExaminationData) {
     this.isLoading = true;
-    let payload = this.basicExamForm.value;
+    //let payload = this.basicExamForm.value;
+    
+    let payload = {
+      
+        "height": ''+this.basicExamForm.value.height,
+        "weight": ''+this.basicExamForm.value.weight,
+        "waistline":  ''+this.basicExamForm.value.waistline,
+        "bmi": ''+this.basicExamForm.value.bmi,
+        "bloodPressure": ''+this.basicExamForm.value.bloodPressure
+        
+    }
+    
     let physicalExamination: any[] = physicalExaminationData;
 
     this.addPatientPhysicalExamManullyObj = {
@@ -1077,10 +1126,10 @@ export class PatientMedicalRecordsComponent implements OnInit {
         (res) => {
           if (res.response === 3) {
             this.isLoading = false;
+            this.openSnackBar(res.message, "");
             this.viewAttachment();
             //this.loading = false;
             //this.modalService.dismissAll();
-            this.openSnackBar(res.message, "");
             console.log("res from add patient physical exam records manually from component Success : ", res.message, res.physical_exam_id);
           }
           else if (res.response === 0) {
@@ -1136,16 +1185,16 @@ export class PatientMedicalRecordsComponent implements OnInit {
             this.isLoading = false;
             this.ngOnInit();
             //this.loading = false;
-            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
             console.log("res from update patient physical exam records manually from component Success : ", res.message, res.physical_exam_id);
           }
           else if (res.response === 0) {
             this.isLoading = false;
             //this.loading = false;
+            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
             console.log("failure case", res.message);
-            this.modalService.dismissAll();
           }
         },
         (err: HttpErrorResponse) => {
@@ -1246,7 +1295,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
             this.loading = false;
             //this.a.a1 = res.illnessRecords;
             this.MedicalHistory = res.illnessRecords;
-            console.log("fetched illness records data is : ",this.MedicalHistory);
+            console.log("fetched illness records data is : ", this.MedicalHistory);
           }
           else if (res.response === 0) {
             this.loading = false;
@@ -1293,8 +1342,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
             this.isLoading = false;
             this.fetchPatientImmunizationRecords();
             this.loading = false;
-            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
             console.log("res from add patient immunization data from component Success : ", res.message, res.immunization_record_id);
           }
           else if (res.response === 0) {
@@ -1357,18 +1406,20 @@ export class PatientMedicalRecordsComponent implements OnInit {
       subscribe(
         (res) => {
           if (res.response === 3) {
+            this.openSnackBar(res.message, "");
+            alert(res.message);
             this.openPatientDiagnostic();
             this.isLoading = false;
             this.createdIllnessID = res.illnessID;
             //this.loading = false;
             //this.modalService.dismissAll();
-            this.openSnackBar(res.message, "");
             this.ngOnInit();
             console.log("res from add patient medical record illness data from component Success : ", res.message, res.illnessID);
           }
           else if (res.response === 0) {
             this.isLoading = false;
             //this.loading = false;
+            alert(res.message);
             this.openSnackBar(res.message, "");
             console.log("failure case", res.message);
             //this.modalService.dismissAll();
@@ -1418,15 +1469,17 @@ export class PatientMedicalRecordsComponent implements OnInit {
         (res) => {
           if (res.response === 3) {
             this.isLoading = false;
+            alert(res.message);
+            this.openSnackBar(res.message, "");
             this.openPatientMedications();
             //this.loading = false;
             //this.modalService.dismissAll();
-            this.openSnackBar(res.message, "");
             console.log("res from add patient ill diagnosis data from component Success : ", res.message);
           }
           else if (res.response === 0) {
             this.isLoading = false;
             //this.loading = false;
+            alert(res.message);
             this.openSnackBar(res.message, "");
             console.log("failure case", res.message);
             this.modalService.dismissAll();
@@ -1483,13 +1536,15 @@ export class PatientMedicalRecordsComponent implements OnInit {
             this.removeUploadedFile3();
             //this.openPatientMedications();
             //this.loading = false;
-            this.modalService.dismissAll();
+            alert(res.message);
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
             console.log("res from add patient ill surgical data from component Success : ", res.message);
           }
           else if (res.response === 0) {
             this.isLoading = false;
             //this.loading = false;
+            alert(res.message);
             this.openSnackBar(res.message, "");
             console.log("failure case", res.message);
             this.modalService.dismissAll();
@@ -1538,14 +1593,13 @@ export class PatientMedicalRecordsComponent implements OnInit {
       (resForRescheduleAppointment) => {
         if (resForRescheduleAppointment.response === 3) {
           this.isLoading = false;
+          this.openSnackBar(resForRescheduleAppointment.message, "");
           this.modalService.dismissAll();
           this.ngOnInit();
-          this.openSnackBar(resForRescheduleAppointment.message, "");
         }
         else {
           this.isLoading = false;
-          console.log(resForRescheduleAppointment.message);
-          alert(resForRescheduleAppointment.message);
+          this.openSnackBar(resForRescheduleAppointment.message, "");
         }
       },
       (err: HttpErrorResponse) => {
@@ -1586,14 +1640,13 @@ export class PatientMedicalRecordsComponent implements OnInit {
       (res) => {
         if (res.response === 3) {
           this.isLoading = false;
+          this.openSnackBar(res.message, "");
           this.modalService.dismissAll();
           this.ngOnInit();
-          this.openSnackBar(res.message, "");
         }
         else {
           this.isLoading = false;
-          console.log(res.message);
-          alert(res.message);
+          this.openSnackBar(res.message, "");
         }
       },
       (err: HttpErrorResponse) => {
@@ -1612,17 +1665,24 @@ export class PatientMedicalRecordsComponent implements OnInit {
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
+      this.removeUploadedFile();
+      this.removeUploadedFile1();
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      this.removeUploadedFile();
+      this.removeUploadedFile1();
       return 'by clicking on a backdrop';
     } else {
+      this.removeUploadedFile();
+      this.removeUploadedFile1();
       return `with: ${reason}`;
     }
   }
 
   //Open DoctorsList Model
   openDoctorMethod(doctorsModel) {
-    this.modalService.open(doctorsModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
+    this.modalService.open(doctorsModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then(
+      (result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -1640,7 +1700,9 @@ export class PatientMedicalRecordsComponent implements OnInit {
   }
 
   openAddMedicalHistoryMethod(addMedicalHistoryModel) {
-    this.viewPatientIllness = false;
+
+    this.openPatientIllness()
+    //this.viewPatientIllness = false;
     this.viewManualInput();
     this.modalService.open(addMedicalHistoryModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -1659,8 +1721,9 @@ export class PatientMedicalRecordsComponent implements OnInit {
     var date2 = new Date(timestamp2 * 1000);
     this.dateToShow2 = ('0' + date2.getFullYear()).slice(-2) + '-' + ('0' + (date2.getMonth() + 1)).slice(-2) + '-' + date2.getDate();
 
-    this.viewPatientIllness = false;
-    this.viewManualInput();
+    this.openPatientIllness2();
+    //this.viewPatientIllness2 = false;
+    this.viewManualInput2();
     this.editPatIllnessForm.patchValue({
 
       "illnessCondition": selectedMedicalHistory.illnessCondition,
@@ -1671,10 +1734,147 @@ export class PatientMedicalRecordsComponent implements OnInit {
       "startDate": selectedMedicalHistory.startDate,
       "endDate": selectedMedicalHistory.endDate
 
-      // "currentStatus": (selectedMedicalHistory.currentStatus) || (selectedMedicalHistory.currentStatus !== " "),
-      // "symptoms": selectedMedicalHistory.symptoms,
-      // "moreInfo": selectedMedicalHistory.moreInfo
     })
+
+
+    this.fetchPatIllMedicationDataObj = {
+      "hospital_reg_num": selectedMedicalHistory.hospital_reg_num,
+      "byWhom": "admin",
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "patientID": selectedMedicalHistory.patientID,
+      "medical_record_id": selectedMedicalHistory.medical_record_id,
+      "illnessID": selectedMedicalHistory.illnessID
+    }
+    this.loginService.fetchPatientMedicationData(this.fetchPatIllMedicationDataObj, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          if (res.response === 3) {
+            this.illnessMedications = res.illnessMedicationRecords;
+            this.medicinesData = this.illnessMedications[0].mannualPrescriptions.medicines;
+            this.medicationAttachmentData = this.illnessMedications[0].attachedPrescriptions.attachments;
+            let unixDates = this.illnessMedications[0].mannualPrescriptions.updateDate.addedDate / 1000;
+            var date1 = new Date(unixDates * 1000);
+            let dateToShow44 = date1.getFullYear() + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + ('0' + date1.getDate()).slice(-2);
+            this.editPatientMedHistoryFileForm.patchValue({
+              "medicationDate": dateToShow44,
+              "prescription1MoreDetails": this.medicationAttachmentData[0].moreDetails
+            })
+
+            let payLoad = this.editPatIllMedicationManuallyForm.value.editMedicationArray;
+            let editMedicationArray: any[] = [];
+            for (let i: number = 0; i <= payLoad.length - 1; i++) {
+              editMedicationArray.push(
+                {
+                  "name": payLoad[i].name,
+                  "dosage": payLoad[i].dosage,
+                  "freq": payLoad[i].freq
+                }
+              )
+            }
+            //this.illnessMedicationRecordsData.push(res.illnessMedicationRecords);
+            this.isLoading = false;
+            this.loading = false;
+            this.openSnackBar(res.message, "");
+            console.log("res from fetchPatientMedicationData Success : ", res.message);
+            console.log("the fetched Ill Medication Records Data is : ", this.illnessMedications);
+            console.log("medication date : ", this.illnessMedications[0].mannualPrescriptions.updateDate.addedDate);
+
+          }
+          else if (res.response === 0) {
+            this.isLoading = false;
+            this.openSnackBar(res.message, "");
+            console.log("failure case", res.message);
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.isLoading = false;
+            console.log("Client Side Error")
+          } else {
+            this.isLoading = false;
+            console.log(err)
+          }
+        })
+
+    this.loginService.fetchPatientSurgicalData(this.fetchPatIllMedicationDataObj, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          if (res.response === 3) {
+            this.illnessSurgicalProcedures = res.illnessSurgicalRecords;
+            let unixDates = this.illnessSurgicalProcedures[0].surgeryDate;
+            var date1 = new Date(unixDates * 1000);
+            let dateToShow = date1.getFullYear() + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + ('0' + date1.getDate()).slice(-2);
+            let timeToShow = date1.getHours() + ':' + date1.getMinutes() + ':' + date1.getSeconds();
+            this.editPatIllnessSurgicalForm.patchValue({
+              "lastUpdateDate": dateToShow,
+              "time": timeToShow,
+              "doctorName": this.illnessSurgicalProcedures[0].doctorName,
+              "surgeryProcedure": this.illnessSurgicalProcedures[0].surgeryProcedure,
+              "surgeryInformation": this.illnessSurgicalProcedures[0].surgeryInformation
+            })
+            this.isLoading = false;
+            this.loading = false;
+            this.openSnackBar(res.message, "");
+            console.log("res from illnessSurgicalRecordsData Success : ", res.message);
+            console.log("the fetched illnessSurgicalRecordsData is : ", this.illnessSurgicalProcedures);
+          }
+          else if (res.response === 0) {
+            this.isLoading = false;
+            this.openSnackBar(res.message, "");
+            console.log("failure case", res.message);
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.isLoading = false;
+            console.log("Client Side Error")
+          } else {
+            this.isLoading = false;
+            console.log(err)
+          }
+        })
+
+    this.loginService.fetchPatientDiagnosisData(this.fetchPatIllMedicationDataObj, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          if (res.response === 3) {
+            this.illnessDiagnosticNotes = res.illnessDiagnosisRecords;
+
+
+            let unixDates = this.illnessDiagnosticNotes[0].diagnosisDate;
+            var date11 = new Date(unixDates * 1000);
+            var dateToShow12 = date11.getFullYear() + '-' + ('0' + (date11.getMonth() + 1)).slice(-2) + '-' + ('0' + date11.getDate()).slice(-2);
+
+            this.editPatIllnessDiagnosisForm.patchValue({
+              "diagnosisDate": dateToShow12,
+              "doctorName": this.illnessDiagnosticNotes[0].doctorName,
+              "diagnosis": this.illnessDiagnosticNotes[0].diagnosis,
+              "prescription": this.illnessDiagnosticNotes[0].prescription,
+              "remark": this.illnessDiagnosticNotes[0].remark
+            })
+            this.isLoading = false;
+            this.loading = false;
+            this.openSnackBar(res.message, "");
+            console.log("res from illnessDiagnosisRecordsData Success : ", res.message);
+            console.log("the fetched illnessDiagnosisRecordsData is : ", this.illnessDiagnosticNotes);
+          }
+          else if (res.response === 0) {
+            this.isLoading = false;
+            this.openSnackBar(res.message, "");
+            console.log("failure case", res.message);
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.isLoading = false;
+            console.log("Client Side Error")
+          } else {
+            this.isLoading = false;
+            console.log(err)
+          }
+        })
+
+
     this.modalService.open(editMedicalHistoryModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -1731,13 +1931,13 @@ export class PatientMedicalRecordsComponent implements OnInit {
           if (res.response === 3) {
             this.illnessMedications = res.illnessMedicationRecords;
             this.medicinesData = this.illnessMedications[0].mannualPrescriptions.medicines;
-            
+
             let unixDates = this.illnessMedications[0].mannualPrescriptions.updateDate.addedDate / 1000;
             var date1 = new Date(unixDates * 1000);
             let dateToShow44 = date1.getFullYear() + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + ('0' + date1.getDate()).slice(-2);
             this.viewPatMedicationForm.patchValue({
               "medicationDate": dateToShow44,
-              "instructions" : "------------"
+              "instructions": "------------"
             })
             //this.illnessMedicationRecordsData.push(res.illnessMedicationRecords);
             this.isLoading = false;
@@ -1745,8 +1945,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
             this.openSnackBar(res.message, "");
             console.log("res from fetchPatientMedicationData Success : ", res.message);
             console.log("the fetched Ill Medication Records Data is : ", this.illnessMedications);
-            console.log("medication date : ",this.illnessMedications[0].mannualPrescriptions.updateDate.addedDate);
-            
+            console.log("medication date : ", this.illnessMedications[0].mannualPrescriptions.updateDate.addedDate);
+
           }
           else if (res.response === 0) {
             this.isLoading = false;
@@ -1772,7 +1972,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
             let unixDates = this.illnessSurgicalProcedures[0].surgeryDate;
             var date1 = new Date(unixDates * 1000);
             this.dateToShow = date1.getFullYear() + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + ('0' + date1.getDate()).slice(-2);
-            let timeToShow = date1.getHours()+ ':' + date1.getMinutes() + ':' + date1.getSeconds();
+            let timeToShow = date1.getHours() + ':' + date1.getMinutes() + ':' + date1.getSeconds();
             this.viewPatSurgicalForm.patchValue({
               "lastUpdateDate": this.dateToShow,
               "time": timeToShow,
@@ -1808,7 +2008,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
           if (res.response === 3) {
             this.illnessDiagnosticNotes = res.illnessDiagnosisRecords;
 
-            
+
             let unixDates = this.illnessDiagnosticNotes[0].diagnosisDate;
             var date11 = new Date(unixDates * 1000);
             var dateToShow11 = date11.getFullYear() + '-' + ('0' + (date11.getMonth() + 1)).slice(-2) + '-' + ('0' + date11.getDate()).slice(-2);
@@ -1985,8 +2185,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
           if (res.response === 3) {
             this.isLoading = false;
             //this.loading = false;
-            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
             this.fetchPatientPhysicalExamRecords();
             // this.ngOnInit()
             console.log("Res from Patient Phy Exam Data Delete : ", res.message);
@@ -1994,8 +2194,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
           else if (res.response === 0) {
             this.isLoading = false;
             //this.loading = false;
-            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
           }
         },
         (err: HttpErrorResponse) => {
@@ -2027,8 +2227,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
           if (res.response === 3) {
             this.isLoading = false;
             //this.loading = false;
-            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
             this.fetchPatientMedicalRecordIllness();
             // this.ngOnInit()
             console.log("Res from Patient Illness Data Delete : ", res.message);
@@ -2036,8 +2236,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
           else if (res.response === 0) {
             this.isLoading = false;
             //this.loading = false;
-            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
           }
         },
         (err: HttpErrorResponse) => {
@@ -2070,8 +2270,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
           if (res.response === 3) {
             this.isLoading = false;
             //this.loading = false;
-            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
             this.fetchPatientImmunizationRecords();
             // this.ngOnInit()
             console.log("Res from Patient Immunization Record Data Delete : ", res.message);
@@ -2079,8 +2279,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
           else if (res.response === 0) {
             this.isLoading = false;
             //this.loading = false;
-            this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
           }
         },
         (err: HttpErrorResponse) => {
@@ -2136,7 +2336,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
   //   });
   // }
 
-  //Medical-History Button actions
+  //Medical-History Add Button actions
   openPatientIllness() {
     this.viewPatientIllness = false;
     this.viewPatientDiagnostic = true;
@@ -2160,5 +2360,31 @@ export class PatientMedicalRecordsComponent implements OnInit {
     this.viewPatientDiagnostic = true;
     this.viewPatientMedications = true;
     this.viewPatientSurgical = false;
+  }
+
+  //Medical-History Edit Button actions
+  openPatientIllness2() {
+    this.viewPatientIllness2 = false;
+    this.viewPatientDiagnostic2 = true;
+    this.viewPatientMedications2 = true;
+    this.viewPatientSurgical2 = true;
+  }
+  openPatientDiagnostic2() {
+    this.viewPatientIllness2 = true;
+    this.viewPatientDiagnostic2 = false;
+    this.viewPatientMedications2 = true;
+    this.viewPatientSurgical2 = true;
+  }
+  openPatientMedications2() {
+    this.viewPatientIllness2 = true;
+    this.viewPatientDiagnostic2 = true;
+    this.viewPatientMedications2 = false;
+    this.viewPatientSurgical2 = true;
+  }
+  openPatientSurgical2() {
+    this.viewPatientIllness2 = true;
+    this.viewPatientDiagnostic2 = true;
+    this.viewPatientMedications2 = true;
+    this.viewPatientSurgical2 = false;
   }
 }
