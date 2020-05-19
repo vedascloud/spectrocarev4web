@@ -26,7 +26,7 @@
       <mat-icon class="handCursor">add_circle</mat-icon>
     </div>
     <div class="row scroll w-100">
-      <table class="table text-center ">
+      <table class="table text-center table-sm">
         <thead class="thead-dark ">
           <tr class="medium" style="font-weight: normal;">
             <th scope="col" class="border text-center">No</th>
@@ -39,14 +39,18 @@
           </tr>
         </thead>
         <tbody class="">
-          <tr class=" shadow small  " *ngFor="let selectedInvoicesData of patientAppointmentsData ; let i = index">
-            <td scope="row" class="text-center">{{i+1}}</td>
-            <td class="tdData" style="padding-left: 34px;">{{selectedInvoicesData.appointmentDate}}</td>
-            <td class="tdData" style="padding-left: 18px;">{{selectedInvoicesData.visitType}}</td>
-            <td class="tdData" style="padding-left: 38px;">{{selectedInvoicesData.reasonForVisit}}</td>
-            <td class="tdData" style="padding-left: 55px;">{{selectedInvoicesData.doctorName}}</td>
-            <td class="tdData" style="padding-left: 55px;">{{selectedInvoicesData.appointmentStatus}}</td>
-            <td class="menu text-center text-info" style="padding: 0px; overflow: hidden; padding-top: 5px;">
+          <tr *ngIf="!(patientAppointmentsData && patientAppointmentsData.length)" style="text-align: center;">
+            <td style="text-align: center;font-size: 12px;font-weight: 600;" colspan="7">Don't have Appointments
+            </td>
+          </tr>
+          <tr class=" shadow small " style="" *ngFor="let selectedInvoicesData of patientAppointmentsData ; let i = index">
+            <td scope="row" class="text-center" style="padding: 10px;">{{i+1}}</td>
+            <td class="tdData" style="padding-left: 34px;padding: 10px;">{{selectedInvoicesData.appointmentDate}}</td>
+            <td class="tdData" style="padding-left: 18px;padding: 10px;">{{selectedInvoicesData.visitType}}</td>
+            <td class="tdData" style="padding-left: 38px;padding: 10px;">{{selectedInvoicesData.reasonForVisit}}</td>
+            <td class="tdData" style="padding-left: 55px;padding: 10px;">{{selectedInvoicesData.doctorName}}</td>
+            <td class="tdData" style="padding-left: 55px;padding: 10px;">{{selectedInvoicesData.appointmentStatus}}</td>
+            <td class="menu text-center text-info" style="padding: 10px; overflow: hidden; padding-top: 5px;">
               <button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu" style="color: #53b8c5;background-color: Transparent;
               background-repeat:no-repeat;
               border: none;

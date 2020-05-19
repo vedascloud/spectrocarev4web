@@ -67,3 +67,7 @@
 button{
   outline: none;
 }
+
+.blackLogout:hover{
+  content: url("../../../assets/images/ui/Icons/1x/White-Icon-open-account-logout.png");
+}

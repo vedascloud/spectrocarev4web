@@ -32,6 +32,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AllMedicalRecordComponent } from './components/all-medical-record/all-medical-record.component';
 import { HeaderComponent } from './components/header/header.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
+import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
 
 const routes: Routes = [
   {path:"adminsignin",component:AdminsigninComponent},
@@ -63,6 +64,7 @@ const routes: Routes = [
     {path:"patientappointmentrecords",component:PatientAppointmentRecordComponent},
     {path:"patientscreeningrecord",component:PatientScreeningRecordComponent},
     {path:"allmedicalrecord",component:AllMedicalRecordComponent},
+    {path:"appointmentlist",component:AppointmentListComponent},
     {path:"upcomingappointment",component:UpcomingAppointmentComponent},
     {path:"pastappointment",component:PastAppointmentComponent},
     {path:"bookappointment",component:BookAppointmentComponent},

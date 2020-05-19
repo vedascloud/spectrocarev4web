@@ -53,6 +53,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { PatientScreeningRecordComponent } from './components/patient-screening-record/patient-screening-record.component';
+import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { PatientScreeningRecordComponent } from './components/patient-screening-
     DashboardComponent,
     AllMedicalRecordComponent,
     InvoicesComponent,
-    PatientScreeningRecordComponent
+    PatientScreeningRecordComponent,
+    AppointmentListComponent
   ],
   imports: [
     BrowserModule,

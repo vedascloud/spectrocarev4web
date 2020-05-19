@@ -111,7 +111,7 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
     addPatientFamilyHistory,{headers:{'x-access-token':accessToken}});
   }
 
-  //Add Patient Medicatio
+  //Add Patient Medication
   addPatientIllnessMedicationManualData(addPatientMedicationManualData,accessToken):any{       
     console.log("the req data for add pat fam history from service : ",addPatientMedicationManualData);    
     return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness/medication/manually",
@@ -123,7 +123,7 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
   //Update Patient Medication
   updatePatientIllnessMedicationManualData(updatePatientMedicationManualData,accessToken):any{       
     console.log("the req data for update pat fam history from service : ",updatePatientMedicationManualData);    
-    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness/medication/mannual",
+    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness/medication/manually",
     updatePatientMedicationManualData,{headers:{'x-access-token':accessToken}});
   }
 
@@ -207,6 +207,12 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
     addPatIllDiagnosisData,{headers:{'x-access-token':accessToken}});
   }
 
+  //Update Patient Ill Diagnosis Data
+  editPatientIllnessDiagnosisData(editPatIllDiagnosisData,accessToken):any{
+    return this._http.put("http://3.92.226.247:3000/api/patient/medicalrecord/illness/diagnosisNotes/",
+    editPatIllDiagnosisData,{headers:{'x-access-token':accessToken}});
+  }
+
   //Add Patient Medical Record Illness
   addPatientMedicalRecordIllnessData(addPatMedicalRecordIllnessData,accessToken):any{
     return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness",
@@ -219,7 +225,7 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
     editImmunizationData,{headers:{'x-access-token': accessToken}});
   }
 
-  //Update Pat Immunization Data
+  //Update Pat Illness Data
   updatePatientIllnessData(editedIllnessData,accessToken):any{
     return this._http.put("http://3.92.226.247:3000/api/patient/medicalrecord/illness",
     editedIllnessData,{headers:{'x-access-token': accessToken}});
@@ -227,7 +233,7 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
 
   //Update Patient Physical Exam Records Manually 
   updatePatientPhysicalExamRecordsManually(updatePatPhyExamRecordsManullyData,accessToken):any{
-    console.log("sended data : ",updatePatPhyExamRecordsManullyData);
+    console.log("update phy exam manual data from service : ",updatePatPhyExamRecordsManullyData);
     
     return this._http.put("http://3.92.226.247:3000/api/patient/physicalexamrecord",
     updatePatPhyExamRecordsManullyData,{headers:{'x-access-token':accessToken}});
@@ -295,8 +301,8 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
     return this._http.delete("http://3.92.226.247:3000/api/patient/immunization",options);
   }
 
-  //Delete Patient PhysicalExamRecords Single
-  deletePatientIllnessRecordData(deletePatientRecord,accessToken):any{
+  //Delete Patient Illness Info
+  deletePatientIllnessRecordData(deletePatientIllRecord,accessToken):any{
     let access_token:any = accessToken;
     const options = {
       headers: new HttpHeaders({
@@ -304,17 +310,81 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
       'x-access-token': access_token
       }),
       body: {
-        "medical_record_id":deletePatientRecord.medical_record_id,
-        "hospital_reg_num":deletePatientRecord.hospital_reg_num,
-        "patientID":deletePatientRecord.patientID,
-        "illnessID": deletePatientRecord.illnessID,
-        "byWhom": deletePatientRecord.byWhom,
-        "byWhomID": deletePatientRecord.byWhomID
+        "medical_record_id":deletePatientIllRecord.medical_record_id,
+        "hospital_reg_num":deletePatientIllRecord.hospital_reg_num,
+        "patientID":deletePatientIllRecord.patientID,
+        "illnessID": deletePatientIllRecord.illnessID,
+        "byWhom": deletePatientIllRecord.byWhom,
+        "byWhomID": deletePatientIllRecord.byWhomID
       }
       }
-    console.log("Delete Patien Phy exam record Data : ",options);
+    console.log("Delete Patien Illness Info record Data : ",options);
     return this._http.delete("http://3.92.226.247:3000/api/patient/medicalrecord/illness",options);
   }
+
+  //Delete Patient Diagnostic Notes 
+  deletePatientIllnessDiagnosticData(deletePatientIllRecord,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientIllRecord.medical_record_id,
+        "hospital_reg_num":deletePatientIllRecord.hospital_reg_num,
+        "patientID":deletePatientIllRecord.patientID,
+        "illnessID": deletePatientIllRecord.illnessID,
+        "byWhom": deletePatientIllRecord.byWhom,
+        "byWhomID": deletePatientIllRecord.byWhomID
+      }
+      }
+    console.log("Delete Patien Diagnostic Notes Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/medicalrecord/illness/diagnosisNotes/all",options);
+  }
+
+  //Delete Patient Medication Single
+  deletePatientIllnessMedicationData(deletePatientIllRecord,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientIllRecord.medical_record_id,
+        "hospital_reg_num":deletePatientIllRecord.hospital_reg_num,
+        "patientID":deletePatientIllRecord.patientID,
+        "illnessID": deletePatientIllRecord.illnessID,
+        "byWhom": deletePatientIllRecord.byWhom,
+        "byWhomID": deletePatientIllRecord.byWhomID
+      }
+      }
+    console.log("Delete Patien Medications Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/medicalrecord/illness/medication/all",options);
+  }
+
+  //Delete Patient SurgicalProcedure 
+  deletePatientIllnessSurgicalProcedureData(deletePatientIllRecord,accessToken):any{
+    let access_token:any = accessToken;
+    const options = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'x-access-token': access_token
+      }),
+      body: {
+        "medical_record_id":deletePatientIllRecord.medical_record_id,
+        "hospital_reg_num":deletePatientIllRecord.hospital_reg_num,
+        "patientID":deletePatientIllRecord.patientID,
+        "illnessID": deletePatientIllRecord.illnessID,
+        "byWhom": deletePatientIllRecord.byWhom,
+        "byWhomID": deletePatientIllRecord.byWhomID
+      }
+      }
+    console.log("Delete Patient Surgical Procedure Data : ",options);
+    return this._http.delete("http://3.92.226.247:3000/api/patient/medicalrecord/illness/surgicalrecord/all",options);
+  }
+  
 
   //Fetch Patient Screening Records 
   getPatientScreeningRecordsData(fetchPatientScreeningRecords,accessToken):any{       
@@ -323,11 +393,25 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
     fetchPatientScreeningRecords,{headers:{'x-access-token':accessToken}});
   }
 
+  //Fetch Hospital Appointments
+  getHospitalAppointmentsData(fetchHospitalAppointmentsRecordsObj,accessToken):any{       
+    console.log("the req data for fetch hospital / admin appointments records from service : ",fetchHospitalAppointmentsRecordsObj);    
+    return this._http.post("http://3.92.226.247:3000/api/appointments/allappointmentsforhospital",
+    fetchHospitalAppointmentsRecordsObj,{headers:{'x-access-token':accessToken}});
+  }
+
   //Fetch Patient Appointments Records 
   getPatientAppointmentsData(fetchPatientAppointmentsRecords,accessToken):any{       
     console.log("the req data for fetch pat appointments records from service : ",fetchPatientAppointmentsRecords);    
     return this._http.post("http://3.92.226.247:3000/api/appointments/allappointmentsforPatient",
     fetchPatientAppointmentsRecords,{headers:{'x-access-token':accessToken}});
+  }
+  
+  //Fetch Patient Screening Records 
+  getPatientScreeningData(fetchPatientScreeningRecords,accessToken):any{       
+    console.log("the req data for fetch pat appointments records from service : ",fetchPatientScreeningRecords);    
+    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/screeningrecord/fetchall",
+    fetchPatientScreeningRecords,{headers:{'x-access-token':accessToken}});
   }
 
   //Delete Patient PhysicalExamRecords Single

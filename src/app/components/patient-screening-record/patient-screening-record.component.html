@@ -26,29 +26,27 @@
             <mat-icon class="handCursor">add_circle</mat-icon>
         </div>
         <div class="row scroll w-100">
-            <table class="table text-center ">
+            <table class="table text-center table-sm">
                 <thead class="thead-dark ">
                     <tr class="medium" style="font-weight: normal;">
-                        <th scope="col" class="border text-center">No</th>
-                        <th scope="col" class="border  text-center">Date/Time</th>
-                        <th scope="col" class="border text-center">Type</th>
-                        <th scope="col" class="border text-center">Reason For Visit</th>
-                        <th scope="col" class="border  text-center">Doctor</th>
-                        <th scope="col" class="border text-center">Status</th>
-                        <th scope="col" class="border  text-center">Action</th>
+                        <th scope="col" class="border text-center" style="font-size: 14px;">No</th>
+                        <th scope="col" class="border  text-center" style="font-size: 14px;">Date/Time</th>
+                        <th scope="col" class="border text-center" style="font-size: 14px;">IllnessScreeningID</th>
+                        <th scope="col" class="border text-center" style="font-size: 14px;">Details</th>
+                        <th scope="col" class="border  text-center" style="font-size: 14px;">Record Name</th>
+                        <th scope="col" class="border  text-center" style="font-size: 14px;">Action</th>
                     </tr>
                 </thead>
                 <tbody class="">
                     <tr class=" shadow small  "
-                        *ngFor="let selectedInvoicesData of patientAppointmentsData ; let i = index">
-                        <td scope="row" class="text-center">{{i+1}}</td>
-                        <td class="tdData" style="padding-left: 34px;">{{selectedInvoicesData.appointmentDate}}</td>
-                        <td class="tdData" style="padding-left: 18px;">{{selectedInvoicesData.visitType}}</td>
-                        <td class="tdData" style="padding-left: 38px;">{{selectedInvoicesData.reasonForVisit}}</td>
-                        <td class="tdData" style="padding-left: 55px;">{{selectedInvoicesData.doctorName}}</td>
-                        <td class="tdData" style="padding-left: 55px;">{{selectedInvoicesData.appointmentStatus}}</td>
+                        *ngFor="let selectedScreeningData of patientScreeningRecordsData ; let i = index">
+                        <td scope="row" class="text-center" style="padding: 10px;">{{i+1}}</td>
+                        <td class="tdData" style="padding-left: 90px !important;padding: 10px;">{{selectedScreeningData.addedDate}}</td>
+                        <td class="tdData" style="padding-left: 60px !important;padding: 10px;">{{selectedScreeningData.illnessScreeningID}}</td>
+                        <td class="tdData" style="padding-left: 90px !important;padding: 10px;">{{selectedScreeningData.recordMoreDetails}}</td>
+                        <td class="tdData" style="padding-left: 55px !important;padding: 10px;">{{selectedScreeningData.recordName}}</td>
                         <td class="menu text-center text-info"
-                            style="padding: 0px; overflow: hidden; padding-top: 5px;">
+                            style="padding: 10px; overflow: hidden; padding-top: 5px;">
                             <button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu" style="color: #53b8c5;background-color: Transparent;
               background-repeat:no-repeat;
               border: none;
@@ -59,7 +57,7 @@
                             </button>
                             <mat-menu #menu="matMenu" class="menudata" #beforeMenu="matMenu" xPosition="before">
                                 <button mat-menu-item class="menuItembtn" style="outline: none !important;"
-                                    (click)="openViewMethod(viewModel)">
+                                    (click)="openViewMethod(viewModel,selectedScreeningData,selectedPatient)">
                                     <span>View Report</span>
                                 </button>
 
@@ -74,32 +72,36 @@
                                         <div class="row "
                                             style="justify-content: space-between;padding-left: inherit;padding-right: inherit;">
                                             <div>
-                                                <label>Issue Date : </label>
-                                                <span>28-Apr-2020</span>
+                                                <label style="font-size: 12px; font-weight: 600;">Issue Date : &nbsp;</label>
+                                                <span style="font-size: 12px; font-weight: 600;">{{selectedScreeningData.addedDate}}</span>
                                             </div>
                                             <div>
-                                                <label>Report ID # : </label>
-                                                <span>UT-003134</span>
+                                                <label style="font-size: 12px; font-weight: 600;">Report ID # : &nbsp;</label>
+                                                <span style="font-size: 12px; font-weight: 600;">{{selectedScreeningData.illnessScreeningID}}</span>
                                             </div>
                                         </div>
                                         <div class="" style="border: 0.3px solid #818383;"></div>
                                         <div class="row px-3">
                                             <div class="col-4">
                                                 <div>
-                                                    <span style="font-size: 14px;font-weight: 600;">Patient
+                                                    <span style="font-size: 13px;font-weight: 600;">Patient
                                                         Information</span>
                                                 </div>
-                                                <div>
-                                                    <img src="../../../assets/images/ui/Icons/1x/admin image.png">
+                                                <div style="padding-top: 5px;padding-bottom: 5px;text-align: center;">
+                                                    <img class=""
+                                                    style=" border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 100px;height: 100px;min-width: 100px;min-height: 100px;"
+                                                    src="{{'http://3.92.226.247:3000'+selectedPatient.profilePic}}"
+                                                    onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+
                                                 </div>
                                                 <div>
-                                                    <div class="row">
-                                                        <span style="font-size: 12px;font-weight: 600;">Amrutha
-                                                            Rao</span>
+                                                    <div class="row text-center" style="justify-content: center;">
+                                                        <span style="font-size: 12px;font-weight: 600;">{{selectedPatient.firstName}}
+                                                            {{selectedPatient.lastName}}</span>
                                                     </div>
-                                                    <div class="row">
-                                                        <span style="font-size: 12px;font-weight: 550;">Patient ID :
-                                                            PIDabcd1234</span>
+                                                    <div class="row text-center" style="justify-content: center;">
+                                                        <span style="font-size: 12px;font-weight: 580;">Patient ID :
+                                                            {{selectedPatient.patientID}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -109,8 +111,8 @@
                                                         <span style="font-size: 12px; font-weight: 600;">First
                                                             Name</span>
                                                     </div>
-                                                    <div class="col-7">
-                                                        <span style="font-size: 12px; font-weight: 500;">Amrutha</span>
+                                                    <div class="col-7" style="padding-left: inherit;">
+                                                        <span style="font-size: 12px; font-weight: 500;">{{selectedPatient.firstName}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -118,16 +120,16 @@
                                                         <span style="font-size: 12px; font-weight: 600;">Last
                                                             Name</span>
                                                     </div>
-                                                    <div class="col-7">
-                                                        <span style="font-size: 12px; font-weight: 500;">Rao</span>
+                                                    <div class="col-7" style="padding-left: inherit;">
+                                                        <span style="font-size: 12px; font-weight: 500;">{{selectedPatient.lastName}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-5">
                                                         <span style="font-size: 12px; font-weight: 600;">Gender</span>
                                                     </div>
-                                                    <div class="col-7">
-                                                        <span style="font-size: 12px; font-weight: 500;">Male</span>
+                                                    <div class="col-7" style="padding-left: inherit;">
+                                                        <span style="font-size: 12px; font-weight: 500;">{{selectedPatient.gender}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -135,26 +137,26 @@
                                                         <span style="font-size: 12px; font-weight: 600;">Date of
                                                             Birth</span>
                                                     </div>
-                                                    <div class="col-7">
+                                                    <div class="col-7" style="padding-left: inherit;">
                                                         <span
-                                                            style="font-size: 12px; font-weight: 500;">07-Apr-1990</span>
+                                                            style="font-size: 12px; font-weight: 500;">{{selectedPatient.dob}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-5">
                                                         <span style="font-size: 12px; font-weight: 600;">Age</span>
                                                     </div>
-                                                    <div class="col-7">
-                                                        <span style="font-size: 12px; font-weight: 500;">29</span>
+                                                    <div class="col-7" style="padding-left: inherit;">
+                                                        <span style="font-size: 12px; font-weight: 500;">{{selectedPatient.age}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-5">
                                                         <span style="font-size: 12px; font-weight: 600;">Email</span>
                                                     </div>
-                                                    <div class="col-7">
+                                                    <div class="col-7" style="padding-left: inherit;">
                                                         <span
-                                                            style="font-size: 12px; font-weight: 500;">amrutharao@gmail.com</span>
+                                                            style="font-size: 12px; font-weight: 500;">{{selectedPatient.emailID}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -162,18 +164,16 @@
                                                         <span style="font-size: 12px; font-weight: 600;">Phone
                                                             Number</span>
                                                     </div>
-                                                    <div class="col-7">
-                                                        <span style="font-size: 12px; font-weight: 500;">+91
-                                                            9848022338</span>
+                                                    <div class="col-7" style="padding-left: inherit;">
+                                                        <span style="font-size: 12px; font-weight: 500;">{{selectedPatient.phoneNumber.phoneNumber}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-5">
                                                         <span style="font-size: 12px; font-weight: 600;">Address</span>
                                                     </div>
-                                                    <div class="col-7">
-                                                        <span style="font-size: 12px; font-weight: 500;">H.No:404,
-                                                            Chennai Road, Anantapur City, AP,India</span>
+                                                    <div class="col-7" style="padding-left: inherit;">
+                                                        <span style="font-size: 12px; font-weight: 500;">{{selectedPatient.address}}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -181,7 +181,7 @@
 
                                         <div class="" style="border: 0.3px solid #818383;"></div>
                                         <div class="" style="border: 0.3px solid #818383;"></div>
-                                        <div class="row px-3">
+                                        <div class="row px-3" style="padding-top: 5px; padding-bottom: 5px;">
                                             <div class="row pl-3">
                                                 <span style="font-size: 14px;font-weight: 600;;">Specimen
                                                     Information</span>
@@ -193,18 +193,18 @@
                                                             <div class="col-6">
                                                                 <span style="font-size: 12px; font-weight: 600;">Sample Type</span>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-6" style="margin-left: inherit;">
                                                                 <span
-                                                                    style="font-size: 12px; font-weight: 500;">Urine</span>
+                                                                    style="font-size: 12px; font-weight: 500;">{{selectedScreeningData.recordName}}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <span style="font-size: 12px; font-weight: 600;">Collected on</span>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-6" style="margin-left: inherit;">
                                                                 <span
-                                                                    style="font-size: 12px; font-weight: 500;">14-Apr-2020 10:00 AM</span>
+                                                                    style="font-size: 12px; font-weight: 500;">{{selectedScreeningData.addedDate}}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -212,16 +212,16 @@
                                                                 <span
                                                                     style="font-size: 12px; font-weight: 600;">Received on</span>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-6" style="margin-left: inherit;">
                                                                 <span
-                                                                    style="font-size: 12px; font-weight: 500;">14-Apr-2020 10:30 AM</span>
+                                                                    style="font-size: 12px; font-weight: 500;">{{selectedScreeningData.addedDate}}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-6">
                                                                 <span style="font-size: 12px; font-weight: 600;">Fasting</span>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-6" style="margin-left: inherit;">
                                                                 <span
                                                                     style="font-size: 12px; font-weight: 500;">Yes</span>
                                                             </div>
@@ -230,21 +230,21 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="row">
-                                                            <div class="col-6">
+                                                            <div class="col-5">
                                                                 <span style="font-size: 12px; font-weight: 600;">Tested by</span>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-7" style="padding-left: inherit;">
                                                                 <span
-                                                                    style="font-size: 12px; font-weight: 500;">Dr.Balu</span>
+                                                                    style="font-size: 12px; font-weight: 500;">Dr.{{selectedScreeningData.tracking[0].byWhomName}}</span>
                                                             </div>
                                                         </div>
                                                         <div class="row">
-                                                            <div class="col-6">
+                                                            <div class="col-5">
                                                                 <span style="font-size: 12px; font-weight: 600;">Tested ID</span>
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-7" style="padding-left: inherit;">
                                                                 <span
-                                                                    style="font-size: 12px; font-weight: 500;">TRID1001</span>
+                                                                    style="font-size: 12px; font-weight: 500;">{{selectedScreeningData.tracking[0].byWhomID}}</span>
                                                             </div>
                                                         </div>
 
@@ -255,12 +255,44 @@
 
                                         <div class="" style="border: 0.3px solid #818383;"></div>
                                         <div class="" style="border: 0.3px solid #818383;"></div>
-                                        <div class="row px-3">
-                                            <div>Urinalysis Report</div>
+                                        <div class="row px-3" style="padding-bottom: 5px;padding-top: 5px;">
+                                            <span style="font-size: 14px;font-weight: 600;;">Urinalysis Report</span>
                                         </div>
-                                        <div class="" style="border: 0.3px solid #818383;"></div>
-                                        <div class="row px-3">
-                                            <div>Openions / Interpretations</div>
+                                        <!-- <div class="" style="border: 0.3px solid #818383;"></div> -->
+                                        <div>
+                                            <table class="table text-center table-sm">
+                                                <thead class="thead-light ">
+                                                    <tr class="medium" style="font-weight: normal;">
+                                                        <th scope="col" class="border  text-center" style="font-size: 12px;">Test Name</th>
+                                                        <th scope="col" class="border text-center" style="font-size: 12px;">Results</th>
+                                                        <th scope="col" class="border text-center" style="font-size: 12px;">Flag</th>
+                                                        <th scope="col" class="border  text-center" style="font-size: 12px;">Units</th>
+                                                        <th scope="col" class="border text-center" style="font-size: 12px;">Reference</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="">
+                                                    <tr class=" shadow small  "
+                                                        *ngFor="let selectedInvoicesData of testResults ; let i = index">
+                                                        <td class="tdData text-center" style="padding: 10px;font-size: 12px;">{{selectedInvoicesData.testname}}</td>
+                                                        <td class="tdData text-center" style="padding: 10px;font-size: 12px;">{{selectedInvoicesData.results}}</td>
+                                                        <td class="tdData text-center" style="padding: 10px;font-size: 12px;">{{selectedInvoicesData.flag}}</td>
+                                                        <td class="tdData text-center" style="padding: 10px;font-size: 12px;">{{selectedInvoicesData.units}}</td>
+                                                        <td class="tdData text-center" style="padding: 10px;font-size: 12px;">{{selectedInvoicesData.reference}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>                                    
+                                        </div>
+                                        <div class="row px-3" style="padding-bottom: 5px;padding-top: 5px;">
+                                            <span style="font-size: 14px;font-weight: 600;">Openions / Interpretations</span>
+                                        </div>
+                                        <textarea class="border-1" style="font-size: 12px; padding: 5px; width: -webkit-fill-available;"></textarea>
+                                        <div class="row px-3" style="padding-top: 5px;">
+                                            <span style="margin-right: 10px; font-size: 12px;font-weight: 600;">Checked by</span>
+                                            <span style="font-size: 12px;">Dr.{{selectedScreeningData.tracking[0].byWhomName}}</span>
+                                        </div>
+                                        <div class="row px-3" style="padding-bottom: 5px;padding-top: 5px;">
+                                            <span style="margin-right: 10px;font-size: 12px;font-weight: 600;">Date / Time</span>
+                                            <span style="font-size: 12px;">{{selectedScreeningData.tracking[0].date}}</span>
                                         </div>
                                     </div>
                                     <div class="modal-footer justify-content-center">
@@ -272,7 +304,7 @@
                                 </ng-template>
 
                                 <button mat-menu-item class="menuItembtn" style="outline: none !important;"
-                                    (click)="openShareReportMethod(viewShareReportModel)">
+                                    (click)="openShareReportMethod(viewShareReportModel,selectedPatient)">
                                     <span>Share Report</span>
                                 </button>
 
@@ -289,7 +321,7 @@
                                                     Share Test Record
                                                 </h5><br>
                                                 <span class="" style="font-size: 12px;">Want to share the test report to
-                                                    UserName via Gmail ? </span>
+                                                    {{selectedPatient.firstName}}-{{selectedPatient.lastName}} via {{selectedPatient.emailID}} ? </span>
                                             </div>
                                         </div>
                                         <div style="text-align: center;" class="py-2">

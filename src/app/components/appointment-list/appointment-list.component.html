@@ -1,0 +1,129 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="container-fluid " >
+    <div class="row ">
+        <div class="col-md-12 p-0">
+            <app-header [titleData]="titleArray"></app-header>
+        </div>
+    </div>
+    <div class="container-fluid px-2 pb-3" style="background-color: #F8FCFD;padding: inherit;">
+
+        <div class="row bg-white" style="justify-content: inherit;justify-content: space-between;">
+            <span class="pl-4 pb-3 pt-3" style="font-size: 14px;font-weight: 600;letter-spacing: 0.3;">
+                Appointment List <span>&nbsp; ( {{listSize}} ) &nbsp;</span>
+            </span>
+            <button class="btn btn-sm"
+                style="background-color: #53b8c5;height: 30px;margin-top: 10px;color: white;">Book Appointment</button>
+        </div>
+
+        <div class="row pt-3">
+            <div class="col-md-3">
+
+                <button class="btn btn-sm bg-dark text-white mr-1 px-3" style="" 
+                    (click)="getTodayAppointments()">Today</button>
+                <button class="btn btn-sm bg-dark text-white mr-1 " style="" 
+                    (click)="getUpcomingAppointments()">Upcoming</button>
+                <button class="btn btn-sm bg-dark text-white mr-1 px-3" style="" 
+                    (click)="getPastAppointments()">Past</button>
+            </div>
+            <div class="col-md-6">
+                <input type="text" [(ngModel)]="term" class=" p-2 w-100 " placeholder="Search by Key"
+                style="border-radius: 5px; outline-style: none !important; font-weight: 300;padding-right: 100%;height: 34px;
+                padding-left: 40px !important;">
+            <div class="searchIcon" style="margin-left: 10px;margin-top: -28px;">
+                <i class="fas fa-search" aria-hidden="true"></i>
+            </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control" style="height: 33px;">
+                    <!-- <mat-select (selectionChange)="showData($event.value)"
+                        [value]="selected" style="font-size: 14px;">
+                        <mat-option *ngFor="let letSearch of searchByValue"
+                            [value]="letSearch.viewValue">
+                            {{letSearch.viewValue}}
+                        </mat-option>
+                    </mat-select> -->
+                    <mat-select (selectionChange)="showData($event.value)" [value]="selected" style="color: black;">
+                        <mat-option *ngFor="let letSearch of searchByValue" [value]="letSearch.viewValue">
+                          {{letSearch.viewValue}}
+                        </mat-option>
+                      </mat-select>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive p-2">
+            <div class="scroll">
+                <table class="table text-center ">
+                    <thead class="thead-dark ">
+                        <tr class="small p-0" style="font-weight: normal;">
+                            <th class="p-0" scope="col" class="border text-center">No</th>
+                            <th class="p-0" scope="col" class="border  text-center">Patient Name</th>
+                            <th class="p-0" scope="col" class="border text-center">Doctor</th>
+                            <th class="p-0" scope="col" class="border text-center">Date & Time</th>
+                            <th class="p-0" scope="col" class="border text-center">Type</th>
+                            <th class="p-0" scope="col" class="border text-center">Status</th>
+                            <th class="p-0" scope="col" class="border  text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class=" shadow  small "
+                            *ngFor="let patient of listOfAppointments | filter:term; let i = index">
+                            <td scope="row" class="text-center" style="padding-top: 25px;">{{i+1}}</td>
+                            <td class="p-2" style="">
+                                <div class="row" style="justify-content: space-around;">
+                                    <div class="col-2"
+                                        style="border-radius: 50% !important;width: 50px;height: 50px;">
+                                        <img class=""
+                                            style=" border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 50px;height: 50px;min-width: 50px;min-height: 50px;"
+                                            src="{{'http://3.92.226.247:3000'+patient.doctorProfilePic}}"
+                                            onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+                                    </div>
+                                    <div class="col-10" style="padding-top: 7px;padding-left: 50px;">
+                                        <div>{{patient.patientName}}</div>
+                                        <div>{{patient.patientID}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="pl-5" style="padding-top: 25px;">{{patient.doctorName}}</td>
+                            <td class="pl-5" style="padding-top: 7px;">
+                                <div>{{patient.appointmentDate}}</div>
+                                <div>{{patient.appointmentTimeFrom}}-{{patient.appointmentTimeTo}}</div>
+                            </td>
+                            <td class="pl-3" style="padding-top: 25px;">{{patient.visitType}}</td>                            
+                            <td class="" style="padding-left: 70px;padding-top: 25px;" [ngClass]="{
+                                            'text-success': patient.appointmentStatus == 'Accepted',
+                                            'text-warning': patient.appointmentStatus == 'Waiting for confirmation',                                           
+                                            'text-danger': patient.appointmentStatus == 'Cancelled'                                            
+                                          }">{{patient.appointmentStatus}}</td>
+                            
+                            <td class="menu text-center text-info" style="padding: 0px; overflow: hidden; padding-top: 20px;">
+                                <button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu" style="color: #53b8c5;background-color: Transparent;
+                                background-repeat:no-repeat;
+                                border: none;
+                                cursor:pointer;
+                                overflow: hidden;
+                                outline:none;">
+                                  <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                </button>
+                                <mat-menu #menu="matMenu" class="menudata" #beforeMenu="matMenu" xPosition="before">
+                                    <button mat-menu-item class="menuItembtn" (click)="openViewModal(viewContent)"
+                                      style="outline: none !important;">
+                                      <span>View Details</span>
+                                    </button>
+                                    <button mat-menu-item class="menuItembtn" (click)="openViewModal(viewContent)"
+                                      style="outline: none !important;">
+                                      <span>Reschedule</span>
+                                    </button>
+                                    <button mat-menu-item class="menuItembtn" (click)="openViewModal(viewContent)"
+                                      style="outline: none !important;">
+                                      <span>Cancel</span>
+                                    </button>
+                                </mat-menu>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

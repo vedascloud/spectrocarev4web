@@ -9,17 +9,20 @@
 
         </div>
         <div class=" mr-5 dropdown" >
-
+            <img src="../../../assets/images/ui/Icons/1x/Icon-ionic-ios-notifications.png" width="20px" style="margin-right: 25px;">
             <button mat-icon-button [matMenuTriggerFor]="menu"  class="p-0">
-                <mat-icon>settings</mat-icon>
+                <!-- <mat-icon>settings</mat-icon>  -->
+                <img src="../../../assets/images/ui/Icons/1x/Icon-feather-settings.png" width="24px">
               </button>
               <mat-menu #menu="matMenu"  xPosition="before">
                 <button class="" mat-menu-item [routerLink]="['/admincenter/adminprofile']">
-                  <mat-icon>person</mat-icon>
+                  <!-- <mat-icon>person</mat-icon> -->
+                  <img src="../../../assets/images/ui/Icons/1x/profile.png" width="20px" style="margin-right: 5px;">
                   <span>Profile</span>
                 </button>
                 <button class="" mat-menu-item (click)="openSignOut(content1)">
-                  <mat-icon>logout</mat-icon>
+                  <!-- <mat-icon>logout</mat-icon> -->
+                  <img class="blackLogout" src="../../../assets/images/ui/Icons/1x/Black-icon-account-logout.png" width="20px" style="margin-right: 5px;">
                   <span>Logout</span>
                 </button>
               </mat-menu>

@@ -1,11 +1,326 @@
 <div class="container-fluid">
-    <div class="row ">
-        <div class="col-md-12 p-0">
-            <app-header [titleData]="titleArray"></app-header>
+  <div class="row ">
+    <div class="col-md-12 p-0">
+      <app-header [titleData]="titleArray"></app-header>
+    </div>
+  </div>
+  <div class="container pb-3" style="background-color: #F8FCFD;">
+
+    <div class="row bg-white" style="">
+      <span class="pl-4 pb-3 pt-3" style="font-size: 14px;font-weight: 600;letter-spacing: 0.3;color: #53b8c5;">
+        Create Medical Record
+      </span>
+    </div>
+
+    <div class="row" style="padding: 12px !important;
+    background-color: white;
+    padding-left: 15px !important;
+    margin: auto;
+    margin-right: auto;
+    margin-top: 10px;">
+      <button class="btn btn-sm text-white mr-2 "
+        style="width: 12%;font-weight: 600;background-color: #53b8c5;">Save</button>
+      <button class="btn btn-sm text-dark border-dark"
+        style="width: 12%;font-weight: 600;background-color: white;">Clear</button>
+    </div>
+    <div class="row py-2">
+      <div class="col-12">
+        <button class="btn btn-sm bg-dark text-white mr-1 " style="width: 18%;" 
+        [style.color]="textColor"
+          (click)="callPatientGeneralInfo()">General
+          Information</button>
+        <!--[routerLink]="['/admincenter/patientgeneralinfo']"-->
+        <button class="btn btn-sm bg-dark text-white mr-1 " style="width: 18%;" 
+        [style.color]="textColor1"
+          (click)="callPatientMedicalReocrds()">Medical Records</button>
+        <!--[routerLink]="['/admincenter/patientmedicalrecords']"-->
+      </div>
+    </div>
+
+    <div class="row p-0">
+      <div class="col-md-12">
+        <div cass=" justify-content-around">
+          <div class="card bg-white w-100 p-2">
+            <div class="row border p-1 px-4  justify-content-between" style="margin: inherit;background-color: #f7f7f7;">
+              <span class="profileTitle" style="font-weight: bold">Patient Profile</span>
+            </div>
+            <div class="row p-1 pt-2">
+              <div class="col-md-7">
+                <form [formGroup]="patientProfileForm">
+                  <div class="row pb-0">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Patient ID</label>
+                        <input type="text" style="font-size: 12px; border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="patientID">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Medical Record Number</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px; "
+                          class=" form-control bg-white" formControlName="medical_record_number">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pb-0">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">First Name</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="firstName">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Last Name</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="lastName">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pb-0">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Gender</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="gender">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Date of Birth</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="dob">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pb-0">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Phone Number</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="phoneNumber">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Age</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="age">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pb-0">
+                    <div class="col-md-12">
+                      <div class="form-group ">
+                        <label class="label" style="color: #3e454c;">Email</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="emailID">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pb-0">
+                    <div class="col-md-12">
+                      <div class="form-group ">
+                        <label class="label" style="color: #3e454c;">Address</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="address">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pb-0">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">City</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="city">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">State/Province/Region</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="state">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row pb-0">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Country</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="country">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="label" style="color: #3e454c;">Pincode</label>
+                        <input type="text" style="font-size: 12px;border-radius: 5px; height: 30px;"
+                          class=" form-control bg-white" formControlName="pincode">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row justify-content-center p-3">
+                    <div class="col-md-8 text-center" *ngIf="isViewBottom">
+                      <div *ngIf="isLoading" style="display: flex; justify-content: center;padding-bottom: 7px;">
+                        <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
+                          [diameter]="30">
+                        </mat-progress-spinner>
+                      </div>
+                      <div>
+                        <button class="btn btn-sm border  mr-4"
+                          style="width: 30%; margin-left: -10px; font-size: 14px; font-weight: 700;">Cancel</button>
+                        <button class="btn btn-sm bg-info "
+                          style="width:30%;color: white;font-size: 14px; font-weight: 700;"
+                          (click)="updatePatientProfileData()">Save</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-5">
+                <!--Upload IMg-->
+                <div class="justify-content-center" style="text-align: -webkit-center;padding-left: 20px;">
+                  <div style="border-radius: 50% !important;width: 100px;height: 100px;">
+                    <img class=""
+                      style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 100px;min-height: 100px;width: 100px;height: 100px;"
+                      src="{{previewImg1}}"  onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+                    <!---->
+                  </div>
+                  <div class="container">
+                    <div class="row ">
+                      <div class="img-move input-group mb-3 mt-3 justify-content-center">
+                        <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
+                          aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg"
+                          (change)="fileProgress1($event)" class="d-none">
+                        <button mat-raised-button
+                          style="outline-style: none;border-radius: 20px; color: black !important;"
+                          (click)="fileInput.click()" type="button">
+                          <!--background-color: rgb(197, 213, 219);  class="btn m-auto btn-sm font-weight-normal  "-->
+                          Upload Photo
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Upload IMG Ends-->
+              </div>
+            </div>
+            <div class="row border p-1 px-4  justify-content-between" style="margin: inherit;background-color: #f7f7f7;">
+              <span class="profileTitle" style="font-weight: bold">Family History</span>
+            </div>
+            <div class="row" style="padding-left: 34px;padding-top: 10px;padding-bottom: 10px;">
+              <div class="col-6">
+                <form [formGroup]="editFamilyHistoryForm">
+                  <div class="row">
+                      <div class="col-1"></div>
+                      <div class="col-5 modelBodyHead">
+                          <span class=" headText" style="font-size: 14px;font-weight: 600;padding-left: 7px;">Disease Name</span>
+                      </div>
+                      <div class="col-5 modelBodyHead " style="padding-left: inherit;">
+                          <span class="headText"
+                              style="font-size: 14px;margin-left: 18px;font-weight: 600;">Relationship</span>
+                      </div>
+                  </div>
+                  <div formArrayName="familyHistory" class="pt-2" style="flex-flow:inherit; height: 150px !important;">
+                      <ng-container *ngFor="let desease of familyDeseases.controls; let i =index">
+      
+                          <div class="form-group row " style="padding-left: 7px;" [formGroupName]="i">
+                              <div class="col-md-1" style="line-height: 2;font-size: 12px;">
+                                  {{i+1}}.
+                              </div>
+                              <div class="col-md-5">
+                                  <input type="text" formControlName="dieseaseName"
+                                      style="border-radius: 5px; margin-right: -40px; height: 30px;font-size: 12px;"
+                                      class=" form-control  ">
+                              </div>
+                              <div class="col-md-5">
+                                  <select formControlName="relationship"
+                                      style="border-radius: 5px; margin-right: -40px; height: 30px;font-size: 12px;"
+                                      class=" form-control  ">
+                                      <option value="parent">Parent</option>
+                                      <option value="grandparent">Grand parent</option>
+                                      <option value="brother">Brother</option>
+                                      <option value="sister">Sister</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-1" style="margin-top: 8px;" (click)="removeDesease(i)">
+                                  <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon metro-cancel.png"
+                                      style="margin-top: -9px;" width="20rem" class="handCursor">
+                              </div>
+                          </div>
+                      </ng-container>
+                  </div>
+                  <div class="row py-2 pl-5 ">
+                      <div style="padding-left: 18px;" (click)="addMember()">
+                          <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
+                              width="20rem" class="handCursor">
+                          <span class="px-3 handCursor">Add New List</span>
+                      </div>
+                  </div>
+              </form>
+              </div>
+              <div class="col-6">
+              </div>              
+            </div>
+            <div class="row border p-1 px-4  justify-content-between" style="margin: inherit;background-color: #f7f7f7;">
+              <span class="profileTitle" style="font-weight: bold">Allergies</span>
+            </div>
+            <div class="row" style="padding-left: 34px;padding-top: 10px;padding-bottom: 10px;">
+              <div class="col-6">
+                <form [formGroup]="addAllergiesForm">
+                  <div class="row">
+                      <div class="col-1"></div>
+                      <div class="col-5 modelBodyHead">
+                          <span class=" headText" style="font-size: 14px;font-weight: 600;padding-left: 7px;">Name</span>
+                      </div>
+                      <div class="col-5 modelBodyHead " style="padding-left: inherit;">
+                          <span class="headText"
+                              style="font-size: 14px;margin-left: 18px;font-weight: 600;">Notes</span>
+                      </div>
+                  </div>
+                  <div formArrayName="allergieHistory" class="pt-2" style="flex-flow:inherit; height: 150px !important;">
+                      <ng-container *ngFor="let desease of allergieData.controls; let i =index">
+      
+                          <div class="form-group row " style="padding-left: 7px;" [formGroupName]="i">
+                              <div class="col-md-1" style="line-height: 2;font-size: 12px;">
+                                  {{i+1}}.
+                              </div>
+                              <div class="col-md-5">
+                                  <input type="text" formControlName="name"
+                                      style="border-radius: 5px; margin-right: -40px; height: 30px;font-size: 12px;"
+                                      class=" form-control  ">
+                              </div>
+                              <div class="col-md-5">
+                                  <input type="text" formControlName="notes"
+                                      style="border-radius: 5px; margin-right: -40px; height: 30px;font-size: 12px;"
+                                      class=" form-control  ">
+                              </div>
+                              <div class="col-md-1" style="margin-top: 8px;" (click)="removeAllergie(i)">
+                                  <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon metro-cancel.png"
+                                      style="margin-top: -9px;" width="20px !important" class="handCursor">
+                              </div>
+                          </div>
+                      </ng-container>
+                  </div>
+                  <div class="row py-2 pl-5 ">
+                      <div style="padding-left: 18px;" (click)="addAllergie()">
+                          <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
+                              width="20rem" class="handCursor">
+                          <span class="px-3 handCursor">Add New List</span>
+                      </div>
+                  </div>
+              </form>
+              </div>
+              <div class="col-6">
+              </div>
+            </div>
           </div>
-          </div>
-          <div class="row">
-            <p>Medical Records Works!</p>
-          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>

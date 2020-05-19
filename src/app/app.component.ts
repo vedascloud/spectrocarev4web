@@ -78,6 +78,7 @@ export class AppComponent {
     (this.router.url != "/patient")&&
     (this.router.url.indexOf('/admincenter/patientprofile') == -1) &&
     (this.router.url != "/adminappointment")&&
+    (this.router.url != "/admincenter/appointmentlist") &&
     (this.router.url !="/admincenter/upcomingappointment") &&
     (this.router.url != "/admincenter/pastappointment") &&
     (this.router.url != "/admincenter/bookappointment") &&

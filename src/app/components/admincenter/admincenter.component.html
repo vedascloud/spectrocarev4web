@@ -58,7 +58,7 @@
                           </li>
                           <li class="nav-item pl-4">
                             <a class="nav-link  pl-4  " [routerLink]="['/admincenter/allmedicalrecord']"
-                            routerLinkActive="active">All Medical Record</a>
+                            routerLinkActive="active">Create Medical Record</a>
                           </li>
                          
                         </ul>
@@ -70,6 +70,10 @@
                         >Appointment</a><!--routerLinkActive="active"-->
                         <div *ngIf="listInAppointment">
                           <ul class="nav  flex-column  " style="background-color:#1C1F22;">
+                            <li class="nav-item pl-4">
+                              <a class="nav-link  pl-4  " [routerLink]="['/admincenter/appointmentlist']"
+                              routerLinkActive="active">Appointment List</a>
+                            </li>
                             <li class="nav-item pl-4">
                               <a class="nav-link  pl-4  " [routerLink]="['/admincenter/upcomingappointment']"
                               routerLinkActive="active">Upcoming Appointment</a>
