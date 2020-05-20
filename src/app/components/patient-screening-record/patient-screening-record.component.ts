@@ -15,7 +15,7 @@ interface SearchByValue {
 })
 export class PatientScreeningRecordComponent implements OnInit {
 
-
+  dateToShow: any;
   signInRes: any;
   signObj: any;
   userID: any;
@@ -72,6 +72,7 @@ export class PatientScreeningRecordComponent implements OnInit {
     private loginService: LoginService, private modalService: NgbModal, ) { }
 
   ngOnInit() {
+    this.dateToShow = new Date().toLocaleDateString()
     //this.patientAppointmentsData = this.patientProfile.patientAppointmentsData;
     this.selectedPatient = this.patientProfile.selectedPatient;
     this.loading = true;

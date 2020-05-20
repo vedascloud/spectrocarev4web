@@ -20,7 +20,7 @@ interface SearchByValue {
 })
 
 export class PatientMedicalRecordsComponent implements OnInit {
-
+  presentDate: string;
   basicExamForm: FormGroup;
   basicExamEditForm: FormGroup;
   systemExamForm: FormGroup;
@@ -274,7 +274,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
     //this.a.a1 = {"a11":"do it"} 
     console.log("the medicines data : ", this.medicinesData);
 
-
+    this.presentDate = new Date().toLocaleDateString();
     this.loading = true;
     this.signInRes = localStorage.getItem("SignInRes");
     this.signObj = JSON.parse(this.signInRes);

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 interface SearchByValue { 
   viewValue: string;
@@ -19,6 +20,7 @@ export class AppointmentListComponent implements OnInit {
   subTitle:"",
 img:"assets/images/ui/Icons/1x/calendar1.png"};
 
+closeResult: string;
 signInRes: any;
 signObj: any;
 userID: string;
@@ -48,7 +50,7 @@ invoicesData : any = [
   {"Invoice":"AB-1005","Client":"mno flintoff","Items":"Urine test","Amount":"20","Issuedate":"2020-02-23","Status":"Paid"},
   {"Invoice":"AB-1006","Client":"pqr prasuna","Items":"Urine test","Amount":"60","Issuedate":"2020-04-31","Status":"Draft"},
 ]
-constructor(private loginService: LoginService) { }
+constructor(private loginService: LoginService,private modalService: NgbModal) { }
 
   ngOnInit() {
     this.showData;
@@ -135,4 +137,20 @@ getTodayAppointments(){
   })
 }
 
+private getDismissReason(reason: any): string {
+  if (reason === ModalDismissReasons.ESC) {
+    return 'by pressing ESC';
+  } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+    return 'by clicking on a backdrop';
+  } else {
+    return `with: ${reason}`;
+  }
+}
+openViewAppointmentMethod(viewAppointmentModelContent,patient){
+  this.modalService.open(viewAppointmentModelContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
+    this.closeResult = `Closed with: ${result}`;
+  }, (reason) => {
+    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+  });
+}
 }

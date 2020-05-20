@@ -12,6 +12,7 @@ interface SearchByValue {
 })
 export class PatientAppointmentRecordComponent implements OnInit {
 
+  dateToShow: string;
   loading: boolean;  
   patientAppointmentsData: any;
   
@@ -25,6 +26,8 @@ export class PatientAppointmentRecordComponent implements OnInit {
   constructor(private patientProfile:PatientProfileComponent,private modalService: NgbModal,) { }
 
   ngOnInit() {
+    
+    this.dateToShow = new Date().toLocaleDateString();
     this.patientAppointmentsData = this.patientProfile.patientAppointmentsData;
   }
 

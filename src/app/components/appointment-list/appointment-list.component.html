@@ -1,5 +1,5 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
-<div class="container-fluid " >
+<div class="container-fluid ">
     <div class="row ">
         <div class="col-md-12 p-0">
             <app-header [titleData]="titleArray"></app-header>
@@ -18,35 +18,27 @@
         <div class="row pt-3">
             <div class="col-md-3">
 
-                <button class="btn btn-sm bg-dark text-white mr-1 px-3" style="" 
+                <button class="btn btn-sm bg-dark text-white mr-1 px-3" style=""
                     (click)="getTodayAppointments()">Today</button>
-                <button class="btn btn-sm bg-dark text-white mr-1 " style="" 
+                <button class="btn btn-sm bg-dark text-white mr-1 " style=""
                     (click)="getUpcomingAppointments()">Upcoming</button>
-                <button class="btn btn-sm bg-dark text-white mr-1 px-3" style="" 
+                <button class="btn btn-sm bg-dark text-white mr-1 px-3" style=""
                     (click)="getPastAppointments()">Past</button>
             </div>
             <div class="col-md-6">
-                <input type="text" [(ngModel)]="term" class=" p-2 w-100 " placeholder="Search by Key"
-                style="border-radius: 5px; outline-style: none !important; font-weight: 300;padding-right: 100%;height: 34px;
+                <input type="text" [(ngModel)]="term" class=" p-2 w-100 " placeholder="Search by Key" style="border-radius: 5px; outline-style: none !important; font-weight: 300;padding-right: 100%;height: 34px;
                 padding-left: 40px !important;">
-            <div class="searchIcon" style="margin-left: 10px;margin-top: -28px;">
-                <i class="fas fa-search" aria-hidden="true"></i>
-            </div>
+                <div class="searchIcon" style="margin-left: 10px;margin-top: -28px;">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </div>
             </div>
             <div class="col-md-3">
                 <div class="form-control" style="height: 33px;">
-                    <!-- <mat-select (selectionChange)="showData($event.value)"
-                        [value]="selected" style="font-size: 14px;">
-                        <mat-option *ngFor="let letSearch of searchByValue"
-                            [value]="letSearch.viewValue">
-                            {{letSearch.viewValue}}
-                        </mat-option>
-                    </mat-select> -->
                     <mat-select (selectionChange)="showData($event.value)" [value]="selected" style="color: black;">
                         <mat-option *ngFor="let letSearch of searchByValue" [value]="letSearch.viewValue">
-                          {{letSearch.viewValue}}
+                            {{letSearch.viewValue}}
                         </mat-option>
-                      </mat-select>
+                    </mat-select>
                 </div>
             </div>
         </div>
@@ -70,8 +62,7 @@
                             <td scope="row" class="text-center" style="padding-top: 25px;">{{i+1}}</td>
                             <td class="p-2" style="">
                                 <div class="row" style="justify-content: space-around;">
-                                    <div class="col-2"
-                                        style="border-radius: 50% !important;width: 50px;height: 50px;">
+                                    <div class="col-2" style="border-radius: 50% !important;width: 50px;height: 50px;">
                                         <img class=""
                                             style=" border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 50px;height: 50px;min-width: 50px;min-height: 50px;"
                                             src="{{'http://3.92.226.247:3000'+patient.doctorProfilePic}}"
@@ -88,34 +79,157 @@
                                 <div>{{patient.appointmentDate}}</div>
                                 <div>{{patient.appointmentTimeFrom}}-{{patient.appointmentTimeTo}}</div>
                             </td>
-                            <td class="pl-3" style="padding-top: 25px;">{{patient.visitType}}</td>                            
+                            <td class="pl-3" style="padding-top: 25px;">{{patient.visitType}}</td>
                             <td class="" style="padding-left: 70px;padding-top: 25px;" [ngClass]="{
                                             'text-success': patient.appointmentStatus == 'Accepted',
                                             'text-warning': patient.appointmentStatus == 'Waiting for confirmation',                                           
                                             'text-danger': patient.appointmentStatus == 'Cancelled'                                            
                                           }">{{patient.appointmentStatus}}</td>
-                            
-                            <td class="menu text-center text-info" style="padding: 0px; overflow: hidden; padding-top: 20px;">
-                                <button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu" style="color: #53b8c5;background-color: Transparent;
+
+                            <td class="menu text-center text-info"
+                                style="padding: 0px; overflow: hidden; padding-top: 20px;">
+                                <button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu"
+                                    style="color: #53b8c5;background-color: Transparent;
                                 background-repeat:no-repeat;
                                 border: none;
                                 cursor:pointer;
                                 overflow: hidden;
                                 outline:none;">
-                                  <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                 </button>
                                 <mat-menu #menu="matMenu" class="menudata" #beforeMenu="matMenu" xPosition="before">
+                                    <button mat-menu-item class="menuItembtn"
+                                        (click)="openViewAppointmentMethod(viewAppointmentModelContent,patient)"
+                                        style="outline: none !important;">
+                                        <span>View Details</span>
+                                    </button>
+                                    <ng-template #viewAppointmentModelContent let-modal>
+                                        <div class="modal-header" style="background-color: #53B9C6;color: white;">
+                                            <h5 class="modal-title justify-content-center" id="modal-basic-title">Appointment Information</h5>
+                                            <mat-icon (click)="modal.close('Close click')" class="handCursor">cancel</mat-icon>
+                                        </div>
+                                        <div class="modal-body scroll1">
+                                            <div class="px-3">
+                                                <div class="row pb-2">
+                                                    <div class="col-md-5" style="font-size: 12px; font-weight: 600;">
+                                                        Appointment Date & Time
+                                                    </div>
+                                                    <div class="col-md-3" style="font-size: 12px;padding-left: inherit;">
+                                                        <div class="row">
+                                                            <img src="../../../assets/images/ui/Icons/1x/calender.png" style="max-width: 15%;margin-right: 5px;">
+                                                            <div style="padding-top: 3px;">{{patient.appointmentDate}}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4" style="font-size: 12px;padding-left: inherit;">
+                                                        <div class="row"> 
+                                                            <img src="../../../assets/images/ui/Icons/1x/Icon-feather-clock.png" style="max-width: 20%;margin-right: 5px;">
+                                                            <div style="padding-top: 3px;">{{patient.appointmentTimeFrom}}-{{patient.appointmentTimeTo}}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="border: 0.3px solid rgb(75, 76, 77);padding: 10px;">
+                                                    <div class="col-md-4" style="align-self: center;">
+                                                        <div class="" style="border-radius: 50% !important;width: 60px;height: 60px;padding-bottom: 5px;margin-left: 33px;">
+                                                            <img class=""
+                                                                style=" border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 60px;height: 60px;min-width: 60px;min-height: 60px;"
+                                                                src="{{'http://3.92.226.247:3000'+patient.doctorProfilePic}}"
+                                                                onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+                                                        </div>
+                                                        <button class="btn btn-sm" style="margin-top: 5px; background-color: #53B9C6;font-size: 12px;font-weight: 600;color: white;">View Medical Record</button>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="row p-1">
+                                                            <div class="col-md-5">
+                                                                <div style="font-size: 12px;font-weight: 600;">Patient Name</div>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                <div style="font-size: 12px;">{{patient.patientName}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row p-1">
+                                                            <div class="col-md-5">
+                                                                <div style="font-size: 12px;font-weight: 600;">Email Address</div>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                <div style="font-size: 12px;">--------</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row p-1">
+                                                            <div class="col-md-5">
+                                                                <div style="font-size: 12px;font-weight: 600;">Phone Number</div>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                <div style="font-size: 12px;">--------</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row p-1">
+                                                            <div class="col-md-5">
+                                                                <div style="font-size: 12px;font-weight: 600;">Reason for Visit</div>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                <div style="font-size: 12px;">{{patient.reasonForVisit}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row p-1">
+                                                            <div class="col-md-5">
+                                                                <div style="font-size: 12px;font-weight: 600;">Notes</div>
+                                                            </div>
+                                                            <div class="col-md-7">
+                                                                <div style="font-size: 12px;">--------</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="" style="padding: 10px;">
+                                                    <div class="row p-1">
+                                                        <div class="col-md-4">
+                                                            <div style="font-size: 12px; font-weight: 600;">Appointment Type</div>                                                        
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div style="font-size: 12px;">{{patient.visitType}}</div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row p-1">
+                                                        <div class="col-md-4">
+                                                            <div style="font-size: 12px; font-weight: 600;">Doctor Name</div>                                                        
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div style="font-size: 12px;">{{patient.doctorName}}</div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row p-1">
+                                                        <div class="col-md-4">
+                                                            <div style="font-size: 12px; font-weight: 600;">Departmet</div>                                                        
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div style="font-size: 12px;">{{patient.department}}</div>
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div class="row p-1">
+                                                        <div class="col-md-4">
+                                                            <div style="font-size: 12px; font-weight: 600;">Status</div>                                                        
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div style="font-size: 12px;">{{patient.appointmentStatus}}</div>
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>                                    
+                                        </div>
+                                        <div class="modal-footer justify-content-center">
+                                            <button class="btn btn-sm"
+                                                style="outline-style: none; font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;height: 30px;"
+                                                (click)="modal.close('Close click')">Close
+                                            </button>
+                                        </div>
+                                    </ng-template>
                                     <button mat-menu-item class="menuItembtn" (click)="openViewModal(viewContent)"
-                                      style="outline: none !important;">
-                                      <span>View Details</span>
+                                        style="outline: none !important;">
+                                        <span>Reschedule</span>
                                     </button>
                                     <button mat-menu-item class="menuItembtn" (click)="openViewModal(viewContent)"
-                                      style="outline: none !important;">
-                                      <span>Reschedule</span>
-                                    </button>
-                                    <button mat-menu-item class="menuItembtn" (click)="openViewModal(viewContent)"
-                                      style="outline: none !important;">
-                                      <span>Cancel</span>
+                                        style="outline: none !important;">
+                                        <span>Cancel</span>
                                     </button>
                                 </mat-menu>
                             </td>
@@ -127,3 +241,4 @@
 
     </div>
 </div>
+

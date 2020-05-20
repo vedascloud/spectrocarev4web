@@ -1,13 +1,19 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
 <div class="container-fluid pb-5" style="background-color: #F8FCFD;">
-  <div class="row calender-show pl-3 " style="background-color: #F8FCFD; justify-content: flex-end; ">
-    <input placeholder="2020-03-13" class=" pl-3" style="width: 40vh;" ngbDatepicker #d="ngbDatepicker" readonly>
-    <div class="calenderLogo">
-      <button style="outline-style: none;" class="p-0 btn  calendar" (click)="d.toggle()" type="button">
-        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-      </button>
+  <div class="row">
+    <div class="col-md-9"></div>
+    <div class="col-md-3">
+        <div class="calender-show pl-3 " style="background-color: #F8FCFD; justify-content: flex-end; ">
+            <input placeholder="2020-03-13" [value]="dateToShow" class=" pl-3" ngbDatepicker #d="ngbDatepicker" readonly>
+            <div class="calenderLogo" style="margin-top: -30px;
+            margin-left: 190px;">
+                <button style="outline-style: none;" class="p-0 btn  calendar" (click)="d.toggle()" type="button">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
 
   <div class="row p-4 w-25" style="background-color: #F8FCFD;">
     <div class="form-control" style="background-color: #53b8c5; color: white !important;">
@@ -29,13 +35,13 @@
       <table class="table text-center table-sm">
         <thead class="thead-dark ">
           <tr class="medium" style="font-weight: normal;">
-            <th scope="col" class="border text-center">No</th>
-            <th scope="col" class="border  text-center">Date/Time</th>
-            <th scope="col" class="border text-center">Type</th>
-            <th scope="col" class="border text-center">Reason For Visit</th>
-            <th scope="col" class="border  text-center">Doctor</th>
-            <th scope="col" class="border text-center">Status</th>
-            <th scope="col" class="border  text-center">Action</th>
+            <th scope="col" class="border text-center" style="font-size: 14px;">No</th>
+            <th scope="col" class="border  text-center" style="font-size: 14px;">Date/Time</th>
+            <th scope="col" class="border text-center" style="font-size: 14px;">Type</th>
+            <th scope="col" class="border text-center" style="font-size: 14px;">Reason For Visit</th>
+            <th scope="col" class="border  text-center" style="font-size: 14px;">Doctor</th>
+            <th scope="col" class="border text-center" style="font-size: 14px;">Status</th>
+            <th scope="col" class="border  text-center" style="font-size: 14px;">Action</th>
           </tr>
         </thead>
         <tbody class="">

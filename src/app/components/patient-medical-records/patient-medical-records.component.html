@@ -1,11 +1,17 @@
 <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
 <div class="container-fluid pb-5" style="background-color: #F8FCFD;">
-  <div class="row calender-show " style="background-color: #F8FCFD; justify-content: flex-end; ">
-    <input placeholder="2020-03-13" class=" pl-3" style="width: 40vh;" ngbDatepicker #d="ngbDatepicker" readonly>
-    <div class="calenderLogo">
-      <button style="outline-style: none;" class="p-0 btn  calendar" (click)="d.toggle()" type="button">
-        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-      </button>
+  <div class="row">
+    <div class="col-md-9"></div>
+    <div class="col-md-3">
+      <div class="calender-show pl-3 " style="background-color: #F8FCFD; justify-content: flex-end; ">
+        <input placeholder="2020-03-13" [value]="presentDate" class=" pl-3" ngbDatepicker #d="ngbDatepicker" readonly>
+        <div class="calenderLogo" style="margin-top: -30px;
+            margin-left: 190px;">
+          <button style="outline-style: none;" class="p-0 btn  calendar" (click)="d.toggle()" type="button">
+            <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -235,11 +241,13 @@
                     <!-- *ngIf="selectedInvoicesData"-->
                     <div class="row justify-content-center pb-2 mat-blue">
                       <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
-                        <mat-button-toggle style="font-size: 14px;" (click)="viewManualInput()" [disabled]="!HaveBodyIndex"
-                          [style.background-color]="color" [style.color]="textColor">Manual Input
+                        <mat-button-toggle style="font-size: 14px;" (click)="viewManualInput()"
+                          [disabled]="!HaveBodyIndex" [style.background-color]="color" [style.color]="textColor">Manual
+                          Input
                         </mat-button-toggle>
-                        <mat-button-toggle style="font-size: 14px;" (click)="viewAttachment()" [disabled]="HaveBodyIndex"
-                          [style.background-color]="color1" [style.color]="textColor1">Attachment</mat-button-toggle>
+                        <mat-button-toggle style="font-size: 14px;" (click)="viewAttachment()"
+                          [disabled]="HaveBodyIndex" [style.background-color]="color1" [style.color]="textColor1">
+                          Attachment</mat-button-toggle>
                       </mat-button-toggle-group>
                     </div>
                     <div *ngIf="viewManualInputView">
@@ -272,7 +280,8 @@
                                     </div>
                                     <div class="row justify-content-center  ">
                                       <div class="" style="padding-left: 15px;margin-left: -7px;">
-                                        <input type="number" placeholder="" formControlName="height" (input)="onSearchChange2($event.target.value)"
+                                        <input type="number" placeholder="" formControlName="height"
+                                          (input)="onSearchChange2($event.target.value)"
                                           style=" height: 30px;font-size: 12px;font-weight: 500;"
                                           class="form-control bg-white ">
                                         <div class="cm">CM</div>
@@ -286,7 +295,8 @@
                                     </div>
                                     <div class="row justify-content-center  ">
                                       <div class="" style="padding-left: 15px;margin-left: -7px;">
-                                        <input type="number" placeholder="" formControlName="weight" (input)="onSearchChange3($event.target.value)"
+                                        <input type="number" placeholder="" formControlName="weight"
+                                          (input)="onSearchChange3($event.target.value)"
                                           style=" height: 30px;font-size: 12px;font-weight: 500;"
                                           class="form-control bg-white ">
                                         <div class="cm">KG</div>
@@ -298,7 +308,7 @@
                                 <div class="row justify-content-center pb-3">
                                   <div class="col-md-6 ">
                                     <div class="row ml-2 pl-2 pb-1">
-                                      <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;" >BMI</span>
+                                      <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;">BMI</span>
                                     </div>
                                     <div class="row justify-content-center  ">
                                       <div class="" style="margin-left: -22px;">
@@ -310,7 +320,7 @@
                                   </div>
                                   <div class="col-md-6 ">
                                     <div class="row ml-2 pl-2 pb-1">
-                                      <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;" >BMR</span>
+                                      <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;">BMR</span>
                                     </div>
                                     <div class="row justify-content-center  ">
                                       <div class="" style="margin-left: inherit;">
@@ -321,28 +331,32 @@
                                     </div>
                                   </div>
                                 </div>
-                    
+
                                 <div class="row justify-content-center pb-3">
                                   <div class="col-md-6 ">
                                     <div class="row ml-2 pl-2 pb-1">
-                                      <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;">Waistline</span>
+                                      <span class="modelBodyHead"
+                                        style="font-size: 12px;font-weight: 600;">Waistline</span>
                                     </div>
                                     <div class="row justify-content-center  ">
                                       <div class="" style="padding-left: 15px;margin-left: -7px;">
                                         <input type="number" placeholder="" formControlName="waistline"
-                                          style=" height: 30px;font-size: 12px;font-weight: 500;" class="form-control bg-white ">
+                                          style=" height: 30px;font-size: 12px;font-weight: 500;"
+                                          class="form-control bg-white ">
                                         <div class="cm">CM</div>
                                       </div>
                                     </div>
                                   </div>
                                   <div class="col-md-6 ">
                                     <div class="row ml-2 pl-2 pb-1">
-                                      <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;">Blood Pressure</span>
+                                      <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;">Blood
+                                        Pressure</span>
                                     </div>
                                     <div class="row justify-content-center  ">
                                       <div class="" style="padding-left: 50px;margin-left: -7px;">
                                         <input type="text" placeholder="" formControlName="bloodPressure"
-                                          style=" height: 30px;font-size: 12px;font-weight: 500;width: 85%;" class="form-control bg-white ">
+                                          style=" height: 30px;font-size: 12px;font-weight: 500;width: 85%;"
+                                          class="form-control bg-white ">
                                         <div class="mmhg">mmHg</div>
                                       </div>
                                     </div>
@@ -437,136 +451,138 @@
                       <div style="height: 300px;">
 
                         <form [formGroup]="editPatientPhysicalExamFileForm"
-                        (ngSubmit)="addPatientPhysicalExamFileSubmit()">
+                          (ngSubmit)="addPatientPhysicalExamFileSubmit()">
 
-                        <div *ngIf="isNoFile"
-                          style="border: 1px solid #b3b2b2;padding: 20px;">
-                          <div class="text-center py-1 " *ngIf="!isNoFile" style="border: 2px solid rgba(0,0,0,0.3); border-style: dashed;border-radius: 5px;
+                          <div *ngIf="isNoFile" style="border: 1px solid #b3b2b2;padding: 20px;">
+                            <div class="text-center py-1 " *ngIf="!isNoFile" style="border: 2px solid rgba(0,0,0,0.3); border-style: dashed;border-radius: 5px;
                                 margin-left: 10px;margin-right: 20px; margin-bottom: 10px;
                                 height: 130px;">
-                            <div class="justify-content-center pb-2" style="text-align: center;align-self: center;">
-                              <div class="row justify-content-center pt-4 pb-2">
-                                <img src="../../../assets/images/ui/Icons/1x/empty@2x.png" width="10%">
-                              </div>
-                              <div class="row justify-content-center ">
-                                <span style="font-size: 14px;">No Files</span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="d-flex border p-2" *ngIf="isNoFile" style="border-radius: 5px;">
-                            <div class="col-2" style="justify-content: center;">
-                              <img
-                                src="../../../assets/images/ui/Icons/patient-medical-module/Icon awesome-file-alt.png"
-                                class="">
-                            </div>
-                            <div class="col-8" style="justify-content: start;">
-                              <span style="font-size: 12px;font-weight: 600; ">{{fileName}} {{fileSize}}
-                                {{fileValue}}</span>
-                            </div>
-                            <div class="col-2" style="text-align: end;">
-                              <div class=" ">
-                                <img
-                                  src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
-                                  class=" handCursor " width="30%" style="margin-right: 3px;"
-                                  (click)="removeUploadedFile1()">
+                              <div class="justify-content-center pb-2" style="text-align: center;align-self: center;">
+                                <div class="row justify-content-center pt-4 pb-2">
+                                  <img src="../../../assets/images/ui/Icons/1x/empty@2x.png" width="10%">
+                                </div>
+                                <div class="row justify-content-center ">
+                                  <span style="font-size: 14px;">No Files</span>
+                                </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div class="row py-2 " *ngIf="!isNoFile">
-                            <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
-                              aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg, .pdf"
-                              (change)="fileProgress1($event)" class="d-none">
-                            <div style="padding-left: 24px;" (click)="fileInput.click()">
-                              <img
-                                src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
-                                width="20rem" class="handCursor">
-                              <span class="px-3 handCursor" style="font-size: 14px;">Add New File / Document</span>
-                            </div>
-
-                          </div>
-                        </div>
-
-                        <div *ngIf="!isNoFile">
-                        <div class=" p-1 border mx-4 pl-2 pt-1 pb-2 mb-2 d-flex justify-content-around" style="border-radius: 5px;"
-                          >
-                          <div class="col-md-10">
-                            <div class="d-flex row">
-                              <div>
+                            <div class="d-flex border p-2" *ngIf="isNoFile" style="border-radius: 5px;">
+                              <div class="col-2" style="justify-content: center;">
                                 <img
                                   src="../../../assets/images/ui/Icons/patient-medical-module/Icon awesome-file-alt.png"
-                                  class="mr-1">
+                                  class="">
                               </div>
-                              <div class="">
-
-                                <span
-                                  style="font-size: 9px;font-weight: 600; ">{{ fetchedPatPhyExamAttachments.split('/')[3] }}</span>
+                              <div class="col-8" style="justify-content: start;">
+                                <span style="font-size: 12px;font-weight: 600; ">{{fileName}} {{fileSize}}
+                                  {{fileValue}}</span>
                               </div>
-                            </div>
-                          </div>
-                          <div class="col-md-2" style="text-align: end;" > <!--(click)="openDeletePhyExamModalAttachment(viewDeletePhyExamContentAttachment)"-->
-                            <div class=" ">
-                              <img
-                                src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
-                                class=" handCursor " width="30%" style="margin-right: 3px;">
-                            </div>
-                          </div>
-
-                          <ng-template #viewDeletePhyExamContentAttachment let-modal>
-                            <div class="modal-body">
-                              <div class="d-flex p-1">
-                                <div class="col-md-4 text-center p-3 m-0">
-                                  <img src="../../../assets/images/ui/Icons/1x/delete_1.png"
-                                    style="width: 80%; margin-top: 10px;">
-                                </div>
-                                <div class="col-md-8 p-2">
-                                  <h5 class=" font-weight-small" style="font-size: 14px;font-weight: 600;">
-                                    Delete Physical Exam Record
-                                  </h5><br>
-                                  <span class="" style="font-size: 12px;">Are you sure you want to delete this physical exam
-                                    record ? </span>
-                                </div>
-                              </div>
-                              <div style="text-align: center;" class="py-2">
-                                <div *ngIf="isLoading" style="display: flex; justify-content: center; padding-bottom: 5px;">
-                                  <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
-                                    [diameter]="30">
-                                  </mat-progress-spinner>
-                                </div>
-                                <div>
-                                  <button class="btn btn-sm mr-3"
-                                    style="outline-style: none; font-weight: 500;font-size: medium;height: 30px; background-color:transparent; color: black;border: 1px solid black;"
-                                    (click)="modal.close('Close click')">Cancel
-                                  </button>
-                                  <button class="btn btn-sm"
-                                    style="outline-style: none; font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;height: 30px;"
-                                    (click)="deletePatientPhyExamDataAttachment(selectedInvoicesData)" (click)="modal.close('Close click')">Delete
-                                  </button>
+                              <div class="col-2" style="text-align: end;">
+                                <div class=" ">
+                                  <img
+                                    src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
+                                    class=" handCursor " width="30%" style="margin-right: 3px;"
+                                    (click)="removeUploadedFile1()">
                                 </div>
                               </div>
                             </div>
-                          </ng-template>
 
-                        </div>
-                      </div>
+                            <div class="row py-2 " *ngIf="!isNoFile">
+                              <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
+                                aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg, .pdf"
+                                (change)="fileProgress1($event)" class="d-none">
+                              <div style="padding-left: 24px;" (click)="fileInput.click()">
+                                <img
+                                  src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
+                                  width="20rem" class="handCursor">
+                                <span class="px-3 handCursor" style="font-size: 14px;">Add New File / Document</span>
+                              </div>
 
-                        <div style="text-align: center;" class="py-2">
-                          <div *ngIf="isLoading"
-                            style="display: flex; justify-content: center; padding-bottom: 5px;">
-                            <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
-                              [diameter]="30">
-                            </mat-progress-spinner>
+                            </div>
                           </div>
-                          <button class="btn btn-sm mr-3"
-                            style="outline-style: none; font-weight: 500;font-size: medium;height: 30px; background-color:transparent; color: black;border: 1px solid black;"
-                            (click)="modal.close('Close click')">Cancel
-                          </button>
-                          <button class="btn btn-sm" style="outline-style: none; font-weight: 500;font-size: medium; background-color: #53B9C6;
+
+                          <div *ngIf="!isNoFile">
+                            <div class=" p-1 border mx-4 pl-2 pt-1 pb-2 mb-2 d-flex justify-content-around"
+                              style="border-radius: 5px;">
+                              <div class="col-md-10">
+                                <div class="d-flex row">
+                                  <div>
+                                    <img
+                                      src="../../../assets/images/ui/Icons/patient-medical-module/Icon awesome-file-alt.png"
+                                      class="mr-1">
+                                  </div>
+                                  <div class="">
+
+                                    <span
+                                      style="font-size: 9px;font-weight: 600; ">{{ fetchedPatPhyExamAttachments.split('/')[3] }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-2" style="text-align: end;">
+                                <!--(click)="openDeletePhyExamModalAttachment(viewDeletePhyExamContentAttachment)"-->
+                                <div class=" ">
+                                  <img
+                                    src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
+                                    class=" handCursor " width="30%" style="margin-right: 3px;">
+                                </div>
+                              </div>
+
+                              <ng-template #viewDeletePhyExamContentAttachment let-modal>
+                                <div class="modal-body">
+                                  <div class="d-flex p-1">
+                                    <div class="col-md-4 text-center p-3 m-0">
+                                      <img src="../../../assets/images/ui/Icons/1x/delete_1.png"
+                                        style="width: 80%; margin-top: 10px;">
+                                    </div>
+                                    <div class="col-md-8 p-2">
+                                      <h5 class=" font-weight-small" style="font-size: 14px;font-weight: 600;">
+                                        Delete Physical Exam Record
+                                      </h5><br>
+                                      <span class="" style="font-size: 12px;">Are you sure you want to delete this
+                                        physical exam
+                                        record ? </span>
+                                    </div>
+                                  </div>
+                                  <div style="text-align: center;" class="py-2">
+                                    <div *ngIf="isLoading"
+                                      style="display: flex; justify-content: center; padding-bottom: 5px;">
+                                      <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
+                                        [diameter]="30">
+                                      </mat-progress-spinner>
+                                    </div>
+                                    <div>
+                                      <button class="btn btn-sm mr-3"
+                                        style="outline-style: none; font-weight: 500;font-size: medium;height: 30px; background-color:transparent; color: black;border: 1px solid black;"
+                                        (click)="modal.close('Close click')">Cancel
+                                      </button>
+                                      <button class="btn btn-sm"
+                                        style="outline-style: none; font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;height: 30px;"
+                                        (click)="deletePatientPhyExamDataAttachment(selectedInvoicesData)"
+                                        (click)="modal.close('Close click')">Delete
+                                      </button>
+                                    </div>
+                                  </div>
+                                </div>
+                              </ng-template>
+
+                            </div>
+                          </div>
+
+                          <div style="text-align: center;" class="py-2">
+                            <div *ngIf="isLoading" style="display: flex; justify-content: center; padding-bottom: 5px;">
+                              <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
+                                [diameter]="30">
+                              </mat-progress-spinner>
+                            </div>
+                            <button class="btn btn-sm mr-3"
+                              style="outline-style: none; font-weight: 500;font-size: medium;height: 30px; background-color:transparent; color: black;border: 1px solid black;"
+                              (click)="modal.close('Close click')">Cancel
+                            </button>
+                            <button class="btn btn-sm" style="outline-style: none; font-weight: 500;font-size: medium; background-color: #53B9C6;
                              color: white;height: 30px;">Save
-                          </button>
-                        </div>
-                      </form>
+                            </button>
+                          </div>
+                        </form>
 
                         <!-- <form [formGroup]="addPatientPhysicalExamFileForm"
                           (ngSubmit)="addPatientPhysicalExamFileSubmit()">
@@ -1379,7 +1395,8 @@
                               </div>
                             </div>
 
-                            <div class=" p-1 border mx-4 pl-2 pt-1 pb-2 mb-2 d-flex justify-content-around" style="border-radius: 5px;"
+                            <div class=" p-1 border mx-4 pl-2 pt-1 pb-2 mb-2 d-flex justify-content-around"
+                              style="border-radius: 5px;"
                               *ngFor="let patientScreeningRecordsData of medicationAttachmentData; let i = index">
                               <div class="col-md-10">
                                 <div class="d-flex row">
@@ -1395,7 +1412,8 @@
                                   </div>
                                 </div>
                               </div>
-                              <div class="col-md-2" style="text-align: end;" (click)="removeEditMedicationAttachment(i)">
+                              <div class="col-md-2" style="text-align: end;"
+                                (click)="removeEditMedicationAttachment(i)">
                                 <div class=" ">
                                   <img
                                     src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
@@ -1479,12 +1497,12 @@
                             <div class="row" style="padding-left: 15px;">
                               <input style="border-radius: 5px;font-size: 12px; margin-right: 16px;"
                                 class="p-2 form-control" formControlName="doctorName">
-                                <div class="searchLogo">
-                                  <button style="outline-style: none;" (click)="openDoctorMethod(doctorsModel)" class="p-0 btn searchLogo"
-                                    type="button">
-                                    <i class="fas fa-search" aria-hidden="true"></i>
-                                  </button>
-                                </div>
+                              <div class="searchLogo">
+                                <button style="outline-style: none;" (click)="openDoctorMethod(doctorsModel)"
+                                  class="p-0 btn searchLogo" type="button">
+                                  <i class="fas fa-search" aria-hidden="true"></i>
+                                </button>
+                              </div>
                             </div>
                           </div>
                           <div style=" padding: 5px;">
@@ -1507,89 +1525,93 @@
                           </div>
 
                           <div *ngIf="!(illnessSurgicalAttachments && illnessSurgicalAttachments.length)"
-                              style="padding: 0px;"> <!--border: 1px solid #b3b2b2;-->
-                              <div class="text-center py-1 " *ngIf="!isNoFile" style="border: 2px solid rgba(0,0,0,0.3); border-style: dashed;border-radius: 5px;
+                            style="padding: 0px;">
+                            <!--border: 1px solid #b3b2b2;-->
+                            <div class="text-center py-1 " *ngIf="!isNoFile" style="border: 2px solid rgba(0,0,0,0.3); border-style: dashed;border-radius: 5px;
                                     margin-left: 5px;margin-right: 6px; margin-bottom: 10px;
                                     height: 130px;">
-                                <div class="justify-content-center pb-2" style="text-align: center;align-self: center;">
-                                  <div class="row justify-content-center pt-4 pb-2">
-                                    <img src="../../../assets/images/ui/Icons/1x/empty@2x.png" width="10%">
-                                  </div>
-                                  <div class="row justify-content-center ">
-                                    <span style="font-size: 14px;">No Files</span>
-                                  </div>
+                              <div class="justify-content-center pb-2" style="text-align: center;align-self: center;">
+                                <div class="row justify-content-center pt-4 pb-2">
+                                  <img src="../../../assets/images/ui/Icons/1x/empty@2x.png" width="10%">
                                 </div>
-                              </div>
-
-                              <div class="d-flex border" *ngIf="isNoFile" style="padding: 5px 0px 5px 0px ;margin: 5px  6px;border-radius: 5px;">
-                                <div class="col-2" style="justify-content: center;">
-                                  <img
-                                    src="../../../assets/images/ui/Icons/patient-medical-module/Icon awesome-file-alt.png"
-                                    class="">
+                                <div class="row justify-content-center ">
+                                  <span style="font-size: 14px;">No Files</span>
                                 </div>
-                                <div class="col-8" style="justify-content: start;">
-                                  <span style="font-size: 12px;font-weight: 600; ">{{fileName}} {{fileSize}}
-                                    {{fileValue}}</span>
-                                </div>
-                                <div class="col-2" style="text-align: end;">
-                                  <div class=" ">
-                                    <img
-                                      src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
-                                      class=" handCursor " width="30%" style="margin-right: 3px;"
-                                      (click)="removeUploadedFile11()">
-                                  </div>
-                                </div>
-                              </div>
-
-                              <div class="row py-2 " *ngIf="!isNoFile">
-                                <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
-                                  aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg, .pdf"
-                                  (change)="fileProgress11($event)" class="d-none">
-                                <div style="padding-left: 24px;" (click)="fileInput.click()">
-                                  <img
-                                    src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
-                                    width="20rem" class="handCursor">
-                                  <span class="px-3 handCursor" style="font-size: 14px;">Add New File / Document</span>
-                                </div>
-
                               </div>
                             </div>
 
-                            <div class="border d-flex justify-content-around" style="padding: 5px 0px 5px 0px ;margin: 5px  6px;border-radius: 5px;"
-                              *ngFor="let patientScreeningRecordsData of illnessSurgicalAttachments; let i = index">
-                              <div class="col-md-2">
+                            <div class="d-flex border" *ngIf="isNoFile"
+                              style="padding: 5px 0px 5px 0px ;margin: 5px  6px;border-radius: 5px;">
+                              <div class="col-2" style="justify-content: center;">
                                 <img
                                   src="../../../assets/images/ui/Icons/patient-medical-module/Icon awesome-file-alt.png"
-                                  class="mr-1">
+                                  class="">
                               </div>
-                              <div class="col-md-8">
-                               
-                                  <div class="">
-                                    <span
-                                      style="font-size: 9px;font-weight: 600; ">{{ patientScreeningRecordsData.filePath.split('/')[3] }}</span>
-                                  </div>
-                               
+                              <div class="col-8" style="justify-content: start;">
+                                <span style="font-size: 12px;font-weight: 600; ">{{fileName}} {{fileSize}}
+                                  {{fileValue}}</span>
                               </div>
-                              <div class="col-md-2" style="text-align: end;" (click)="removeEditillnessSurgicalAttachments(i)">
+                              <div class="col-2" style="text-align: end;">
                                 <div class=" ">
                                   <img
                                     src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
-                                    class=" handCursor " width="30%" style="margin-right: 3px;">
+                                    class=" handCursor " width="30%" style="margin-right: 3px;"
+                                    (click)="removeUploadedFile11()">
                                 </div>
+                              </div>
+                            </div>
+
+                            <div class="row py-2 " *ngIf="!isNoFile">
+                              <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
+                                aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg, .pdf"
+                                (change)="fileProgress11($event)" class="d-none">
+                              <div style="padding-left: 24px;" (click)="fileInput.click()">
+                                <img
+                                  src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
+                                  width="20rem" class="handCursor">
+                                <span class="px-3 handCursor" style="font-size: 14px;">Add New File / Document</span>
                               </div>
 
                             </div>
-   
-                            <div style="padding: 5px;">
-                              <div class="row" style="padding-left: 15px;">
-                                <label style="font-size: 12px;font-weight: 600; ">More Details</label>
+                          </div>
+
+                          <div class="border d-flex justify-content-around"
+                            style="padding: 5px 0px 5px 0px ;margin: 5px  6px;border-radius: 5px;"
+                            *ngFor="let patientScreeningRecordsData of illnessSurgicalAttachments; let i = index">
+                            <div class="col-md-2">
+                              <img
+                                src="../../../assets/images/ui/Icons/patient-medical-module/Icon awesome-file-alt.png"
+                                class="mr-1">
+                            </div>
+                            <div class="col-md-8">
+
+                              <div class="">
+                                <span
+                                  style="font-size: 9px;font-weight: 600; ">{{ patientScreeningRecordsData.filePath.split('/')[3] }}</span>
                               </div>
-                              <div class="row" style="padding-left: 15px;">
-                                <input style="border-radius: 5px;font-size: 12px; margin-right: 16px;"
-                                  class="p-2 form-control" formControlName="surgeryInformation">
+
+                            </div>
+                            <div class="col-md-2" style="text-align: end;"
+                              (click)="removeEditillnessSurgicalAttachments(i)">
+                              <div class=" ">
+                                <img
+                                  src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
+                                  class=" handCursor " width="30%" style="margin-right: 3px;">
                               </div>
                             </div>
-                          
+
+                          </div>
+
+                          <div style="padding: 5px;">
+                            <div class="row" style="padding-left: 15px;">
+                              <label style="font-size: 12px;font-weight: 600; ">More Details</label>
+                            </div>
+                            <div class="row" style="padding-left: 15px;">
+                              <input style="border-radius: 5px;font-size: 12px; margin-right: 16px;"
+                                class="p-2 form-control" formControlName="surgeryInformation">
+                            </div>
+                          </div>
+
                         </form>
                       </div>
                       <div style="text-align: center;" class="py-2">
@@ -2070,7 +2092,8 @@
                 </div>
                 <div class="row justify-content-center  ">
                   <div class="" style="padding-left: 15px;margin-left: -7px;">
-                    <input type="number" placeholder="" formControlName="height" (input)="onSearchChange($event.target.value)"
+                    <input type="number" placeholder="" formControlName="height"
+                      (input)="onSearchChange($event.target.value)"
                       style=" height: 30px;font-size: 12px;font-weight: 500;" class="form-control bg-white ">
                     <div class="cm">CM</div>
                   </div>
@@ -2082,7 +2105,8 @@
                 </div>
                 <div class="row justify-content-center  ">
                   <div class="" style="padding-left: 15px;margin-left: -7px;">
-                    <input type="number" placeholder="" formControlName="weight" (input)="onSearchChange1($event.target.value)"
+                    <input type="number" placeholder="" formControlName="weight"
+                      (input)="onSearchChange1($event.target.value)"
                       style=" height: 30px;font-size: 12px;font-weight: 500;" class="form-control bg-white ">
                     <div class="cm">KG</div>
                   </div>
@@ -2093,7 +2117,7 @@
             <div class="row justify-content-center pb-3">
               <div class="col-md-6 ">
                 <div class="row ml-2 pl-2 pb-1">
-                  <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;" >BMI</span>
+                  <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;">BMI</span>
                 </div>
                 <div class="row justify-content-center  ">
                   <div class="" style="margin-left: -22px;">
@@ -2105,7 +2129,7 @@
               </div>
               <div class="col-md-6 ">
                 <div class="row ml-2 pl-2 pb-1">
-                  <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;" >BMR</span>
+                  <span class="modelBodyHead" style="font-size: 12px;font-weight: 600;">BMR</span>
                 </div>
                 <div class="row justify-content-center  ">
                   <div class="" style="margin-left: inherit;">
@@ -2744,41 +2768,41 @@
       <!--Manual Input-->
       <div *ngIf="viewManualInputView">
         <div class=" p-2 " style="border: 1px solid #b3b2b2">
-          
+
           <div class="">
             <form [formGroup]="addPatIllMedicationManuallyForm" (ngSubmit)="addPatIllnessMedicationManuallySubmit()">
-          <div class="d-flex p-1" style="padding-left: 5px; padding-bottom: 15px;">
-            <div class="col-5">
-              <div class="row">
-                <span style="font-size: 12px;font-weight: 600;padding-bottom: 5px;">Date</span>
-              </div>
-              <div class="row">
-                <input style="border-radius: 5px; height: 30px;font-size: 12px;" class="w-100 form-control bg-white"
-                  ngbDatepicker #d="ngbDatepicker" readonly>
-                <div class="calenderLogo">
-                  <button style="outline-style: none;" class="p-0 btn  calendar" (click)="d.toggle()" type="button">
-                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  </button>
+              <div class="d-flex p-1" style="padding-left: 5px; padding-bottom: 15px;">
+                <div class="col-5">
+                  <div class="row">
+                    <span style="font-size: 12px;font-weight: 600;padding-bottom: 5px;">Date</span>
+                  </div>
+                  <div class="row">
+                    <input style="border-radius: 5px; height: 30px;font-size: 12px;" class="w-100 form-control bg-white"
+                      ngbDatepicker #d="ngbDatepicker" readonly>
+                    <div class="calenderLogo">
+                      <button style="outline-style: none;" class="p-0 btn  calendar" (click)="d.toggle()" type="button">
+                        <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-5">
+                  <div class="row">
+                    <span style="font-size: 12px;font-weight: 600;padding-bottom: 5px;">Doctor</span>
+                  </div>
+                  <div class="row">
+                    <input style="border-radius: 5px; height: 30px;font-size: 12px;" class="w-100 form-control bg-white"
+                      formControlName="doctorName" readonly>
+                    <div class="calenderLogo">
+                      <button style="outline-style: none;" (click)="openDoctorMethod(doctorsModel)"
+                        class="p-0 btn calendar" type="button">
+                        <i class="fas fa-search" aria-hidden="true"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-2"></div>
-            <div class="col-5">
-              <div class="row">
-                <span style="font-size: 12px;font-weight: 600;padding-bottom: 5px;">Doctor</span>
-              </div>
-              <div class="row">
-                <input style="border-radius: 5px; height: 30px;font-size: 12px;" class="w-100 form-control bg-white"
-                  formControlName="doctorName" readonly>
-                <div class="calenderLogo">
-                  <button style="outline-style: none;" (click)="openDoctorMethod(doctorsModel)" class="p-0 btn calendar"
-                    type="button">
-                    <i class="fas fa-search" aria-hidden="true"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
               <div class="row" style="padding-left: 7px;">
                 <div class="col-1"></div>
                 <div class="col-4 modelBodyHead">

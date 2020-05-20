@@ -54,3 +54,11 @@
   ::ng-deep .mat-menu-content.menudata {
     width: 15px !important; 
   }
+
+  /* ::ng-deep .modal-content {
+    width: 80% !important;
+  }
+
+  ::ng-deep .modal.show .modal-dialog {
+    justify-content: center !important;
+} */
