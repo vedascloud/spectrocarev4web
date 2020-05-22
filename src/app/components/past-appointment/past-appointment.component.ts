@@ -35,7 +35,8 @@ export class PastAppointmentComponent implements OnInit {
   subTitle:"Past Appointments",
 img:"assets/images/ui/Icons/1x/admin center.png"};
 
-  constructor(private loginService: LoginService, private modalService: NgbModal, private fb: FormBuilder, private config:NgbDatepickerConfig,private _snackBar: MatSnackBar) {
+  constructor(private loginService: LoginService, private modalService: NgbModal, private fb: FormBuilder, private config:NgbDatepickerConfig,
+    private _snackBar: MatSnackBar) {
     const current = new Date()
       config.minDate= {year: current.getFullYear(), month:current.getMonth() + 1,day:current.getDate()}
       //config.maxDate = {year:current.getFullYear(),month:current.getMonth() + 2, day:current.getDate()}
