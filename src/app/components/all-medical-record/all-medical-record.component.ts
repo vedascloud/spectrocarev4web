@@ -12,7 +12,7 @@ export class AllMedicalRecordComponent implements OnInit {
   subTitle:"Create Medical Record",
 img:"assets/images/ui/Icons/patient-medical-module/Group 2494.png"};
 
-
+isLoading:boolean;
 previewImg1: any;
 patientProfileForm: FormGroup;
 editFamilyHistoryForm: FormGroup;

@@ -252,11 +252,11 @@
                                             </button>
                                         </div>
                                     </ng-template>
-                                    <button mat-menu-item class="menuItembtn" (click)="openViewModal(viewContent)"
+                                    <button mat-menu-item class="menuItembtn" 
                                         style="outline: none !important;"
                                         *ngIf="('Cancelled' !== patient.appointmentStatus) || ('Cancelled' === patient.appointmentStatus)">
                                         <span>Reschedule</span>
-                                    </button>
+                                    </button> <!--(click)="openViewModal(viewContent)"-->
                                     <button mat-menu-item class="menuItembtn"
                                         (click)="openCancelAppointmentMethod(viewCancelAppointmentModelContent,patient)"
                                         style="outline: none !important;"

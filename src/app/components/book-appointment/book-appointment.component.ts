@@ -71,7 +71,9 @@ export class BookAppointmentComponent implements OnInit {
       doctorName: [""],
       doctorMedicalPersonnelID: [""],
       patientName: [""],
-      patientID: [""],
+      emailID: [""],
+      phoneNumber: [""],
+      //patientID: [""],
       creatorName: [""],
       createrMedicalPersonnelID: [""],
       medicalRecordID: [""],
@@ -246,9 +248,11 @@ export class BookAppointmentComponent implements OnInit {
       let obj = this.patientsList[index]
       console.log("obj", obj)
       this.bookAppointmentForm.patchValue({
-        patientID: obj.patientID,
+        //patientID: obj.patientID,
         patientName: obj.firstName + " " + obj.lastName,
-        medicalRecordID: obj.medical_record_id
+        medicalRecordID: obj.medical_record_id,
+        emailID: obj.emailID,
+        phoneNumber: obj.phoneNumber.countryCode + " " +obj.phoneNumber.phoneNumber
       })
       this.modalService.dismissAll()
     }

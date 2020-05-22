@@ -16,113 +16,180 @@
 
         <div class="row p-0" style="margin-top: 8px;">
             <div class="col-md-12">
-                <div cass=" justify-content-around">
-                    <div class=" bg-white w-100 p-2">
-                        <div class="row border p-1 px-4  justify-content-between"
-                            style="margin: inherit;background-color: #f7f7f7;">
-                            <span class="profileTitle" style="font-weight: bold">Patient Details</span>
-                        </div>
-                        <div class="row p-1 pt-2">
-                            <div class="col-md-6">
-                                <div style="font-size: 12px; font-weight: 600;">Patient Name</div>
-                                <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                border: 1px solid rgb(58, 57, 57) !important;">
-                                <div class="calenderLogo1">
-                                    <button style="outline-style: none;" (click)="openDoctorMethod(doctorsModel)" class="p-0 btn calendar"
-                                      type="button">
-                                      <i class="fas fa-search" aria-hidden="true"></i>
-                                    </button>
-                                  </div>
+                <form [formGroup]="bookAppointmentForm">
+
+                    <div cass=" justify-content-around">
+                        <div class=" bg-white w-100 p-2">
+                            <div class="row border p-1 px-4  justify-content-between"
+                                style="margin: inherit;background-color: #f7f7f7;">
+                                <span class="profileTitle" style="font-weight: bold">Patient Details</span>
                             </div>
-                            <div class="col-md-6">
-                                <div style="font-size: 12px; font-weight: 600;">Email Address</div>
-                                <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                border: 1px solid rgb(58, 57, 57) !important;">
-                            </div>
-                        </div>
-                        
-                        <div class="row p-1 pt-2">
-                            <div class="col-md-6">
-                                <div class="pb-1">
-                                    <div style="font-size: 12px; font-weight: 600;">Phone Number</div>
-                                    <input class="form-control" style="font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;">
+                            <div class="row p-1 pt-2">
+                                <div class="col-md-6">
+                                    <div style="font-size: 12px; font-weight: 600;">Patient Name</div>
+                                    <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
+                                border: 1px solid rgb(58, 57, 57) !important;" formControlName="patientName">
+                                    <div class="calenderLogo1">
+                                        <button style="outline-style: none;"
+                                            (click)="openPatientModel(content1, patientsList)" class="p-0 btn calendar"
+                                            type="button">
+                                            <i class="fas fa-search" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="">
-                                    <div style="font-size: 12px; font-weight: 600;">Appointment Type</div>
-                                    <!-- <input class="form-control" style="font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;"> -->
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <button class="btn btn-sm mr-2" style="font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                <div class="col-md-6">
+                                    <div style="font-size: 12px; font-weight: 600;">Email Address</div>
+                                    <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
+                                border: 1px solid rgb(58, 57, 57) !important;" formControlName="emailID">
+                                </div>
+                            </div>
+
+                            <div class="row p-1 pt-2">
+                                <div class="col-md-6">
+                                    <div class="pb-1">
+                                        <div style="font-size: 12px; font-weight: 600;">Phone Number</div>
+                                        <input class="form-control" style="font-size: 12px;font-weight: 500;box-shadow: none !important;
+                                    border: 1px solid rgb(58, 57, 57) !important;" formControlName="phoneNumber">
+                                    </div>
+                                    <div class="">
+                                        <div style="font-size: 12px; font-weight: 600;">Appointment Type</div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <button class="btn btn-sm mr-2" style="font-size: 12px;font-weight: 600;box-shadow: none !important;
                                     border: 1px solid rgb(58, 57, 57) !important;width: inherit;">
-                                        Online
-                                    </button>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <button class="btn btn-sm" style="font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                                    Online
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button class="btn btn-sm" style="font-size: 12px;font-weight: 600;box-shadow: none !important;
                                     border: 1px solid rgb(58, 57, 57) !important;width: inherit;">
-                                        Onsite
-                                    </button>
+                                                    Onsite
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div style="font-size: 12px; font-weight: 600;">Reason for Visit</div>
+                                    <textarea class="form-control" rows="4" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
+                                border: 1px solid rgb(58, 57, 57) !important;"
+                                        formControlName="reasonForVisit"></textarea>
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <div style="font-size: 12px; font-weight: 600;">Reason for Visit</div>
-                                <textarea class="form-control" rows="4" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                border: 1px solid rgb(58, 57, 57) !important;"></textarea>
-                            </div>
-                        </div>
 
-                        <div class="row p-1 py-2">
-                            <div class="col-md-12">
-                                <div style="font-size: 12px; font-weight: 600;">Notes</div>
-                                <input class="form-control" style="font-size: 12px;font-weight: 500;box-shadow: none !important;
+                            <div class="row p-1 py-2">
+                                <div class="col-md-12">
+                                    <div style="font-size: 12px; font-weight: 600;">Notes</div>
+                                    <input class="form-control" style="font-size: 12px;font-weight: 500;box-shadow: none !important;
                                 border: 1px solid rgb(58, 57, 57) !important;">
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row border p-1 px-4  justify-content-between"
-                            style="margin: inherit;background-color: #f7f7f7;">
-                            <span class="profileTitle" style="font-weight: bold">Select a Doctor</span>
-                        </div>
-                        <div class="row p-1 py-2">
+                            <div class="row border p-1 px-4  justify-content-between"
+                                style="margin: inherit;background-color: #f7f7f7;">
+                                <span class="profileTitle" style="font-weight: bold">Select a Doctor</span>
+                            </div>
+                            <div class="row p-1 py-2">
                                 <div class="col-md-6">
                                     <div style="font-size: 12px; font-weight: 600;">Doctor Name</div>
                                     <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;">
+                                    border: 1px solid rgb(58, 57, 57) !important;" formControlName="doctorName">
                                     <div class="calenderLogo1">
-                                        <button style="outline-style: none;" (click)="openDoctorMethod(doctorsModel)" class="p-0 btn calendar"
-                                          type="button">
-                                          <i class="fas fa-search" aria-hidden="true"></i>
+                                        <button style="outline-style: none;" (click)="openDoctorModel(content2)"
+                                            class="p-0 btn calendar" type="button">
+                                            <i class="fas fa-search" aria-hidden="true"></i>
                                         </button>
-                                      </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div style="font-size: 12px; font-weight: 600;">Department</div>
                                     <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;">
-                                </div>                            
-                        </div>
-                        <div class="row border p-1 px-4  justify-content-between"
-                            style="margin: inherit;background-color: #f7f7f7;">
-                            <span class="profileTitle" style="font-weight: bold">Select Date & Time</span>
-                        </div>
-                        <div class="row p-1 pt-2">
-                        </div>
-                        <div class="row p-1 pt-2" style="justify-content: center;">
-                            <button class="btn btn-sm mr-2" style="width: 10%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                    border: 1px solid rgb(58, 57, 57) !important;" formControlName="department">
+                                </div>
+                            </div>
+                            <div class="row border p-1 px-4  justify-content-between"
+                                style="margin: inherit;background-color: #f7f7f7;">
+                                <span class="profileTitle" style="font-weight: bold">Select Date & Time</span>
+                            </div>
+                            <div class="row p-1 pt-2">
+                                <div class="col-md-6" style="text-align: center;">
+                                    <ngb-datepicker #dp formControlName="appointmentDate">
+                                    </ngb-datepicker>
+                                    <!--[(ngModel)]="model" (navigate)="date = $event.next"-->
+                                </div>
+                                <div class="col-md-6" style="text-align: start;padding-top: 20px;
+                                padding-right: 72px;">
+                                    <div
+                                        style="font-size: 12px;font-weight: 600;border-bottom:1px solid rgb(109, 110, 110);">
+                                        Time Slots Available</div>
+                                    <div class="p-2" style="height: 60%;">
+                                        <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                            border: 1px solid rgb(58, 57, 57) !important;" >
+                                            9:00 AM
+                                        </button>
+                                        <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
                             border: 1px solid rgb(58, 57, 57) !important;">
-                                Clear
-                            </button>
-                            <button class="btn btn-sm" style="background-color: #17A2B8;color: white; width: 20%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                            9:30 AM
+                                        </button>
+                                        <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
                             border: 1px solid rgb(58, 57, 57) !important;">
-                                Book Appointment
-                            </button>
+                                            10:30 AM
+                                        </button>
+                                        <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                            border: 1px solid rgb(58, 57, 57) !important;">
+                                            11:00 AM
+                                        </button>
+                                    </div>
+
+                                    <div
+                                        style="font-size: 12px;font-weight: 600;border-bottom:1px solid rgb(109, 110, 110);">
+                                        Duration</div>
+                                    <div style="display: flex;">
+                                        <div class="col-3">
+                                            <label class="radio-inline" style="font-size: 12px;">
+                                                <input type="radio" name="isCurrentIllness" value="true"
+                                                    style="box-shadow: none;" checked>&nbsp;
+                                                15 Min
+                                            </label>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label class="radio-inline" style="font-size: 12px;">
+                                                <input type="radio" name="isCurrentIllness" value="false"
+                                                    style="box-shadow: none;">&nbsp; 30 Min
+                                            </label>
+                                        </div>
+                                        <div class="col-3">
+                                            <label class="radio-inline" style="font-size: 12px;">
+                                                <input type="radio" name="isCurrentIllness" value="true"
+                                                    style="box-shadow: none;">&nbsp;
+                                                45 Min
+                                            </label>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label class="radio-inline" style="font-size: 12px;">
+                                                <input type="radio" name="isCurrentIllness" value="false"
+                                                    style="box-shadow: none;">&nbsp; 60 Min
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-1 pt-2" style="justify-content: center;">
+                                <button class="btn btn-sm mr-2" style="width: 10%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                            border: 1px solid rgb(58, 57, 57) !important;">
+                                    Clear
+                                </button>
+                                <button class="btn btn-sm" style="background-color: #17A2B8;color: white; width: 20%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                            border: 1px solid rgb(58, 57, 57) !important;" (click)="bookAppointment()">
+                                    Book Appointment
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                </form>
             </div>
         </div>
 

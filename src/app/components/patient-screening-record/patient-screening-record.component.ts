@@ -155,7 +155,7 @@ export class PatientScreeningRecordComponent implements OnInit {
     }
   }
 
-  openViewMethod(viewModel,selectedScreeningData) {
+  openViewMethod(viewModel,selectedScreeningData,selectedPatient) {
     this.modalService.open(viewModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -163,7 +163,7 @@ export class PatientScreeningRecordComponent implements OnInit {
     });
   }
 
-  openShareReportMethod(viewShareReportModel) {
+  openShareReportMethod(viewShareReportModel,selectedPatient) {
     this.modalService.open(viewShareReportModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

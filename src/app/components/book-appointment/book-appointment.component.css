@@ -2,9 +2,9 @@ a,label{
     font-weight: bold;
 }
 
-label{
+/* label{
     color: #6e59af;
-}
+} */
 
 .close{
     outline: none !important;
@@ -68,6 +68,10 @@ background-color: orangered;
     margin-top: -33px;
   }
 
+  .btnclr:hover{
+      background-color: #35c9dc;
+      color: white;
+  }
   /* #selectType{
     border-radius:4px;border:1px solid #AAAAAA;
   } */
