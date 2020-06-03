@@ -552,6 +552,11 @@ public isProfileUpdated:BehaviorSubject<string> = new BehaviorSubject('')
     return this._http.post("http://3.92.226.247:3000/api/hospital/admingeneraluser",addAdminGenData,{headers:{'x-access-token': accessToken}});
   }
 
+  //Add Patient Gen info
+  addPatientGenInfo(addPatGenInfoData,accessToken):any{    
+    return this._http.post("http://3.92.226.247:3000/api/patient/generalinfo",addPatGenInfoData,{headers:{'x-access-token': accessToken}});
+  }
+
   //Update Admin General User
   updateAdminGenUser(updateAdminGenData,accessToken):any{
     console.log("admin gen user data for checking from service : ",updateAdminGenData);

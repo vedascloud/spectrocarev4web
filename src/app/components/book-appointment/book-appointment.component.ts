@@ -15,9 +15,11 @@ import { AmazingTimePickerService } from 'amazing-time-picker';
 export class BookAppointmentComponent implements OnInit {
 
   bookAppointmentForm: FormGroup;
+  selectedRow: any;
   signInRes: any;
   signObj: any;
   userID: string;
+  visitType: string;
   closeResult: string;
   patientsList: any = [];
   filteredPatients: any = [];
@@ -27,8 +29,22 @@ export class BookAppointmentComponent implements OnInit {
     {
       title: "Appointment",
       subTitle: "Book Appointment",
-      img: "assets/images/ui/Icons/1x/admin center.png"
+      img: "assets/images/ui/Icons/1x/calendar1.png"
     };
+
+    
+  color: string;
+  color1: string;
+  color2: string;
+  color3: string;
+  color4: string;
+  color5: string;
+  textColor: string;
+  textColor1: string;
+  textColor2: string;
+  textColor3: string;
+  textColor4: string;
+  textColor5: string;
 
   constructor(private router: Router, private modalService: NgbModal, private loginService: LoginService, 
     private fb: FormBuilder, private config: NgbDatepickerConfig, private _snackBar: MatSnackBar, 
@@ -42,6 +58,25 @@ export class BookAppointmentComponent implements OnInit {
     if (this.signInRes) {
       this.signObj = JSON.parse(this.signInRes);
       this.userID = localStorage.getItem('userID');
+
+      this.bookAppointmentForm = this.fb.group({
+        hospital_reg_num: [""],
+        appointmentDate: [""],
+        appointmentTimeFrom: [""],
+        appointmentTimeTo: [""],
+        visitType: [""],
+        reasonForVisit: [""],
+        doctorName: [""],
+        doctorMedicalPersonnelID: [""],
+        patientName: [""],
+        emailID: [""],
+        phoneNumber: [""],
+        patientID: [""],
+        creatorName: [""],
+        createrMedicalPersonnelID: [""],
+        medicalRecordID: [""],
+        department: [""],
+      });
 
       let objForFetchPatients = {
         "userID": this.userID,
@@ -60,25 +95,8 @@ export class BookAppointmentComponent implements OnInit {
       this.getDoctorData(medicalObj);
 
     }
-
-    this.bookAppointmentForm = this.fb.group({
-      hospital_reg_num: [""],
-      appointmentDate: [""],
-      appointmentTimeFrom: [""],
-      appointmentTimeTo: [""],
-      visitType: [""],
-      reasonForVisit: [""],
-      doctorName: [""],
-      doctorMedicalPersonnelID: [""],
-      patientName: [""],
-      emailID: [""],
-      phoneNumber: [""],
-      //patientID: [""],
-      creatorName: [""],
-      createrMedicalPersonnelID: [""],
-      medicalRecordID: [""],
-      department: [""],
-    });
+    this.viewOnline();
+    
 
     this.autoAddAppointmentData(this.signObj);
   }
@@ -106,6 +124,76 @@ export class BookAppointmentComponent implements OnInit {
         }
       })
   }
+
+  viewOnline() {
+    this.textColor = 'white';
+    this.textColor1 = 'black';
+    this.color = '#53B9C6';
+    this.color1 = 'white';
+    this.visitType = "online";
+  }
+
+  viewOnsite() {
+    this.textColor = 'black';
+    this.textColor1 = 'white';
+    this.color = 'white'
+    this.color1 = '#53B9C6';
+    this.visitType = "onsite";
+  }
+
+  book1(){
+    this.textColor2 = 'white';
+    this.color2 = '#53B9C6';
+    this.textColor3 = 'black';
+    this.textColor4 = 'black';
+    this.textColor5 = 'black';
+    this.color3 = 'white'
+    this.color4 = 'white'
+    this.color5 = 'white'
+    this.bookAppointmentForm.patchValue({
+      appointmentTimeFrom:"9:00 AM"
+    })
+  }
+  book2(){
+    this.textColor3 = 'white';
+    this.color3 = '#53B9C6';
+    this.textColor2 = 'black';
+    this.textColor4 = 'black';
+    this.textColor5 = 'black';
+    this.color2 = 'white'
+    this.color4 = 'white'
+    this.color5 = 'white'
+    this.bookAppointmentForm.patchValue({
+      appointmentTimeFrom:"9:30 AM"
+    })
+  }
+  book3(){
+    this.textColor4 = 'white';
+    this.color4 = '#53B9C6';
+    this.textColor2 = 'black';
+    this.textColor3 = 'black';
+    this.textColor5 = 'black';
+    this.color3 = 'white'
+    this.color2 = 'white'
+    this.color5 = 'white'
+    this.bookAppointmentForm.patchValue({
+      appointmentTimeFrom:"10:00 AM"
+    })
+  }
+  book4(){
+    this.textColor5 = 'white';
+    this.color5 = '#53B9C6';
+    this.textColor2 = 'black';
+    this.textColor3 = 'black';
+    this.textColor4 = 'black';
+    this.color3 = 'white'
+    this.color4 = 'white'
+    this.color2 = 'white'
+    this.bookAppointmentForm.patchValue({
+      appointmentTimeFrom:"11:00 AM"
+    })
+  }
+
 
   checkValue(value: any) {
     console.log(value.target.value);
@@ -162,8 +250,6 @@ export class BookAppointmentComponent implements OnInit {
     if (index != -1) {
       let obj = this.medicalPersonnels[index]
       console.log("obj", obj);
-
-
       this.bookAppointmentForm.patchValue({
         doctorName: obj.firstName,
         doctorMedicalPersonnelID: obj.medical_personnel_id,
@@ -172,25 +258,37 @@ export class BookAppointmentComponent implements OnInit {
     }
   }
 
+  clearForm(){
+    this.bookAppointmentForm.reset();
+  }
+
   bookAppointment() {
 
     let ngbDate = this.bookAppointmentForm.controls['appointmentDate'].value;
     let myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     console.log("date mydate", myDate);
 
-    this.bookAppointmentForm.patchValue({ appointmentDate: myDate.toLocaleDateString() })
+    this.bookAppointmentForm.patchValue({ 
+      appointmentDate: myDate.toLocaleDateString() ,
+      visitType: this.visitType,
+      appointmentTimeTo: this.bookAppointmentForm.value.appointmentTimeTo
+    })
     console.log("sended date format : ", myDate.toLocaleDateString().split("/").reverse().join("/"));
     var dateAr = myDate.toLocaleDateString().split('/');
     var newDate = dateAr[2] + '/' + dateAr[0] + '/' + dateAr[1];
+    
+    let payLoad = this.bookAppointmentForm.value;
+    delete payLoad.emailID;
+    delete payLoad.phoneNumber;
     console.log("new date yyyy/mm/dd to assign form : ", newDate);
-    console.log("req form data : ", this.bookAppointmentForm.value);
+    console.log("req data to book appointment : ", payLoad);
 
-    this.loginService.bookAppointmentService(this.bookAppointmentForm.value, this.signObj.access_token).subscribe(
+    this.loginService.bookAppointmentService(payLoad, this.signObj.access_token).subscribe(
       (bookAppointmentRes) => {
         console.log(bookAppointmentRes);
 
         if (bookAppointmentRes.response === 3) {
-          this.router.navigateByUrl("admincenter/upcomingappointment");
+          this.router.navigateByUrl("admincenter/appointmentlist");
           alert(bookAppointmentRes.message);
         }
         else {
@@ -212,7 +310,7 @@ export class BookAppointmentComponent implements OnInit {
 
   //Open PatientList Model
   openPatientModel(content1, patientsList) {
-    this.modalService.open(content1, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
+    this.modalService.open(content1, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -221,7 +319,7 @@ export class BookAppointmentComponent implements OnInit {
 
   //Open DoctorsList Model
   openDoctorModel(content2) {
-    this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
+    this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -248,7 +346,7 @@ export class BookAppointmentComponent implements OnInit {
       let obj = this.patientsList[index]
       console.log("obj", obj)
       this.bookAppointmentForm.patchValue({
-        //patientID: obj.patientID,
+        patientID: obj.patientID,
         patientName: obj.firstName + " " + obj.lastName,
         medicalRecordID: obj.medical_record_id,
         emailID: obj.emailID,
