@@ -5,6 +5,7 @@ import { PatientService } from 'src/app/services/patient.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from 'src/app/services/login.service';
 import { MatSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 interface SearchByValue {
   viewValue: string;
@@ -18,11 +19,15 @@ interface SearchByValue {
 export class InvoicesComponent implements OnInit {
   signInRes: any;
   signObj: any;
-  userID: string; 
+  userID: string;
   patientObj: any;
   addServiceForm: FormGroup;
+  viewServiceForm: FormGroup;
+  editServiceForm: FormGroup;
   selectPatientForm: FormGroup;
   selectDatesForm: FormGroup;
+  editSelectPatientForm: FormGroup;
+  editSelectDatesForm: FormGroup;
   selectedRow: any;
   selectedData: any;
   term: any;
@@ -33,13 +38,19 @@ export class InvoicesComponent implements OnInit {
       subTitle: "Invoices",
       img: "assets/images/ui/Icons/1x/admin center.png"
     };
-    patients: any = [];
-    
-    loading: boolean;
-    indexValue:any;
-    subTotalAmount:number=0;
-    totalAmount:number=0;
-    vat:number=0;
+  patients: any = [];
+
+  loading: boolean;
+  indexValue: any;
+  subTotalAmount: number = 0;
+  editSubTotalAmount: number = 0;
+  fetchedSubTotalAmount: number = 0;
+  fetchedVat: number = 0;
+  fetchedTotalAmount: number = 0;
+  totalAmount: number = 0;
+  editTotalAmount: number = 0;
+  editVat = 0;
+  vat: number = 0;
   searchByValue: SearchByValue[] = [
     { viewValue: 'All' },
     { viewValue: 'Draft' },
@@ -57,17 +68,24 @@ export class InvoicesComponent implements OnInit {
   ]
 
   listOfServices: any = [
-    { "serviceName": "Urine Test", "cost" : "80", "units" : "1", "vat": "0", "amount": "80" },
-    { "serviceName": "Blood Test", "cost" : "90", "units" : "1", "vat": "0", "amount": "90" },
-    { "serviceName": "Selieva Test", "cost" : "60", "units" : "1", "vat": "0", "amount": "60" },
-    { "serviceName": "Prega Test", "cost" : "180", "units" : "1", "vat": "0", "amount": "180" },
-    { "serviceName": "Eye drop Test", "cost" : "40", "units" : "1", "vat": "0", "amount": "40" },
+    { "serviceName": "Urine Test", "cost": "80", "units": "1", "vat": "0", "amount": "80" },
+    { "serviceName": "Blood Test", "cost": "90", "units": "1", "vat": "0", "amount": "90" },
+    { "serviceName": "Selieva Test", "cost": "60", "units": "1", "vat": "0", "amount": "60" },
+    { "serviceName": "Prega Test", "cost": "180", "units": "1", "vat": "0", "amount": "180" },
+    { "serviceName": "Eye drop Test", "cost": "40", "units": "1", "vat": "0", "amount": "40" },
+  ]
+
+
+  fetchedListOfServices: any = [
+    { "serviceName": "Urine Test", "cost": "80", "units": "1", "vat": "0", "amount": "80" },
+    { "serviceName": "Blood Test", "cost": "90", "units": "1", "vat": "0", "amount": "90" },
+    { "serviceName": "Eye drop Test", "cost": "40", "units": "1", "vat": "0", "amount": "40" },
   ]
   selectedTest: any;
   closeResult: string;
   constructor(private fb: FormBuilder, private modalService: NgbModal,
-    private patientService: PatientService,private loginService: LoginService,
-    private _snackBar: MatSnackBar) { }
+    private patientService: PatientService, private loginService: LoginService,
+    private _snackBar: MatSnackBar, private router: Router) { }
 
   ngOnInit() {
     this.signInRes = localStorage.getItem("SignInRes");
@@ -93,7 +111,25 @@ export class InvoicesComponent implements OnInit {
     });
     this.addService();
 
+    this.viewServiceForm = this.fb.group({
+      viewServiceHistory: this.fb.array([
+
+      ])
+    });
+
+    this.editServiceForm = this.fb.group({
+      editServiceHistory: this.fb.array([
+
+      ])
+    });
+
     this.selectPatientForm = this.fb.group({
+      patientName: [""],
+      emailID: [""],
+      phoneNumber: [""],
+      address: [""]
+    })
+    this.editSelectPatientForm = this.fb.group({
       patientName: [""],
       emailID: [""],
       phoneNumber: [""],
@@ -101,9 +137,55 @@ export class InvoicesComponent implements OnInit {
     })
 
     this.selectDatesForm = this.fb.group({
+      invoiceNumber: [""],
       invoiceDate: [""],
       paymentDueDate: [""]
     })
+    this.editSelectDatesForm = this.fb.group({
+      invoiceDate: [""],
+      paymentDueDate: [""]
+    })
+
+
+    this.patchFamilyHistory(this.fetchedListOfServices);
+    this.patchFetchedService(this.fetchedListOfServices)
+    //this.calculateFetchedTotal();
+  }
+
+  callPaymentTransactions() {
+    console.log(" called callPaymentTransactions method...");
+    //alert("from payment txns ");
+    this.router.navigateByUrl('/admincenter/paymentTransactions');
+  }
+
+  //Patch Family History
+  patchFamilyHistory(fetchedListOfServices) {
+    for (let i: number = 0; i <= fetchedListOfServices.length - 1; i++) {
+      this.viewServiceData.push(
+        this.fb.group({
+          serviceName: fetchedListOfServices[i].serviceName,
+          cost: fetchedListOfServices[i].cost,
+          units: fetchedListOfServices[i].units,
+          vat: fetchedListOfServices[i].vat,
+          amount: fetchedListOfServices[i].amount
+        })
+      )
+    }
+  }
+
+  //Patch Family History
+  patchFetchedService(fetchedListOfServices) {
+    for (let i: number = 0; i <= fetchedListOfServices.length - 1; i++) {
+      this.editServiceData.push(
+        this.fb.group({
+          serviceName: fetchedListOfServices[i].serviceName,
+          cost: fetchedListOfServices[i].cost,
+          units: fetchedListOfServices[i].units,
+          vat: fetchedListOfServices[i].vat,
+          amount: fetchedListOfServices[i].amount
+        })
+      )
+    }
   }
 
   //Fetch patients data
@@ -114,7 +196,7 @@ export class InvoicesComponent implements OnInit {
         if (res.response === 3) {
           this.loading = false;
           this.patients = res.patients;
-          console.log("patients data : ",this.patients);          
+          console.log("patients data : ", this.patients);
         } else if (res.response === 0) {
           this.loading = false;
         }
@@ -133,9 +215,35 @@ export class InvoicesComponent implements OnInit {
   get serviceData() {
     return <FormArray>this.addServiceForm.get('serviceHistory')
   }
+  //get Allergie
+  get viewServiceData() {
+    return <FormArray>this.viewServiceForm.get('viewServiceHistory')
+  }
+  get editServiceData() {
+    return <FormArray>this.editServiceForm.get('editServiceHistory')
+  }
   //Add Allergie
   addService() {
     this.serviceData.push(this.fb.group({
+      serviceName: [""],
+      cost: [""],
+      units: [""],
+      vat: [""],
+      amount: [""]
+    }))
+  }
+  //Add Allergie
+  addViewService() {
+    this.viewServiceData.push(this.fb.group({
+      serviceName: [""],
+      cost: [""],
+      units: [""],
+      vat: [""],
+      amount: [""]
+    }))
+  }
+  editViewService() {
+    this.editServiceData.push(this.fb.group({
       serviceName: [""],
       cost: [""],
       units: [""],
@@ -147,6 +255,10 @@ export class InvoicesComponent implements OnInit {
   removeService(index) {
     this.serviceData.removeAt(index);
     console.log(this.serviceData.value);
+  }
+  removeService1(index) {
+    this.editServiceData.removeAt(index);
+    console.log(this.editServiceData.value);
   }
 
   searchService(term: string) {
@@ -161,15 +273,15 @@ export class InvoicesComponent implements OnInit {
 
   selectServiceFromList(value: any) {
     this.serviceData.at(this.indexValue).patchValue({
-      serviceName : value.serviceName,
-      cost : value.cost,
-      units : value.units,
-      vat : value.vat,
-      amount : value.amount
+      serviceName: value.serviceName,
+      cost: value.cost,
+      units: value.units,
+      vat: value.vat,
+      amount: value.amount
     })
     console.log(value);
-    this.subTotalAmount = this.subTotalAmount+parseInt(this.serviceData.at(this.indexValue).value.amount,10);
-    this.totalAmount = this.subTotalAmount+this.vat;
+    this.subTotalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.amount, 10);
+    this.totalAmount = this.subTotalAmount + this.vat;
   }
 
   selectPatientFromList(value: any) {
@@ -184,10 +296,10 @@ export class InvoicesComponent implements OnInit {
       this.selectPatientForm.patchValue({
         patientName: this.patientObj.firstName + " " + this.patientObj.lastName,
         emailID: this.patientObj.emailID,
-        phoneNumber: this.patientObj.phoneNumber.countryCode + " " + this.patientObj.phoneNumber.phoneNumber ,
+        phoneNumber: this.patientObj.phoneNumber.countryCode + " " + this.patientObj.phoneNumber.phoneNumber,
         address: this.patientObj.address
       })
-      
+
       //this.modalService.close();
       //this.modalService.dismissAll()
     }
@@ -201,17 +313,34 @@ export class InvoicesComponent implements OnInit {
     }
   }
 
+  searchDoctor(term: string) {
+    if (!term) {
+      this.patients = this.patients;
+    } else {
+      this.patients = this.patients.filter(x =>
+        x.firstName.trim().toLowerCase().includes(term.trim().toLowerCase())
+      );
+    }
+  }
+
   openCreateInvoiceModal(viewCreateInvoiceContent) {
     this.modalService.open(viewCreateInvoiceContent, { centered: true, size: "lg" })
   }
   //Delete Modal
   openViewModal(viewContent) {
-    this.modalService.open(viewContent, { centered: true, size: "md" })
+    for (let i = 0; i <= this.fetchedListOfServices.length - 1; i++) {
+      console.log(this.fetchedListOfServices[i].amount);
+
+      this.fetchedSubTotalAmount = this.fetchedSubTotalAmount + parseInt(this.fetchedListOfServices[i].amount, 10);
+      console.log("the fetched sub total : ", this.fetchedSubTotalAmount);
+      this.fetchedTotalAmount = this.fetchedSubTotalAmount + this.fetchedVat;
+    }
+    this.modalService.open(viewContent, { centered: true, size: "lg" })
   }
 
   //Delete Modal
   openEditModal(editContent) {
-    this.modalService.open(editContent, { centered: true, size: "md" })
+    this.modalService.open(editContent, { centered: true, size: "lg" })
   }
 
   openSendInvoiceModal(sendInvoiceContent) {
@@ -229,10 +358,10 @@ export class InvoicesComponent implements OnInit {
   }
 
   //Open ServicesList Model
-  openServiceMethod(serviceModel,index) {
+  openServiceMethod(serviceModel, index) {
     this.indexValue = index;
-    console.log("the index value : ",this.indexValue);
-    
+    console.log("the index value : ", this.indexValue);
+
     this.modalService.open(serviceModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -241,26 +370,48 @@ export class InvoicesComponent implements OnInit {
   }
 
   calculateAmount() {
-    console.log("cost data : ",this.serviceData.at(this.indexValue));
-    
-    let calculatedAmount = this.serviceData.at(this.indexValue).value.cost * this.serviceData.at(this.indexValue).value.units ;
+    console.log("cost data : ", this.serviceData.at(this.indexValue));
+
+    let calculatedAmount = this.serviceData.at(this.indexValue).value.cost * this.serviceData.at(this.indexValue).value.units;
     console.log("the Amount value is : ", calculatedAmount);
     this.serviceData.at(this.indexValue).patchValue({
       amount: calculatedAmount
     })
-    this.subTotalAmount = this.subTotalAmount+parseInt(this.serviceData.at(this.indexValue).value.amount,10);
-    this.totalAmount = this.subTotalAmount+this.vat;
-  
+    this.subTotalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.amount, 10);
+    this.totalAmount = this.subTotalAmount + this.vat;
+
   }
   calculateAmount1() {
-    let calculatedAmount = this.serviceData.at(this.indexValue).value.cost * this.serviceData.at(this.indexValue).value.units ;
+    let calculatedAmount = this.serviceData.at(this.indexValue).value.cost * this.serviceData.at(this.indexValue).value.units;
     console.log("the Amount value is : ", calculatedAmount);
     this.serviceData.at(this.indexValue).patchValue({
       amount: calculatedAmount
     })
-    this.subTotalAmount = this.subTotalAmount+parseInt(this.serviceData.at(this.indexValue).value.amount,10);
-    this.totalAmount = this.subTotalAmount+this.vat;
-  
+    this.subTotalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.amount, 10);
+    this.totalAmount = this.subTotalAmount + this.vat;
+
+  }
+  calculateAmount11() {
+    console.log("cost data : ", this.editServiceData.at(this.indexValue));
+
+    let calculatedAmount = this.editServiceData.at(this.indexValue).value.cost * this.serviceData.at(this.indexValue).value.units;
+    console.log("the Amount value is : ", calculatedAmount);
+    this.editServiceData.at(this.indexValue).patchValue({
+      amount: calculatedAmount
+    })
+    this.editSubTotalAmount = this.editSubTotalAmount + parseInt(this.editServiceData.at(this.indexValue).value.amount, 10);
+    this.editTotalAmount = this.editSubTotalAmount + this.editVat;
+
+  }
+  calculateAmount12() {
+    let calculatedAmount = this.editServiceData.at(this.indexValue).value.cost * this.editServiceData.at(this.indexValue).value.units;
+    console.log("the Amount value is : ", calculatedAmount);
+    this.editServiceData.at(this.indexValue).patchValue({
+      amount: calculatedAmount
+    })
+    this.editSubTotalAmount = this.editSubTotalAmount + parseInt(this.editServiceData.at(this.indexValue).value.amount, 10);
+    this.editTotalAmount = this.editSubTotalAmount + this.vat;
+
   }
 
   onSearchChange(searchValue: string): void {
@@ -268,6 +419,14 @@ export class InvoicesComponent implements OnInit {
     this.calculateAmount();
   }
   onSearchChange1(searchValue: string): void {
+    console.log("keyup value weight : ", searchValue);
+    this.calculateAmount1();
+  }
+  onSearchChange11(searchValue: string): void {
+    console.log("keyup value height : ", searchValue);
+    this.calculateAmount();
+  }
+  onSearchChange12(searchValue: string): void {
     console.log("keyup value weight : ", searchValue);
     this.calculateAmount1();
   }
@@ -299,55 +458,57 @@ export class InvoicesComponent implements OnInit {
     var dateAr1 = myDate1.toLocaleDateString().split('/');
     var newDate1 = dateAr1[2] + '/' + dateAr1[0] + '/' + dateAr1[1];
     var paymentDueDate = new Date(newDate1).getTime() / 1000;
-    
-    console.log("invoice date is : ",invoiceDate, paymentDueDate);
-    console.log("total amount is : ",this.subTotalAmount);
-    
-    // this.addPatientIllnessMedicationObj = {
-    //   "hospital_reg_num": this.addPatIllnessDiagnosisDataObj.hospital_reg_num,
-    //   "byWhom": this.addPatIllnessDiagnosisDataObj.byWhom,
-    //   "byWhomID": this.addPatIllnessDiagnosisDataObj.byWhomID,
-    //   "patientID": this.addPatIllnessDiagnosisDataObj.patientID,
-    //   "medical_record_id": this.addPatIllnessDiagnosisDataObj.medical_record_id,
-    //   "illnessID": this.addPatIllnessDiagnosisDataObj.illnessID,
-    //   "doctorMedicalPersonnelID": this.addPatIllMedicationManuallyForm.value.doctorMedicalPersonnelID,
-    //   "doctorName": this.addPatIllMedicationManuallyForm.value.doctorName,
-    //   "medications": addMedicationArray
-    // }
-    // console.log("the req for add pat illness medications obj : ", this.addPatientIllnessMedicationObj);
-    // this.loginService.addPatientIllnessMedicationManualData(this.addPatientIllnessMedicationObj, this.signObj.access_token).
+
+    console.log("invoice date is : ", invoiceDate, paymentDueDate);
+    console.log("total amount is : ", this.subTotalAmount);
+
+    let addIllnessObj = {
+      "byWhom":"admin",
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "invoiceNumber": this.selectDatesForm.value.invoiceNumber,
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+      "invoiceIssueDate": invoiceDate,
+      "invoicePaymentDueDate": paymentDueDate,
+      "subTotal": this.subTotalAmount,
+      "VAT": this.vat,
+      "totalAmount": this.totalAmount,
+      "isSavedInDraft":false,
+      "paymentStatus":"unpaid",
+      "clientDetails":{
+        "name" : this.patientObj.firstName,
+         "phoneNumber":{
+           "countryCode": this.patientObj.phoneNumber.countryCode,
+           "phoneNumber": this.patientObj.phoneNumber.phoneNumber
+         },
+         "emailID": this.patientObj.emailID,
+         "address": this.patientObj.address
+      },
+      "serviceItems": serviceHistoryArray
+  }
+    console.log("the req for add invoice data obj : ", addIllnessObj);
+    // this.loginService.addInvoiceData(addIllnessObj, this.signObj.access_token).
     //   subscribe(
     //     (res) => {
-    //       console.log("res from add patient illness medications  : ", res)
+    //       console.log("res from add invoice  : ", res)
     //       if (res.response === 3) {
-    //         //this.isLoading = false;
     //         this.loading = false;
-    //         //this.illnessMedicationID = res.illnessMedicationID;
-    //         //this.viewAttachment();
-    //         //alert(res.message);
-    //         //this.openSnackBar(res.message, "");
-    //         //this.ngOnInit();
+           
     //       }
     //       else if (res.response === 0) {
-    //         //this.isLoading = false;
     //         this.loading = false;
-    //         //this.openSnackBar(res.message, "");
-    //         //this.modalService.dismissAll();
     //       }
     //     },
     //     (err: HttpErrorResponse) => {
     //       if (err.error instanceof Error) {
-    //         //this.isLoading = false;
     //         this.loading = false;
     //         console.log("Client Side Error")
     //       } else {
-    //         //this.isLoading = false;
     //         this.loading = false;
     //         console.log(err)
     //       }
     //     })
   }
-  
+
 
   //Open PatientsList Model
   openPatientMethod(patientsModel) {

@@ -435,10 +435,10 @@
                   [class.highlighted]="i == selectedRow" (click)="selectDoctorFromList(doctors)"
                   (click)="modal.close('Close click')" style="cursor:pointer;">
                   <td style="font-size: 12px; font-weight: 550;">{{i +1}}</td>
-                  <td style="font-size: 12px; font-weight: 550;">{{doctors.firstName}}</td>
-                  <td style="font-size: 12px; font-weight: 550;">{{doctors.lastName}}</td>
+                  <td style="font-size: 12px; font-weight: 550;">{{doctors.profile.userProfile.firstName}}</td>
+                  <td style="font-size: 12px; font-weight: 550;">{{doctors.profile.userProfile.lastName}}</td>
                   <!-- <td>{{doctors.medical_personnel_id}}</td> -->
-                  <td style="font-size: 12px; font-weight: 550;">{{doctors.department.slice(0,20)}}</td>
+                  <td style="font-size: 12px; font-weight: 550;">{{doctors.profile.userProfile.department.slice(0,20)}}</td>
                 </tr>
               </tbody>
             </table>

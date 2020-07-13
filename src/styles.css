@@ -49,6 +49,29 @@ body {
 		width: 452px !important;
 	}
   }
+
+  /* @media only screen and (max-width: 1440px) {
+	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 765px !important;
+	}
+  } */
+  /* @media only screen and (max-width: 1366px) {
+	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 715px !important;
+	}
+  } */
+  @media only screen and (max-width: 1440px) {
+	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 370px !important;
+		outline-style: none;
+	}
+  }
+  @media only screen and (max-width: 1366px) {
+	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 345px !important;
+		outline-style: none;
+	}
+  }
   
   @media only screen and (max-width: 1366px) {
 	.adminProfile .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
@@ -63,16 +86,22 @@ body {
   }
 
   @media only screen and (max-width: 1440px) {
-	.home .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 532px !important;
+	.home .phno .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 758px !important;
+		outline-style: none;
 	}
   }
   
   @media only screen and (max-width: 1366px) {
-	.home .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 518px !important;
+	.home .phno .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 708px !important;
+		outline-style: none;
 	}
   }
+
+  /* ::ng-deep .home .phno .homePh .intl-tel-input.separate-dial-code[_ngcontent-any-c9] input[_ngcontent-any-c9]{
+	outline-style: none;
+  } */
   
   @media only screen and (max-width: 1024px) {
 	.home .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {

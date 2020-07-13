@@ -45,6 +45,8 @@ export class AdminsignupComponent implements OnInit {
   ];
 
   departments = [
+    { value: 'Administrative', viewValue: 'Administrative' },    
+    { value: 'Reception', viewValue: 'Reception' },
     { value: 'Pharmacy', viewValue: 'Pharmacy' },
     { value: 'Admissions', viewValue: 'Admissions' },
     { value: 'Cardiology', viewValue: 'Cardiology' }
@@ -53,7 +55,8 @@ export class AdminsignupComponent implements OnInit {
   @ViewChild('fileInput', { static: true }) el: ElementRef;
   // @ViewChild('phoneCode',{static:true}) phoneCodeElement:ElementRef;
   // @ViewChild('container-fluid',{static:true}) scrollElement:ElementRef;
-  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService, private _snackBar: MatSnackBar,
+  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService,
+     private _snackBar: MatSnackBar,
     private modalService: NgbModal, private cd: ChangeDetectorRef, private http: HttpClient) { }
 
   ngOnInit() {
@@ -90,6 +93,7 @@ export class AdminsignupComponent implements OnInit {
         emailID: ['', [Validators.required, Validators.email]],
         preferLanguage: ['English'],
         department: ['', [Validators.required]],
+        identity:['',[Validators.required]]
       }, {
         validators: this.passwordConfirming
       }
@@ -226,7 +230,7 @@ export class AdminsignupComponent implements OnInit {
     let payLoad = this.adminSignUpForm.value
     delete payLoad.hospitalAdmin.checkPhone
     delete payLoad.hospitalInformation.checkPhone
-    delete payLoad.hospitalAdmin.gender;
+    //delete payLoad.hospitalAdmin.gender;
     delete payLoad.profilePic;
     delete payLoad.hospitalAdmin.confirmPassword;
     console.log("Admin Signup Req Data After payload : ", payLoad)

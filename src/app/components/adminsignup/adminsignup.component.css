@@ -325,3 +325,55 @@ background-color: #53B9C6;
 .mdclbtn{
   color: black !important;
 }
+
+
+/* For Radio button */
+
+.radio-item input[type='radio'] {
+  visibility: hidden;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px 0 5px;
+  padding: 0;
+}
+  .radio-item input[type=radio]:before {
+      position: relative;
+      margin: 4px -25px -4px 0;
+      display: inline-block;
+      visibility: visible;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      /* border: 2px inset rgba(150,150,150,0.75); */
+      /* background: radial-gradient(ellipse at top left, rgb(255,255,255) 0%, rgb(250,250,250) 5%, rgb(230,230,230) 95%, rgb(225,225,225) 100%); */
+      border: 1px solid white;      
+      background: transparent;
+      content: "";
+  }
+      .radio-item input[type=radio]:checked:after {
+          position: relative;
+          top: 0;
+          left: 9px;
+          display: inline-block;
+          visibility: visible;
+          border-radius: 6px;
+          width: 12px;
+          height: 12px;
+          /* background: radial-gradient(ellipse at top left, rgb(245,255,200) 0%, rgb(225,250,100) 5%, rgb(75,175,0) 95%, rgb(25,100,0) 100%); */
+          background: rgb(150, 211, 235);
+          content: "";
+      }
+          .radio-item input[type=radio].true:checked:after {
+              /* background: radial-gradient(ellipse at top left, rgb(245,255,200) 0%, rgb(225,250,100) 5%, rgb(75,175,0) 95%, rgb(25,100,0) 100%); */
+              background: rgb(150, 211, 235);
+          }
+          .radio-item input[type=radio].false:checked:after {
+              background: radial-gradient(ellipse at top left, rgb(255,225,200) 0%, rgb(250,200,150) 5%, rgb(200,25,0) 95%, rgb(100,25,0) 100%);
+          }
+.radio-item label {
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  margin: 0;
+  padding: 0;
+}

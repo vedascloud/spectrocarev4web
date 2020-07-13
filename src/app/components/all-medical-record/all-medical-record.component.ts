@@ -511,51 +511,51 @@ export class AllMedicalRecordComponent implements OnInit {
     console.log(value);
     let index = -1
     index = this.medicalPersonnels.findIndex(val => {
-      return val.medical_personnel_id === value.medical_personnel_id
+      return val.profile.userProfile.medical_personnel_id === value.profile.userProfile.medical_personnel_id
     })
     if (index != -1) {
       let obj = this.medicalPersonnels[index]
       console.log("obj", obj)
       this.patientProfileForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        medical_personnel_id: obj.medical_personnel_id,
-        department: obj.department
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        medical_personnel_id: obj.profile.userProfile.medical_personnel_id,
+        department: obj.profile.userProfile.department
       })
       this.addPatImmunizationForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        doctorMPID: obj.medical_personnel_id,
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        doctorMPID: obj.profile.userProfile.medical_personnel_id,
         byWhomID: this.signObj.hospitalAdmin.userID,
         byWhom: "admin"
       })
       this.editPatImmunizationForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        doctorMPID: obj.medical_personnel_id,
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        doctorMPID: obj.profile.userProfile.medical_personnel_id,
         byWhomID: this.signObj.hospitalAdmin.userID,
         byWhom: "admin"
       })
       this.addPatIllnessDiagnosisForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        doctorMedicalPersonnelID: obj.medical_personnel_id,
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: obj.profile.userProfile.medical_personnel_id,
         byWhomID: this.signObj.hospitalAdmin.userID,
         byWhom: "admin"
       })
       this.addPatIllnessSurgicalForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        doctorMedicalPersonnelID: obj.medical_personnel_id,
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: obj.profile.userProfile.medical_personnel_id,
       })
       this.editPatIllnessDiagnosisForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        doctorMedicalPersonnelID: obj.medical_personnel_id,
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: obj.profile.userProfile.medical_personnel_id,
         byWhomID: this.signObj.hospitalAdmin.userID,
         byWhom: "admin"
       })
       this.editPatIllnessSurgicalForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        doctorMedicalPersonnelID: obj.medical_personnel_id,
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: obj.profile.userProfile.medical_personnel_id,
       })
       this.addPatIllMedicationManuallyForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        doctorMedicalPersonnelID: obj.medical_personnel_id,
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: obj.profile.userProfile.medical_personnel_id,
       })
       //this.modalService.dismissAll()
     }

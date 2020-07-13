@@ -54,6 +54,16 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { PatientScreeningRecordComponent } from './components/patient-screening-record/patient-screening-record.component';
 import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
+import { PaymentTransactionsComponent } from './components/payment-transactions/payment-transactions.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { HospitalDepartmentsComponent } from './components/hospital-departments/hospital-departments.component';
+import { HospitalRolesComponent } from './components/hospital-roles/hospital-roles.component';
+import { HospitalFeesComponent } from './components/hospital-fees/hospital-fees.component';
+import { PatientResetPasswordComponent } from './components/patient-reset-password/patient-reset-password.component';
+import { MaterialDialogComponent } from './components/material-dialog/material-dialog.component';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { AdminResetPasswordComponent } from './components/admin-reset-password/admin-reset-password.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +100,17 @@ import { AppointmentListComponent } from './components/appointment-list/appointm
     AllMedicalRecordComponent,
     InvoicesComponent,
     PatientScreeningRecordComponent,
-    AppointmentListComponent
+    AppointmentListComponent,
+    PaymentTransactionsComponent,
+    SettingsComponent,
+    HospitalDepartmentsComponent,
+    HospitalRolesComponent,
+    HospitalFeesComponent,
+    PatientResetPasswordComponent,
+    MaterialDialogComponent,
+    TermsAndConditionsComponent,
+    PrivacyPolicyComponent,
+    AdminResetPasswordComponent,
   ],
   imports: [
     BrowserModule,

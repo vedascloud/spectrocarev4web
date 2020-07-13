@@ -105,7 +105,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
   illnessMedicationRecordsData: any = [];
   illnessSurgicalRecordsData: any = [];
   illnessDiagnosisRecordsData: any = [];
-  fetchedPatPhyExamAttachments: any ;
+  fetchedPatPhyExamAttachments: any;
   medicationAttachmentData: any = [];
 
   data: any;
@@ -517,46 +517,46 @@ export class PatientMedicalRecordsComponent implements OnInit {
     console.log(value);
     let index = -1
     index = this.medicalPersonnels.findIndex(val => {
-      return val.medical_personnel_id === value.medical_personnel_id
+      return val.profile.userProfile.medical_personnel_id === value.profile.userProfile.medical_personnel_id
     })
     if (index != -1) {
       this.medicalPersonnelObj = this.medicalPersonnels[index]
       console.log("medicalPersonnelObj obj", this.medicalPersonnelObj)
       this.addPatImmunizationForm.patchValue({
-        doctorName: this.medicalPersonnelObj.firstName + " " + this.medicalPersonnelObj.lastName,
-        doctorMPID: this.medicalPersonnelObj.emailID,
-        byWhomID: this.medicalPersonnelObj.medical_personnel_id,
-        byWhom: "medical personnel"
+        doctorName: this.medicalPersonnelObj.profile.userProfile.firstName + " " + this.medicalPersonnelObj.profile.userProfile.lastName,
+        doctorMPID: this.medicalPersonnelObj.profile.userProfile.emailID,
+        byWhomID: this.signObj.hospitalAdmin.userID,
+        byWhom: "admin"
       })
       this.editPatImmunizationForm.patchValue({
-        doctorName: this.medicalPersonnelObj.firstName + " " + this.medicalPersonnelObj.lastName,
-        doctorMPID: this.medicalPersonnelObj.emailID,
+        doctorName: this.medicalPersonnelObj.profile.userProfile.firstName + " " + this.medicalPersonnelObj.profile.userProfile.lastName,
+        doctorMPID: this.medicalPersonnelObj.profile.userProfile.emailID,
         byWhomID: this.signObj.hospitalAdmin.userID,
         byWhom: "admin"
       })
       this.addPatIllnessDiagnosisForm.patchValue({
-        doctorName: this.medicalPersonnelObj.firstName + " " + this.medicalPersonnelObj.lastName,
-        doctorMedicalPersonnelID: this.medicalPersonnelObj.emailID,
-        byWhomID: this.medicalPersonnelObj.medical_personnel_id,
-        byWhom: "medical personnel"
+        doctorName: this.medicalPersonnelObj.profile.userProfile.firstName + " " + this.medicalPersonnelObj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: this.medicalPersonnelObj.profile.userProfile.emailID,
+        byWhomID: this.signObj.hospitalAdmin.userID,
+        byWhom: "admin"
       })
       this.addPatIllnessSurgicalForm.patchValue({
-        doctorName: this.medicalPersonnelObj.firstName + " " + this.medicalPersonnelObj.lastName,
-        doctorMedicalPersonnelID: this.medicalPersonnelObj.medical_personnel_id,
+        doctorName: this.medicalPersonnelObj.profile.userProfile.firstName + " " + this.medicalPersonnelObj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: this.medicalPersonnelObj.profile.userProfile.medical_personnel_id,
       })
       this.editPatIllnessDiagnosisForm.patchValue({
-        doctorName: this.medicalPersonnelObj.firstName + " " + this.medicalPersonnelObj.lastName,
-        doctorMedicalPersonnelID: this.medicalPersonnelObj.emailID,
-        byWhomID: this.medicalPersonnelObj.medical_personnel_id,
-        byWhom: "medical personnel"
+        doctorName: this.medicalPersonnelObj.profile.userProfile.firstName + " " + this.medicalPersonnelObj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: this.medicalPersonnelObj.profile.userProfile.emailID,
+        byWhomID: this.signObj.hospitalAdmin.userID,
+        byWhom: "admin"
       })
       this.editPatIllnessSurgicalForm.patchValue({
-        doctorName: this.medicalPersonnelObj.firstName + " " + this.medicalPersonnelObj.lastName,
-        doctorMedicalPersonnelID: this.medicalPersonnelObj.medical_personnel_id,
+        doctorName: this.medicalPersonnelObj.profile.userProfile.firstName + " " + this.medicalPersonnelObj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: this.medicalPersonnelObj.profile.userProfile.medical_personnel_id,
       })
       this.addPatIllMedicationManuallyForm.patchValue({
-        doctorName: this.medicalPersonnelObj.firstName + " " + this.medicalPersonnelObj.lastName,
-        doctorMedicalPersonnelID: this.medicalPersonnelObj.medical_personnel_id,
+        doctorName: this.medicalPersonnelObj.profile.userProfile.firstName + " " + this.medicalPersonnelObj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: this.medicalPersonnelObj.profile.userProfile.medical_personnel_id,
       })
       //this.modalService.close();
       //this.modalService.dismissAll()
@@ -1279,7 +1279,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
     let payload = {
 
       "height": '' + this.basicExamForm.value.height + ' ' + 'CM',
-      "weight": '' + this.basicExamForm.value.weight  + ' ' + 'KG',
+      "weight": '' + this.basicExamForm.value.weight + ' ' + 'KG',
       "waistline": '' + this.basicExamForm.value.waistline + ' ' + 'CM',
       "bmi": '' + this.basicExamForm.value.bmi,
       "bloodPressure": '' + this.basicExamForm.value.bloodPressure
@@ -2023,8 +2023,10 @@ export class PatientMedicalRecordsComponent implements OnInit {
   openDoctorMethod(doctorsModel) {
     this.modalService.open(doctorsModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then(
       (result) => {
+        this.medicalPersonnelObj = [];
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
+        this.medicalPersonnelObj = [];
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
   }
@@ -2427,9 +2429,9 @@ export class PatientMedicalRecordsComponent implements OnInit {
 
   openEditPhyExamModal(viewEditPhyExamContent, selectedInvoicesData) {
 
-    console.log("selected Phy exam data : ",selectedInvoicesData);
-    
-   // this.HaveBodyIndex === undefined;
+    console.log("selected Phy exam data : ", selectedInvoicesData);
+
+    // this.HaveBodyIndex === undefined;
     // if (this.HaveBodyIndex === undefined) {
     if (selectedInvoicesData && selectedInvoicesData.attachment) {
       this.HaveBodyIndex = true;
@@ -2439,17 +2441,17 @@ export class PatientMedicalRecordsComponent implements OnInit {
       console.log("dont have bodyindex");
       console.log("selected phy exam attachment : ", selectedInvoicesData.attachment);
     }
-    else{
+    else {
       this.HaveBodyIndex = false;
       //this.haveBodyIndexData= false;
       this.viewManualInput();
       this.viewBasicExam();
       this.basicExamEditForm.patchValue({
-        height: (selectedInvoicesData.bodyIndex.height).substr(0,(selectedInvoicesData.bodyIndex.height).indexOf(' ')),//str.substr(0,str.indexOf(' '));
+        height: (selectedInvoicesData.bodyIndex.height).substr(0, (selectedInvoicesData.bodyIndex.height).indexOf(' ')),//str.substr(0,str.indexOf(' '));
         bmi: selectedInvoicesData.bodyIndex.bmi,
-        weight: (selectedInvoicesData.bodyIndex.weight).substr(0,(selectedInvoicesData.bodyIndex.weight).indexOf(' ')),
-        bmr:[""],
-        waistline: (selectedInvoicesData.bodyIndex.waistline).substr(0,(selectedInvoicesData.bodyIndex.waistline).indexOf(' ')),
+        weight: (selectedInvoicesData.bodyIndex.weight).substr(0, (selectedInvoicesData.bodyIndex.weight).indexOf(' ')),
+        bmr: [""],
+        waistline: (selectedInvoicesData.bodyIndex.waistline).substr(0, (selectedInvoicesData.bodyIndex.waistline).indexOf(' ')),
         bloodPressure: selectedInvoicesData.bodyIndex.bloodPressure,
       })
 
@@ -2471,7 +2473,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
         height: [""],
         bmi: [""],
         weight: [""],
-        bmr:[""],
+        bmr: [""],
         waistline: [""],
         bloodPressure: [""],
       });
@@ -2487,7 +2489,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
         height: [""],
         bmi: [""],
         weight: [""],
-        bmr:[""],
+        bmr: [""],
         waistline: [""],
         bloodPressure: [""],
       });
@@ -2619,7 +2621,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
           }
         })
   }
-  
+
   deletePatientPhyExamDataAttachment(selectedMedicalHistory) {
     this.isLoading = true;
     this.deletePatientPhyExamRecordObj = {

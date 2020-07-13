@@ -1,0 +1,68 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div style="font-size: 14px;font-weight: 600;padding-bottom: 10px;">Hospital Department List</div>
+<div class="scroll">
+    <table class="table text-center " id="header-fixed">
+        <thead class="thead-dark ">
+            <tr class="medium" style="font-weight: 300;font-size: 12px;">
+                <th scope="col" class="border text-center">No</th>
+                <th scope="col" class="border  ">Department</th>
+                <th scope="col" class="border ">Location</th>
+                <th scope="col" class="border  text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class=" shadow small " *ngFor="let selectedDeptData of selectedData; let i = index"> <!--.controls;-->
+
+                <td scope="row" class="text-center">{{i+1}}</td>
+                <td class="" style="padding-left: 20px;">
+                    <input type="text" [value]="selectedDeptData.department" #department
+                     [ngClass]="{'custom-borders':!selectedDeptData.isAlter}" 
+                     style="border: none;outline-style: none;background: transparent;"> 
+                   </td> 
+                <td class="" style="padding-left: 20px;">
+                    <input type="text" [value]="selectedDeptData.location" #location
+                     [ngClass]="{'custom-borders':!selectedDeptData.isAlter}" 
+                     style="border: none;outline-style: none;background: transparent;">
+                    </td>
+                <td class=" text-center text-info" style="padding: 0px;">
+                    <div *ngIf="selectedDeptData.isAlter" style="margin-top: 12px;">
+                        <img (click)="editDepartment(i)" src="../../../assets/images/ui/Icons/1x/Icon material-edit.png" width="13%"
+                            style="margin-right: 30px;" class="handCursor">
+                        <img (click)="removeService(i)" src="../../../assets/images/ui/Icons/1x/Icon material-delete.png" class="handCursor">
+                    </div>
+                    <div *ngIf="!selectedDeptData.isAlter">
+                        <button class="btn btn-sm" style="border: 1px solid rgb(154, 220, 236);
+                            height: 25px;line-height: 1;padding-top: 2px;margin-top: 12px;"
+                            (click)="updatedIndexBasedValue(i,department,location)">save</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="row py-2  " style="padding-left: 20px;">
+    <div style="padding-left: 54px;" (click)="addDepartmentToList()">
+        <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
+            width="20rem" class="handCursor">
+        <span class="px-3 handCursor" style="font-size: 14px;font-weight: 500;">Add New List</span>
+    </div>
+</div>
+
+<div class="text-center justify-content-center p-0">
+    <div *ngIf="isLoading"
+        style="display: flex; justify-content: center;">
+        <mat-progress-spinner class="example-margin" color="primary"
+            mode="indeterminate" [diameter]="30">
+        </mat-progress-spinner>
+    </div>
+    <button type="submit" class="btn btn-sm  w-25"
+        style="font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;"
+        (click)="addAdminPersonalSettingsSubmit()"
+        *ngIf="!isLoading">Save</button>
+    <!--[disabled]="addAdminGenUserForm.invalid"-->
+</div>
+
+<p class="font-weight-light" style="font-size: small;padding-top: 20px;padding-left: 40px;">Last updated date :
+    {{presentDate}}
+    by {{userID}}</p>

@@ -65,8 +65,27 @@
                                 <mat-error *ngIf="adminSignUpForm.get('hospitalAdmin.userID').hasError('required')">
                                     User ID is required.
                                 </mat-error>
-
                             </mat-form-field>
+
+                            <div class=" row pb-1" style="margin: 0px;">
+                                <label class="numberLabel">Identity *</label>
+                            </div>
+
+                            <div class="row radio-item pb-2">
+                                <div class="col-6" style="padding-left: 0;margin: inherit;">
+                                    <label class="radio-inline" style="font-size: 14px;font-weight: 600 ;color: #9a9a9b;letter-spacing: 0.5px;">
+                                      <input type="radio" name="identity" value="System Manager" checked="checked" 
+                                        formControlName="identity"> &nbsp; System Manager
+                                    </label>
+                                  </div>
+                      
+                                  <div class="col-6" style="padding-left: 0;margin: inherit;">
+                                    <label class="radio-inline" style="font-size: 14px;font-weight: 600 ;color: #9a9a9b;letter-spacing: 0.5px;">
+                                      <input type="radio" name="identity" value="General" 
+                                      formControlName="identity">&nbsp; General
+                                    </label>
+                                  </div>
+                            </div>
 
                             <div class="row">
                                 <div class="col-md-6">

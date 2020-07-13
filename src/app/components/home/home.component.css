@@ -4,130 +4,69 @@
   font-family: 'Muli';
 }
 
-.btn-danger:hover{
-    font-size: large;
-    font-weight: bold;
-    color: black;
-    background-color:#dc3545;
+.close {
+  outline: none !important;
+}
+ .modal-content {
+  background: transparent !important;
+  border: none !important;
 }
 
-.btn-success:hover{
-    font-size: large;
-    font-weight: bold;
-    color: black;
-    background-color:green;
+.modal-footer {
+  background-color: white !important;
 }
 
-.close{
-    outline: none !important;
-}
-
-
-*/ Modal Styles */
-.modal-content{
-    background: transparent !important;
-    border: none !important;
-    }
-.bg-Custom{
-background-color:#60348a !important;
-padding: 20px;
-text-align: center;
-}
-.btn-clr{
-background-color: #f66 !important; 
-border: none !important;
-outline: none !important;
-padding: 8px 25px !important;
-}
-
-.modal-footer{
-background-color: white !important;
-}
-.modal-header{
-background-color: white;
+.modal-header {
+  background-color: white;
 }
 
 .field-icon {
-    float: right;
-    margin-left: -25px;
-    margin-top: -25px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .field-icon3 {
-    float: right;
-    margin-left: -25px;
-    margin-top: 0px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .edit{
-    float: right;
-    margin-top: 25px;
-    margin-right: 50px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .changepwd{
-    float: left;
-    margin-top: 370px;
-    position: relative;
-    z-index: 2;
-  }
-
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-  }
-  
-  .dropdown-content a {
-    color: rgb(68, 65, 65);
-    /* padding: 12px 16px; */
-    text-decoration: none;
-    display: block;
-  }
-  
-  .dropdown-content a:hover {background-color: #e0dede;}
-  .dropdown:hover .dropdown-content {display: block;}
-
-   
-*/ Modal Styles */
-.modal-content{
-    background: transparent !important;
-    border: none !important;
-    }
-.bg-Custom{
-background-color:#60348a !important;
-padding: 20px;
-text-align: center;
-}
-.btn-clr{
-background-color: #f66 !important; 
-border: none !important;
-outline: none !important;
-padding: 8px 25px !important;
-}
-
-.modal-footer{
-background-color: white !important;
-}
-.modal-header{
-background-color: white;
-}
-
-.badge{
-  color: red;
+  float: right;
+  margin-left: -25px;
+  margin-top: -25px;
   position: relative;
-  margin-left: 60%;
-  margin-top: -60%;
+  z-index: 2;
+}
+
+.field-icon3 {
+  float: right;
+  margin-left: -25px;
+  margin-top: 0px;
+  position: relative;
+  z-index: 2;
+}
+
+.edit {
+  float: right;
+  margin-top: 25px;
+  margin-right: 50px;
+  position: relative;
+  z-index: 2;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: rgb(68, 65, 65);
+  /* padding: 12px 16px; */
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #e0dede;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 ::ng-deep .example-full-width {
@@ -135,7 +74,7 @@ background-color: white;
   padding: 5px;
 }
 
-table{
+table {
   width: 100% !important;
 }
 
@@ -150,9 +89,23 @@ table{
 ::ng-deep .home .mat-form-field .mat-form-field-underline {
   background-color: rgba(12, 12, 12, 0.5) !important;
 }
+
 ::ng-deep .home .mat-form-field .mat-form-field-ripple {
   background-color: #53B9C6 !important;
 }
+
+::ng-deep .mat-form-field .mat-form-field-label {
+  color: #3E454C !important;
+}
+
+::ng-deep .mat-form-field .mat-form-field-underline {
+  background-color: rgba(12, 12, 12, 0.5) !important;
+}
+
+::ng-deep .mat-form-field .mat-form-field-ripple {
+  background-color: #53B9C6 !important;
+}
+
 .inp {
   color: black;
 }
@@ -161,8 +114,10 @@ table{
   color: black !important;
 }
 
+/* .phno  */
+
 ::ng-deep .home .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel]:not(.phFromAddAdminUser) {
-  width: 518px !important; 
+  width: 518px !important;
   border: none !important;
   background: transparent !important;
   border-bottom: 1px solid #3E454C !important;
@@ -171,10 +126,9 @@ table{
   scroll-padding-inline: inherit;
 }
 
-::ng-deep .home .intl-tel-input .search-container input{
+::ng-deep .home .intl-tel-input .search-container input {
   color: rgb(5, 5, 5) !important;
 }
-
 
 ::ng-deep .home .intl-tel-input.separate-dial-code .selected-dial-code {
   color: rgb(17, 17, 17) !important;
@@ -183,3 +137,187 @@ table{
 ::ng-deep .home .country-dropdown {
   width: 32.5rem !important;
 }
+
+/* Mat tab ink bar color */
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+  background: #53B9C6;
+  height: 3px;
+}
+
+::ng-deep .mat-select-trigger {
+  /* border: 1px solid rgb(200, 200, 200); */
+  /* border-radius: 5px; */
+  border: transparent;
+  padding: 5px;
+}
+
+::ng-deep .full-width {
+  width: 100% !important;
+  margin-bottom: 1px !important;
+}
+
+::ng-deep .mat-select-value {
+  padding-left: 10px;
+}
+
+::ng-deep .adminProfile .mat-form-field {
+  width: 100% !important;
+}
+
+::ng-deep .adminProfile .mat-form-field .mat-form-field-label {
+  color: #3E454C !important;
+}
+
+::ng-deep .adminProfile .mat-form-field .mat-form-field-underline {
+  background-color: rgba(12, 12, 12, 0.5) !important;
+  width: 100% !important;
+}
+
+::ng-deep .adminProfile .mat-select-disabled .mat-select-trigger {
+  border: transparent;
+}
+
+::ng-deep .adminProfile .mat-form-field .mat-select-value-text {
+  color: black !important;
+}
+
+::ng-deep .adminProfile .mat-form-field .mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: #53B9C6 !important;
+  ;
+}
+
+::ng-deep .adminProfile .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+  width: 444px !important;
+  border: none !important;
+  background: transparent !important;
+  border-bottom: 1px solid #3E454C !important;
+  color: rgb(14, 13, 13) !important;
+  scroll-behavior: unset;
+  scroll-padding-inline: inherit;
+}
+
+::ng-deep .adminProfile .intl-tel-input .search-container input {
+  color: rgb(25, 28, 29) !important;
+}
+
+::ng-deep .adminProfile .intl-tel-input.separate-dial-code .selected-dial-code {
+  color: rgb(17, 17, 17) !important;
+}
+
+::ng-deep .adminProfile .country-dropdown {
+  width: 28rem !important;
+}
+
+.dasshedLine {
+  border-bottom: 1px dashed rgb(139, 125, 125);
+  border-width: 2px;
+  width: 90%;
+  margin: auto;
+}
+
+/* For Radio button */
+
+.radio-item input[type='radio'] {
+  visibility: hidden;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px 0 5px;
+  padding: 0;
+}
+
+.radio-item input[type=radio]:before {
+  position: relative;
+  margin: 4px -25px -4px 0;
+  display: inline-block;
+  visibility: visible;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  /* border: 2px inset rgba(150,150,150,0.75); */
+  /* background: radial-gradient(ellipse at top left, rgb(255,255,255) 0%, rgb(250,250,250) 5%, rgb(230,230,230) 95%, rgb(225,225,225) 100%); */
+  border: 1px solid #3E454C;
+  background: transparent;
+  content: "";
+}
+
+.radio-item input[type=radio]:checked:after {
+  position: relative;
+  top: 0;
+  left: 9px;
+  display: inline-block;
+  visibility: visible;
+  border-radius: 6px;
+  width: 12px;
+  height: 12px;
+  /* background: radial-gradient(ellipse at top left, rgb(245,255,200) 0%, rgb(225,250,100) 5%, rgb(75,175,0) 95%, rgb(25,100,0) 100%); */
+  background: #3E454C;
+  /* rgb(150, 211, 235) */
+  content: "";
+}
+
+.radio-item input[type=radio].true:checked:after {
+  /* background: radial-gradient(ellipse at top left, rgb(245,255,200) 0%, rgb(225,250,100) 5%, rgb(75,175,0) 95%, rgb(25,100,0) 100%); */
+  background: #3E454C;
+  /* rgb(150, 211, 235) */
+}
+
+.radio-item input[type=radio].false:checked:after {
+  background: radial-gradient(ellipse at top left, rgb(255, 225, 200) 0%, rgb(250, 200, 150) 5%, rgb(200, 25, 0) 95%, rgb(100, 25, 0) 100%);
+}
+
+.radio-item label {
+  display: inline-block;
+  height: 25px;
+  line-height: 25px;
+  margin: 0;
+  padding: 0;
+}
+
+.scroll1 {
+  height: 60vh !important;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.scroll1::-webkit-scrollbar-track {
+  border-radius: 2px;
+}
+
+.scroll1::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: #F7F7F7;
+}
+
+.scroll1::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: #53B9C6;
+}
+
+::ng-deep .webselect .mat-select-trigger {
+  border: 1px solid rgb(214, 211, 211);
+  border-radius: 5px;
+  /* padding: 1px; */
+  height: 30px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ::ng-deep .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background-color: #2c3136;
+  color: white;
+} */
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+color:#2c3136;
+}
+
+/* ::ng-deep .modal-content{
+  margin-top: 35vh;
+} */
+
+/* ::ng-deep .modal.show .modal-dialog {
+width: 30%;
+} */

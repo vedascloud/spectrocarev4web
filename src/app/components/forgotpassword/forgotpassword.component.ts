@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
 import { MatSnackBar } from '@angular/material';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -12,11 +13,22 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ForgotpasswordComponent implements OnInit {
 
+  closeResult: string;
   title:string = 'Administrator';
 isAdministrator:boolean = true;
 adminForgotForm:FormGroup;
 medicalForgotForm:FormGroup;
-  constructor(private router:Router, private fb:FormBuilder,private loginService:LoginService,private _snackBar: MatSnackBar) { }
+successResponse:string ="Success";
+failureResponse:string = "Failure";
+viewSuccessContent1: string = "Password reset link has been successfully sent.";
+  viewFailureContent1: string = "Password Reset Failed!";
+  viewSuccessContent2: string = " Please check your email.";
+  viewFailureContent2: string = "Your password has not been changed.";
+@ViewChild('viewSuccessContent', { static: true }) modalSuccessExample: ElementRef<any>;
+@ViewChild('viewFailureContent', { static: true }) modalFailureExample: ElementRef<any>;
+
+  constructor(private router:Router, private fb:FormBuilder,private loginService:LoginService,
+    private modalService: NgbModal,private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.adminForgotForm =this.fb.group({
@@ -42,11 +54,15 @@ openSnackBar1(message:string,action:string){
     this.loginService.forgotPassword(this.adminForgotForm.value).subscribe((res)=>{
       console.log(res)
       if(res.response === 3){
+        
+        this.modalService.open(this.modalSuccessExample)
         //alert("Password reset link has been sent to your registered email ID");
-        this.openSnackBar(res.message,"");
+        //this.openSnackBar(res.message,"");
         this.router.navigateByUrl('/administrator')
       }else{
-        this.openSnackBar1(res.message,"");
+        
+        this.modalService.open(this.modalFailureExample)
+        //this.openSnackBar1(res.message,"");
         //alert("Your Details didn't Match")
       }
     },
@@ -77,5 +93,28 @@ openSnackBar1(message:string,action:string){
       this.router.navigateByUrl('/medicalpersonnelsignup')
     }
   }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 
+  viewSuccessMethod(viewSuccessContent) {
+    this.modalService.open(viewSuccessContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm" }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  viewFailureMethod(viewFailureContent) {
+    this.modalService.open(viewFailureContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm" }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
 }

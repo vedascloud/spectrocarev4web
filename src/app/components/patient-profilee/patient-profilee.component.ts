@@ -14,7 +14,7 @@ import { PatientProfileComponent } from '../patient-profile/patient-profile.comp
   styleUrls: ['./patient-profilee.component.css']
 })
 export class PatientProfileeComponent implements OnInit {
-  
+
   isLoading: boolean = false;
   loading: boolean;
   patientProfileForm: FormGroup;
@@ -22,9 +22,9 @@ export class PatientProfileeComponent implements OnInit {
   viewFamilyHistoryForm: FormGroup;
   editAllergiesForm: FormGroup;
   addPatientPhysicalExamForm: FormGroup;
-  addPatientScreeningRecordForm:FormGroup;
+  addPatientScreeningRecordForm: FormGroup;
   previewImg: any;
-  refImg:any;
+  refImg: any;
   closeResult: string;
   isViewBottom: boolean = false;
   signInRes: any;
@@ -34,8 +34,9 @@ export class PatientProfileeComponent implements OnInit {
   id: string;
   patients: any = [];
   patientFamilyHistory: any = [];
+  patientFamilyHistoryID: any;
   patientFamilyAllergies: any = [];
-  patientPhysicalExamRecords: any=[];
+  patientPhysicalExamRecords: any = [];
   selectedPatient: any;
   patientObj: any;
   addPatientFamilyHistoryObj: any;
@@ -45,19 +46,19 @@ export class PatientProfileeComponent implements OnInit {
   fetchPatientPhysicalExamObj: any;
   deletePatientPhyExamRecordObj: any;
   deleteAllPatientPhyExamRecordObj: any;
-  fetchPatientScreeningRecordsObj:any;
-  patientScreeningRecords:any=[];
+  fetchPatientScreeningRecordsObj: any;
+  patientScreeningRecords: any = [];
   file: any;
-  fileName:any;
-  fileSize:any;
-  fileValue:any;
-  theImg:any;
+  fileName: any;
+  fileSize: any;
+  fileValue: any;
+  theImg: any;
 
   @ViewChild('fileInput', { static: true }) el: ElementRef;
   @ViewChild('autoFocusTest', { static: false }) nativeEl: ElementRef;
   constructor(private modalService: NgbModal, private fb: FormBuilder, private loginService: LoginService,
-    private activatedRoute: ActivatedRoute,private cd: ChangeDetectorRef,private _snackBar: MatSnackBar,
-    private patProComponent: PatientProfileComponent,) { }
+    private activatedRoute: ActivatedRoute, private cd: ChangeDetectorRef, private _snackBar: MatSnackBar,
+    private patProComponent: PatientProfileComponent, ) { }
 
   ngOnInit() {
     this.refImg = "../../../assets/images/ui/Icons/1x/profile-1.png"
@@ -70,22 +71,22 @@ export class PatientProfileeComponent implements OnInit {
     })
 
     this.addPatientPhysicalExamForm = this.fb.group({
-      medical_personnel_id:[""],
-      patientID:[""],
-      hospital_reg_num:[""],
-      medical_record_id:[""],
+      medical_personnel_id: [""],
+      patientID: [""],
+      hospital_reg_num: [""],
+      medical_record_id: [""],
       profilePic: [""]
     })
 
     this.addPatientScreeningRecordForm = this.fb.group({
-      patientID:[""],
-      profilePic:[""],
-      recordMoreDetails:[""],
-      recordName:[""],
-      byWhomName:[""],
-      byWhomType:[""],
-      byWhomID:[""],
-      medical_record_id:[""]
+      patientID: [""],
+      profilePic: [""],
+      recordMoreDetails: [""],
+      recordName: [""],
+      byWhomName: [""],
+      byWhomType: [""],
+      byWhomID: [""],
+      medical_record_id: [""]
     })
 
     this.patientProfileForm = this.fb.group({
@@ -131,12 +132,12 @@ export class PatientProfileeComponent implements OnInit {
       this.getPatientData(medicalObj)
     }
 
-  
+
   }
 
   //Mat Snack Bar
-  openSnackBar(message:string,action:string){
-    this._snackBar.open(message,action,{duration:5000})
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, { duration: 5000 })
   }
 
   getPatientData(obj) {
@@ -222,9 +223,16 @@ export class PatientProfileeComponent implements OnInit {
           console.log("res from rou", res)
           if (res.response === 3) {
             this.loading = false;
-            this.patientFamilyHistory = res.famliyDiseases
-            this.patchFamilyHistory(this.patientFamilyHistory)
-            console.log("Fetched Patient Family History Data : ", this.patientFamilyHistory);
+            console.log("the family history : ", res);
+            this.patientFamilyHistory = res.famliyDiseases;
+            this.patientFamilyHistoryID = this.patientFamilyHistory;
+            console.log("length of array : ", this.patientFamilyHistory.length, this.patientFamilyHistory);
+            if (this.patientFamilyHistory.length >= 1) {
+              this.patientFamilyHistory = this.patientFamilyHistory[0].famliyDiseases;
+              this.patchFamilyHistory(this.patientFamilyHistory)
+              console.log("Fetched Patient Family History Data : ", this.patientFamilyHistory);
+            }
+            //this.patchFamilyHistory(this.patientFamilyHistory)
           }
           else if (res.response === 0) {
             this.loading = false;
@@ -259,9 +267,21 @@ export class PatientProfileeComponent implements OnInit {
           console.log("res from fetch patient allergies : ", res)
           if (res.response === 3) {
             this.loading = false;
-            this.patientFamilyAllergies = res.allergy_records
-            this.addDarta(this.patientFamilyAllergies)
-            console.log("Fetched Patient Family Allergies Data : ", this.patientFamilyAllergies);
+
+            // console.log("the family allergies : ", res);
+            // this.patientFamilyAllergies = res.allergy_records[0].allergies;
+            // this.addDarta(this.patientFamilyAllergies)
+            // console.log("Fetched Patient Family Allergies Data : ", this.patientFamilyAllergies);
+            
+            this.patientFamilyAllergies = res.allergy_records;
+            console.log("length of array : ", this.patientFamilyAllergies.length, this.patientFamilyAllergies);
+            if (this.patientFamilyAllergies.length >= 1) {
+              this.patientFamilyAllergies = this.patientFamilyAllergies[0].allergies;
+              this.addDarta(this.patientFamilyAllergies)
+              console.log("Fetched Patient Family Allergies Data : ", this.patientFamilyAllergies);
+            }
+            //this.addDarta(this.patientFamilyAllergies)
+          
           }
           else if (res.response === 0) {
             this.loading = false;
@@ -289,7 +309,7 @@ export class PatientProfileeComponent implements OnInit {
   //Add patient to the family history
   addMember() {
     this.familyDeseases.push(this.fb.group({
-      dieseaseName: [""], 
+      dieseaseName: [""],
       relationship: [""]
     }))
   }
@@ -336,15 +356,15 @@ export class PatientProfileeComponent implements OnInit {
             this.isLoading = false;
             this.loading = false;
             this.modalService.dismissAll();
-            this.openSnackBar(res.message,"");
-            
+            this.openSnackBar(res.message, "");
+
             this.ngOnInit();
             console.log("Res from Patient Family History Data Delete : ", res.message);
           }
           else if (res.response === 0) {
             this.isLoading = false;
             this.loading = false;
-            this.openSnackBar(res.message,"");
+            this.openSnackBar(res.message, "");
             this.modalService.dismissAll();
           }
         },
@@ -377,6 +397,8 @@ export class PatientProfileeComponent implements OnInit {
   }
 
   addFamilyHistorySubmit() {
+    //console.log("this.patientFamilyHistoryID is : ",this.patientFamilyHistoryID[0].family_history_record_id);
+    
     this.isLoading = true;
     let payLoad = this.editFamilyHistoryForm.value.familyHistory;
     let diseaseArray: any[] = [];
@@ -391,13 +413,25 @@ export class PatientProfileeComponent implements OnInit {
       )
     }
     console.log("Diseases array data from form : ", diseaseArray);
+    if(this.patientFamilyHistory.length >= 1 ){
+      this.addPatientFamilyHistoryObj = {
+        "hospital_reg_num": this.selectedPatient.hospital_reg_num,
+        "patientID": this.selectedPatient.patientID,
+        "medical_record_id": this.selectedPatient.medical_record_id,
+        "byWhom": "admin",
+        "byWhomID": this.signObj.hospitalAdmin.userID,
+        "famliyDiseases": diseaseArray,
+        "family_history_record_id": this.patientFamilyHistoryID[0].family_history_record_id
+      }  
+    }
     this.addPatientFamilyHistoryObj = {
       "hospital_reg_num": this.selectedPatient.hospital_reg_num,
       "patientID": this.selectedPatient.patientID,
       "medical_record_id": this.selectedPatient.medical_record_id,
       "byWhom": "admin",
       "byWhomID": this.signObj.hospitalAdmin.userID,
-      "famliyDiseases": diseaseArray
+      "famliyDiseases": diseaseArray,
+      //"family_history_record_id": this.patientFamilyHistoryID[0].family_history_record_id
     }
     console.log("the req for pat fam history obj : ", this.addPatientFamilyHistoryObj);
     this.loginService.addPatientFamilyHistoryData(this.addPatientFamilyHistoryObj, this.signObj.access_token).
@@ -408,8 +442,8 @@ export class PatientProfileeComponent implements OnInit {
             this.isLoading = false;
             this.loading = false;
             this.modalService.dismissAll();
-            this.openSnackBar(res.message,"");
-            
+            this.openSnackBar(res.message, "");
+
             this.patientFamilyHistory = res.familyDiseases;
             this.ngOnInit();
             console.log("Res from Patient Family History Data : ", res.famliyDiseases);
@@ -417,7 +451,7 @@ export class PatientProfileeComponent implements OnInit {
           else if (res.response === 0) {
             this.isLoading = false;
             this.loading = false;
-            this.openSnackBar(res.message,"");
+            this.openSnackBar(res.message, "");
             this.modalService.dismissAll();
           }
         },
@@ -436,7 +470,7 @@ export class PatientProfileeComponent implements OnInit {
 
   //Add Patient Allergies
   addPatientAllergiesSubmit() {
-    this.isLoading= true;
+    this.isLoading = true;
     let payLoad = this.editAllergiesForm.value.allergiesHistory;
     let allergiesArray: any[] = [];
     for (let i: number = 0; i <= payLoad.length - 1; i++) {
@@ -462,29 +496,29 @@ export class PatientProfileeComponent implements OnInit {
         (res) => {
           console.log("res from add patient allergies req  : ", res)
           if (res.response === 3) {
-            this.isLoading= false;
+            this.isLoading = false;
             this.loading = false;
             this.modalService.dismissAll();
-            this.openSnackBar(res.message,"");
-            
+            this.openSnackBar(res.message, "");
+
             this.patientFamilyAllergies = res.allergies;
             this.ngOnInit();
             console.log("Res from Patient Allergies Data : ", res.allergies);
           }
           else if (res.response === 0) {
-            this.isLoading= false;
+            this.isLoading = false;
             this.loading = false;
-            this.openSnackBar(res.message,"");
+            this.openSnackBar(res.message, "");
             this.modalService.dismissAll();
           }
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
-            this.isLoading= false;
+            this.isLoading = false;
             this.loading = false;
             console.log("Client Side Error")
           } else {
-            this.isLoading= false;
+            this.isLoading = false;
             this.loading = false;
             console.log(err)
           }
@@ -495,7 +529,7 @@ export class PatientProfileeComponent implements OnInit {
     this.isLoading = true;
     //trying to delete using service
     this.deletePatientAllergiesObj = {
-      
+
       "hospital_reg_num": this.selectedPatient.hospital_reg_num,
       "patientID": this.selectedPatient.patientID,
       "medical_record_id": this.selectedPatient.medical_record_id,
@@ -513,15 +547,15 @@ export class PatientProfileeComponent implements OnInit {
             this.isLoading = false;
             this.loading = false;
             this.modalService.dismissAll();
-            this.openSnackBar(res.message,"");
-            
+            this.openSnackBar(res.message, "");
+
             this.ngOnInit();
             console.log("Res from Patient Allergies Data Delete : ", res.message);
           }
           else if (res.response === 0) {
             this.isLoading = false;
             this.loading = false;
-            this.openSnackBar(res.message,"");
+            this.openSnackBar(res.message, "");
             this.modalService.dismissAll();
           }
         },
@@ -545,9 +579,9 @@ export class PatientProfileeComponent implements OnInit {
       "hospital_reg_num": this.selectedPatient.hospital_reg_num,
       "patientID": this.selectedPatient.patientID,
       "medical_record_id": this.selectedPatient.medical_record_id,
-      "byWhomID":this.selectedPatient.medical_personnel_id,
-      "byWhom":"medical personnel"
-     }
+      "byWhomID": this.selectedPatient.medical_personnel_id,
+      "byWhom": "medical personnel"
+    }
     console.log("the req for fetch pat phy exam records obj : ", this.fetchPatientPhysicalExamObj);
 
     this.loginService.getPatientPhysicalExamRecordsData(this.fetchPatientPhysicalExamObj, this.signObj.access_token).
@@ -575,48 +609,48 @@ export class PatientProfileeComponent implements OnInit {
   }
 
   //Fetch Patient Screening Records
-  fetchPatientScreeningRecords(){
+  fetchPatientScreeningRecords() {
     this.fetchPatientScreeningRecordsObj = {
       "hospital_reg_num": this.selectedPatient.hospital_reg_num,
       "patientID": this.selectedPatient.patientID,
       "medical_record_id": this.selectedPatient.medical_record_id,
       "byWhom": "admin",
-      "byWhomID":this.signObj.hospitalAdmin.userID,
-      "illnessID":this.selectedPatient.illnessID
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "illnessID": this.selectedPatient.illnessID
     }
     console.log("Obj Data to fetch patient Screening Records : ", this.fetchPatientScreeningRecordsObj);
     this.loginService.getPatientScreeningRecordsData(this.fetchPatientScreeningRecordsObj, this.signObj.access_token).
-    subscribe(
-      (res) => {
-        console.log("res from fetch patient screening records  : ", res)
-        if (res.response === 3) {
-          this.loading = false;
-          this.patientScreeningRecords = res.illnessScreeningRecords;
-          console.log("Res from Patient Screening Records Data : ", res.illnessScreeningRecords);
-        }
-        else if (res.response === 0) {
-          this.loading = false;
-        }
-      },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          this.loading = false;
-          console.log("Client Side Error")
-        } else {
-          this.loading = false;
-          console.log(err)
-        }
-      })
+      subscribe(
+        (res) => {
+          console.log("res from fetch patient screening records  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            this.patientScreeningRecords = res.illnessScreeningRecords;
+            console.log("Res from Patient Screening Records Data : ", res.illnessScreeningRecords);
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
 
-    
+
   }
 
-  deletePatientPhysicalExamFile(patientScreeningRecordsData){
+  deletePatientPhysicalExamFile(patientScreeningRecordsData) {
     this.isLoading = true;
     this.deletePatientPhyExamRecordObj = {
-      "medical_record_id":patientScreeningRecordsData.medical_record_id,
-      "illnessScreeningID":patientScreeningRecordsData.hospital_reg_num,
-      "patientID":patientScreeningRecordsData.patientID,
+      "medical_record_id": patientScreeningRecordsData.medical_record_id,
+      "illnessScreeningID": patientScreeningRecordsData.hospital_reg_num,
+      "patientID": patientScreeningRecordsData.patientID,
       "byWhomType": "admin",
       "byWhomID": this.signObj.hospitalAdmin.userID
     }
@@ -629,7 +663,7 @@ export class PatientProfileeComponent implements OnInit {
             this.isLoading = false;
             this.loading = false;
             this.modalService.dismissAll();
-            this.openSnackBar(res.message,"");
+            this.openSnackBar(res.message, "");
             this.fetchPatientPhysicalExamRecords();
             this.ngOnInit()
             console.log("Res from Patient Phy Exam Data Delete : ", res.message);
@@ -638,7 +672,7 @@ export class PatientProfileeComponent implements OnInit {
             this.isLoading = false;
             this.loading = false;
             this.modalService.dismissAll();
-            this.openSnackBar(res.message,"");
+            this.openSnackBar(res.message, "");
           }
         },
         (err: HttpErrorResponse) => {
@@ -660,7 +694,7 @@ export class PatientProfileeComponent implements OnInit {
     let file = event.target.files[0];
     this.fileName = file.name;
     this.fileSize = file.size;
-    this.fileSize = this.fileSize/1024;
+    this.fileSize = this.fileSize / 1024;
     this.fileValue = "kb"
     if (event.target.files && event.target.files[0]) {
       reader.readAsDataURL(file);
@@ -677,10 +711,10 @@ export class PatientProfileeComponent implements OnInit {
     //alert("remove uploaded file");
     let newFileList = Array.from(this.el.nativeElement.files);
     this.addPatientScreeningRecordForm.get('profilePic').setValue(null);
-    
+
   }
 
-  addPatientScreeningRecordSubmit(){
+  addPatientScreeningRecordSubmit() {
     this.isLoading = true;
 
     let payLoad = this.addPatientScreeningRecordForm.value
@@ -690,13 +724,13 @@ export class PatientProfileeComponent implements OnInit {
     formData.append("patientID", this.selectedPatient.patientID);
     formData.append("screeningRecord", this.addPatientScreeningRecordForm.get('profilePic').value)
     formData.append("recordMoreDetails", "");
-    formData.append("recordName",this.fileName);
-    formData.append("byWhomName",this.signObj.hospitalAdmin.firstName);
-    formData.append("byWhomType","admin");
+    formData.append("recordName", this.fileName);
+    formData.append("byWhomName", this.signObj.hospitalAdmin.firstName);
+    formData.append("byWhomType", "admin");
     formData.append("byWhomID", this.signObj.hospitalAdmin.userID);
     formData.append("medical_record_id", this.selectedPatient.medical_record_id);
-        
-    console.log("req data to add pat screening reocrd : ",formData);    
+
+    console.log("req data to add pat screening reocrd : ", formData);
 
     this.loginService.addPatientScreeningRecordsData(formData, this.signObj.access_token).subscribe(
       (updateAdminGenUserData) => {
@@ -706,15 +740,15 @@ export class PatientProfileeComponent implements OnInit {
 
           this.loading = false;
           this.modalService.dismissAll();
-          this.openSnackBar(updateAdminGenUserData.message,"");
+          this.openSnackBar(updateAdminGenUserData.message, "");
           this.ngOnInit();
-          
+
         }
         else {
           this.isLoading = false;
           this.loading = false;
           this.modalService.dismissAll();
-          this.openSnackBar(updateAdminGenUserData.message,"");          
+          this.openSnackBar(updateAdminGenUserData.message, "");
         }
       },
       (err: HttpErrorResponse) => {
@@ -730,14 +764,14 @@ export class PatientProfileeComponent implements OnInit {
         }
       }
     );
-   
+
   }
 
-  deletePatientAllPhysicalExamFile(){
+  deletePatientAllPhysicalExamFile() {
     this.deleteAllPatientPhyExamRecordObj = {
-      "medical_record_id":this.selectedPatient.medical_record_id,
-      "hospital_reg_num":this.selectedPatient.hospital_reg_num,
-      "patientID":this.selectedPatient.patientID,
+      "medical_record_id": this.selectedPatient.medical_record_id,
+      "hospital_reg_num": this.selectedPatient.hospital_reg_num,
+      "patientID": this.selectedPatient.patientID,
       "medical_personnel_id": this.selectedPatient.medical_personnel_id
     }
     console.log("the req for delete all pat phy exam record obj : ", this.deleteAllPatientPhyExamRecordObj);
@@ -748,7 +782,7 @@ export class PatientProfileeComponent implements OnInit {
           if (res.response === 3) {
             this.loading = false;
             this.modalService.dismissAll();
-            this.openSnackBar(res.message,"");
+            this.openSnackBar(res.message, "");
             this.patientPhysicalExamRecords = [];
             this.ngOnInit()
             console.log("Res from Patient Phy Exam Data Delete All : ", res.message);
@@ -756,7 +790,7 @@ export class PatientProfileeComponent implements OnInit {
           else if (res.response === 0) {
             this.loading = false;
             this.modalService.dismissAll();
-            this.openSnackBar(res.message,"");
+            this.openSnackBar(res.message, "");
           }
         },
         (err: HttpErrorResponse) => {
@@ -772,7 +806,7 @@ export class PatientProfileeComponent implements OnInit {
 
   hideBottom() {
     this.theImg = this.patProComponent.patientProfileForm.get('profilePic').value;
-    console.log("img from patient profile component :",this.theImg);
+    console.log("img from patient profile component :", this.theImg);
     if (this.isViewBottom === false) {
       this.isViewBottom = true;
       this.patientProfileForm.enable();
@@ -784,7 +818,7 @@ export class PatientProfileeComponent implements OnInit {
     }
   }
 
-  updatePatientProfileData(){
+  updatePatientProfileData() {
     this.isLoading = true;
     let payLoad = this.patientProfileForm.value
     let formData = new FormData()
@@ -807,8 +841,8 @@ export class PatientProfileeComponent implements OnInit {
     formData.append("emailID", payLoad.emailID);
     formData.append("patientID", this.selectedPatient.patientID);
     formData.append("phoneNumberCountryCode", this.selectedPatient.phoneNumber.countryCode);
-        
-    console.log("req data to update patient profile with img from pat-profilee-component : ",formData);    
+
+    console.log("req data to update patient profile with img from pat-profilee-component : ", formData);
 
     this.loginService.updatePatient(formData, this.signObj.access_token).subscribe(
       (updateAdminGenUserData) => {
@@ -818,16 +852,16 @@ export class PatientProfileeComponent implements OnInit {
           this.isLoading = false;
           this.loading = false;
           //this.modalService.dismissAll();
-          this.openSnackBar(updateAdminGenUserData.message,"");
+          this.openSnackBar(updateAdminGenUserData.message, "");
           this.ngOnInit();
-          
+
         }
         else {
           this.patProComponent.patientProfileForm.get('profilePic').value === null;
           this.isLoading = false;
           this.loading = false;
           //this.modalService.dismissAll();
-          this.openSnackBar(updateAdminGenUserData.message,"");          
+          this.openSnackBar(updateAdminGenUserData.message, "");
         }
       },
       (err: HttpErrorResponse) => {
@@ -841,7 +875,7 @@ export class PatientProfileeComponent implements OnInit {
           this.isLoading = false;
           this.loading = false;
           console.log("Server Side", err);
-          this.openSnackBar(err.statusText,"");
+          this.openSnackBar(err.statusText, "");
         }
       }
     );
@@ -898,7 +932,7 @@ export class PatientProfileeComponent implements OnInit {
     });
   }
 
-  deleteFile(deleteFileContent){
+  deleteFile(deleteFileContent) {
     this.modalService.open(deleteFileContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {

@@ -1,0 +1,115 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
+<div class="container-fluid" style="padding: 0px;">
+    <div class="w-100" style="padding: 0px;">
+        <mat-tab-group animationDuration="0ms" (selectedTabChange)="onTabChange($event)">
+            <mat-tab label="Administrative Roles">
+                <div class="scroll">
+                    <table class="table text-center" style="">
+                        <thead class="thead-dark ">
+                            <tr class="medium" style="font-weight: 300;font-size: 12px;">
+                                <th scope="col" class="border text-center">No</th>
+                                <th scope="col" class="border  ">Hospital Role</th>
+                                <th scope="col" class="border  text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class=" shadow small " *ngFor="let selectedDeptData of rolesObjArray ; let i = index">
+
+                                <td class="text-center">{{i+1}}</td>
+                                <td class="" style="padding-left: 20px;">
+                                    <input type="text" [value]="selectedDeptData.name" #name 
+                                    [ngClass]="{'custom-borders':!selectedDeptData.isAlter}"
+                                        style="border: none;outline-style: none;background: transparent;"> 
+                                        <!---->
+                                </td>
+                                <td class=" text-center text-info" style="padding: 0px;">
+                                    <div  style="margin-top: 12px;" *ngIf="selectedDeptData.isAlter"> <!---->
+                                        <img (click)="editDepartment(i)"
+                                            src="../../../assets/images/ui/Icons/1x/Icon material-edit.png" width="8%"
+                                            style="margin-right: 30px;" class="handCursor">
+                                        <img (click)="removeService(i)"
+                                            src="../../../assets/images/ui/Icons/1x/Icon material-delete.png"
+                                            class="handCursor">
+                                    </div>
+                                    <div *ngIf="!selectedDeptData.isAlter" > 
+                                         <button class="btn btn-sm" style="border: 1px solid rgb(154, 220, 236);
+                                        height: 25px;line-height: 1;padding-top: 2px;margin-top: 12px;"
+                                            (click)="updatedIndexBasedValue(i,name)">save</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="padding-left: 70px;" (click)="addDepartmentToList()">
+                    <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
+                        width="20rem" class="handCursor">
+                    <span class=" handCursor" style="padding-left: 20px; font-size: 14px;font-weight: 500;">Add
+                        New List</span>
+                </div>
+
+
+                <div class="text-center justify-content-center p-0">
+                    <div *ngIf="isLoading" style="display: flex; justify-content: center;">
+                        <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
+                            [diameter]="30">
+                        </mat-progress-spinner>
+                    </div>
+                    <button type="submit" class="btn btn-sm  w-25"
+                        style="font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;"
+                        (click)="addAdminPersonalSettingsSubmit()" *ngIf="!isLoading">Save</button>
+                    <!--[disabled]="addAdminGenUserForm.invalid"-->
+                </div>
+
+                <p class="font-weight-light" style="font-size: small;padding-top: 20px;padding-left: 40px;">Last updated
+                    date
+                    :
+                    {{presentDate}}
+                    by {{userID}}</p>
+            </mat-tab>
+            <mat-tab label="Medical/Clinical Roles">
+                <div class="scroll">
+                    <table class="table text-center" style="">
+                        <thead class="thead-dark ">
+                            <tr class="medium" style="font-weight: 300;font-size: 12px;">
+                                <th scope="col" class="border text-center">No</th>
+                                <th scope="col" class="border  ">Hospital Role</th>
+                                <th scope="col" class="border  text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class=" shadow small "
+                                *ngFor="let selectedInvoicesData of medicalRolesData1 | filter:term; let i = index">
+
+                                <td class="text-center">{{i+1}}</td>
+                                <td class="" style="padding-left: 20px;">
+                                    {{selectedInvoicesData.roleType}}</td>
+                                <td class=" text-center text-info" style="padding: 0px;">
+                                    <div style="margin-top: 8px;">
+                                        <img src="../../../assets/images/ui/Icons/1x/Icon material-edit.png" width="6%"
+                                            style="margin-right: 30px;" class="handCursor">
+                                        <img src="../../../assets/images/ui/Icons/1x/Icon material-delete.png"
+                                            class="handCursor">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="padding-left: 70px;" (click)="addDepartmentToList()">
+                    <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
+                        width="20rem" class="handCursor">
+                    <span class=" handCursor" style="padding-left: 20px; font-size: 14px;font-weight: 500;">Add
+                        New List</span>
+                </div>
+
+                <p class="font-weight-light" style="font-size: small;padding-top: 20px;padding-left: 40px;">Last updated
+                    date
+                    :
+                    {{presentDate}}
+                    by {{userID}}</p>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+</div>

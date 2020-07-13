@@ -33,6 +33,15 @@ import { AllMedicalRecordComponent } from './components/all-medical-record/all-m
 import { HeaderComponent } from './components/header/header.component';
 import { InvoicesComponent } from './components/invoices/invoices.component';
 import { AppointmentListComponent } from './components/appointment-list/appointment-list.component';
+import { PaymentTransactionsComponent } from './components/payment-transactions/payment-transactions.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { HospitalDepartmentsComponent } from './components/hospital-departments/hospital-departments.component';
+import { HospitalRolesComponent } from './components/hospital-roles/hospital-roles.component';
+import { HospitalFeesComponent } from './components/hospital-fees/hospital-fees.component';
+import { PatientResetPasswordComponent } from './components/patient-reset-password/patient-reset-password.component';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { AdminResetPasswordComponent } from './components/admin-reset-password/admin-reset-password.component';
 
 const routes: Routes = [
   {path:"adminsignin",component:AdminsigninComponent},
@@ -55,6 +64,11 @@ const routes: Routes = [
     {path:"medicalpersonnelprofile/:id",component:MedicalPersonnelProfileComponent},
     {path:"managemedicalpersons",component:ManageMedicalPersonsComponent},
     {path:"invoices",component:InvoicesComponent},
+    {path:"settings",component:SettingsComponent},
+    {path:"hospitaldepartments",component:HospitalDepartmentsComponent},
+    {path:"hospitalroles",component:HospitalRolesComponent},
+    {path:"hospitalfees",component:HospitalFeesComponent},
+    {path:"paymentTransactions",component:PaymentTransactionsComponent},
     {path:"billandpayment",component:BillandpaymentComponent},
     {path:"report",component:ReportComponent},
     {path:"patient",component:PatientComponent},
@@ -72,6 +86,11 @@ const routes: Routes = [
     {path:"",redirectTo:"home",pathMatch:"full" },
   ]},
     
+  //Patient Module 
+  {path:"patientresetpassword/:id",component:PatientResetPasswordComponent},
+  {path:"adminresetpassword",component:AdminResetPasswordComponent},
+  {path:"termsandconditions",component:TermsAndConditionsComponent},
+  {path:"privacypolicy",component:PrivacyPolicyComponent},
   {path:"",redirectTo:"administrator",pathMatch:"full" },
   
 ];

@@ -68,15 +68,22 @@ export class AppComponent {
     (this.router.url != "/medicalpersonnelsignup") &&
     (this.router.url != "/header") &&
     (this.router.url != "/admincenter/dashboard")&&
-    (this.router.url !="/admincenter/home") &&
+    (this.router.url != "/admincenter/home") &&
     (this.router.url != "/admincenter/adminprofile")&&
-    (this.router.url !="/admincenter/manageuser") &&
+    (this.router.url != "/admincenter/manageuser") &&
     (this.router.url != "/admincenter/invoices") &&
+    (this.router.url != "/admincenter/settings") &&
+    (this.router.url != "/admincenter/hospitaldepartments") &&
+    (this.router.url != "/admincenter/hospitalroles") &&
+    (this.router.url != "/admincenter/hospitalfees") &&
+    (this.router.url != "/admincenter/paymentTransactions") &&
     (this.router.url != "/admincenter/billandpayment") &&
     (this.router.url != "/admincenter/patient") &&
     (this.router.url != "/admincenter/allmedicalrecord") &&
     (this.router.url != "/patient")&&
     (this.router.url.indexOf('/admincenter/patientprofile') == -1) &&
+    (this.router.url.indexOf('patientresetpassword') == -1 ) &&
+    (this.router.url.indexOf('adminresetpassword') == -1 ) &&
     (this.router.url != "/adminappointment")&&
     (this.router.url != "/admincenter/appointmentlist") &&
     (this.router.url !="/admincenter/upcomingappointment") &&

@@ -370,16 +370,17 @@ export class BookAppointmentComponent implements OnInit {
   selectDoctorFromList(value: any) {
     console.log(value);
     let index = -1
-    index = this.medicalPersonnels.findIndex(val => {
-      return val.medical_personnel_id === value.medical_personnel_id
+    index = this.medicalPersonnels.findIndex(val => {      
+      return val.profile.userProfile.medical_personnel_id === value.profile.userProfile.medical_personnel_id
     })
+    console.log("index value : ",index);
     if (index != -1) {
       let obj = this.medicalPersonnels[index]
       console.log("obj", obj)
       this.bookAppointmentForm.patchValue({
-        doctorName: obj.firstName + " " + obj.lastName,
-        doctorMedicalPersonnelID: obj.medical_personnel_id,
-        department: obj.department
+        doctorName: obj.profile.userProfile.firstName + " " + obj.profile.userProfile.lastName,
+        doctorMedicalPersonnelID: obj.profile.userProfile.medical_personnel_id,
+        department: obj.profile.userProfile.department
       })
       this.modalService.dismissAll()
     }
