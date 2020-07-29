@@ -12,6 +12,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class HospitalRolesComponent implements OnInit {
   term: any;
   selectedData: any;
+  selectedDoctorSubRole: string;
+  selectedNurseSubRole: string;
+  viewInput:Boolean = false;
+  newValue:string ;
   departmentsData: any = [
     { "deptName": "System Administrator", "location": "R101", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-03-13", "Status": "Draft" },
     { "deptName": "Administrator", "location": "R101", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-03-14", "Status": "Paid" },
@@ -28,6 +32,10 @@ export class HospitalRolesComponent implements OnInit {
     { "roleName": "Ward Boy", "location": "R101", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-02-23", "Status": "Paid" },
   ];
   medicalRolesData1: any = [];
+  doctorSubRoles: any = [];
+  nurseSubRoles: any = [];
+  medicalRoleOne:string;
+  medicalRoleTwo:string;
   signInRes: any;
   signObj: any;
   userID: string;
@@ -116,10 +124,21 @@ export class HospitalRolesComponent implements OnInit {
     );
   }
 
+  selectDoctorsRole(selectedDoctorSubRole){
+    console.log("the select value ",selectedDoctorSubRole);
+    
+  }
   addDepartmentToList() {
     //unshift
     this.rolesObjArray.push({
       name: [""],
+    })
+  }
+  addDepartmentToList1() {
+    //unshift
+    this.medicalRolesData1.push({
+      value: [""],
+      viewValue: [""]
     })
   }
 
@@ -130,6 +149,16 @@ export class HospitalRolesComponent implements OnInit {
     console.log("data ", this.rolesObjArray);
 
   }
+  editDepartment1(index,selectedInvoicesData) {
+    console.log(index,selectedInvoicesData);
+    console.log(this.medicalRolesData1[index]);
+    this.medicalRolesData1[index].isAlter = selectedInvoicesData.isAlter;
+    this.medicalRolesData1[index].roleType = selectedInvoicesData.roleType;    
+    this.medicalRolesData1[index].viewValue = selectedInvoicesData.viewValue;
+    this.medicalRolesData1[index].subRoles = selectedInvoicesData.subRoles;
+    console.log("main roles : ", this.medicalRolesData1);
+
+  }
   removeService(index) {
     this.rolesObjArray.splice(index,1);
   }
@@ -138,6 +167,16 @@ export class HospitalRolesComponent implements OnInit {
       name: name.value,
       isAlter: true
     }
+  }
+  updatedIndexBasedValue1(index, name) {
+    this.medicalRolesData1[index] = {
+      roleType: name.roleType,
+      viewValue: name.viewValue,
+      subRoles: name.subRoles,
+      isAlter: true
+    }
+
+
   }
 
   addAdminPersonalSettingsSubmit() {
@@ -195,9 +234,35 @@ export class HospitalRolesComponent implements OnInit {
       (resForFetchAdministrativeRolesData) => {
         if (resForFetchAdministrativeRolesData.response === 3) {
           this.loading = false;
-          this.medicalRolesData1 = resForFetchAdministrativeRolesData.medicalRoles;
-
+          let doctorMainRoles = resForFetchAdministrativeRolesData.medicalRoles;
+          for (var value of doctorMainRoles) {
+            this.medicalRolesData1.push({ roleType: value.roleType, viewValue:value.roleType, isAlter: true, subRoles: value.subRoles });
+          }
+         // this.medicalRolesData1 = resForFetchAdministrativeRolesData.medicalRoles;
+          this.medicalRoleOne = this.medicalRolesData1[0];
+          this.medicalRoleTwo = this.medicalRolesData1[1];
           console.log("fetched medical roles value : ", this.medicalRolesData1);
+          for(let i=0; i<=this.medicalRolesData1.length-1; i++){
+
+            if(this.medicalRolesData1[i].roleType === "Doctor"){
+               let doctorSubRolesObj = this.medicalRolesData1[i].subRoles;
+              for (var value of doctorSubRolesObj) {
+                this.doctorSubRoles.push({ value: value, viewValue:value, isAlter: true });
+              }
+              console.log(this.doctorSubRoles);         
+              this.selectedDoctorSubRole = this.doctorSubRoles[1].value;     
+            }
+            else if(this.medicalRolesData1[i].roleType === "Nurse"){
+              let doctornurseSubRoles = this.medicalRolesData1[i].subRoles;
+             for (var value of doctornurseSubRoles) {
+               this.nurseSubRoles.push({ value: value, viewValue:value, isAlter: true });
+             }
+              console.log(this.nurseSubRoles);
+              this.selectedNurseSubRole = this.nurseSubRoles[1].value;              
+            }
+          }
+
+          
           // for (let i = 0; i <= this.selectedData.length - 1; i++) {
           //   //console.log("the for loop data : ", this.selectedData[i]);
           //   //this.ServicesDataArray.push(Object.assign({name:this.selectedData[i]}, { isAlter: true }));
@@ -223,6 +288,34 @@ export class HospitalRolesComponent implements OnInit {
         }
       }
     );
+  }
+
+  addNurseSubRole()
+  {
+    console.log("addNurseSubRole Called");
+    
+  }
+  onSearchChange1(searchValue: string): void {
+    console.log("keyup value is : ", searchValue);
+    //this.doctorSubRoles.push(searchValue)
+    console.log(this.doctorSubRoles);
+    
+  }
+  sendit(data:any) : void {
+    this.newValue = data;
+    console.log("Value",this.newValue)
+ }
+ addToDoctorSubRoles(){
+  console.log(this.newValue);
+  this.viewInput = false;
+  this.doctorSubRoles.push({value:this.newValue,viewValue:this.newValue,isAlter:true})
+  console.log(this.doctorSubRoles);
+  
+ }
+  addDoctorSubRole()
+  {
+    console.log("addDoctorSubRole Called");
+    this.viewInput = true;
   }
 
   //Mat Snack Bar

@@ -17,13 +17,12 @@
 
                                 <td class="text-center">{{i+1}}</td>
                                 <td class="" style="padding-left: 20px;">
-                                    <input type="text" [value]="selectedDeptData.name" #name 
-                                    [ngClass]="{'custom-borders':!selectedDeptData.isAlter}"
-                                        style="border: none;outline-style: none;background: transparent;"> 
-                                        <!---->
+                                    <input type="text" [value]="selectedDeptData.name" #name
+                                        [ngClass]="{'custom-borders':!selectedDeptData.isAlter}"
+                                        style="border: none;outline-style: none;background: transparent;">
                                 </td>
                                 <td class=" text-center text-info" style="padding: 0px;">
-                                    <div  style="margin-top: 12px;" *ngIf="selectedDeptData.isAlter"> <!---->
+                                    <div style="margin-top: 12px;" *ngIf="selectedDeptData.isAlter">
                                         <img (click)="editDepartment(i)"
                                             src="../../../assets/images/ui/Icons/1x/Icon material-edit.png" width="8%"
                                             style="margin-right: 30px;" class="handCursor">
@@ -31,8 +30,8 @@
                                             src="../../../assets/images/ui/Icons/1x/Icon material-delete.png"
                                             class="handCursor">
                                     </div>
-                                    <div *ngIf="!selectedDeptData.isAlter" > 
-                                         <button class="btn btn-sm" style="border: 1px solid rgb(154, 220, 236);
+                                    <div *ngIf="!selectedDeptData.isAlter">
+                                        <button class="btn btn-sm" style="border: 1px solid rgb(154, 220, 236);
                                         height: 25px;line-height: 1;padding-top: 2px;margin-top: 12px;"
                                             (click)="updatedIndexBasedValue(i,name)">save</button>
                                     </div>
@@ -73,7 +72,8 @@
                         <thead class="thead-dark ">
                             <tr class="medium" style="font-weight: 300;font-size: 12px;">
                                 <th scope="col" class="border text-center">No</th>
-                                <th scope="col" class="border  ">Hospital Role</th>
+                                <th scope="col" class="border  ">Role Type</th>
+                                <th scope="col" class="border  ">SubRoles</th>
                                 <th scope="col" class="border  text-center">Action</th>
                             </tr>
                         </thead>
@@ -82,21 +82,58 @@
                                 *ngFor="let selectedInvoicesData of medicalRolesData1 | filter:term; let i = index">
 
                                 <td class="text-center">{{i+1}}</td>
+                                <td class="" style="padding-left: 20px;" >
+                                    <!-- {{selectedInvoicesData.roleType}} -->
+                                    <input type="text" [value]="selectedInvoicesData.roleType" #roleType
+                                        [ngClass]="{'custom-borders':!selectedInvoicesData.isAlter}"
+                                        style="border: none;outline-style: none;background: transparent;">
+                                </td>
                                 <td class="" style="padding-left: 20px;">
-                                    {{selectedInvoicesData.roleType}}</td>
+                                    <div *ngIf="selectedInvoicesData.roleType === 'Doctor'">
+                                        <mat-select [(value)]="selectedDoctorSubRole" 
+                                         (selectionChange)="selectDoctorsRole($event)">
+                                            <mat-option *ngFor="let food of doctorSubRoles"   [value]="food.value">
+                                              {{food.viewValue}}
+                                            </mat-option>
+                                            <mat-option *ngIf="!viewInput" >AddNew
+                                            </mat-option>
+                                            <input *ngIf="viewInput" style="margin-left:20px; margin-right: 20px;margin-bottom: 20px;"
+                                             (input)="sendit($event.target.value)" #newValue
+                                             [ngClass]="{'custom-input-borders':!viewInput}">  
+                                             <button *ngIf="viewInput" class="btn btn-sm" 
+                                             style="background-color: #53B9C6;line-height: 1;color: white;margin-bottom: 2px;"
+                                              (click)="addToDoctorSubRoles()">Add</button>
+                                          </mat-select>
+                                    </div>
+                                    <div *ngIf="selectedInvoicesData.roleType !== 'Doctor'">
+                                        <mat-select [(value)]="selectedNurseSubRole">
+                                            <mat-option *ngFor="let food of nurseSubRoles" [value]="food.value">
+                                              {{food.viewValue}}
+                                            </mat-option>
+                                            <mat-option (click)="addNurseSubRole()">AddNew</mat-option>
+                                          </mat-select>
+                                    </div>
+                                </td>
                                 <td class=" text-center text-info" style="padding: 0px;">
-                                    <div style="margin-top: 8px;">
-                                        <img src="../../../assets/images/ui/Icons/1x/Icon material-edit.png" width="6%"
+                                    <div style="margin-top: 12px;" *ngIf="selectedInvoicesData.isAlter">
+                                        <img (click)="editDepartment1(i,selectedInvoicesData)"
+                                            src="../../../assets/images/ui/Icons/1x/Icon material-edit.png" width="8%"
                                             style="margin-right: 30px;" class="handCursor">
-                                        <img src="../../../assets/images/ui/Icons/1x/Icon material-delete.png"
+                                        <img (click)="removeService(i)"
+                                            src="../../../assets/images/ui/Icons/1x/Icon material-delete.png"
                                             class="handCursor">
+                                    </div>
+                                    <div *ngIf="!selectedInvoicesData.isAlter">
+                                        <button class="btn btn-sm" style="border: 1px solid rgb(154, 220, 236);
+                                        height: 25px;line-height: 1;padding-top: 2px;margin-top: 12px;"
+                                            (click)="updatedIndexBasedValue1(i,roleType)">save</button>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div style="padding-left: 70px;" (click)="addDepartmentToList()">
+                <div style="padding-left: 70px;" > <!--(click)="addDepartmentToList1()"-->
                     <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon ionic-ios-add-circle.png"
                         width="20rem" class="handCursor">
                     <span class=" handCursor" style="padding-left: 20px; font-size: 14px;font-weight: 500;">Add

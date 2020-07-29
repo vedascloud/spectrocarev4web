@@ -10,6 +10,11 @@
      padding: 5px;
 }
 
+.custom-input-borders{
+    width: -webkit-fill-available !important;
+    border: none !important;
+    padding: 5px 0px 7px 15px !important;
+}
 .handCursor:hover {
     cursor: pointer;
 }

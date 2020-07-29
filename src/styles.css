@@ -26,29 +26,56 @@ body {
 }
 
 @media only screen and (min-width: 1440px) {
-	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel]:not(.adminProfile) {
+	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 436px !important;
 	}
   }
 
+  /* :not(.adminProfile) */
   @media only screen and (max-width: 1366px) {
-	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel]:not(.adminProfile) {
+	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 412px !important;
 	}
 	
   }
   
   @media only screen and (max-width: 1024px) {
-	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel]:not(.adminProfile) {
+	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 300px !important;
 	}
   }
 
   @media only screen and (max-width: 1440px) {
+	.adminProfile1 .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 278px !important;
+		outline-style: none;
+	}
+  }
+  @media only screen and (max-width: 1366px) {
+	.adminProfile1 .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 257px !important;
+		outline-style: none;
+	}
+  }
+
+  @media only screen and (max-width: 1440px) {
+	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 400px !important;
+		outline-style: none;
+	}
+  }
+  @media only screen and (max-width: 1366px) {
+	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 392px !important;
+		outline-style: none;
+	}
+  }
+
+  /* @media only screen and (max-width: 1440px) {
 	.adminProfile .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 452px !important;
 	}
-  }
+  } */
 
   /* @media only screen and (max-width: 1440px) {
 	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
@@ -60,41 +87,30 @@ body {
 		width: 715px !important;
 	}
   } */
-  @media only screen and (max-width: 1440px) {
+  
+  
+  /* @media only screen and (max-width: 600px) {
 	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 370px !important;
-		outline-style: none;
-	}
-  }
-  @media only screen and (max-width: 1366px) {
-	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 345px !important;
-		outline-style: none;
+		width: 200px !important;
 	}
   }
   
-  @media only screen and (max-width: 1366px) {
-	.adminProfile .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 444px !important;
+  @media only screen and (min-width: 600px) {
+	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 200px !important;
 	}
-  }
-  
-  @media only screen and (max-width: 1024px) {
-	.adminProfile .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 304px !important;
-	}
-  }
+  } */
 
   @media only screen and (max-width: 1440px) {
 	.home .phno .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 758px !important;
+		width: 569px !important;
 		outline-style: none;
 	}
   }
   
   @media only screen and (max-width: 1366px) {
 	.home .phno .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 708px !important;
+		width: 530px !important;
 		outline-style: none;
 	}
   }

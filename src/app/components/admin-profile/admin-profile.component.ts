@@ -98,6 +98,7 @@ export class AdminProfileComponent implements OnInit {
       firstName: [""],
       lastName: [""],
       emailID: [""],
+      gender: [""],
       department: [""],
       phoneNumber: this.fb.group({
         countryCode: [''],
@@ -182,6 +183,7 @@ export class AdminProfileComponent implements OnInit {
       password: this.signObj.hospitalAdmin.password,
       firstName: this.signObj.hospitalAdmin.firstName,
       lastName: this.signObj.hospitalAdmin.lastName,
+      gender: this.signObj.hospitalAdmin.gender,
       emailID: this.signObj.hospitalAdmin.emailID,
       department: this.signObj.hospitalAdmin.department,
       checkPhone: this.signObj.hospitalAdmin.phoneNumber.phoneNumber,
@@ -205,7 +207,18 @@ export class AdminProfileComponent implements OnInit {
 
   //Mat Snack Bar
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 5000 })
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
+  }
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
   }
 
   //Update Admin General User Data
@@ -233,7 +246,7 @@ export class AdminProfileComponent implements OnInit {
     delete payLoad.verificationStatus;
     delete payLoad.password;
     delete payLoad.emailID;
-    delete payLoad.identity;
+    //delete payLoad.identity;
     delete payLoad.checkPhone
     console.log("payload from admin profile : ", payLoad);
 
@@ -280,7 +293,7 @@ export class AdminProfileComponent implements OnInit {
         }
         else {
           this.isLoading = false;
-          this.openSnackBar(updateAdminGenUserData.message, "");
+          this.openSnackBar1(updateAdminGenUserData.message, "");
           //alert(updateAdminGenUserData.message);
         }
       },
@@ -337,8 +350,8 @@ export class AdminProfileComponent implements OnInit {
           this.openSnackBar(changePwdRes.message, "");
         }
         else {
-          this.openSnackBar(changePwdRes.message, "");
-          alert(changePwdRes.message);
+          this.openSnackBar1(changePwdRes.message, "");
+          //alert(changePwdRes.message);
         }
       },
       (err: HttpErrorResponse) => {

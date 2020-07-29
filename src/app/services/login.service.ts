@@ -92,12 +92,12 @@ export class LoginService {
   //Add Services Data
   addServicesData(addServicesDataObj, accessToken): any {
     return this._http.post("http://3.92.226.247:3000/api/services",
-    addServicesDataObj, { headers: { 'x-access-token': accessToken } });
+      addServicesDataObj, { headers: { 'x-access-token': accessToken } });
   }
   //Get administrativeroles Data
   getServicesData(fetchServicesDataObj, accessToken): any {
     return this._http.post("http://3.92.226.247:3000/api/services/fetch",
-    fetchServicesDataObj, { headers: { 'x-access-token': accessToken } });
+      fetchServicesDataObj, { headers: { 'x-access-token': accessToken } });
   }
   //Delete ServicesFees Data
   deleteServicesData(deleteServicesDataObj, accessToken): any {
@@ -682,7 +682,39 @@ export class LoginService {
   addInvoiceData(addInvoiceDataObj, accessToken): any {
     console.log("the req data to add Invoice Data from service : ", addInvoiceDataObj);
     return this._http.post("http://3.92.226.247:3000/api/invoice",
-    addInvoiceDataObj, { headers: { 'x-access-token': accessToken } });
+      addInvoiceDataObj, { headers: { 'x-access-token': accessToken } });
+  }
+  //Add Invoice
+  updateInvoiceData(updateInvoiceDataObj, accessToken): any {
+    console.log("the req data to update Invoice Data from service : ", updateInvoiceDataObj);
+    return this._http.put("http://3.92.226.247:3000/api/invoice",
+      updateInvoiceDataObj, { headers: { 'x-access-token': accessToken } });
+  }
+  //Fetch Invoice
+  fetchInvoicesData(fetchInvoicesDataObj, accessToken): any {
+    console.log("the req data to fetch Invoices Data from service : ", fetchInvoicesDataObj);
+    return this._http.post("http://3.92.226.247:3000/api/invoice/byhospitalid",
+      fetchInvoicesDataObj, { headers: { 'x-access-token': accessToken } });
   }
 
+  //Delete Invoice
+  deleteInvoicesData(deleteInvoicesDataObj, accessToken): any {
+    console.log("the req data to delete Invoices Data from service : ", deleteInvoicesDataObj);
+    return this._http.post("http://3.92.226.247:3000/api/invoice/byinvoiceid",
+      deleteInvoicesDataObj, { headers: { 'x-access-token': accessToken } });
+  }
+
+  //Send Invoice
+  sendInvoiceData(sendInvoiceDataObj, accessToken): any {
+    console.log("the req data to send Invoices Data from service : ", sendInvoiceDataObj);
+    return this._http.post("http://3.92.226.247:3000/api/invoice/sendtoclient",
+      sendInvoiceDataObj, { headers: { 'x-access-token': accessToken } });
+  }
+
+  //Send Reminder Invoice
+  sendReminderInvoiceData(sendReminderInvoiceDataObj, accessToken): any {
+    console.log("the req data to send reminder Invoices Data from service : ", sendReminderInvoiceDataObj);
+    return this._http.post("http://3.92.226.247:3000/api/invoice/remindtoclient",
+      sendReminderInvoiceDataObj, { headers: { 'x-access-token': accessToken } });
+  }
 }

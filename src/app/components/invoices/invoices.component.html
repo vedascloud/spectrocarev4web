@@ -1,3 +1,4 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }"></ngx-loading>
 <div class="container-fluid">
     <div class="row"> <!--background-color: #F8FCFD;-->
         <div class="col-md-12 p-0">
@@ -59,25 +60,25 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr class=" shadow small "
-                                                            *ngFor="let selectedInvoicesData of selectedData | filter:term; let i = index">
+                                                            *ngFor="let selectedInvoicesData of invoicesData | filter:term; let i = index">
 
                                                             <td scope="row" class="text-center">{{i+1}}</td>
+                                                            <td class="text-center" style="">
+                                                                {{selectedInvoicesData.invoiceNumber}}</td>
+                                                            <td class="" style="padding-left: 20px;">
+                                                                {{selectedInvoicesData.clientDetails.name}}</td>
                                                             <td class="" style="padding-left: 50px;">
-                                                                {{selectedInvoicesData.Invoice}}</td>
-                                                            <td class="" style="padding-left: 80px;">
-                                                                {{selectedInvoicesData.Client}}</td>
-                                                            <td class="" style="padding-left: 50px;">
-                                                                {{selectedInvoicesData.Items}}</td>
-                                                            <td class="" style="padding-left: 50px;">
-                                                                {{selectedInvoicesData.Amount}}</td>
-                                                            <td class="" style="padding-left: 50px;">
-                                                                {{selectedInvoicesData.Issuedate}}</td>
-                                                            <td class="" style="padding-left: 70px;" [ngClass]="{
-                                                            'text-success': selectedInvoicesData.Status == 'Paid',
-                                                            'text-warning': selectedInvoicesData.Status == 'Draft',                                           
-                                                            'text-danger':selectedInvoicesData.Status == 'Unpaid',
-                                                            'text-info': selectedInvoicesData.Status == 'Overdue'                                            
-                                                            }">{{selectedInvoicesData.Status}}</td>
+                                                                {{selectedInvoicesData.serviceItems[0].serviceName}}</td>
+                                                            <td class="text-center" style="">
+                                                                {{selectedInvoicesData.totalAmount}}</td>
+                                                            <td class="text-center" style="">
+                                                                {{selectedInvoicesData.invoiceIssueDate}}</td>
+                                                            <td class="text-center" style="" [ngClass]="{
+                                                            'text-success': selectedInvoicesData.paymentStatus == 'Paid',
+                                                            'text-warning': selectedInvoicesData.paymentStatus == 'Draft',                                           
+                                                            'text-danger':selectedInvoicesData.paymentStatus == 'Unpaid',
+                                                            'text-info': selectedInvoicesData.paymentStatus == 'Overdue'                                            
+                                                            }">{{selectedInvoicesData.paymentStatus}}</td>
                                                             <td class="menu text-center text-info"
                                                                 style="padding: 0px;">
                                                                 <button mat-icon-button [matMenuTriggerFor]="menu"
@@ -87,24 +88,263 @@
                                                                 <mat-menu #menu="matMenu" class="menudata">
 
                                                                     <button mat-menu-item class="menuItembtn"
-                                                                        (click)="openViewModal(viewContent)">
+                                                                        (click)="openViewModal(viewContent,selectedInvoicesData)">
                                                                         <span>View Details</span>
                                                                     </button>
+                                                                    <ng-template #viewContent let-modal>
+                                                                        <div class="modal-header p-2 px-4  justify-content-between"
+                                                                            style="background-color: rgb(82, 192, 211);color: white;">
+                                                                            <h5 class="modal-title justify-content-center" style="font-size: 14px;font-weight: 600;" id="modal-basic-title">
+                                                                                Invoice Details</h5>
+                                                                            <div style="text-align: end;">
+                                                                                <img src="../../../assets/images/ui/Icons/1x/ic_pdf.png" width="15%" (click)="modal.close('Close click')"
+                                                                                    class="handCursor pt-0 px-1">
+                                                                                <img src="../../../assets/images/ui/Icons/1x/ic_print.png" width="18%" (click)="modal.close('Close click')"
+                                                                                    class="handCursor pt-0 px-1">
+                                                                                <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-cancel@2x.png" width="20%"
+                                                                                    (click)="modal.close('Close click')" class="handCursor pt-0 px-1">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-body bg-white p-2 ">
+                                                                            <div style="border: 1px solid rgb(200, 200, 200);">
+                                                                                <div class="headerPart p-2 justify-content-between d-flex">
+                                                                                    <div class="p-0"> <span style="font-size: 13px;font-weight: 600;">Invoice # {{selectedInvoicesData.invoiceNumber}}</span></div>
+                                                                                    <div class="p-0"><span style="font-size: 13px;font-weight: 600;">SpectroCare</span></div>
+                                                                                </div>
+                                                                                <div class="row" style="padding: 18px;">
+                                                                                    <div class="col-3">
+                                                                                        <div class="" style="font-size: 12px;font-weight: 600;margin-bottom: 7px;">Invoice Date</div>
+                                                                                        <div class="" style="font-size: 12px;font-weight: 500;">{{selectedInvoicesData.invoiceIssueDate}}</div>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                        <div class="" style="font-size: 12px;font-weight: 600;margin-bottom: 7px;">Payment Due Date</div>
+                                                                                        <div class="" style="font-size: 12px;font-weight: 500;">{{selectedInvoicesData.invoicePaymentDueDate}}</div>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                        <div class="" style="font-size: 12px;font-weight: 600;text-align: center;margin-bottom: 7px;">Status</div>
+                                                                                        <div class="" style="font-size: 12px;font-weight: 600;border: 1px solid black;
+                                                                                        width: 40%;text-align: center;line-height: 2;margin: auto;width: auto;">{{selectedInvoicesData.paymentStatus}}</div>
+                                                                                    </div>
+                                                                                    <div class="col-3">
+                                                                                    </div>
+                                                                                </div>
+                                                                    
+                                                                                <div class="mx-2 my-2" style="border-bottom: 1px solid black ;"></div>
+                                                                    
+                                                                                <div class="row " style="padding: 18px;">
+                                                                                    <div class="col-6">
+                                                                                        <div>
+                                                                                            <span style="font-size: 12px;font-weight: 600;">Bill To &nbsp;&nbsp;:&nbsp;&nbsp; </span>
+                                                                                            <span style="font-size: 12px;font-weight: 500;">{{selectedInvoicesData.clientDetails.name}}</span>
+                                                                                        </div>
+                                                                                        <span style="font-size: 12px;font-weight: 500;">{{selectedInvoicesData.clientDetails.address}}</span>
+                                                                    
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        <div>
+                                                                                            <span style="font-size: 12px;font-weight: 600;">Send From &nbsp;&nbsp;:&nbsp;&nbsp; </span>
+                                                                                            <span style="font-size: 12px;font-weight: 500;">{{selectedInvoicesData.tracking[0].byWhomName}}</span>
+                                                                                        </div>
+                                                                                        <span style="font-size: 12px;font-weight: 500;">{{selectedInvoicesData.tracking[0].byWhomID}}</span>
+                                                                    
+                                                                                    </div>
+                                                                                </div>
+                                                                    
+                                                                                <div class="mx-2 my-2" style="border-bottom: 1px solid black ;"></div>
+                                                                    
+                                                                                <div class="mx-3">
+                                                                    
+                                                                                    <div class="row" style="padding: 5px;justify-content: center;">
+                                                                                        <div class="col-1" style="height: 33px;line-height: 1; font-weight: 600;
+                                                                                        text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                                                                        border-radius: 5px;margin-right: 2px;padding:5px">
+                                                                                        <span class=" headText tableData" style="font-weight: 600;">No</span>
+                                                                                        </div>
+                                                                                        <div class="col-3 modelBodyHead " style="height: 33px;line-height: 1;
+                                                                                        text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                                                                        border-radius: 5px;margin-right: 2px;padding:5px">
+                                                                                            <span class=" headText tableData" style="font-weight: 600;">Item</span>
+                                                                                        </div>
+                                                                                        <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                                                                        text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                                                                        border-radius: 5px;margin-right: 2px;padding:5px">
+                                                                                            <span class="headText tableData" style="font-weight: 600;">Cost</span>
+                                                                                        </div>
+                                                                                        <div class="col-1 modelBodyHead " style="height: 33px;line-height: 1;
+                                                                                        text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                                                                        border-radius: 5px;margin-right: 2px;padding:5px">
+                                                                                            <span class="headText tableData" style="font-weight: 600;">Unit</span>
+                                                                                        </div>
+                                                                                        <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                                                                        text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                                                                        border-radius: 5px;margin-right: 2px;padding:5px">
+                                                                                            <span class="headText tableData" style="font-weight: 600;">VAT</span>
+                                                                                        </div>
+                                                                                        <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                                                                        text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                                                                        border-radius: 5px;padding:5px">
+                                                                                            <span class="headText tableData" style="font-weight: 600;">Amount</span>
+                                                                                        </div>
+                                                                                        <div class="col-1"></div>
+                                                                                    </div>
+                                                                                    <form [formGroup]="viewServiceForm">
+                                                                    
+                                                                                        <div formArrayName="viewServiceHistory" class="scrollService"
+                                                                                            style="flex-flow:inherit; height: 120px !important;">
+                                                                                            <div *ngFor="let desease of mainServiceData; let i =index">
+                                                                    
+                                                                                                <div class="form-group row " style="padding: 5px;justify-content: center;margin-bottom: 0px;"
+                                                                                                    > <!--padding: 5px;justify-content: center;-->
+                                                                                                    <div class="col-1 tableData" style="border: 1px solid #ced4da;border-radius: 5px;height: 30px;
+                                                                                                    padding:5px;
+                                                                                                    text-align: center;margin-right: 2px;margin-top: 5px;">
+                                                                                                        {{i+1}}.
+                                                                                                    </div>
+                                                                                                    <div class="col-3 " style="padding:5px;margin-right: 2px;">
+                                                                                                        <input type="text" value="{{desease.serviceName}}"
+                                                                                                            style="border-radius: 5px;  height: 30px;background-color: white;"
+                                                                                                            class=" form-control tableData " readonly>
+                                                                                                    </div>
+                                                                                                    <div class="col-2 " style="padding:5px;margin-right: 2px;">
+                                                                                                        <input type="number" value="{{desease.cost}}"
+                                                                                                            style="border-radius: 5px;  height: 30px;text-align: center;background-color: white;"
+                                                                                                            class=" form-control tableData " readonly>
+                                                                                                    </div>
+                                                                                                    <div class="col-1 " style="padding:5px;margin-right: 2px;">
+                                                                                                        <input type="number" value="{{desease.units}}"
+                                                                                                            style="border-radius: 5px;  height: 30px;text-align: center;background-color: white;"
+                                                                                                            class=" form-control tableData " readonly>
+                                                                                                    </div>
+                                                                                                    <div class="col-2 " style="padding:5px;margin-right: 2px;">
+                                                                                                        <input type="number" value="{{desease.vat}}"
+                                                                                                            style="border-radius: 5px;  height: 30px;text-align: center;background-color: white;"
+                                                                                                            class=" form-control tableData " readonly>
+                                                                                                    </div>
+                                                                                                    <div class="col-2 " style="padding:5px;margin-right: 2px;">
+                                                                                                        <input type="number" value="{{desease.amount}}" readonly
+                                                                                                            style="border-radius: 5px;  height: 30px;text-align: center;background-color: white;"
+                                                                                                            class=" form-control tableData ">
+                                                                                                    </div>
+                                                                                                    <div class="col-1"></div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                    <div class="pr-4" style="text-align: end;">
+                                                                                        <div class="">
+                                                                                            <span style="font-size: 13px; font-weight: 600;">Sub total : <span
+                                                                                                    style="font-size: 13px; font-weight: 600; margin-right: 3px;">&#36;</span>{{selectedInvoicesData.subTotal}}</span>
+                                                                                        </div>
+                                                                                        <div class="">
+                                                                                            <span style="font-size: 13px; font-weight: 600;">Vat : <span
+                                                                                                    style="font-size: 13px;font-weight: 600; margin-right: 3px;">&#36;</span>{{selectedInvoicesData.VAT}}</span>
+                                                                                        </div>
+                                                                                        <div class="">
+                                                                                            <span style="font-size: 13px; font-weight: 600;">Total Amount: <span
+                                                                                                    style="font-size: 13px;font-weight: 600; margin-right: 3px;">&#36;</span>{{selectedInvoicesData.totalAmount}}</span>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    
+                                                                        <div class="modal-footer justify-content-center p-1" style="border-top: transparent;">
+                                                                            <button class="btn w-25 btn-sm mouse  mr-4 text-dark " (click)="openEditModal(editContent,selectedInvoicesData)"
+                                                                                style="border: 1px solid black; width: 20%;">Edit Invoice</button>
+                                                                            <button class="btn w-25 btn-sm mouse text-white mr-4 " (click)="openSendInvoiceModal(sendInvoiceContent,selectedInvoicesData)"
+                                                                                style="background-color:rgb(82, 192, 211) ;width: 30% !important;">Send to Client
+                                                                            </button>
+                                                                            <ng-template #sendInvoiceContent let-modal>
+                                                                                <div class="modal-body bg-white p-2 ">
+                                                                                    <div class="d-flex p-1">
+                                                                                        <div class="col-md-4 text-center p-3 m-0">
+                                                                                            <img src="../../../assets/images/ui/Icons/1x/send.png" style="width: 80%; margin-top: 10px;">
+                                                                                        </div>
+                                                                                        <div class="col-md-8 p-2">
+                                                                                            <h5 class="" style="text-align: center;
+                                                                                            font-weight: 600;">
+                                                                                                Send Invoice
+                                                                                            </h5><br>
+                                                                                            <span class="text-muted">Want to send this invoice to {{selectedInvoicesData.clientDetails.name}} via {{selectedInvoicesData.clientDetails.emailID}}
+                                                                                            </span>
+                                                                                            <div class="row justify-content-center " style="margin-top: 10px;">
+                                                                            
+                                                                                                <button class="btn btn-sm bg-white mouse  mr-4" style="border: 1px solid #b6b3b3; width: 25%;"
+                                                                                                    (click)="modal.close('Close click')">Cancel</button>
+                                                                                                <button class="btn btn-sm btn-info mouse" style=" width: 25%;" (click)="sendInvoiceToClient(selectedInvoicesData)">Send</button>
+                                                                            
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </ng-template>
+                                                                        </div>
+                                                                    </ng-template>
 
                                                                     <button mat-menu-item
-                                                                        (click)="openEditModal(editContent)">
+                                                                        (click)="openEditModal(editContent,selectedInvoicesData)">
                                                                         <span>Edit Invoice</span>
                                                                     </button>
 
                                                                     <button mat-menu-item
-                                                                        (click)="openDeleteModal(deleteContent)">
+                                                                        (click)="openDeleteModal(deleteContent,selectedInvoicesData)">
                                                                         <span>Delete Invoice</span>
                                                                     </button>
 
+                                                                    <ng-template #deleteContent let-modal>
+                                                                        <div class="modal-body bg-white p-2 ">
+                                                                            <div class="d-flex p-1">
+                                                                                <div class="col-md-4 text-center p-3 m-0">
+                                                                                    <img src="../../../assets/images/ui/Icons/1x/delete_1.png" style="width: 80%; margin-top: 10px;">
+                                                                                </div>
+                                                                                <div class="col-md-8 p-2">
+                                                                                    <h5 class="" style="text-align: center;
+                                                                                    font-weight: 600;">
+                                                                                        Delete Invoice
+                                                                                    </h5><br>
+                                                                                    <span class="text-muted">Are you sure you want to delete this invoice ?
+                                                                                    </span>
+                                                                                    <div class="row justify-content-center " style="margin-top: 10px;">
+                                                                    
+                                                                                        <button class="btn btn-sm bg-white mouse  mr-4" style="border: 1px solid #b6b3b3; width: 25%;"
+                                                                                            (click)="modal.close('Close click')">Cancel</button>
+                                                                                        <button class="btn btn-sm btn-info mouse" style=" width: 25%;" 
+                                                                                        (click)="deleteInvoiceMethod(selectedInvoicesData)">Send</button>
+                                                                    
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ng-template>
+
                                                                     <button mat-menu-item
-                                                                        (click)="openSendReminderModal(sendReminderContent)">
+                                                                        (click)="openSendReminderModal(sendReminderContent,selectedInvoicesData)">
                                                                         <span>Send Reminders</span>
                                                                     </button>
+                                                                    <ng-template #sendReminderContent let-modal>
+                                                                        <div class="modal-body bg-white p-2 ">
+                                                                            <div class="d-flex p-1">
+                                                                                <div class="col-md-4 text-center p-3 m-0">
+                                                                                    <img src="../../../assets/images/ui/Icons/1x/alarm.png" style="width: 80%; margin-top: 10px;">
+                                                                                </div>
+                                                                                <div class="col-md-8 p-2">
+                                                                                    <h5 class="" style="text-align: center;
+                                                                                    font-weight: 600;">
+                                                                                        Send Reminder
+                                                                                    </h5><br>
+                                                                                    <span class="text-muted">You are about to send reminder to {{selectedInvoicesData.clientDetails.name}} via {{selectedInvoicesData.clientDetails.emailID}}
+                                                                                    </span>
+                                                                                    <div class="row justify-content-center " style="margin-top: 10px;">
+                                                                    
+                                                                                        <button class="btn btn-sm bg-white mouse  mr-4" style="border: 1px solid #b6b3b3; width: 25%;"
+                                                                                            (click)="modal.close('Close click')">Cancel</button>
+                                                                                        <button class="btn btn-sm btn-info mouse" style=" width: 25%;" (click)="sendReminderToClient(selectedInvoicesData)">Send</button>
+                                                                    
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </ng-template>
 
                                                                 </mat-menu>
                                                             </td>
@@ -141,8 +381,8 @@
     </div>
     <div class="modal-body bg-white p-2 ">
         <div class="container">
-            <div class="row mb-1 justify-content-around">
-                <div class="col-md-6 ">
+            <div class="row mb-1 justify-content-around partOne" >
+                <div class="col-md-6 firstPart">
                     <div class="card" style="width: 23rem; height: 14rem;">
                         <div class="card-header p-2" style="font-size: 13px; font-weight: 600;">Client</div>
                         <div class="card-body mx-2 pt-1">
@@ -198,7 +438,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 " style="padding-left: 0px;">
+                <div class="col-md-6 seconPart" >
                     <div class="card " style="width: 23rem; height: 14rem; ">
                         <div class="card-header p-2" style="font-size: 13px; font-weight: 600;">Invoice</div>
                         <div class="card-body mx-2 pt-0">
@@ -260,89 +500,127 @@
                             <mat-icon class="handCursor" (click)="addService()">add_circle_outline</mat-icon>
                         </div>
 
-                        <form [formGroup]="addServiceForm">
-                            <div class="row" style="margin: auto;padding: 5px;padding-left: 25px;">
-                                <div class="col-1" style="height: 33px; font-size: 14px;font-weight: 600;text-align: center;color: white;
+                        <form [formGroup]="addServiceForm" class="">
+                            <!-- <div class="row" style="margin: auto;padding: 5px;padding-left: 25px;">
+                                <div class="col-1" style="height: 33px;line-height: 1; font-weight: 600;
+                                text-align: center;color: white;
                                 background-color: rgb(53, 54, 53);
-                                border-radius: 5px;margin-right: 2px;padding-top: inherit;">No</div>
-                                <div class="col-3 modelBodyHead" style="height: 33px;font-size: 14px;
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                <span class=" headText tableData" style="font-weight: 600;">No</span>
+                                </div>
+                                <div class="col-3 modelBodyHead" style="height: 33px;line-height: 1;
+                                font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px;">
+                                    <span class=" headText tableData" style="font-weight: 600;">Item</span>
+                                </div>
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px;">
+                                    <span class="headText tableData" style="font-weight: 600;">Cost</span>
+                                </div>
+                                <div class="col-1 modelBodyHead " style="height: 33px;line-height: 1;
+                                font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px;">
+                                    <span class="headText tableData" style="font-weight: 600;">Unit</span>
+                                </div>
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
                                 font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
                                 border-radius: 5px;margin-right: 2px;padding-top: inherit;">
-                                    <span class=" headText" style="font-size: 14px;font-weight: 600;">Item</span>
+                                    <span class="headText tableData" style="font-weight: 600;">VAT</span>
                                 </div>
-                                <div class="col-2 modelBodyHead " style="height: 33px;font-size: 14px;
-                                font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
-                                border-radius: 5px;margin-right: 2px;padding-top: inherit;">
-                                    <span class="headText" style="font-size: 14px;font-weight: 600;">Cost</span>
-                                </div>
-                                <div class="col-1 modelBodyHead " style="height: 33px;font-size: 14px;
-                                font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
-                                border-radius: 5px;margin-right: 2px;padding-top: inherit;">
-                                    <span class="headText" style="font-size: 14px;font-weight: 600;">Unit</span>
-                                </div>
-                                <div class="col-2 modelBodyHead " style="height: 33px;font-size: 14px;
-                                font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
-                                border-radius: 5px;margin-right: 2px;padding-top: inherit;">
-                                    <span class="headText" style="font-size: 14px;font-weight: 600;">VAT</span>
-                                </div>
-                                <div class="col-2 modelBodyHead " style="height: 33px;font-size: 14px;
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
                                 font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
                                 border-radius: 5px;padding-top: inherit;">
-                                    <span class="headText" style="font-size: 14px;font-weight: 600;">Amount</span>
+                                    <span class="headText tableData" style="font-weight: 600;">Amount</span>
+                                </div>
+                                <div class="col-1"></div>
+                            </div> -->
+                            <div class="row" style="padding: 5px;padding-left: 25px;">
+                                <div class="col-1" style="height: 33px;line-height: 1; font-weight: 600;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                <span class=" headText tableData" style="font-weight: 600;">No</span>
+                                </div>
+                                <div class="col-3 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                    <span class=" headText tableData" style="font-weight: 600;">Item</span>
+                                </div>
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                    <span class="headText tableData" style="font-weight: 600;">Cost</span>
+                                </div>
+                                <div class="col-1 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                    <span class="headText tableData" style="font-weight: 600;">Unit</span>
+                                </div>
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                    <span class="headText tableData" style="font-weight: 600;">VAT</span>
+                                </div>
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;padding:5px">
+                                    <span class="headText tableData" style="font-weight: 600;">Amount</span>
                                 </div>
                                 <div class="col-1"></div>
                             </div>
-                            <div formArrayName="serviceHistory" class=""
+                            <div formArrayName="serviceHistory" class="scrollService"
                                 style="flex-flow:inherit; height: 120px !important;">
                                 <ng-container *ngFor="let desease of serviceData.controls; let i =index">
 
-                                    <div class="form-group row " style="margin: auto;padding: 5px;padding-left: 22px;"
+                                    <div class="form-group row " style="padding-left: 25px;margin-bottom: 0px;"
                                         [formGroupName]="i">
-                                        <div class="col-1" style="border: 1px solid #ced4da;border-radius: 5px;height: 30px;line-height: 2;
-                                            font-size: 12px;text-align: center;margin-right: 5px;">
+                                        <div class="col-1 tableData" style="border: 1px solid #ced4da;border-radius: 5px;height: 30px;
+                                            padding:5px;text-align: center;margin-right: 2px;margin-top: 5px;">
                                             {{i+1}}.
                                         </div>
-                                        <div class="col-3" style="padding:unset;margin-right: 2px;">
+                                        <div class="col-3"  
+                                        style="padding:5px;margin-right: 2px;">
                                             <input type="text" formControlName="serviceName"
-                                                style="border-radius: 5px;  height: 30px;font-size: 12px;"
-                                                class=" form-control  ">
-                                            <div class="" style="margin-left: 150px;margin-top: -28px;">
-                                                <button style="outline-style: none;"
-                                                    (click)="openServiceMethod(serviceModel,i)" class="p-0 btn calendar"
+                                                style="border-radius: 5px;  height: 30px;background-color: white !important;"
+                                                class=" form-control handCursor tableData" readonly>
+                                            <div class="searchIcon" style="margin-top: -28px;">
+                                                <button style="outline-style: none;" (click)="openServiceMethod(serviceModel,i)"
+                                                     class="p-0 btn calendar"
                                                     type="button">
                                                     <i class="fas fa-search" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="col-2" style="padding: unset;margin-right: 3px;">
+                                        <div class="col-2" style="padding: 5px;margin-right: 2px;">
                                             <input type="number" formControlName="cost"
-                                                (input)="onSearchChange($event.target.value)"
-                                                style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;"
-                                                class=" form-control  ">
-                                            <!-- <div class="" style="margin-left: 40px;margin-top: -28px;">
+                                                
+                                                style="border-radius: 5px;  height: 30px;text-align: center;"
+                                                class=" form-control  tableData">
+                                            <!--(input)="onSearchChange($event.target.value)"
+                                                 <div class="" style="margin-left: 40px;margin-top: -28px;">
                                                     <span style="font-size: 12px;font-weight: 600;">&#36;</span>
                                                 </div> -->
                                         </div>
-                                        <div class="col-1" style="padding: unset;margin-right: 2px;">
+                                        <div class="col-1" style="padding: 5px;margin-right: 2px;">
                                             <input type="number" formControlName="units"
                                                 (input)="onSearchChange1($event.target.value)"
-                                                style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;"
-                                                class=" form-control  ">
+                                                style="border-radius: 5px; height: 30px;text-align: center;"
+                                                class=" form-control  tableData ">
                                         </div>
-                                        <div class="col-2" style="padding: unset;margin-right: 2px;">
+                                        <div class="col-2" style="padding: 5px;margin-right: 2px;">
                                             <input type="number" formControlName="vat"
-                                                style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;"
-                                                class=" form-control  ">
+                                                style="border-radius: 5px;  height: 30px;text-align: center;"
+                                                class=" form-control  tableData ">
                                         </div>
-                                        <div class="col-2" style="padding: unset;">
+                                        <div class="col-2" style="padding: 5px;margin-right: 2px;">
                                             <input type="number" formControlName="amount" readonly
-                                                style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;background-color: white;"
-                                                class=" form-control  ">
+                                                style="border-radius: 5px;  height: 30px;text-align: center;background-color: white;"
+                                                class=" form-control  tableData ">
                                         </div>
-                                        <div class="col-1" style="margin-top: 6px;margin-left: -14px;"
+                                        <div class="col-1" style="margin-top: 10px;margin-left: -14px;"
                                             (click)="removeService(i)">
                                             <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon metro-cancel.png"
-                                                style="margin-top: -9px;" width="20rem" class="handCursor">
+                                                style="margin-top: -9px;" width="22rem" class="handCursor">
                                         </div>
                                     </div>
                                 </ng-container>
@@ -376,167 +654,7 @@
     </div>
 </ng-template>
 
-<ng-template #viewContent let-modal>
-    <div class="modal-header p-2 px-4  justify-content-between"
-        style="background-color: rgb(82, 192, 211);color: white;">
-        <h5 class="modal-title justify-content-center" style="font-size: 14px;font-weight: 600;" id="modal-basic-title">
-            Invoice Details</h5>
-        <div style="text-align: end;">
-            <img src="../../../assets/images/ui/Icons/1x/ic_pdf.png" width="15%" (click)="modal.close('Close click')"
-                class="handCursor pt-0 px-1">
-            <img src="../../../assets/images/ui/Icons/1x/ic_print.png" width="18%" (click)="modal.close('Close click')"
-                class="handCursor pt-0 px-1">
-            <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-cancel@2x.png" width="20%"
-                (click)="modal.close('Close click')" class="handCursor pt-0 px-1">
-        </div>
-    </div>
-    <div class="modal-body bg-white p-2 ">
-        <div style="border: 1px solid rgb(200, 200, 200);">
-            <div class="headerPart p-2 justify-content-between d-flex">
-                <div class="p-0"> <span style="font-size: 13px;font-weight: 600;">Invoice # 1001</span></div>
-                <div class="p-0"><span style="font-size: 13px;font-weight: 600;">SpectroCare</span></div>
-            </div>
-            <div class="row" style="padding: 18px;">
-                <div class="col-3">
-                    <div class="" style="font-size: 12px;font-weight: 600;">Invoice Date</div>
-                    <div class="" style="font-size: 12px;font-weight: 500;">2020/03/16</div>
-                </div>
-                <div class="col-3">
-                    <div class="" style="font-size: 12px;font-weight: 600;">Payment Due Date</div>
-                    <div class="" style="font-size: 12px;font-weight: 500;">2020/03/16</div>
-                </div>
-                <div class="col-3">
-                    <div class="" style="font-size: 12px;font-weight: 600;text-align: center;">Status</div>
-                    <div class="" style="font-size: 12px;font-weight: 600;border: 1px solid black;
-                    width: 40%;text-align: center;line-height: 2;margin: auto;">UNPAID</div>
-                </div>
-                <div class="col-3">
-                </div>
-            </div>
 
-            <div class="mx-2 my-2" style="border-bottom: 1px solid black ;"></div>
-
-            <div class="row" style="padding: 18px;">
-                <div class="col-6">
-                    <div>
-                        <span style="font-size: 12px;font-weight: 500;">Bill To &nbsp;&nbsp;:&nbsp;&nbsp; </span>
-                        <span style="font-size: 12px;font-weight: 500;">Abc Babu</span>
-                    </div>
-                    <span style="font-size: 12px;font-weight: 500;">H.No:420, Vijaya nagar colony, anantapur, ap.</span>
-
-                </div>
-                <div class="col-6">
-                    <div>
-                        <span style="font-size: 12px;font-weight: 500;">Send From &nbsp;&nbsp;:&nbsp;&nbsp; </span>
-                        <span style="font-size: 12px;font-weight: 500;">Babu</span>
-                    </div>
-                    <span style="font-size: 12px;font-weight: 500;">H.No:420, Vijaya nagar colony, anantapur, ap.</span>
-
-                </div>
-            </div>
-
-            <div class="mx-2 my-2" style="border-bottom: 1px solid black ;"></div>
-
-            <div class="mx-3">
-
-                <div class="row" style="padding: 5px;justify-content: center;">
-                    <div class="col-1" style="height: 33px; font-size: 14px;font-weight: 600;
-                    text-align: center;color: white;background-color: rgb(53, 54, 53);
-                    border-radius: 5px;margin-right: 2px;padding-top: inherit;">No</div>
-                    <div class="col-3 modelBodyHead" style="height: 33px;font-size: 14px;
-                    font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
-                    border-radius: 5px;margin-right: 2px;padding-top: inherit;">
-                        <span class=" headText" style="font-size: 14px;font-weight: 600;">Item</span>
-                    </div>
-                    <div class="col-2 modelBodyHead " style="height: 33px;font-size: 14px;
-                    font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
-                    border-radius: 5px;margin-right: 2px;padding-top: inherit;">
-                        <span class="headText" style="font-size: 14px;font-weight: 600;">Cost</span>
-                    </div>
-                    <div class="col-1 modelBodyHead " style="height: 33px;font-size: 14px;
-                    font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
-                    border-radius: 5px;margin-right: 2px;padding-top: inherit;">
-                        <span class="headText" style="font-size: 14px;font-weight: 600;">Unit</span>
-                    </div>
-                    <div class="col-2 modelBodyHead " style="height: 33px;font-size: 14px;
-                    font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
-                    border-radius: 5px;margin-right: 2px;padding-top: inherit;">
-                        <span class="headText" style="font-size: 14px;font-weight: 600;">VAT</span>
-                    </div>
-                    <div class="col-2 modelBodyHead " style="height: 33px;font-size: 14px;
-                    font-weight: 600;text-align: center;color: white;background-color: rgb(53, 54, 53);
-                    border-radius: 5px;padding-top: inherit;">
-                        <span class="headText" style="font-size: 14px;font-weight: 600;">Amount</span>
-                    </div>
-                    <div class="col-1"></div>
-                </div>
-                <form [formGroup]="viewServiceForm">
-
-                    <div formArrayName="viewServiceHistory" class=""
-                        style="flex-flow:inherit; height: 120px !important;">
-                        <div *ngFor="let desease of viewServiceData.controls; let i =index">
-
-                            <div class="form-group row " style="margin: auto;padding: 5px;padding-left: 22px;"
-                                [formGroupName]="i">
-                                <div class="col-1" style="border: 1px solid #ced4da;border-radius: 5px;height: 30px;line-height: 2;
-                            font-size: 12px;text-align: center;margin-right: 11px;margin-left: -4px;">
-                                    {{i+1}}.
-                                </div>
-                                <div class="col-3" style="padding:initial;margin-right: 11px;">
-                                    <input type="text" formControlName="serviceName"
-                                        style="border-radius: 5px;  height: 30px;font-size: 12px;background-color: white;"
-                                        class=" form-control  " readonly>
-                                </div>
-                                <div class="col-2" style="padding:initial;margin-right: 11px;">
-                                    <input type="number" formControlName="cost"
-                                        style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;background-color: white;"
-                                        class=" form-control  " readonly>
-                                </div>
-                                <div class="col-1" style="padding:initial;margin-right: 7px;">
-                                    <input type="number" formControlName="units"
-                                        style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;background-color: white;"
-                                        class=" form-control  " readonly>
-                                </div>
-                                <div class="col-2" style="padding:initial;margin-right: 11px;">
-                                    <input type="number" formControlName="vat"
-                                        style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;background-color: white;"
-                                        class=" form-control  " readonly>
-                                </div>
-                                <div class="col-2" style="padding:initial;margin-right: 11px;">
-                                    <input type="number" formControlName="amount" readonly
-                                        style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;background-color: white;"
-                                        class=" form-control  ">
-                                </div>
-                                <div class="col-1"></div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-                <div class="pr-4" style="text-align: end;">
-                    <div class="">
-                        <span style="font-size: 13px; font-weight: 600;">Sub total : <span
-                                style="font-size: 13px; font-weight: 600; margin-right: 3px;">&#36;</span>{{fetchedSubTotalAmount}}</span>
-                    </div>
-                    <div class="">
-                        <span style="font-size: 13px; font-weight: 600;">Vat : <span
-                                style="font-size: 13px;font-weight: 600; margin-right: 3px;">&#36;</span>{{fetchedVat}}</span>
-                    </div>
-                    <div class="">
-                        <span style="font-size: 13px; font-weight: 600;">Total Amount: <span
-                                style="font-size: 13px;font-weight: 600; margin-right: 3px;">&#36;</span>{{fetchedTotalAmount}}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-footer justify-content-center p-1" style="border-top: transparent;">
-        <button class="btn w-25 btn-sm mouse  mr-4 text-dark " (click)="openEditModal(editContent)"
-            style="border: 1px solid black; width: 20%;">Edit Invoice</button>
-        <button class="btn w-25 btn-sm mouse text-white mr-4 " (click)="openSendInvoiceModal(sendInvoiceContent)"
-            style="background-color:rgb(82, 192, 211) ;width: 17%;">Send to Client</button>
-    </div>
-</ng-template>
 
 <ng-template #editContent let-modal>
     <div class="modal-header p-2 px-4  justify-content-between"
@@ -547,8 +665,8 @@
     </div>
     <div class="modal-body bg-white p-2 ">
         <div class="container">
-            <div class="row mb-1 justify-content-around">
-                <div class="col-md-6 ">
+            <div class="row mb-1 justify-content-around partOne">
+                <div class="col-md-6 firstPart">
                     <div class="card" style="width: 23rem; height: 14rem;">
                         <div class="card-header p-2" style="font-size: 13px; font-weight: 600;">Client</div>
                         <div class="card-body mx-2 pt-1">
@@ -604,7 +722,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6 " style="padding-left: 0px;">
+                <div class="col-md-6 secondPart" > <!--style="padding-left: 0px;"-->
                     <div class="card " style="width: 23rem; height: 14rem; ">
                         <div class="card-header p-2" style="font-size: 13px; font-weight: 600;">Invoice</div>
                         <div class="card-body mx-2 pt-0">
@@ -616,7 +734,7 @@
                                     <div class="row">
                                         <input type="text"
                                             style="border-radius: 5px; height: 30px;font-size: 12px;font-weight: 500;"
-                                            class=" form-control ">
+                                            class=" form-control " formControlName="invoiceNumber" >
                                     </div>
                                 </div>
                                 <div class="p-1">
@@ -627,7 +745,7 @@
                                         <input
                                             style="border-radius: 5px; height: 30px;font-size: 12px;font-weight: 500;"
                                             class="w-100 form-control bg-white" ngbDatepicker #d="ngbDatepicker"
-                                            formControlName="invoiceDate" readonly>
+                                            [value]="dateToShow" formControlName="invoiceDate" >
                                         <div class="calenderLogo">
                                             <button style="outline-style: none;" class="p-0 btn  calendar"
                                                 (click)="d.toggle()" type="button">
@@ -644,7 +762,7 @@
                                         <input
                                             style="line-height: 1; height: 30px; border-radius: 5px; font-size: 12px;font-weight: 500;"
                                             class="w-100 form-control bg-white" ngbDatepicker #d1="ngbDatepicker"
-                                            formControlName="paymentDueDate" readonly>
+                                            [value]="dateToShow2" formControlName="paymentDueDate" >
                                         <div class="calenderLogo">
                                             <button style="outline-style: none;" class="p-0 btn  calendar "
                                                 (click)="d1.toggle()" type="button">
@@ -667,7 +785,7 @@
                         </div>
 
                         <form [formGroup]="editServiceForm">
-                            <div class="row" style="margin: auto;padding: 5px;padding-left: 25px;">
+                            <!-- <div class="row" style="margin: auto;padding: 5px;padding-left: 25px;">
                                 <div class="col-1" style="height: 33px; font-size: 14px;font-weight: 600;text-align: center;color: white;
                                 background-color: rgb(53, 54, 53);
                                 border-radius: 5px;margin-right: 2px;padding-top: inherit;">No</div>
@@ -697,12 +815,45 @@
                                     <span class="headText" style="font-size: 14px;font-weight: 600;">Amount</span>
                                 </div>
                                 <div class="col-1"></div>
+                            </div> -->
+                            <div class="row" style="padding: 5px;padding-left: 25px;">
+                                <div class="col-1" style="height: 33px;line-height: 1; font-weight: 600;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                <span class=" headText tableData" style="font-weight: 600;">No</span>
+                                </div>
+                                <div class="col-3 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                    <span class=" headText tableData" style="font-weight: 600;">Item</span>
+                                </div>
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                    <span class="headText tableData" style="font-weight: 600;">Cost</span>
+                                </div>
+                                <div class="col-1 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                    <span class="headText tableData" style="font-weight: 600;">Unit</span>
+                                </div>
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;margin-right: 2px;padding:5px">
+                                    <span class="headText tableData" style="font-weight: 600;">VAT</span>
+                                </div>
+                                <div class="col-2 modelBodyHead " style="height: 33px;line-height: 1;
+                                text-align: center;color: white;background-color: rgb(53, 54, 53);
+                                border-radius: 5px;padding:5px">
+                                    <span class="headText tableData" style="font-weight: 600;">Amount</span>
+                                </div>
+                                <div class="col-1"></div>
                             </div>
-                            <div formArrayName="editServiceHistory" class=""
+                            <div formArrayName="editServiceHistory" class="scrollService"
                                 style="flex-flow:inherit; height: 120px !important;">
                                 <ng-container *ngFor="let desease of editServiceData.controls; let i =index">
 
-                                    <div class="form-group row " style="margin: auto;padding: 5px;padding-left: 22px;"
+                                    <div class="form-group row " style="padding-left: 25px;margin-bottom: 5px;"
                                         [formGroupName]="i">
                                         <div class="col-1" style="border: 1px solid #ced4da;border-radius: 5px;height: 30px;line-height: 2;
                                             font-size: 12px;text-align: center;margin-right: 5px;">
@@ -714,7 +865,7 @@
                                                 class=" form-control  ">
                                             <div class="" style="margin-left: 150px;margin-top: -28px;">
                                                 <button style="outline-style: none;"
-                                                    (click)="openServiceMethod(serviceModel,i)" class="p-0 btn calendar"
+                                                    (click)="openServiceMethod1(serviceModel1,i)" class="p-0 btn calendar"
                                                     type="button">
                                                     <i class="fas fa-search" aria-hidden="true"></i>
                                                 </button>
@@ -722,9 +873,10 @@
                                         </div>
                                         <div class="col-2" style="padding: unset;margin-right: 3px;">
                                             <input type="number" formControlName="cost"
-                                                (input)="onSearchChange11($event.target.value)"
+                                                
                                                 style="border-radius: 5px;  height: 30px;font-size: 12px;text-align: center;"
                                                 class=" form-control  ">
+                                                <!-- (input)="onSearchChange11($event.target.value)" -->
                                         </div>
                                         <div class="col-1" style="padding: unset;margin-right: 2px;">
                                             <input type="number" formControlName="units"
@@ -773,86 +925,11 @@
     </div>
     <div class="modal-footer justify-content-center p-1" style="border-top: transparent;">
         <button class="btn  btn-sm mouse text-white mr-4 " style="background-color:rgb(82, 192, 211) ;width: 17%;"
-            (click)="modal.close('Close click')">Save</button>
+        (click)="updateInvoiceSubmit()">Save</button>
     </div>
 </ng-template>
 
-<ng-template #deleteContent let-modal>
-    <div class="modal-body bg-white p-2 ">
-        <div class="d-flex p-1">
-            <div class="col-md-4 text-center p-3 m-0">
-                <img src="../../../assets/images/ui/Icons/1x/delete_1.png" style="width: 80%; margin-top: 10px;">
-            </div>
-            <div class="col-md-8 p-2">
-                <h5 class="" style="text-align: center;
-                font-weight: 600;">
-                    Delete Invoice
-                </h5><br>
-                <span class="text-muted">Are you sure you want to delete this invoice ?
-                </span>
-                <div class="row justify-content-center " style="margin-top: 10px;">
 
-                    <button class="btn btn-sm bg-white mouse  mr-4" style="border: 1px solid #b6b3b3; width: 25%;"
-                        (click)="modal.close('Close click')">Cancel</button>
-                    <button class="btn btn-sm btn-info mouse" style=" width: 25%;" (click)="modal.close('Close click')">Send</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template>
-
-<ng-template #sendReminderContent let-modal>
-    <div class="modal-body bg-white p-2 ">
-        <div class="d-flex p-1">
-            <div class="col-md-4 text-center p-3 m-0">
-                <img src="../../../assets/images/ui/Icons/1x/alarm.png" style="width: 80%; margin-top: 10px;">
-            </div>
-            <div class="col-md-8 p-2">
-                <h5 class="" style="text-align: center;
-                font-weight: 600;">
-                    Send Reminder
-                </h5><br>
-                <span class="text-muted">You are about to send reminder to Babu via babu@gmail.com
-                </span>
-                <div class="row justify-content-center " style="margin-top: 10px;">
-
-                    <button class="btn btn-sm bg-white mouse  mr-4" style="border: 1px solid #b6b3b3; width: 25%;"
-                        (click)="modal.close('Close click')">Cancel</button>
-                    <button class="btn btn-sm btn-info mouse" style=" width: 25%;" (click)="modal.close('Close click')">Send</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template>
-
-<ng-template #sendInvoiceContent let-modal>
-    <div class="modal-body bg-white p-2 ">
-        <div class="d-flex p-1">
-            <div class="col-md-4 text-center p-3 m-0">
-                <img src="../../../assets/images/ui/Icons/1x/send.png" style="width: 80%; margin-top: 10px;">
-            </div>
-            <div class="col-md-8 p-2">
-                <h5 class="" style="text-align: center;
-                font-weight: 600;">
-                    Send Invoice
-                </h5><br>
-                <span class="text-muted">Want to send this invoice to Babu via babu@gmail.com
-                    (<b class="mr-1">Babu</b>
-                    <b>Busy</b>)
-                </span>
-                <div class="row justify-content-center " style="margin-top: 10px;">
-
-                    <button class="btn btn-sm bg-white mouse  mr-4" style="border: 1px solid #b6b3b3; width: 25%;"
-                        (click)="modal.close('Close click')">Cancel</button>
-                    <button class="btn btn-sm btn-info mouse" style=" width: 25%;" (click)="modal.close('Close click')">Send</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-template>
 
 <!-- Open List Of Services Model -->
 <ng-template #serviceModel let-modal>
@@ -879,6 +956,45 @@
                         <tbody>
                             <tr *ngFor="let service of listOfServices; let i = index"
                                 (click)="selectServiceFromList(service)" (click)="modal.close('Close click')"
+                                style="cursor:pointer;">
+                                <!--(click)="selectedRow = i"
+                                    [class.highlighted]="i == selectedRow"-->
+                                <td style="font-size: 12px; font-weight: 550;">{{i +1}}</td>
+                                <td style="font-size: 12px; font-weight: 550;">{{service.serviceName}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<!-- Open List Of Services Model -->
+<ng-template #serviceModel1 let-modal>
+    <div class="modal-header" style="background-color: #53B9C6;color: white;">
+        <h5 class="modal-title justify-content-center" id="modal-basic-title">Add New Service</h5>
+        <mat-icon (click)="modal.close('Close click')" class="handCursor">cancel</mat-icon>
+    </div>
+    <div class="modal-body bg-light p-0">
+        <div class="row justify-content-center">
+            <div class="">
+                <div class="row p-3 justify-content-center">
+                    <span class="font-weight-bold mr-2">Search by Service Name : </span>
+                    <input class="px-2" type="text" name="searchTerm" (keyup)='searchService($event.target.value)'>
+                </div>
+                <div class="row scrollDoctor">
+                    <table class="table text-center ">
+                        <thead class="thead-dark ">
+                            <tr class="medium" style="font-weight: normal;">
+
+                                <th scope="col" style="font-size: 12px; font-weight: 600;">No</th>
+                                <th scope="col" style="font-size: 12px; font-weight: 600;">FirstName</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let service of listOfServices; let i = index"
+                                (click)="selectServiceFromList1(service)" (click)="modal.close('Close click')"
                                 style="cursor:pointer;">
                                 <!--(click)="selectedRow = i"
                                     [class.highlighted]="i == selectedRow"-->

@@ -731,7 +731,7 @@
                                 </form>
                               </div>
                               <div class="col-md-5">
-                                <!-- <div class="row justify-content-between">
+                                <div class="row justify-content-between">
                                   <div class="justify-content-center"
                                     style="text-align: -webkit-center;padding-left: 20px;">
                                     <div style="border-radius: 50% !important;width: 100px;height: 100px;">
@@ -749,14 +749,14 @@
                                             accept=".png, .jpg, .jpeg" (change)="fileProgress2($event)" class="d-none">
                                           <button mat-raised-button
                                             style="outline-style: none;border-radius: 20px; color: black !important;"
-                                            (click)="fileInput.click()" type="button">
+                                             type="button"> <!--(click)="fileInput.click()"-->
                                             Upload Photo
                                           </button>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div> -->
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -1017,7 +1017,7 @@
         (click)="modal.dismiss('Cross click')">Cancel</button>
       <button type="submit" class="btn btn-sm"
         style="width: 15%;height: 30px;padding-top: 2px; font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;"
-        (click)="addAdminGenUserSubmit()">Add</button> <!-- *ngIf="!isLoading"-->
+        (click)="addAdminGenUserSubmit()"  >Add</button> <!-- *ngIf="!isLoading" -->
     </div>
     <!--[disabled]="addAdminGenUserForm.invalid"-->
   </div>

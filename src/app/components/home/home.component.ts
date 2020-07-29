@@ -439,9 +439,13 @@ export class HomeComponent implements OnInit {
   }
 
   addWebSiteDataSubmit() {
+    // for (let i = 0; i <= this.signObj.hospitalInformation.websites.length; i++) {
+    //   this.removeWebData(this.signObj.hospitalInformation.websites[i]);
+    //   console.log("removed web site num : ", this.signObj.hospitalInformation.websites[i]);
+    // }
     this.isLoading2 = true;
     let payLoad = this.webSiteDataForm.value.webSiteDataArray;
-    //this.webSiteDataArray = [];
+    this.webSiteDataArray = [];
     for (let i: number = 0; i <= payLoad.length - 1; i++) {
       this.webSiteDataArray.push(
         {
@@ -462,20 +466,21 @@ export class HomeComponent implements OnInit {
         (res) => {
           console.log("res from add wesites  : ", res)
           if (res.response === 3) {
+            for (let i = 0; i <= this.webSiteDataArray.length-1; i++) {
+              this.removeWebData(this.webSiteDataArray[i]);
+              console.log("removed web site num : ", this.webSiteDataArray[i]);
+            }
             this.isLoading2 = false;
             console.log("updated array data ",this.webSiteDataArray);
-            
+            this.signObj.hospitalInformation.websites = [];
             this.signObj.hospitalInformation.websites = this.webSiteDataArray;
             console.log("the web sites after update : ",this.signObj.hospitalInformation.websites);
             
+            //let emptyMedicinesData = this.signObj.hospitalInformation.websites.length;
+           
             this.patchWebSiteData1(this.signObj.hospitalInformation.websites);
-            this.ngOnInit();
-            this.fethedWebSitesDataArray.length = 0;
-            let emptyMedicinesData = this.fethedWebSitesDataArray.length;
-            for (let i = 0; i <= emptyMedicinesData.length; i++) {
-              this.removeWebData(i);
-              console.log("removed web site num : ", i);
-            }
+            //this.ngOnInit();
+            //this.fethedWebSitesDataArray.length = 0;
             //this.signObj.hospitalInformation.websites = updateReq.hospitalPics[0].imagePath;
             //this.patchWebSiteData(webSiteDataArray);
             this.isLoading2 = false;

@@ -5,11 +5,11 @@
         </div>
         <div class="container p-3">
             <div class="row">
-                <div class="col-md-10 px-4">
+                <div class="col-md-9 px-4">
                     <div class="card-bg card px-4">
                         <div class="card-body">
-                            <h6 class="text-center text-white shadow p-3 bg-info "
-                                style="font-weight: 600;letter-spacing: 0.05rem;">Admin Profile</h6>
+                            <h6 class="text-center text-white shadow p-3"
+                                style="font-weight: 600;letter-spacing: 0.05rem;background-color: #53B9C6;">Admin Profile</h6>
                             <div class="adminProfile row pt-4">
                                 <div class="col-md-7">
                                     <form [formGroup]="adminProfileForm" (ngSubmit)="updateAdminGeneralUser()">
@@ -89,8 +89,10 @@
                                             <span *ngIf="!isPassword" (click)="showPassword()">
                                                 <i class="fa fa-fw fa-eye field-icon3" style="cursor: pointer;"></i>
                                             </span>
-                                        </mat-form-field><br>
-
+                                        </mat-form-field>
+                                        <p style="font-size: 12px;font-weight: 500;">Last updated date :
+                                            {{presentDate}}
+                                            by {{userID}}</p>
                                         <div class="col-md-12 p-3">
                                             <div class="row justify-content-center">
                                                 <div class="mr-2">
@@ -107,16 +109,11 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <p class="font-weight-light" style="font-size: small;padding-top: 20px;">Last updated date :
-                                            {{presentDate}}
-                                            by {{userID}}</p>
-
                                     </form>
                                 </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-4">
-                                    <div class="row justify-content-between">
+                                <!-- <div class="col-md-1"></div> -->
+                                <div class="col-md-5">
+                                    <div class="row " style="justify-content: center;"> <!--justify-content-between-->
                                         <!--Upload IMg-->
                                         <div class="justify-content-center"
                                             style="text-align: -webkit-center;padding-left: 20px;">
@@ -127,7 +124,7 @@
                                                 <!---->
                                             </div>
                                             <div class="container">
-                                                <div class="row ">
+                                                <div class="row " > <!--*ngIf="disableUpdateBtn"-->
                                                     <div class="img-move input-group mb-3 mt-3">
                                                         <input type="file" class="form-control" name="file"
                                                             id="inputGroupFile01" #fileInput
@@ -135,7 +132,8 @@
                                                             accept=".png, .jpg, .jpeg" (change)="fileProgress($event)"
                                                             class="d-none">
                                                         <button mat-raised-button
-                                                            style="outline-style: none;border-radius: 20px; color: black !important;"
+                                                            style="outline-style: none;border-radius: 5px; color: #53B9C6 !important;
+                                                            height: 30px;line-height: 1;font-size: 12px;font-weight: 500;"
                                                             (click)="fileInput.click()" type="button">
                                                             <!--background-color: rgb(197, 213, 219);  class="btn m-auto btn-sm font-weight-normal  "-->
                                                             Upload Photo
@@ -147,11 +145,12 @@
                                         <!-- Upload IMG Ends-->
                                         <div>
                                             <img class="edit" src="../../../assets/images/ui/Icons/1x/edit1.png"
-                                                style="width: 70px;cursor: pointer;" (click)="openUpdate()">
+                                                style="width: 70px;margin-left: 35px;cursor: pointer;" (click)="openUpdate()">
                                         </div>
                                     </div>
                                     <div class="changepwd">
-                                        <button mat-raised-button style="outline-style: none;border-radius: 20px;"
+                                        <button mat-raised-button style="outline-style: none;border-radius: 14px;
+                                        height: 30px;line-height: 1; font-size: 12px;font-weight: 600;"
                                             (click)="open(content)" routerLinkActive="active">Change Password</button>
                                     </div>
                                 </div>
@@ -159,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-3"></div>
             </div>
         </div>
 
@@ -169,78 +168,72 @@
 
 <!-- Change Password popup -->
 <ng-template #content let-modal>
-    <div class="modal-header" style="background-color: #3E454C;color: white;">
-        <h5 class="modal-title justify-content-center" id="modal-basic-title">Change Password</h5>
-
-        <button type="button" class="close text-black-50" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span class="cross text-white"><i class="fa fa-times" aria-hidden="true"></i></span>
-        </button>
+    <div class="modal-header" style="background-color: #f9f9f9;color: black;">
+        <span class="modal-title" style="font-weight: 600;text-align: left;font-size: 18px;">
+            Change Password</span>
+        <img style="width:18px" class="crossImg" (click)="modal.dismiss('Cross click')" src="../../../assets/images/ui/Icons/1x/cancel.png">
+        <!-- <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <img style="width:18px" src="../../../assets/images/ui/Icons/1x/cancel.png">
+        </button> -->
     </div>
     <div class="modal-body">
-        <form [formGroup]="changePasswordForm">
-            <div class="form-group">
-                <div class="row p-2 justify-content-around">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4">
-                        <label>User ID</label>
+        <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <form [formGroup]="changePasswordForm">
+                <div class="form-group" style="margin-bottom: 2px;">
+                    <div class="row">
+                            <div style="justify-content: start;">
+                                <label style="font-size: 12px;font-weight: 500;">User ID</label>
+                            </div>                           
+                            <input style="height: 30px;font-size: 12px;font-weight: 500;" type="text" class="form-control bg-white" formControlName="userID">
                     </div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control bg-light" formControlName="userID">
-
-                    </div>
-                    <div class="col-md-1"></div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="row p-2">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4">
-                        <label>Old Password</label>
-                    </div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control bg-light" formControlName="oldPassword">
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="row p-2">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4">
-                        <label>New Password</label>
-                    </div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control bg-light" formControlName="newPassword">
-                    </div>
-                    <div class="col-md-1"></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="row p-2">
-                    <div class="col-md-1"></div>
-                    <div class="col-md-4">
-                        <label class="text-nowrap">Confirm Password</label>
-                    </div>
-                    <div class="col-md-6">
-                        <input type="text" class="form-control bg-light" formControlName="confirmpassword">
-                        <div
-                            *ngIf="changePasswordForm.get('confirmpassword').hasError('checkPasswords') && changePasswordForm.get('confirmpassword').touched">
-                            <p>not same</p>
+                <div class="form-group" style="margin-bottom: 2px;">
+                    <div class="row">
+                        <div style="justify-content: start;">
+                            <label style="font-size: 12px;font-weight: 500;">Old Password</label>
                         </div>
-                        <div style='color:#ff7355'
-                            *ngIf="changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').dirty && changePasswordForm.get('newPassword').value != changePasswordForm.get('confirmpassword').value && changePasswordForm.get('confirmpassword').value != null">
-                            Password does not match</div>
+                            <input style="height: 30px;font-size: 12px;font-weight: 500;" type="text" class="form-control bg-white" formControlName="oldPassword">
                     </div>
-                    <div class="col-md-1"></div>
                 </div>
-            </div>
-        </form>
+                <div class="form-group" style="margin-bottom: 2px;">
+                    <div class="row ">
+                        <div style="justify-content: start;">
+                            <label style="font-size: 12px;font-weight: 500;">New Password</label>
+                        </div>
+                            <input style="height: 30px;font-size: 12px;font-weight: 500;" type="text" class="form-control bg-white" formControlName="newPassword">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row ">
+                        <div style="justify-content: start;">
+                            <label class="text-nowrap" style="font-size: 12px;font-weight: 500;">Confirm Password</label>
+                        </div>
+                        
+                            <input style="height: 30px;font-size: 12px;font-weight: 500;" type="text" class="form-control bg-white" formControlName="confirmpassword">
+                            <div
+                                *ngIf="changePasswordForm.get('confirmpassword').hasError('checkPasswords') && changePasswordForm.get('confirmpassword').touched">
+                                <p>not same</p>
+                            </div>
+                            <div style='color:#ff7355'
+                                *ngIf="changePasswordForm.get('confirmpassword').touched && changePasswordForm.get('confirmpassword').dirty && changePasswordForm.get('newPassword').value != changePasswordForm.get('confirmpassword').value && changePasswordForm.get('confirmpassword').value != null">
+                                Password does not match</div>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2"></div>
     </div>
-    <div class="modal-footer">
-        <button mat-raised-button style="outline-style: none;" (click)="modal.close('Close click')">Cancel
+    </div>
+    <div class="modal-footer" style="padding-right: 30px;padding-bottom: 30px;
+    border-top: transparent;">
+        <button mat-raised-button style="height: 30px;line-height: 1;border-radius: 10px;"
+         (click)="modal.close('Close click')">Cancel
         </button>
         <button type="submit" mat-raised-button class="btn btn-sm  "
-            style="font-weight: 500;font-size: medium; background-color: #53B9C6; color: white;"
+            style="height: 30px; font-weight: 500;line-height: 1; background-color: #53B9C6; color: white;border-radius: 10px;"
             (click)="changePwdSubmit()" [disabled]="changePasswordForm.valid">Change Password</button>
     </div>
 </ng-template>

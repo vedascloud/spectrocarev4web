@@ -160,34 +160,34 @@ table {
   padding-left: 10px;
 }
 
-::ng-deep .adminProfile .mat-form-field {
+::ng-deep .adminProfile1 .mat-form-field {
   width: 100% !important;
 }
 
-::ng-deep .adminProfile .mat-form-field .mat-form-field-label {
+::ng-deep .adminProfile1 .mat-form-field .mat-form-field-label {
   color: #3E454C !important;
 }
 
-::ng-deep .adminProfile .mat-form-field .mat-form-field-underline {
+::ng-deep .adminProfile1 .mat-form-field .mat-form-field-underline {
   background-color: rgba(12, 12, 12, 0.5) !important;
   width: 100% !important;
 }
 
-::ng-deep .adminProfile .mat-select-disabled .mat-select-trigger {
+::ng-deep .adminProfile1 .mat-select-disabled .mat-select-trigger {
   border: transparent;
 }
 
-::ng-deep .adminProfile .mat-form-field .mat-select-value-text {
+::ng-deep .adminProfile1 .mat-form-field .mat-select-value-text {
   color: black !important;
 }
 
-::ng-deep .adminProfile .mat-form-field .mat-form-field-ripple {
+::ng-deep .adminProfile1 .mat-form-field .mat-form-field-ripple {
   /*change color of underline when focused*/
   background-color: #53B9C6 !important;
   ;
 }
 
-::ng-deep .adminProfile .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+::ng-deep .adminProfile1 .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
   width: 444px !important;
   border: none !important;
   background: transparent !important;
@@ -197,15 +197,15 @@ table {
   scroll-padding-inline: inherit;
 }
 
-::ng-deep .adminProfile .intl-tel-input .search-container input {
+::ng-deep .adminProfile1 .intl-tel-input .search-container input {
   color: rgb(25, 28, 29) !important;
 }
 
-::ng-deep .adminProfile .intl-tel-input.separate-dial-code .selected-dial-code {
+::ng-deep .adminProfile1 .intl-tel-input.separate-dial-code .selected-dial-code {
   color: rgb(17, 17, 17) !important;
 }
 
-::ng-deep .adminProfile .country-dropdown {
+::ng-deep .adminProfile1 .country-dropdown {
   width: 28rem !important;
 }
 

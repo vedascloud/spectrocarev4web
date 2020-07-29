@@ -6,6 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from 'src/app/services/login.service';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { debugOutputAstAsTypeScript } from '@angular/compiler';
 
 interface SearchByValue {
   viewValue: string;
@@ -39,7 +40,8 @@ export class InvoicesComponent implements OnInit {
       img: "assets/images/ui/Icons/1x/admin center.png"
     };
   patients: any = [];
-
+  dateToShow: any;
+  dateToShow2: any;
   loading: boolean;
   indexValue: any;
   subTotalAmount: number = 0;
@@ -51,6 +53,7 @@ export class InvoicesComponent implements OnInit {
   editTotalAmount: number = 0;
   editVat = 0;
   vat: number = 0;
+  fetchedListOfServicesData: any = [];
   searchByValue: SearchByValue[] = [
     { viewValue: 'All' },
     { viewValue: 'Draft' },
@@ -58,29 +61,32 @@ export class InvoicesComponent implements OnInit {
     { viewValue: 'Unpaid' },
     { viewValue: 'Overdue' }
   ];
-  invoicesData: any = [
-    { "Invoice": "AB-1001", "Client": "abc babu", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-03-13", "Status": "Draft" },
-    { "Invoice": "AB-1002", "Client": "def rani", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-03-14", "Status": "Paid" },
-    { "Invoice": "AB-1003", "Client": "ghijil khan rao", "Items": "Urine test", "Amount": "50", "Issuedate": "2020-03-23", "Status": "Unpaid" },
-    { "Invoice": "AB-1004", "Client": "jkl vasundhar", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-04-13", "Status": "Overdue" },
-    { "Invoice": "AB-1005", "Client": "mno flintoff", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-02-23", "Status": "Paid" },
-    { "Invoice": "AB-1006", "Client": "pqr prasuna", "Items": "Urine test", "Amount": "60", "Issuedate": "2020-04-31", "Status": "Draft" },
-  ]
+  invoicesData: any = [];
+  // invoicesData: any = [
+  //   { "Invoice": "AB-1001", "Client": "abc babu", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-03-13", "Status": "Draft" },
+  //   { "Invoice": "AB-1002", "Client": "def rani", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-03-14", "Status": "Paid" },
+  //   { "Invoice": "AB-1003", "Client": "ghijil khan rao", "Items": "Urine test", "Amount": "50", "Issuedate": "2020-03-23", "Status": "Unpaid" },
+  //   { "Invoice": "AB-1004", "Client": "jkl vasundhar", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-04-13", "Status": "Overdue" },
+  //   { "Invoice": "AB-1005", "Client": "mno flintoff", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-02-23", "Status": "Paid" },
+  //   { "Invoice": "AB-1006", "Client": "pqr prasuna", "Items": "Urine test", "Amount": "60", "Issuedate": "2020-04-31", "Status": "Draft" },
+  // ]
+  listOfServices: any = [];
+  // listOfServices: any = [
+  //   { "serviceName": "Urine Test", "cost": "80", "units": "1", "vat": "0", "amount": "80" },
+  //   { "serviceName": "Blood Test", "cost": "90", "units": "1", "vat": "0", "amount": "90" },
+  //   { "serviceName": "Selieva Test", "cost": "60", "units": "1", "vat": "0", "amount": "60" },
+  //   { "serviceName": "Prega Test", "cost": "180", "units": "1", "vat": "0", "amount": "180" },
+  //   { "serviceName": "Eye drop Test", "cost": "40", "units": "1", "vat": "0", "amount": "40" },
+  // ]
 
-  listOfServices: any = [
-    { "serviceName": "Urine Test", "cost": "80", "units": "1", "vat": "0", "amount": "80" },
-    { "serviceName": "Blood Test", "cost": "90", "units": "1", "vat": "0", "amount": "90" },
-    { "serviceName": "Selieva Test", "cost": "60", "units": "1", "vat": "0", "amount": "60" },
-    { "serviceName": "Prega Test", "cost": "180", "units": "1", "vat": "0", "amount": "180" },
-    { "serviceName": "Eye drop Test", "cost": "40", "units": "1", "vat": "0", "amount": "40" },
-  ]
-
-
-  fetchedListOfServices: any = [
-    { "serviceName": "Urine Test", "cost": "80", "units": "1", "vat": "0", "amount": "80" },
-    { "serviceName": "Blood Test", "cost": "90", "units": "1", "vat": "0", "amount": "90" },
-    { "serviceName": "Eye drop Test", "cost": "40", "units": "1", "vat": "0", "amount": "40" },
-  ]
+  fetchedListOfServices: any = [];
+  mainServiceData: Array<any> = [];
+  fetchedServicesDaya: Array<any> = [];
+  // fetchedListOfServices: any = [
+  //   { "serviceName": "Urine Test", "cost": "80", "units": "1", "vat": "0", "amount": "80" },
+  //   { "serviceName": "Blood Test", "cost": "90", "units": "1", "vat": "0", "amount": "90" },
+  //   { "serviceName": "Eye drop Test", "cost": "40", "units": "1", "vat": "0", "amount": "40" },
+  // ]
   selectedTest: any;
   closeResult: string;
   constructor(private fb: FormBuilder, private modalService: NgbModal,
@@ -91,7 +97,8 @@ export class InvoicesComponent implements OnInit {
     this.signInRes = localStorage.getItem("SignInRes");
     this.signObj = JSON.parse(this.signInRes);
     this.userID = localStorage.getItem('userID');
-
+    this.fetchListOfServicesData();
+    this.fetchInvoicesData();
     let getPatientsData = {
       "userID": this.userID,
       "category": "All",
@@ -142,14 +149,11 @@ export class InvoicesComponent implements OnInit {
       paymentDueDate: [""]
     })
     this.editSelectDatesForm = this.fb.group({
+      invoiceNumber: [""],
       invoiceDate: [""],
       paymentDueDate: [""]
     })
 
-
-    this.patchFamilyHistory(this.fetchedListOfServices);
-    this.patchFetchedService(this.fetchedListOfServices)
-    //this.calculateFetchedTotal();
   }
 
   callPaymentTransactions() {
@@ -160,32 +164,42 @@ export class InvoicesComponent implements OnInit {
 
   //Patch Family History
   patchFamilyHistory(fetchedListOfServices) {
+
+    //console.log("ViewService Data",this.viewServiceData.value)
+    this.mainServiceData = []
     for (let i: number = 0; i <= fetchedListOfServices.length - 1; i++) {
-      this.viewServiceData.push(
-        this.fb.group({
+      this.mainServiceData.push(
+        {
           serviceName: fetchedListOfServices[i].serviceName,
-          cost: fetchedListOfServices[i].cost,
-          units: fetchedListOfServices[i].units,
-          vat: fetchedListOfServices[i].vat,
-          amount: fetchedListOfServices[i].amount
-        })
+          cost: fetchedListOfServices[i].serviceNetCost,
+          units: fetchedListOfServices[i].serviceUnit,
+          vat: fetchedListOfServices[i].serviceVAT,
+          amount: fetchedListOfServices[i].serviceGrossCost
+        }
       )
     }
   }
 
   //Patch Family History
   patchFetchedService(fetchedListOfServices) {
+
+    this.editServiceData.removeAt(this.editServiceData.value.length);
+    console.log(this.editServiceData.value.length = []);
+
     for (let i: number = 0; i <= fetchedListOfServices.length - 1; i++) {
       this.editServiceData.push(
         this.fb.group({
+          serviceID: fetchedListOfServices[i].serviceID,
           serviceName: fetchedListOfServices[i].serviceName,
-          cost: fetchedListOfServices[i].cost,
-          units: fetchedListOfServices[i].units,
-          vat: fetchedListOfServices[i].vat,
-          amount: fetchedListOfServices[i].amount
+          cost: fetchedListOfServices[i].serviceNetCost,
+          units: fetchedListOfServices[i].serviceUnit,
+          vat: fetchedListOfServices[i].serviceVAT,
+          amount: fetchedListOfServices[i].serviceGrossCost
         })
       )
     }
+    console.log(this.editServiceData.value);
+
   }
 
   //Fetch patients data
@@ -215,16 +229,14 @@ export class InvoicesComponent implements OnInit {
   get serviceData() {
     return <FormArray>this.addServiceForm.get('serviceHistory')
   }
-  //get Allergie
-  get viewServiceData() {
-    return <FormArray>this.viewServiceForm.get('viewServiceHistory')
-  }
+  
   get editServiceData() {
     return <FormArray>this.editServiceForm.get('editServiceHistory')
   }
   //Add Allergie
   addService() {
     this.serviceData.push(this.fb.group({
+      serviceID: [""],
       serviceName: [""],
       cost: [""],
       units: [""],
@@ -232,18 +244,11 @@ export class InvoicesComponent implements OnInit {
       amount: [""]
     }))
   }
-  //Add Allergie
-  addViewService() {
-    this.viewServiceData.push(this.fb.group({
-      serviceName: [""],
-      cost: [""],
-      units: [""],
-      vat: [""],
-      amount: [""]
-    }))
-  }
+
+  //Add row to the fetched services data
   editViewService() {
     this.editServiceData.push(this.fb.group({
+      serviceID: [""],
       serviceName: [""],
       cost: [""],
       units: [""],
@@ -255,10 +260,57 @@ export class InvoicesComponent implements OnInit {
   removeService(index) {
     this.serviceData.removeAt(index);
     console.log(this.serviceData.value);
+
+
+    this.subTotalAmount = 0;
+    this.vat = 0;
+    this.totalAmount = 0;
+    for (let i = 0; i <= this.serviceData.value.length - 1; i++) {
+      console.log("Service Array", this.serviceData.value[i].amount);
+      let numberValue: number = 0;
+      let totalValue: number = 0;
+
+      this.vat += parseFloat(this.serviceData.value[i].vat);
+      totalValue = parseFloat(this.serviceData.value[i].amount)
+      numberValue = parseFloat(this.serviceData.value[i].amount) - parseFloat(this.serviceData.value[i].vat);
+      this.subTotalAmount += numberValue;
+      this.totalAmount += totalValue
+      console.log(this.subTotalAmount);
+
+    }
+
   }
   removeService1(index) {
     this.editServiceData.removeAt(index);
     console.log(this.editServiceData.value);
+
+    this.editSubTotalAmount = 0;
+    this.editVat = 0;
+    this.editTotalAmount = 0;
+    for (let i = 0; i <= this.editServiceData.value.length - 1; i++) {
+      console.log("Service Array", this.editServiceData.value[i].amount);
+      let numberValue: number = 0;
+      let totalValue: number = 0;
+      this.editVat += parseFloat(this.editServiceData.value[i].vat);
+      totalValue += parseFloat(this.editServiceData.value[i].amount);
+      numberValue += parseFloat(this.editServiceData.value[i].amount) 
+                      - parseFloat(this.editServiceData.value[i].vat);
+      this.editSubTotalAmount += numberValue;
+      this.editTotalAmount += totalValue ;
+      console.log(this.editSubTotalAmount);
+
+      // console.log("Service data : ", this.editServiceData.value[i]);
+      // let numberValue: number = 0;
+      // let totalValue: number = 0;
+      // this.editVat += parseInt(this.fetchedListOfServicesData[i].serviceVAT);
+      // totalValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost);
+      // numberValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost)
+      //               - parseInt(this.fetchedListOfServicesData[i].serviceVAT);
+      // this.editSubTotalAmount += numberValue;
+      // this.editTotalAmount += totalValue;
+      // console.log(this.editSubTotalAmount);
+
+    }
   }
 
   searchService(term: string) {
@@ -273,15 +325,42 @@ export class InvoicesComponent implements OnInit {
 
   selectServiceFromList(value: any) {
     this.serviceData.at(this.indexValue).patchValue({
+      serviceID: value.serviceID,
       serviceName: value.serviceName,
-      cost: value.cost,
+      cost: value.serviceCost,
       units: value.units,
-      vat: value.vat,
-      amount: value.amount
+      vat: value.serviceVATPercent,
+      amount: parseInt(value.units) + parseInt(value.serviceVATPercent)
+    })
+
+    // this.editServiceData.at(this.indexValue).patchValue({
+    //   serviceID:value.serviceID,
+    //   serviceName: value.serviceName,
+    //   cost: value.serviceCost,
+    //   units: value.units,
+    //   vat: value.serviceVATPercent,
+    //   amount: parseInt(value.units) + parseInt(value.serviceVATPercent)
+    // })
+
+
+    console.log("After for total amount : ", this.subTotalAmount);
+
+    // this.subTotalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.amount, 10);
+    // this.totalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.serviceCost, 10) / this.serviceData.value.vat;
+  }
+
+  selectServiceFromList1(value: any) {
+
+    this.editServiceData.at(this.indexValue).patchValue({
+      serviceID: value.serviceID,
+      serviceName: value.serviceName,
+      cost: value.serviceCost,
+      units: value.units,
+      vat: value.serviceVATPercent,
+      amount: parseInt(value.units) + parseInt(value.serviceVATPercent)
     })
     console.log(value);
-    this.subTotalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.amount, 10);
-    this.totalAmount = this.subTotalAmount + this.vat;
+
   }
 
   selectPatientFromList(value: any) {
@@ -324,36 +403,179 @@ export class InvoicesComponent implements OnInit {
   }
 
   openCreateInvoiceModal(viewCreateInvoiceContent) {
-    this.modalService.open(viewCreateInvoiceContent, { centered: true, size: "lg" })
+    this.modalService.open(viewCreateInvoiceContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      this.addServiceForm.reset();
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.addServiceForm.reset();
+    });
   }
-  //Delete Modal
-  openViewModal(viewContent) {
-    for (let i = 0; i <= this.fetchedListOfServices.length - 1; i++) {
-      console.log(this.fetchedListOfServices[i].amount);
+  //View Invoice Modal
+  openViewModal(viewContent, selectedInvoicesData) {
+    console.log(selectedInvoicesData);
+    this.fetchedListOfServices = selectedInvoicesData.serviceItems;
+    console.log("FetchedListOf", this.fetchedListOfServices);
+    this.patchFamilyHistory(this.fetchedListOfServices)
 
-      this.fetchedSubTotalAmount = this.fetchedSubTotalAmount + parseInt(this.fetchedListOfServices[i].amount, 10);
-      console.log("the fetched sub total : ", this.fetchedSubTotalAmount);
-      this.fetchedTotalAmount = this.fetchedSubTotalAmount + this.fetchedVat;
+    this.modalService.open(viewContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+
+    });
+  }
+
+  //Edit Modal
+  openEditModal(editContent, selectedInvoicesData) {
+    this.fetchedListOfServicesData = [];
+    this.editSelectPatientForm.patchValue({
+      patientName: selectedInvoicesData.clientDetails.name,
+      emailID: selectedInvoicesData.clientDetails.emailID,
+      phoneNumber: selectedInvoicesData.clientDetails.phoneNumber.countryCode + " " + selectedInvoicesData.clientDetails.phoneNumber.phoneNumber,
+      address: selectedInvoicesData.clientDetails.address
+    });
+    var timestamp = selectedInvoicesData.invoiceIssueDate; // replace your timestamp
+    var date1 = new Date(timestamp * 1000);
+    this.dateToShow = ('0' + date1.getFullYear()).slice(-2) + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + date1.getDate();
+
+    var timestamp = selectedInvoicesData.invoicePaymentDueDate; // replace your timestamp
+    var date1 = new Date(timestamp * 1000);
+    this.dateToShow2 = ('0' + date1.getFullYear()).slice(-2) + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + date1.getDate();
+
+    this.editSelectDatesForm.patchValue({
+      invoiceNumber: selectedInvoicesData.invoiceNumber,
+      //invoiceDate: selectedInvoicesData.invoiceIssueDate,
+      //paymentDueDate: selectedInvoicesData.invoicePaymentDueDate
+    });
+
+    this.fetchedListOfServicesData = selectedInvoicesData.serviceItems;
+    console.log(this.fetchedListOfServicesData);
+    this.patchFetchedService(this.fetchedListOfServicesData)
+
+    for (let i = 0; i <= this.fetchedListOfServicesData.length - 1; i++) {
+      console.log("Service data : ", this.fetchedListOfServicesData[i]);
+      let numberValue: number = 0;
+      let totalValue: number = 0;
+      this.editVat += parseInt(this.fetchedListOfServicesData[i].serviceVAT);
+      totalValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost);
+      numberValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost)
+                    - parseInt(this.fetchedListOfServicesData[i].serviceVAT);
+      this.editSubTotalAmount += numberValue;
+      this.editTotalAmount += totalValue;
+      console.log(this.editSubTotalAmount);
     }
-    this.modalService.open(viewContent, { centered: true, size: "lg" })
+
+    this.modalService.open(editContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+      //this.editServiceData.value.length = []
+      //console.log(this.editServiceData.value.length = 0);
+      for(let i=-1; i<=this.editServiceData.value.length-1; i++ ){
+        this.removeService1(this.editServiceData.value[i]) 
+        console.log(this.editServiceData.value.length);
+      }
+      console.log(this.editServiceData.value.length);
+      
+      this.editServiceForm.reset();
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.editServiceForm.reset();
+      // this.editServiceData.value.length = []
+      // console.log(this.editServiceData.value.length = 0);
+    
+      for(let i=-1; i<=this.editServiceData.value.length-1; i++ ){
+        this.removeService1(this.editServiceData.value[i]) 
+        console.log(this.editServiceData.value.length);
+      }
+    });
   }
 
-  //Delete Modal
-  openEditModal(editContent) {
-    this.modalService.open(editContent, { centered: true, size: "lg" })
+  sendInvoiceToClient(selectedInvoicesData) {
+    console.log("the invoice data to send : " + selectedInvoicesData.clientDetails.emailID);
+    let objDataToSend = {
+      "byWhom": "admin",
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+      "invoiceNumber": selectedInvoicesData.invoiceNumber
+    }
+    console.log(objDataToSend);
+    this.loginService.sendInvoiceData(objDataToSend, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          console.log("res for send invoices data  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            console.log("send invoice success response : ", res.response);
+            this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+            console.log("send invoice failure response : ", res.response);
+            this.openSnackBar1(res.message, "");
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
   }
 
-  openSendInvoiceModal(sendInvoiceContent) {
+  sendReminderToClient(selectedInvoicesData){
+    console.log("the invoice data to send reminder : " + selectedInvoicesData.clientDetails.emailID);
+    let objDataToSendReminder = {
+      "byWhom": "admin",
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+      "invoiceNumber": selectedInvoicesData.invoiceNumber
+    }
+    console.log(objDataToSendReminder);
+    this.loginService.sendReminderInvoiceData(objDataToSendReminder, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          console.log("res for send invoices reminder data  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            console.log("send invoice reminder success response : ", res.response);
+            this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+            console.log("send invoice reminder failure response : ", res.response);
+            this.openSnackBar1(res.message, "");
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
+  }
+
+  openSendInvoiceModal(sendInvoiceContent, selectedInvoicesData) {
+    console.log("the invoice data to send : " + selectedInvoicesData.clientDetails.emailID);
+
     this.modalService.open(sendInvoiceContent, { centered: true, size: "md" })
   }
 
   //Delete Modal
-  openDeleteModal(deleteContent) {
+  openDeleteModal(deleteContent, selectedInvoicesData) {
     this.modalService.open(deleteContent, { centered: true, size: "md" })
   }
 
-  //Delete Modal
-  openSendReminderModal(sendReminderContent) {
+  //Send Reminder Modal
+  openSendReminderModal(sendReminderContent,selectedInvoicesData) {
     this.modalService.open(sendReminderContent, { centered: true, size: "md" })
   }
 
@@ -368,81 +590,214 @@ export class InvoicesComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
+  //Open ServicesList Model
+  openServiceMethod1(serviceModel1, index) {
+    this.indexValue = index;
+    console.log("the index value : ", this.indexValue);
 
-  calculateAmount() {
-    console.log("cost data : ", this.serviceData.at(this.indexValue));
-
-    let calculatedAmount = this.serviceData.at(this.indexValue).value.cost * this.serviceData.at(this.indexValue).value.units;
-    console.log("the Amount value is : ", calculatedAmount);
-    this.serviceData.at(this.indexValue).patchValue({
-      amount: calculatedAmount
-    })
-    this.subTotalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.amount, 10);
-    this.totalAmount = this.subTotalAmount + this.vat;
-
+    this.modalService.open(serviceModel1, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
   }
+
   calculateAmount1() {
-    let calculatedAmount = this.serviceData.at(this.indexValue).value.cost * this.serviceData.at(this.indexValue).value.units;
+    let calculatedAmount: Number = this.serviceData.at(this.indexValue).value.cost *
+      this.serviceData.at(this.indexValue).value.units +
+      parseInt(this.serviceData.at(this.indexValue).value.vat);
+
     console.log("the Amount value is : ", calculatedAmount);
     this.serviceData.at(this.indexValue).patchValue({
-      amount: calculatedAmount
+      amount: "" + calculatedAmount
     })
-    this.subTotalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.amount, 10);
-    this.totalAmount = this.subTotalAmount + this.vat;
 
+    console.log(this.serviceData);
+    this.subTotalAmount = 0;
+    this.vat = 0;
+    this.totalAmount = 0;
+    for (let i = 0; i <= this.serviceData.value.length - 1; i++) {
+      console.log("Service Array", this.serviceData.value[i].amount);
+      let numberValue: number = 0;
+      let totalValue: number = 0;
+      this.vat += parseFloat(this.serviceData.value[i].vat);
+      totalValue = parseFloat(this.serviceData.value[i].amount)
+      numberValue = parseFloat(this.serviceData.value[i].amount) - parseFloat(this.serviceData.value[i].vat);
+      this.subTotalAmount += numberValue;
+      this.totalAmount += totalValue;
+      console.log(this.subTotalAmount);
+    }
+    console.log(this.subTotalAmount);
   }
   calculateAmount11() {
     console.log("cost data : ", this.editServiceData.at(this.indexValue));
-
-    let calculatedAmount = this.editServiceData.at(this.indexValue).value.cost * this.serviceData.at(this.indexValue).value.units;
+    let calculatedAmount: Number = this.editServiceData.at(this.indexValue).value.cost * 
+    this.editServiceData.at(this.indexValue).value.units ;
+    // + parseInt(this.editServiceData.at(this.indexValue).value.vat);;
     console.log("the Amount value is : ", calculatedAmount);
     this.editServiceData.at(this.indexValue).patchValue({
-      amount: calculatedAmount
+      amount: "" + calculatedAmount
     })
-    this.editSubTotalAmount = this.editSubTotalAmount + parseInt(this.editServiceData.at(this.indexValue).value.amount, 10);
+    this.editSubTotalAmount = this.editSubTotalAmount +
+     parseInt(this.editServiceData.at(this.indexValue).value.amount, 10);
     this.editTotalAmount = this.editSubTotalAmount + this.editVat;
 
   }
   calculateAmount12() {
-    let calculatedAmount = this.editServiceData.at(this.indexValue).value.cost * this.editServiceData.at(this.indexValue).value.units;
+    let calculatedAmount: Number = this.editServiceData.at(this.indexValue).value.cost *
+     this.editServiceData.at(this.indexValue).value.units;
     console.log("the Amount value is : ", calculatedAmount);
     this.editServiceData.at(this.indexValue).patchValue({
-      amount: calculatedAmount
+      amount: "" + calculatedAmount
     })
-    this.editSubTotalAmount = this.editSubTotalAmount + parseInt(this.editServiceData.at(this.indexValue).value.amount, 10);
-    this.editTotalAmount = this.editSubTotalAmount + this.vat;
+    console.log(this.editServiceData);
+    this.editSubTotalAmount = 0;
+    this.editVat = 0;
+    this.editTotalAmount = 0;
+    for (let i = 0; i <= this.editServiceData.value.length - 1; i++) {
+      console.log("Service Array", this.editServiceData.value[i].amount);
+      let numberValue: number = 0;
+      let totalValue: number = 0;
+      this.editVat += parseFloat(this.editServiceData.value[i].vat);
+      totalValue += parseFloat(this.editServiceData.value[i].amount);
+      numberValue =  parseFloat(this.editServiceData.value[i].amount) - parseFloat(this.editServiceData.value[i].vat);
+      //numberValue += parseFloat(this.editServiceData.value[i].amount);
 
+      this.editSubTotalAmount += numberValue;
+      this.editTotalAmount += totalValue ;//+ this.editVat
+      console.log(this.editSubTotalAmount);
+    }
+    console.log(this.editSubTotalAmount);
   }
 
-  onSearchChange(searchValue: string): void {
-    console.log("keyup value height : ", searchValue);
-    this.calculateAmount();
-  }
+  // onSearchChange(searchValue: string): void {
+  //   console.log("keyup value height : ", searchValue);
+  //   this.calculateAmount();
+  // }
   onSearchChange1(searchValue: string): void {
     console.log("keyup value weight : ", searchValue);
     this.calculateAmount1();
   }
-  onSearchChange11(searchValue: string): void {
-    console.log("keyup value height : ", searchValue);
-    this.calculateAmount();
-  }
+  // onSearchChange11(searchValue: string): void {
+  //   console.log("keyup value height : ", searchValue);
+  //   this.calculateAmount();
+  // }
   onSearchChange12(searchValue: string): void {
     console.log("keyup value weight : ", searchValue);
-    this.calculateAmount1();
+    this.calculateAmount12();
+  }
+
+  fetchListOfServicesData() {
+    let fetchedListOfServicesObj = {
+      "requestedByWhom": "admin",
+      "requestedPersonID": this.signObj.hospitalAdmin.userID,
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num
+    }
+    this.loginService.getServicesData(fetchedListOfServicesObj, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          console.log("res for fetch services data  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            this.listOfServices = res.services;
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
+  }
+
+  fetchInvoicesData() {
+    this.loading = true;
+    let fetchedInvoicesObj = {
+      "byWhom": "admin",
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num
+    }
+    this.loginService.fetchInvoicesData(fetchedInvoicesObj, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          console.log("res for fetch invoices data  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            this.invoicesData = res.invoices;
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
+  }
+
+  deleteInvoiceMethod(selectedInvoicesData) {
+    console.log(selectedInvoicesData.invoiceNumber);
+
+    let deleteInvoiceObjData = {
+      "byWhom": "admin",
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+      "invoiceNumber": selectedInvoicesData.invoiceNumber
+    }
+    this.loginService.deleteInvoicesData(deleteInvoiceObjData, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          console.log("res for delete invoices data  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            console.log("delete invoice success response : ", res.response);
+            this.openSnackBar(res.message, "");
+            this.modalService.dismissAll();
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+            console.log("delete invoice failure response : ", res.response);
+            this.openSnackBar1(res.message, "");
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
   }
 
   addInvoiceSubmit() {
     //this.isLoading = true;
+    console.log("payload data : ", this.addServiceForm.value.serviceHistory);
+
     let payLoad = this.addServiceForm.value.serviceHistory;
     let serviceHistoryArray: any[] = [];
     for (let i: number = 0; i <= payLoad.length - 1; i++) {
       serviceHistoryArray.push(
         {
+          "serviceID": payLoad[i].serviceID,
           "serviceName": payLoad[i].serviceName,
-          "cost": payLoad[i].cost,
-          "units": payLoad[i].units,
-          "vat": payLoad[i].vat,
-          "amount": payLoad[i].amount
+          "serviceNetCost": payLoad[i].cost,
+          "serviceUnit": "" + payLoad[i].units,
+          "serviceVAT": payLoad[i].vat,
+          "serviceGrossCost": "" + payLoad[i].amount,
+          "category": "Human",
         }
       )
     }
@@ -463,52 +818,145 @@ export class InvoicesComponent implements OnInit {
     console.log("total amount is : ", this.subTotalAmount);
 
     let addIllnessObj = {
-      "byWhom":"admin",
+      "byWhom": "admin",
       "byWhomID": this.signObj.hospitalAdmin.userID,
       "invoiceNumber": this.selectDatesForm.value.invoiceNumber,
       "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
-      "invoiceIssueDate": invoiceDate,
-      "invoicePaymentDueDate": paymentDueDate,
-      "subTotal": this.subTotalAmount,
-      "VAT": this.vat,
-      "totalAmount": this.totalAmount,
-      "isSavedInDraft":false,
-      "paymentStatus":"unpaid",
-      "clientDetails":{
-        "name" : this.patientObj.firstName,
-         "phoneNumber":{
-           "countryCode": this.patientObj.phoneNumber.countryCode,
-           "phoneNumber": this.patientObj.phoneNumber.phoneNumber
-         },
-         "emailID": this.patientObj.emailID,
-         "address": this.patientObj.address
+      "invoiceIssueDate": "" + invoiceDate,
+      "invoicePaymentDueDate": "" + paymentDueDate,
+      "subTotal": "" + this.subTotalAmount,
+      "VAT": "" + this.vat,
+      "totalAmount": "" + this.totalAmount,
+      "isSavedInDraft": false,
+      "paymentStatus": "unpaid",
+      "clientDetails": {
+        "name": this.patientObj.firstName,
+        "phoneNumber": {
+          "countryCode": this.patientObj.phoneNumber.countryCode,
+          "phoneNumber": this.patientObj.phoneNumber.phoneNumber
+        },
+        "emailID": this.patientObj.emailID,
+        "address": this.patientObj.address
       },
       "serviceItems": serviceHistoryArray
-  }
+    }
     console.log("the req for add invoice data obj : ", addIllnessObj);
-    // this.loginService.addInvoiceData(addIllnessObj, this.signObj.access_token).
-    //   subscribe(
-    //     (res) => {
-    //       console.log("res from add invoice  : ", res)
-    //       if (res.response === 3) {
-    //         this.loading = false;
-           
-    //       }
-    //       else if (res.response === 0) {
-    //         this.loading = false;
-    //       }
-    //     },
-    //     (err: HttpErrorResponse) => {
-    //       if (err.error instanceof Error) {
-    //         this.loading = false;
-    //         console.log("Client Side Error")
-    //       } else {
-    //         this.loading = false;
-    //         console.log(err)
-    //       }
-    //     })
+    this.loginService.addInvoiceData(addIllnessObj, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          console.log("res from add invoice  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            this.modalService.dismissAll();
+            this.openSnackBar(res.message, "");
+            console.log(res.response);
+
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+            this.openSnackBar1(res.message, "");
+            console.log(res.response);
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
   }
 
+  updateInvoiceSubmit() {
+    //this.isLoading = true;
+    console.log("payload data : ", this.editServiceForm.value.editServiceHistory);
+
+    let payLoad = this.editServiceForm.value.editServiceHistory;
+    let serviceHistoryArray: any[] = [];
+    for (let i: number = 0; i <= payLoad.length - 1; i++) {
+      serviceHistoryArray.push(
+        {
+          "serviceID": payLoad[i].serviceID,
+          "serviceName": payLoad[i].serviceName,
+          "serviceNetCost": payLoad[i].cost,
+          "serviceUnit": "" + payLoad[i].units,
+          "serviceVAT": payLoad[i].vat,
+          "serviceGrossCost": "" + payLoad[i].amount,
+          "category": "Human",
+        }
+      )
+    }
+    let payLoad2 = this.editSelectPatientForm.value;
+    console.log("serviceHistoryArray data from form to update : ", serviceHistoryArray, payLoad2);
+    let ngbDate = this.editSelectDatesForm.controls['invoiceDate'].value;
+    let myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
+    var dateAr = myDate.toLocaleDateString().split('/');
+    var newDate = dateAr[2] + '/' + dateAr[0] + '/' + dateAr[1];
+    var invoiceDate = new Date(newDate).getTime() / 1000;
+    let ngbDate1 = this.editSelectDatesForm.controls['paymentDueDate'].value;
+    let myDate1 = new Date(ngbDate1.year, ngbDate1.month - 1, ngbDate1.day);
+    var dateAr1 = myDate1.toLocaleDateString().split('/');
+    var newDate1 = dateAr1[2] + '/' + dateAr1[0] + '/' + dateAr1[1];
+    var paymentDueDate = new Date(newDate1).getTime() / 1000;
+
+    console.log("invoice date is : ", invoiceDate, paymentDueDate);
+    console.log("total amount is : ", this.editSubTotalAmount);
+
+    let phoneNumber = payLoad2.phoneNumber.split(" ");
+
+    let addIllnessObj = {
+      "byWhom": "admin",
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "invoiceNumber": this.editSelectDatesForm.value.invoiceNumber,
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+      "invoiceIssueDate": "" + invoiceDate,
+      "invoicePaymentDueDate": "" + paymentDueDate,
+      "subTotal": "" + this.editSubTotalAmount,
+      "VAT": "" + this.editVat,
+      "totalAmount": "" + this.editTotalAmount,
+      "isSavedInDraft": false,
+      "paymentStatus": "unpaid",
+      "clientDetails": {
+        "name": payLoad2.patientName,
+        "phoneNumber": {
+          "countryCode": phoneNumber[0],
+          "phoneNumber": phoneNumber[1]
+        },
+        "emailID": payLoad2.emailID,
+        "address": payLoad2.address
+      },
+      "serviceItems": serviceHistoryArray
+    }
+    console.log("the req for add invoice data obj : ", addIllnessObj);
+    this.loginService.updateInvoiceData(addIllnessObj, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          console.log("res from update invoice  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            this.modalService.dismissAll();
+            this.openSnackBar(res.message, "");
+            console.log(res.response);
+
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+            this.openSnackBar1(res.message, "");
+            console.log(res.response);
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
+  }
 
   //Open PatientsList Model
   openPatientMethod(patientsModel) {
@@ -543,5 +991,24 @@ export class InvoicesComponent implements OnInit {
 
   addRow() {
 
+  }
+
+  //Mat Snack Bar
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
+  }
+
+  //Mat Snack Bar
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right',
+      panelClass: ['red-snackbar']
+    })
   }
 }
