@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from 'src/app/services/login.service';
+import { MatSnackBar } from '@angular/material';
 
 
 interface Unit {
@@ -15,9 +16,9 @@ interface Unit {
 export class HospitalFeesComponent implements OnInit {
   selectedData: any;
   //departmentsData: any = [];
-  
+
   unit: Unit[] = [
-    { viewValue: 'USD'},
+    { viewValue: 'USD' },
     { viewValue: 'INR' },
     { viewValue: 'NT$' },
     { viewValue: 'CNY' },
@@ -45,7 +46,8 @@ export class HospitalFeesComponent implements OnInit {
   m = this.n.getMonth() + 1;
   d = this.n.getDate();
   presentDate = this.m + "/" + this.d + "/" + this.y;
-  constructor(private fb: FormBuilder, private loginService: LoginService) { }
+  constructor(private fb: FormBuilder, private loginService: LoginService,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.signInRes = localStorage.getItem("SignInRes");
@@ -57,10 +59,10 @@ export class HospitalFeesComponent implements OnInit {
     this.fetchServicesData();
   }
 
-  removeService(index,selectedservicesData1) {
-    console.log(index,selectedservicesData1);
-    
-    this.servicesData1.splice(index,1);
+  removeService(index, selectedservicesData1) {
+    console.log(index, selectedservicesData1);
+
+    this.servicesData1.splice(index, 1);
     //deleteServicesData
     let removeServiceObj = {
       "adminUserID": selectedservicesData1.adminUserID,
@@ -90,15 +92,22 @@ export class HospitalFeesComponent implements OnInit {
         }
       }
     );
-    
+
   }
   updatedIndexBasedValue(index, serviceName, serviceCost, serviceVATPercent, currency) {
-    this.servicesData1[index] = {
-      serviceName: serviceName.value,
-      serviceCost: serviceCost.value,
-      serviceVATPercent: serviceVATPercent.value,
-      currency: currency.value,
-      isAlter: true
+
+    if (serviceName.value != '' && serviceCost.value != '' && serviceVATPercent.value != '' && currency.value != '') {
+      this.servicesData1[index] = {
+        serviceName: serviceName.value,
+        serviceCost: serviceCost.value,
+        serviceVATPercent: serviceVATPercent.value,
+        currency: currency.value,
+        isAlter: true
+      }
+    }
+    else {
+      this.openSnackBar1("Insert values...", "");
+      console.log("insert values");
     }
 
     let addServiceObject = {
@@ -117,18 +126,23 @@ export class HospitalFeesComponent implements OnInit {
       (resForAddServiceData) => {
         if (resForAddServiceData.response === 3) {
           this.loading = false;
-         console.log("added service id : ", resForAddServiceData.serviceID);
-         
+          console.log("response : ", resForAddServiceData);
+
+          this.openSnackBar(resForAddServiceData.message, "");
+          console.log("added service id : ", resForAddServiceData.serviceID);
+
           console.log("success message : ", resForAddServiceData.message);
 
         }
         else {
+          this.openSnackBar1(resForAddServiceData.message, "");
           console.log("failed message", resForAddServiceData.message);
 
           this.loading = false;
         }
       },
       (err: HttpErrorResponse) => {
+        this.openSnackBar1("Please try after sometime...", "");
         if (err.error instanceof Error) {
           this.loading = false;
           console.log("Client Side Error")
@@ -139,7 +153,7 @@ export class HospitalFeesComponent implements OnInit {
       }
     );
 
-   // }
+    // }
 
   }
   editDepartment(index) {
@@ -200,6 +214,29 @@ export class HospitalFeesComponent implements OnInit {
       isAvailable: true,
       currency: ""
     })
+
+    this.openSnackBar("Record created, please insert data", "");
   }
+
+  //Mat Snack Bar
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['theme-snackbar'],
+      duration: 5000,
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
+  }
+
+  //Mat Snack Bar
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
+      duration: 5000,
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
+  }
+
 }
 

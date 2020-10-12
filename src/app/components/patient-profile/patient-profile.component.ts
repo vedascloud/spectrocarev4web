@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { LoginService } from 'src/app/services/login.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
@@ -16,6 +16,7 @@ export class PatientProfileComponent implements OnInit {
   userID: any;
   sub: any;
   id: string;
+  isValue: any;
   patients: any = [];
   selectedPatient: any;
   SelectedPatient: any;
@@ -39,7 +40,8 @@ export class PatientProfileComponent implements OnInit {
   previewImg: any;
   @ViewChild('fileInput', { static: true }) el: ElementRef;
   constructor(private router: Router, private cd: ChangeDetectorRef, private loginService: LoginService,
-    private fb: FormBuilder, private activatedRoute: ActivatedRoute) { }
+    private fb: FormBuilder, private activatedRoute: ActivatedRoute,
+    private http: HttpClient) { }
 
   ngOnInit() {
     this.loading = true;
@@ -72,7 +74,9 @@ export class PatientProfileComponent implements OnInit {
       this.getPatientData(medicalObj)
     }
     this.patientProfileForm = this.fb.group({
-      profilePic: [""]
+      profilePic: [""],
+      gender: [""],
+      dob: [""]
     });
 
     this.callPatientGeneralInfo();
@@ -100,15 +104,32 @@ export class PatientProfileComponent implements OnInit {
             console.log("selected patient from patient medical module : ", this.selectedPatient);
             console.log("SelectedPatient : ", this.SelectedPatient);
 
-            this.previewImg = "http://3.92.226.247:3000" + this.selectedPatient.profilePic;
+            this.previewImg = "http://34.199.165.142:3000" + this.selectedPatient.profilePic;
 
+            //this.theImg = "http://34.199.165.142:3000" + this.patProComponent.SelectedPatient.profilePic;
+            this.http.get(this.previewImg, { responseType: "blob" }).subscribe((file) => {
+              let imgFile = new File([file], "userimg.jpg");
+              this.patientProfileForm.get('profilePic').setValue(imgFile)
+            })
+
+            let dob = this.selectedPatient.dob / 1000;
+            let unixDates = dob;
+            var date1 = new Date(unixDates * 1000);
+            let timeToShow = date1.getFullYear() + '/' + ('0' + (date1.getMonth() + 1)).slice(-2) + '/' + ('0' + date1.getDate()).slice(-2);
+            //this.dateToShow = date1.getFullYear() + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + ('0' + date1.getDate()).slice(-2);
+            //let timeToShow = date1.getHours() + ':' + date1.getMinutes() + ':' + date1.getSeconds();
+
+            this.patientProfileForm.patchValue({
+              gender: this.selectedPatient.gender,
+              dob: timeToShow
+            });
             // this.autoAddFields(this.selectedPatient)
           }
 
         }
         else if (res.response === 0) {
           this.loading = false;
-          alert(res.message)
+          //alert(res.message)
         }
       },
       (err: HttpErrorResponse) => {
@@ -120,6 +141,19 @@ export class PatientProfileComponent implements OnInit {
           console.log(err)
         }
       })
+  }
+
+  callBookAppointment(selectedPatient) {
+    this.router.navigate(['/admincenter/bookappointment'], {
+      queryParams: {
+        firstName: selectedPatient.firstName,
+        countryCode: selectedPatient.phoneNumber.countryCode,
+        phoneNumber: selectedPatient.phoneNumber.phoneNumber,
+        emailID: selectedPatient.emailID,
+        patientID: selectedPatient.patientID,
+        medical_record_id: selectedPatient.medical_record_id
+      }
+    })
   }
 
   //Fetch Patient APPOINTMENTS Records
@@ -192,11 +226,12 @@ export class PatientProfileComponent implements OnInit {
 
   uploadImg() {
     this.uploadedPatProfilePic = this.patientProfileForm.get('profilePic').value
-    console.log("uploaded img : ",this.uploadedPatProfilePic);
-    
+    console.log("uploaded img : ", this.uploadedPatProfilePic);
+
   }
   callPatientGeneralInfo() {
     // this.router.navigateByUrl('/admincenter/patientgeneralinfo');
+    this.isValue = 1;
     this.isViewPatientGeneralInfo = false;
     this.isViewPatientMedicalRecords = true;
     this.isViewPatientAppointmentRecord = true;
@@ -205,6 +240,7 @@ export class PatientProfileComponent implements OnInit {
 
   callPatientMedicalReocrds() {
     //this.router.navigateByUrl('/admincenter/patientmedicalrecords');
+    this.isValue = 2;
     this.isViewPatientGeneralInfo = true;
     this.isViewPatientMedicalRecords = false;
     this.isViewPatientAppointmentRecord = true;
@@ -213,6 +249,7 @@ export class PatientProfileComponent implements OnInit {
 
   callPatientAppointmentRecords() {
     //this.router.navigateByUrl('/admincenter/patientappointmentrecords');
+    this.isValue = 3;
     this.isViewPatientGeneralInfo = true;
     this.isViewPatientMedicalRecords = true;
     this.isViewPatientAppointmentRecord = false;
@@ -221,6 +258,7 @@ export class PatientProfileComponent implements OnInit {
 
   callPatientScreeningRecord() {
     //this.router.navigateByUrl('/admincenter/patientscreeningrecord');
+    this.isValue = 4;
     this.isViewPatientGeneralInfo = true;
     this.isViewPatientMedicalRecords = true;
     this.isViewPatientAppointmentRecord = true;

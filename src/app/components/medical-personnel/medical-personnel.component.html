@@ -41,14 +41,21 @@
                           </mat-error>
                     </mat-form-field>
                     <button mat-raised-button class="loginbtn mb-3 mt-3" style="letter-spacing: 1px; outline-style: none;">LOGIN</button>
-                    <div class="row p-2 ml-5">
-                        <span (click)="forgot()">
+                    <div class="row p-2 ml-5">                        
                             <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
-                            Forgot <a> Password ? </a></span>
+                            <span style="font-weight: 500;color: white;font-size: 14px;">
+                                Forgot &nbsp;
+                            </span>
+                                <a style="font-size: 14px; font-weight: 500;color: #12b2f9;cursor: pointer;" (click)="forgot()"> User Name / Password ? </a>
+                            
                     </div>
                     <div class="row  p-2 ml-5">
-                        <span (click)="signUp()"> <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
-                            Don't have an account yet? <a> Sign Up</a></span>
+                        <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
+                        <span style="font-weight: 500;color: white;font-size: 14px;"> 
+                            Don't have an account yet? &nbsp; 
+                        </span>
+                            <a (click)="signUp()" style="font-size: 14px; font-weight: bold;color: #12b2f9;cursor: pointer;"> Sign Up</a>
+                       
                     </div>
                 </form>
             </div>

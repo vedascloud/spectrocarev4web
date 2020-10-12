@@ -22,6 +22,7 @@ export class PatientScreeningRecordComponent implements OnInit {
   sub: any;
   id: string;
   patients: any = [];
+  patientTestResultsData: any = [];
   selectedPatient: any;
   SelectedPatient: any;
   loading: boolean;
@@ -36,7 +37,11 @@ export class PatientScreeningRecordComponent implements OnInit {
     { viewValue: 'All' }
   ];
 
-
+  color: string;
+  color1: string;
+  textColor: string;
+  textColor1: string;
+  searchType: string;
   testResults: any = [
     {
       "testname": "Glucose",
@@ -69,14 +74,15 @@ export class PatientScreeningRecordComponent implements OnInit {
   ]
 
   constructor(private activatedRoute: ActivatedRoute, private patientProfile: PatientProfileComponent,
-    private loginService: LoginService, private modalService: NgbModal, ) { }
+    private loginService: LoginService, private modalService: NgbModal,) { }
 
   ngOnInit() {
+    this.viewTestLog();
     this.dateToShow = new Date().toLocaleDateString()
     //this.patientAppointmentsData = this.patientProfile.patientAppointmentsData;
     this.selectedPatient = this.patientProfile.selectedPatient;
     this.loading = true;
-    console.log("selected patient data : ",this.selectedPatient);
+    console.log("selected patient data : ", this.selectedPatient);
 
     this.signInRes = localStorage.getItem("SignInRes");
     this.signObj = JSON.parse(this.signInRes);
@@ -103,14 +109,29 @@ export class PatientScreeningRecordComponent implements OnInit {
         "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
         "token": this.signObj.access_token
       }
-     // this.getPatientData(medicalObj);
+      // this.getPatientData(medicalObj);
       this.fetchPatientScreeningRecordsMethod();
     }
 
-    
+
   }
 
- fetchPatientScreeningRecordsMethod() {
+  viewTestLog() {
+    this.textColor = 'white';
+    this.textColor1 = 'black';
+    this.color = '#53B9C6';
+    this.color1 = 'white';
+    this.searchType = "Test Log";
+  }
+  viewTrendAnalysis() {
+    this.textColor = 'black';
+    this.textColor1 = 'white';
+    this.color = 'white'
+    this.color1 = '#53B9C6';
+    this.searchType = "Trend Ananlysis";
+  }
+
+  fetchPatientScreeningRecordsMethod() {
     this.fetchPatientScreeningRecordsObj = {
       "patientID": this.selectedPatient.patientID,
       "medical_record_id": this.selectedPatient.medical_record_id,
@@ -155,16 +176,55 @@ export class PatientScreeningRecordComponent implements OnInit {
     }
   }
 
-  openViewMethod(viewModel,selectedScreeningData,selectedPatient) {
-    this.modalService.open(viewModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
+  openViewMethod(viewModel, selectedScreeningData, selectedPatient) {
+    console.log("selected patient for view screening record : ", selectedPatient);
+
+    let fetchScreeningData = {
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+      "byWhom": "admin",
+      "byWhomID": this.signObj.hospitalAdmin.userID,
+      "patientID": selectedPatient.patientID,
+      "medical_record_id": selectedPatient.medical_record_id
+    }
+    console.log("Req obj to fetch screening record : ", fetchScreeningData);
+    this.loginService.getPatientTestResultsData(fetchScreeningData, this.signObj.access_token).
+      subscribe(
+        (res) => {
+          console.log("res from fetchScreeningData records  : ", res)
+          if (res.response === 3) {
+            this.loading = false;
+            if (res.testResults.length === 0) {
+              this.patientTestResultsData = res.testResults;
+            }
+            else {
+              this.patientTestResultsData = res.testResults[0].testFactors;
+            }
+          }
+          else if (res.response === 0) {
+            this.loading = false;
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
+
+    this.modalService.open(viewModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.patientTestResultsData = [];
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.patientTestResultsData = [];
     });
   }
 
-  openShareReportMethod(viewShareReportModel,selectedPatient) {
-    this.modalService.open(viewShareReportModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
+  openShareReportMethod(viewShareReportModel, selectedPatient) {
+    this.modalService.open(viewShareReportModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;

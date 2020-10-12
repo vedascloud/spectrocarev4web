@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit {
   disableUpdateBtn: boolean = false;
   disableUpdateBtn1: boolean = false;
   disableUpdateBtn2: boolean = false;
+  disableUpdateBtn3: boolean = false;
   closeResult: string;
   isLoading: boolean = false;
   isLoading1: boolean = false;
@@ -80,30 +81,30 @@ export class HomeComponent implements OnInit {
     { value: 'Administrative', viewValue: 'Administrative' }
   ];
   webTypes = [
-    { value: 'Official Website', viewValue: 'Official Website'},
+    { value: 'Official Website', viewValue: 'Official Website' },
     { value: 'Facebook', viewValue: 'Facebook' },
     { value: 'Twitter', viewValue: 'Twitter' },
     { value: 'Pinterest', viewValue: 'Pinterest' },
     { value: 'Blog', viewValue: 'Blog' },
-    { value: 'WhatsApp', viewValue: 'WhatsApp'},
+    { value: 'WhatsApp', viewValue: 'WhatsApp' },
     { value: 'WeChat', viewValue: 'WeChat' },
     { value: 'Tumblr', viewValue: 'Tumblr' },
     { value: 'Instagram', viewValue: 'Instagram' },
     { value: 'Baidu Tieba', viewValue: 'Baidu Tieba' },
-    { value: 'Skype', viewValue: 'Skype'},
+    { value: 'Skype', viewValue: 'Skype' },
     { value: 'Viber', viewValue: 'Viber' },
     { value: 'Sina Weibo', viewValue: 'Sina Weibo' },
     { value: 'Line', viewValue: 'Line' },
     { value: 'Snapchat', viewValue: 'Snapchat' },
-    { value: 'YY', viewValue: 'YY'},
+    { value: 'YY', viewValue: 'YY' },
     { value: 'VKontakte', viewValue: 'VKontakte' },
     { value: 'LinkedIn', viewValue: 'LinkedIn' },
     { value: 'Telegram', viewValue: 'Telegram' },
     { value: 'Reddit', viewValue: 'Reddit' }
   ];
   webSiteDataArray: any[] = [];
-  successResponse:string;
-  failureResponse:string;
+  successResponse: string;
+  failureResponse: string;
   @ViewChild('fileInput', { static: true }) el: ElementRef;
   @ViewChild('fileInput1', { static: true }) el1: ElementRef;
   @ViewChild('autoFocusTest', { static: false }) nativeEl: ElementRef;
@@ -158,7 +159,7 @@ export class HomeComponent implements OnInit {
       profilePic: [""]
     })
 
-    this.homeForm.disable()
+    this.homeForm.disable();
     this.getCurrentLocation()
     this.loading = true;
     this.autoAddAdminData(this.signObj);
@@ -171,7 +172,8 @@ export class HomeComponent implements OnInit {
     }
     else {
       this.isAdminSystmMngr = false;
-      this.homeForm.disable()
+      this.homeForm.disable();
+      //this.webSiteDataForm.disable();
     }
 
     this.adminProfileForm = this.fb.group({
@@ -216,6 +218,8 @@ export class HomeComponent implements OnInit {
 
       ])
     })
+
+    this.webSiteDataForm.disable();
     //this.addWebDataToList();
     this.patchWebSiteData1(this.fethedWebSitesDataArray);
   }
@@ -295,7 +299,7 @@ export class HomeComponent implements OnInit {
       this.previewImg = hospitalData.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg = "http://3.92.226.247:3000" + hospitalData.hospitalAdmin.profilePic;//"http://3.92.226.247:3000"+
+      this.previewImg = "http://34.199.165.142:3000" + hospitalData.hospitalAdmin.profilePic;//"http://3.92.226.247:3000"+
       this.http.get(this.previewImg, { responseType: "blob" }).subscribe((file) => {
         let imgFile = new File([file], "userimg.jpg");
         this.adminProfileForm.get('profilePic').setValue(imgFile)
@@ -308,7 +312,6 @@ export class HomeComponent implements OnInit {
     console.log("event", event)
   }
 
-
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
@@ -317,7 +320,7 @@ export class HomeComponent implements OnInit {
     })
   }
   //Mat Snack Bar
-  openSnackBar1(message:string,action:string){
+  openSnackBar1(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
       verticalPosition: 'bottom', // 'top' | 'bottom'
@@ -325,7 +328,6 @@ export class HomeComponent implements OnInit {
       panelClass: ['red-snackbar']
     })
   }
-  
 
   home() {
     console.log(this.homeForm.value);
@@ -373,7 +375,6 @@ export class HomeComponent implements OnInit {
   }
   //Img Upload complete here
 
-
   //Show Admin Data
   autoAddAdminData(hospitalData) {
 
@@ -399,20 +400,21 @@ export class HomeComponent implements OnInit {
     })
     if (hospitalData.hospitalInformation.hospitalPics.length !== 0) {
       //this.previewImg1 = "../../../assets/images/ui/Icons/1x/profile-1.png";
-      this.previewImg1 = "http://3.92.226.247:3000" + hospitalData.hospitalInformation.hospitalPics[0].imagePath;//"http://3.92.226.247:3000"+
+      this.previewImg1 = "http://34.199.165.142:3000" + hospitalData.hospitalInformation.hospitalPics[0].imagePath;//"http://3.92.226.247:3000"+
       this.http.get(this.previewImg1, { responseType: "blob" }).subscribe((file) => {
         let imgFile = new File([file], "userimg.jpg");
         this.homeForm.get('profilePic').setValue(imgFile)
       })
     }
-    else if (hospitalData.hospitalInformation.hospitalPics[0].imagePath = "") {
+    // else if (hospitalData.hospitalInformation.hospitalPics[0].imagePath = "") {
+    else if (hospitalData.hospitalInformation.hospitalPics[0] = []) {
       this.previewImg1 = "../../../assets/images/ui/Icons/1x/profile-1.png";
     }
     else if (hospitalData.hospitalInformation.hospitalPics[0].imagePath = "../../../assets/images/ui/Icons/1x/profile-1.png") {
       this.previewImg1 = hospitalData.hospitalInformation.hospitalPics[0].imagePath;
     }
     else {
-      this.previewImg1 = "http://3.92.226.247:3000" + hospitalData.hospitalInformation.hospitalPics[0].imagePath;//"http://3.92.226.247:3000"+
+      this.previewImg1 = "http://34.199.165.142:3000" + hospitalData.hospitalInformation.hospitalPics[0].imagePath;//"http://3.92.226.247:3000"+
       this.http.get(this.previewImg1, { responseType: "blob" }).subscribe((file) => {
         let imgFile = new File([file], "userimg.jpg");
         this.homeForm.get('profilePic').setValue(imgFile)
@@ -466,18 +468,18 @@ export class HomeComponent implements OnInit {
         (res) => {
           console.log("res from add wesites  : ", res)
           if (res.response === 3) {
-            for (let i = 0; i <= this.webSiteDataArray.length-1; i++) {
+            for (let i = 0; i <= this.webSiteDataArray.length - 1; i++) {
               this.removeWebData(this.webSiteDataArray[i]);
               console.log("removed web site num : ", this.webSiteDataArray[i]);
             }
             this.isLoading2 = false;
-            console.log("updated array data ",this.webSiteDataArray);
+            console.log("updated array data ", this.webSiteDataArray);
             this.signObj.hospitalInformation.websites = [];
             this.signObj.hospitalInformation.websites = this.webSiteDataArray;
-            console.log("the web sites after update : ",this.signObj.hospitalInformation.websites);
-            
+            console.log("the web sites after update : ", this.signObj.hospitalInformation.websites);
+
             //let emptyMedicinesData = this.signObj.hospitalInformation.websites.length;
-           
+
             this.patchWebSiteData1(this.signObj.hospitalInformation.websites);
             //this.ngOnInit();
             //this.fethedWebSitesDataArray.length = 0;
@@ -557,8 +559,8 @@ export class HomeComponent implements OnInit {
         this.signObj.hospitalInformation.loc[1] = this.homeForm.value.longitude;
         this.signObj.hospitalInformation.phoneNumber.phoneNumber = str1;
         this.signObj.hospitalInformation.phoneNumber.countryCode = countryCode1.dialCode;
-        if(updateReq.hospitalPics[0].imagePath === ""){
-        this.signObj.hospitalInformation.hospitalPics[0].imagePath = "../../../assets/images/ui/Icons/1x/profile-1.png";
+        if (updateReq.hospitalPics[0].imagePath === "") {
+          this.signObj.hospitalInformation.hospitalPics[0].imagePath = "../../../assets/images/ui/Icons/1x/profile-1.png";
         }
         this.signObj.hospitalInformation.hospitalPics[0].imagePath = updateReq.hospitalPics[0].imagePath
         console.log("After update the hospital signObj data is : ", this.signObj);
@@ -578,14 +580,14 @@ export class HomeComponent implements OnInit {
     },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
-          
-        this.openSnackBar1("","check your network");
+
+          this.openSnackBar1("", "check your network");
           this.isLoading = false;
           console.log("Client Side Error", err);
 
         } else {
-          
-        this.openSnackBar1("","check your network");
+
+          this.openSnackBar1("", "check your network");
           this.isLoading = false;
           console.log("Server Side", err)
         }
@@ -636,7 +638,7 @@ export class HomeComponent implements OnInit {
           this.signObj.hospitalAdmin.gender = payLoad.gender;
           this.signObj.hospitalAdmin.preferLanguage = payLoad.preferLanguage;
           this.signObj.hospitalAdmin.department = payLoad.department;
-          this.loginService.isProfileUpdated.next("http://3.92.226.247:3000" + updateAdminGenUserData.profilePic)
+          this.loginService.isProfileUpdated.next("http://34.199.165.142:3000" + updateAdminGenUserData.profilePic)
           this.signObj.hospitalAdmin.profilePic = updateAdminGenUserData.profilePic;//"http://3.92.226.247:3000"+
 
           console.log("After update the hospital signObj data is : ", this.signObj);
@@ -699,20 +701,18 @@ export class HomeComponent implements OnInit {
         if (changePwdRes.response === 3) {
           this.isLoading1 = false;
           this.successResponse = changePwdRes.message;
-          this.modalService.open(this.modalSuccessExample)
-          //this.router.navigateByUrl('/adminprofile')
-          //this.loading= false;
-          //this.modalService.dismissAll();
+          this.modalService.open(this.modalSuccessExample);
           this.changePasswordForm.reset();
-          //this.fetchAdminGenralData();
           this.openSnackBar(changePwdRes.message, "");
+          this.changePasswordForm.value.oldPassword = "";
+          this.changePasswordForm.value.newPassword = "";
+          this.changePasswordForm.value.confirmPassword = "";
         }
         else {
           this.isLoading1 = false;
           this.failureResponse = changePwdRes.message;
           this.modalService.open(this.modalFailureExample)
           this.openSnackBar(changePwdRes.message, "");
-          //alert(changePwdRes.message);
         }
       },
       (err: HttpErrorResponse) => {
@@ -803,23 +803,22 @@ export class HomeComponent implements OnInit {
       this.patientService.isEditable.next(true)
     }
   }
-  // openUpdateWebSitesInfo() {
-  //   if (this.disableUpdateBtn1 === false) {
-  //     this.disableUpdateBtn1 = true;
-  //     this.webSiteDataForm.enable();
-  //     this.nativeEl.nativeElement.focus()
-  //     this.patientService.isEditable.next(false)
-  //   }
-  //   else {
-  //     this.disableUpdateBtn1 = false;
-  //     this.webSiteDataForm.disable();
-  //     this.patientService.isEditable.next(true)
-  //   }
-  // }
-
+  openUpdateWebData() {
+    if (this.disableUpdateBtn3 === false) {
+      this.disableUpdateBtn3 = true;
+      this.webSiteDataForm.enable();
+      //this.patientService.isEditable.next(false)
+      //this.nativeEl1.nativeElement.focus()
+    }
+    else {
+      this.disableUpdateBtn3 = false;
+      this.webSiteDataForm.disable();
+      //this.patientService.isEditable.next(true)
+    }
+  }
 
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -828,7 +827,7 @@ export class HomeComponent implements OnInit {
   }
   //Signout Modal
   openSignOut(content1) {
-    this.modalService.open(content1, { centered: true, size: "sm" })
+    this.modalService.open(content1, { centered: true, size: "sm", backdrop: false })
   }
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {

@@ -40,8 +40,10 @@ export class InvoicesComponent implements OnInit {
       img: "assets/images/ui/Icons/1x/admin center.png"
     };
   patients: any = [];
+  filteredPatients: any = [];
   dateToShow: any;
   dateToShow2: any;
+  isLoading: boolean = false;
   loading: boolean;
   indexValue: any;
   subTotalAmount: number = 0;
@@ -62,33 +64,18 @@ export class InvoicesComponent implements OnInit {
     { viewValue: 'Overdue' }
   ];
   invoicesData: any = [];
-  // invoicesData: any = [
-  //   { "Invoice": "AB-1001", "Client": "abc babu", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-03-13", "Status": "Draft" },
-  //   { "Invoice": "AB-1002", "Client": "def rani", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-03-14", "Status": "Paid" },
-  //   { "Invoice": "AB-1003", "Client": "ghijil khan rao", "Items": "Urine test", "Amount": "50", "Issuedate": "2020-03-23", "Status": "Unpaid" },
-  //   { "Invoice": "AB-1004", "Client": "jkl vasundhar", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-04-13", "Status": "Overdue" },
-  //   { "Invoice": "AB-1005", "Client": "mno flintoff", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-02-23", "Status": "Paid" },
-  //   { "Invoice": "AB-1006", "Client": "pqr prasuna", "Items": "Urine test", "Amount": "60", "Issuedate": "2020-04-31", "Status": "Draft" },
-  // ]
+  filteredInvoicesData: any = [];
   listOfServices: any = [];
-  // listOfServices: any = [
-  //   { "serviceName": "Urine Test", "cost": "80", "units": "1", "vat": "0", "amount": "80" },
-  //   { "serviceName": "Blood Test", "cost": "90", "units": "1", "vat": "0", "amount": "90" },
-  //   { "serviceName": "Selieva Test", "cost": "60", "units": "1", "vat": "0", "amount": "60" },
-  //   { "serviceName": "Prega Test", "cost": "180", "units": "1", "vat": "0", "amount": "180" },
-  //   { "serviceName": "Eye drop Test", "cost": "40", "units": "1", "vat": "0", "amount": "40" },
-  // ]
-
+  filteredListOfServices: any = [];
   fetchedListOfServices: any = [];
   mainServiceData: Array<any> = [];
   fetchedServicesDaya: Array<any> = [];
-  // fetchedListOfServices: any = [
-  //   { "serviceName": "Urine Test", "cost": "80", "units": "1", "vat": "0", "amount": "80" },
-  //   { "serviceName": "Blood Test", "cost": "90", "units": "1", "vat": "0", "amount": "90" },
-  //   { "serviceName": "Eye drop Test", "cost": "40", "units": "1", "vat": "0", "amount": "40" },
-  // ]
   selectedTest: any;
   closeResult: string;
+  timestamp1: any;
+  timestamp2: any;
+  disableIcons: boolean = true;
+  content: any;
   constructor(private fb: FormBuilder, private modalService: NgbModal,
     private patientService: PatientService, private loginService: LoginService,
     private _snackBar: MatSnackBar, private router: Router) { }
@@ -156,6 +143,19 @@ export class InvoicesComponent implements OnInit {
 
   }
 
+  printPage(id) {
+    if (this.disableIcons === true) {
+      this.disableIcons = false;
+    }
+
+    let prntPage = document.getElementById('content').innerHTML;
+    let originalContent = document.body.innerHTML;
+    document.body.innerHTML = prntPage;
+    window.print();
+    location.reload()
+
+  }
+
   callPaymentTransactions() {
     console.log(" called callPaymentTransactions method...");
     //alert("from payment txns ");
@@ -182,9 +182,14 @@ export class InvoicesComponent implements OnInit {
 
   //Patch Family History
   patchFetchedService(fetchedListOfServices) {
+    console.log(this.editServiceData.value);
+    for (let i = 0; i <= this.editServiceData.value.length - 1; i++) {
 
-    this.editServiceData.removeAt(this.editServiceData.value.length);
-    console.log(this.editServiceData.value.length = []);
+      this.editServiceData.removeAt(i);
+    }
+    //this.editServiceData.removeAt(this.editServiceData.value.length-1);
+    console.log(this.editServiceData.value);
+    console.log("fetched services data : ", fetchedListOfServices.length);
 
     for (let i: number = 0; i <= fetchedListOfServices.length - 1; i++) {
       this.editServiceData.push(
@@ -194,11 +199,11 @@ export class InvoicesComponent implements OnInit {
           cost: fetchedListOfServices[i].serviceNetCost,
           units: fetchedListOfServices[i].serviceUnit,
           vat: fetchedListOfServices[i].serviceVAT,
+          // amount: fetchedListOfServices[i].serviceGrossCost
           amount: fetchedListOfServices[i].serviceGrossCost
         })
       )
-    }
-    console.log(this.editServiceData.value);
+    } console.log(this.editServiceData.value);
 
   }
 
@@ -210,6 +215,7 @@ export class InvoicesComponent implements OnInit {
         if (res.response === 3) {
           this.loading = false;
           this.patients = res.patients;
+          this.filteredPatients = this.patients;
           console.log("patients data : ", this.patients);
         } else if (res.response === 0) {
           this.loading = false;
@@ -229,7 +235,7 @@ export class InvoicesComponent implements OnInit {
   get serviceData() {
     return <FormArray>this.addServiceForm.get('serviceHistory')
   }
-  
+
   get editServiceData() {
     return <FormArray>this.editServiceForm.get('editServiceHistory')
   }
@@ -293,48 +299,81 @@ export class InvoicesComponent implements OnInit {
       let totalValue: number = 0;
       this.editVat += parseFloat(this.editServiceData.value[i].vat);
       totalValue += parseFloat(this.editServiceData.value[i].amount);
-      numberValue += parseFloat(this.editServiceData.value[i].amount) 
-                      - parseFloat(this.editServiceData.value[i].vat);
+      numberValue = parseFloat(this.editServiceData.value[i].amount);
       this.editSubTotalAmount += numberValue;
-      this.editTotalAmount += totalValue ;
+      this.editTotalAmount += totalValue + parseFloat(this.editServiceData.value[i].vat);//+ this.editVat
       console.log(this.editSubTotalAmount);
+    }
+  }
 
-      // console.log("Service data : ", this.editServiceData.value[i]);
-      // let numberValue: number = 0;
-      // let totalValue: number = 0;
-      // this.editVat += parseInt(this.fetchedListOfServicesData[i].serviceVAT);
-      // totalValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost);
-      // numberValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost)
-      //               - parseInt(this.fetchedListOfServicesData[i].serviceVAT);
-      // this.editSubTotalAmount += numberValue;
-      // this.editTotalAmount += totalValue;
-      // console.log(this.editSubTotalAmount);
+  findText(term: string) {
+    this.invoicesData;
+    this.filteredInvoicesData;
+    if (!term) {
+      this.invoicesData = this.filteredInvoicesData;
+    } else {
+      this.invoicesData = this.filteredInvoicesData.filter(x =>
+        x.clientDetails.name.trim().toLowerCase().startsWith(term.trim().toLowerCase())
+      );
+    }
+  }
 
+  showData(letSearch: string) {
+    console.log("Print Value", letSearch);
+    if (letSearch == "All") {
+      //this.term = ""
+      this.invoicesData = this.filteredInvoicesData.filter(x =>
+        x.paymentStatus
+      );
+    } else {
+      //this.term = letSearch
+      this.invoicesData = this.filteredInvoicesData.filter(x =>
+        x.paymentStatus.trim().toLowerCase().startsWith(letSearch.trim().toLowerCase())
+      );
     }
   }
 
   searchService(term: string) {
     if (!term) {
-      this.listOfServices = this.listOfServices;
+      this.filteredListOfServices = this.listOfServices;
     } else {
-      this.listOfServices = this.listOfServices.filter(x =>
+      this.filteredListOfServices = this.listOfServices.filter(x =>
+        x.serviceName.trim().toLowerCase().includes(term.trim().toLowerCase())
+      );
+    }
+  }
+
+  searchService1(term: string) {
+    if (!term) {
+      this.filteredListOfServices = this.listOfServices;
+    } else {
+      this.filteredListOfServices = this.listOfServices.filter(x =>
         x.serviceName.trim().toLowerCase().includes(term.trim().toLowerCase())
       );
     }
   }
 
   selectServiceFromList(value: any) {
-    this.serviceData.at(this.indexValue).patchValue({
-      serviceID: value.serviceID,
-      serviceName: value.serviceName,
-      cost: value.serviceCost,
-      units: value.units,
-      vat: value.serviceVATPercent,
-      amount: parseInt(value.units) + parseInt(value.serviceVATPercent)
-    })
 
-    // this.editServiceData.at(this.indexValue).patchValue({
-    //   serviceID:value.serviceID,
+    console.log(value);
+    let index = -1
+    index = this.listOfServices.findIndex(val => {
+      return val.serviceName === value.serviceName
+    })
+    if (index != -1) {
+      this.listOfServices = this.listOfServices[index];
+      this.serviceData.at(this.indexValue).patchValue({
+        serviceID: value.serviceID,
+        serviceName: value.serviceName,
+        cost: value.serviceCost,
+        units: value.units,
+        vat: value.serviceVATPercent,
+        amount: parseInt(value.units) + parseInt(value.serviceVATPercent)
+      })
+    }
+
+    // this.serviceData.at(this.indexValue).patchValue({
+    //   serviceID: value.serviceID,
     //   serviceName: value.serviceName,
     //   cost: value.serviceCost,
     //   units: value.units,
@@ -342,11 +381,7 @@ export class InvoicesComponent implements OnInit {
     //   amount: parseInt(value.units) + parseInt(value.serviceVATPercent)
     // })
 
-
     console.log("After for total amount : ", this.subTotalAmount);
-
-    // this.subTotalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.amount, 10);
-    // this.totalAmount = this.subTotalAmount + parseInt(this.serviceData.at(this.indexValue).value.serviceCost, 10) / this.serviceData.value.vat;
   }
 
   selectServiceFromList1(value: any) {
@@ -383,27 +418,20 @@ export class InvoicesComponent implements OnInit {
       //this.modalService.dismissAll()
     }
   }
-  showData(letSearch: string) {
-    console.log("Print Value", letSearch);
-    if (letSearch == "All") {
-      this.term = ""
-    } else {
-      this.term = letSearch
-    }
-  }
+
 
   searchDoctor(term: string) {
     if (!term) {
-      this.patients = this.patients;
+      this.filteredPatients = this.patients;
     } else {
-      this.patients = this.patients.filter(x =>
+      this.filteredPatients = this.patients.filter(x =>
         x.firstName.trim().toLowerCase().includes(term.trim().toLowerCase())
       );
     }
   }
 
   openCreateInvoiceModal(viewCreateInvoiceContent) {
-    this.modalService.open(viewCreateInvoiceContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
+    this.modalService.open(viewCreateInvoiceContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.addServiceForm.reset();
     }, (reason) => {
@@ -418,7 +446,7 @@ export class InvoicesComponent implements OnInit {
     console.log("FetchedListOf", this.fetchedListOfServices);
     this.patchFamilyHistory(this.fetchedListOfServices)
 
-    this.modalService.open(viewContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
+    this.modalService.open(viewContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
 
     }, (reason) => {
@@ -436,62 +464,61 @@ export class InvoicesComponent implements OnInit {
       phoneNumber: selectedInvoicesData.clientDetails.phoneNumber.countryCode + " " + selectedInvoicesData.clientDetails.phoneNumber.phoneNumber,
       address: selectedInvoicesData.clientDetails.address
     });
-    var timestamp = selectedInvoicesData.invoiceIssueDate; // replace your timestamp
-    var date1 = new Date(timestamp * 1000);
+    this.timestamp1 = selectedInvoicesData.invoiceIssueDate; // replace your timestamp
+    var date1 = new Date(this.timestamp1 * 1000);
     this.dateToShow = ('0' + date1.getFullYear()).slice(-2) + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + date1.getDate();
 
-    var timestamp = selectedInvoicesData.invoicePaymentDueDate; // replace your timestamp
-    var date1 = new Date(timestamp * 1000);
+    this.timestamp2 = selectedInvoicesData.invoicePaymentDueDate; // replace your timestamp
+    var date1 = new Date(this.timestamp2 * 1000);
     this.dateToShow2 = ('0' + date1.getFullYear()).slice(-2) + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + date1.getDate();
 
     this.editSelectDatesForm.patchValue({
       invoiceNumber: selectedInvoicesData.invoiceNumber,
-      //invoiceDate: selectedInvoicesData.invoiceIssueDate,
-      //paymentDueDate: selectedInvoicesData.invoicePaymentDueDate
     });
 
     this.fetchedListOfServicesData = selectedInvoicesData.serviceItems;
     console.log(this.fetchedListOfServicesData);
     this.patchFetchedService(this.fetchedListOfServicesData)
-
+    this.editSubTotalAmount = 0;
+    this.editTotalAmount = 0;
+    this.editVat = 0;
     for (let i = 0; i <= this.fetchedListOfServicesData.length - 1; i++) {
       console.log("Service data : ", this.fetchedListOfServicesData[i]);
       let numberValue: number = 0;
       let totalValue: number = 0;
       this.editVat += parseInt(this.fetchedListOfServicesData[i].serviceVAT);
-      totalValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost);
-      numberValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost)
-                    - parseInt(this.fetchedListOfServicesData[i].serviceVAT);
+      totalValue += parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost);
+      numberValue = parseFloat(this.fetchedListOfServicesData[i].serviceGrossCost);
       this.editSubTotalAmount += numberValue;
-      this.editTotalAmount += totalValue;
-      console.log(this.editSubTotalAmount);
+      this.editTotalAmount += totalValue + parseInt(this.fetchedListOfServicesData[i].serviceVAT);
     }
 
-    this.modalService.open(editContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg" }).result.then((result) => {
+    console.log("Edit Total Amount : ", this.editTotalAmount);
+
+
+    this.modalService.open(editContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "lg", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-      //this.editServiceData.value.length = []
-      //console.log(this.editServiceData.value.length = 0);
-      for(let i=-1; i<=this.editServiceData.value.length-1; i++ ){
-        this.removeService1(this.editServiceData.value[i]) 
+      for (let i = 0; i <= this.editServiceData.value.length - 1; i++) {
+        this.removeService1(this.editServiceData.value[i])
         console.log(this.editServiceData.value.length);
       }
       console.log(this.editServiceData.value.length);
-      
+
       this.editServiceForm.reset();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.editServiceForm.reset();
-      // this.editServiceData.value.length = []
-      // console.log(this.editServiceData.value.length = 0);
-    
-      for(let i=-1; i<=this.editServiceData.value.length-1; i++ ){
-        this.removeService1(this.editServiceData.value[i]) 
+      for (let i = 0; i <= this.editServiceData.value.length - 1; i++) {
+        this.removeService1(this.editServiceData.value[i])
         console.log(this.editServiceData.value.length);
       }
+      console.log(this.editServiceData.value.length);
+
+      this.editServiceForm.reset();
     });
   }
 
   sendInvoiceToClient(selectedInvoicesData) {
+    this.isLoading = true;
     console.log("the invoice data to send : " + selectedInvoicesData.clientDetails.emailID);
     let objDataToSend = {
       "byWhom": "admin",
@@ -505,12 +532,14 @@ export class InvoicesComponent implements OnInit {
         (res) => {
           console.log("res for send invoices data  : ", res)
           if (res.response === 3) {
+            this.isLoading = false;
             this.loading = false;
             console.log("send invoice success response : ", res.response);
-            this.openSnackBar(res.message, "");
+            this.openSnackBar(res.message, "");//+" to ",selectedInvoicesData.clientDetails.name
             this.modalService.dismissAll();
           }
           else if (res.response === 0) {
+            this.isLoading = false;
             this.loading = false;
             console.log("send invoice failure response : ", res.response);
             this.openSnackBar1(res.message, "");
@@ -518,17 +547,20 @@ export class InvoicesComponent implements OnInit {
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
+            this.isLoading = false;
             this.loading = false;
             console.log("Client Side Error")
           } else {
+            this.isLoading = false;
             this.loading = false;
             console.log(err)
           }
         })
   }
 
-  sendReminderToClient(selectedInvoicesData){
+  sendReminderToClient(selectedInvoicesData) {
     console.log("the invoice data to send reminder : " + selectedInvoicesData.clientDetails.emailID);
+    this.isLoading = true;
     let objDataToSendReminder = {
       "byWhom": "admin",
       "byWhomID": this.signObj.hospitalAdmin.userID,
@@ -541,12 +573,14 @@ export class InvoicesComponent implements OnInit {
         (res) => {
           console.log("res for send invoices reminder data  : ", res)
           if (res.response === 3) {
+            this.isLoading = false;
             this.loading = false;
             console.log("send invoice reminder success response : ", res.response);
             this.openSnackBar(res.message, "");
             this.modalService.dismissAll();
           }
           else if (res.response === 0) {
+            this.isLoading = false;
             this.loading = false;
             console.log("send invoice reminder failure response : ", res.response);
             this.openSnackBar1(res.message, "");
@@ -554,9 +588,11 @@ export class InvoicesComponent implements OnInit {
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
+            this.isLoading = false;
             this.loading = false;
             console.log("Client Side Error")
           } else {
+            this.isLoading = false;
             this.loading = false;
             console.log(err)
           }
@@ -566,17 +602,17 @@ export class InvoicesComponent implements OnInit {
   openSendInvoiceModal(sendInvoiceContent, selectedInvoicesData) {
     console.log("the invoice data to send : " + selectedInvoicesData.clientDetails.emailID);
 
-    this.modalService.open(sendInvoiceContent, { centered: true, size: "md" })
+    this.modalService.open(sendInvoiceContent, { centered: true, size: "md", backdrop: false })
   }
 
   //Delete Modal
   openDeleteModal(deleteContent, selectedInvoicesData) {
-    this.modalService.open(deleteContent, { centered: true, size: "md" })
+    this.modalService.open(deleteContent, { centered: true, size: "md", backdrop: false })
   }
 
   //Send Reminder Modal
-  openSendReminderModal(sendReminderContent,selectedInvoicesData) {
-    this.modalService.open(sendReminderContent, { centered: true, size: "md" })
+  openSendReminderModal(sendReminderContent, selectedInvoicesData) {
+    this.modalService.open(sendReminderContent, { centered: true, size: "md", backdrop: false })
   }
 
   //Open ServicesList Model
@@ -584,7 +620,7 @@ export class InvoicesComponent implements OnInit {
     this.indexValue = index;
     console.log("the index value : ", this.indexValue);
 
-    this.modalService.open(serviceModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
+    this.modalService.open(serviceModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -631,21 +667,24 @@ export class InvoicesComponent implements OnInit {
   }
   calculateAmount11() {
     console.log("cost data : ", this.editServiceData.at(this.indexValue));
-    let calculatedAmount: Number = this.editServiceData.at(this.indexValue).value.cost * 
-    this.editServiceData.at(this.indexValue).value.units ;
+    let calculatedAmount: Number = this.editServiceData.at(this.indexValue).value.cost *
+      this.editServiceData.at(this.indexValue).value.units;
     // + parseInt(this.editServiceData.at(this.indexValue).value.vat);;
     console.log("the Amount value is : ", calculatedAmount);
     this.editServiceData.at(this.indexValue).patchValue({
       amount: "" + calculatedAmount
     })
     this.editSubTotalAmount = this.editSubTotalAmount +
-     parseInt(this.editServiceData.at(this.indexValue).value.amount, 10);
+      parseInt(this.editServiceData.at(this.indexValue).value.amount, 10);
     this.editTotalAmount = this.editSubTotalAmount + this.editVat;
 
   }
   calculateAmount12() {
-    let calculatedAmount: Number = this.editServiceData.at(this.indexValue).value.cost *
-     this.editServiceData.at(this.indexValue).value.units;
+    // let calculatedAmount: Number = this.editServiceData.at(this.indexValue).value.cost *
+    //  this.editServiceData.at(this.indexValue).value.units;
+    let calculatedAmount: number = this.editServiceData.at(this.indexValue).value.cost *
+      this.editServiceData.at(this.indexValue).value.units +
+      parseInt(this.editServiceData.at(this.indexValue).value.vat);
     console.log("the Amount value is : ", calculatedAmount);
     this.editServiceData.at(this.indexValue).patchValue({
       amount: "" + calculatedAmount
@@ -660,28 +699,21 @@ export class InvoicesComponent implements OnInit {
       let totalValue: number = 0;
       this.editVat += parseFloat(this.editServiceData.value[i].vat);
       totalValue += parseFloat(this.editServiceData.value[i].amount);
-      numberValue =  parseFloat(this.editServiceData.value[i].amount) - parseFloat(this.editServiceData.value[i].vat);
+      numberValue = parseFloat(this.editServiceData.value[i].amount);
       //numberValue += parseFloat(this.editServiceData.value[i].amount);
 
       this.editSubTotalAmount += numberValue;
-      this.editTotalAmount += totalValue ;//+ this.editVat
+      this.editTotalAmount += totalValue + parseFloat(this.editServiceData.value[i].vat);//+ this.editVat
       console.log(this.editSubTotalAmount);
     }
-    console.log(this.editSubTotalAmount);
+    var editTotalAmountValue: any = (Math.round(this.editTotalAmount * 100) / 100).toFixed(2);
+    this.editTotalAmount = editTotalAmountValue;
+    console.log((Math.round(this.editTotalAmount * 100) / 100).toFixed(2));
   }
-
-  // onSearchChange(searchValue: string): void {
-  //   console.log("keyup value height : ", searchValue);
-  //   this.calculateAmount();
-  // }
   onSearchChange1(searchValue: string): void {
     console.log("keyup value weight : ", searchValue);
     this.calculateAmount1();
   }
-  // onSearchChange11(searchValue: string): void {
-  //   console.log("keyup value height : ", searchValue);
-  //   this.calculateAmount();
-  // }
   onSearchChange12(searchValue: string): void {
     console.log("keyup value weight : ", searchValue);
     this.calculateAmount12();
@@ -700,6 +732,7 @@ export class InvoicesComponent implements OnInit {
           if (res.response === 3) {
             this.loading = false;
             this.listOfServices = res.services;
+            this.filteredListOfServices = res.services;
           }
           else if (res.response === 0) {
             this.loading = false;
@@ -730,6 +763,7 @@ export class InvoicesComponent implements OnInit {
           if (res.response === 3) {
             this.loading = false;
             this.invoicesData = res.invoices;
+            this.filteredInvoicesData = this.invoicesData;
           }
           else if (res.response === 0) {
             this.loading = false;
@@ -748,7 +782,7 @@ export class InvoicesComponent implements OnInit {
 
   deleteInvoiceMethod(selectedInvoicesData) {
     console.log(selectedInvoicesData.invoiceNumber);
-
+    this.isLoading = true;
     let deleteInvoiceObjData = {
       "byWhom": "admin",
       "byWhomID": this.signObj.hospitalAdmin.userID,
@@ -760,12 +794,15 @@ export class InvoicesComponent implements OnInit {
         (res) => {
           console.log("res for delete invoices data  : ", res)
           if (res.response === 3) {
+            this.fetchInvoicesData();
+            this.isLoading = false;
             this.loading = false;
             console.log("delete invoice success response : ", res.response);
             this.openSnackBar(res.message, "");
             this.modalService.dismissAll();
           }
           else if (res.response === 0) {
+            this.isLoading = false;
             this.loading = false;
             console.log("delete invoice failure response : ", res.response);
             this.openSnackBar1(res.message, "");
@@ -773,9 +810,11 @@ export class InvoicesComponent implements OnInit {
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
+            this.isLoading = false;
             this.loading = false;
             console.log("Client Side Error")
           } else {
+            this.isLoading = false;
             this.loading = false;
             console.log(err)
           }
@@ -783,7 +822,7 @@ export class InvoicesComponent implements OnInit {
   }
 
   addInvoiceSubmit() {
-    //this.isLoading = true;
+    this.isLoading = true;
     console.log("payload data : ", this.addServiceForm.value.serviceHistory);
 
     let payLoad = this.addServiceForm.value.serviceHistory;
@@ -846,13 +885,15 @@ export class InvoicesComponent implements OnInit {
         (res) => {
           console.log("res from add invoice  : ", res)
           if (res.response === 3) {
+            this.isLoading = false;
             this.loading = false;
             this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
             console.log(res.response);
-
+            this.fetchInvoicesData();
           }
           else if (res.response === 0) {
+            this.isLoading = false;
             this.loading = false;
             this.openSnackBar1(res.message, "");
             console.log(res.response);
@@ -860,9 +901,11 @@ export class InvoicesComponent implements OnInit {
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
+            this.isLoading = false;
             this.loading = false;
             console.log("Client Side Error")
           } else {
+            this.isLoading = false;
             this.loading = false;
             console.log(err)
           }
@@ -870,7 +913,7 @@ export class InvoicesComponent implements OnInit {
   }
 
   updateInvoiceSubmit() {
-    //this.isLoading = true;
+    this.isLoading = true;
     console.log("payload data : ", this.editServiceForm.value.editServiceHistory);
 
     let payLoad = this.editServiceForm.value.editServiceHistory;
@@ -894,14 +937,16 @@ export class InvoicesComponent implements OnInit {
     let myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     var dateAr = myDate.toLocaleDateString().split('/');
     var newDate = dateAr[2] + '/' + dateAr[0] + '/' + dateAr[1];
-    var invoiceDate = new Date(newDate).getTime() / 1000;
+    var invoiceDate = new Date(newDate).getTime() / 1000 || this.timestamp1;
     let ngbDate1 = this.editSelectDatesForm.controls['paymentDueDate'].value;
     let myDate1 = new Date(ngbDate1.year, ngbDate1.month - 1, ngbDate1.day);
     var dateAr1 = myDate1.toLocaleDateString().split('/');
     var newDate1 = dateAr1[2] + '/' + dateAr1[0] + '/' + dateAr1[1];
-    var paymentDueDate = new Date(newDate1).getTime() / 1000;
+    var paymentDueDate = new Date(newDate1).getTime() / 1000 || this.timestamp2;
 
     console.log("invoice date is : ", invoiceDate, paymentDueDate);
+    console.log("invoice & payment dates without calender : " + this.timestamp1, this.timestamp2);
+
     console.log("total amount is : ", this.editSubTotalAmount);
 
     let phoneNumber = payLoad2.phoneNumber.split(" ");
@@ -935,13 +980,15 @@ export class InvoicesComponent implements OnInit {
         (res) => {
           console.log("res from update invoice  : ", res)
           if (res.response === 3) {
+            this.isLoading = false;
             this.loading = false;
             this.modalService.dismissAll();
             this.openSnackBar(res.message, "");
             console.log(res.response);
-
+            this.fetchInvoicesData();
           }
           else if (res.response === 0) {
+            this.isLoading = false;
             this.loading = false;
             this.openSnackBar1(res.message, "");
             console.log(res.response);
@@ -949,9 +996,11 @@ export class InvoicesComponent implements OnInit {
         },
         (err: HttpErrorResponse) => {
           if (err.error instanceof Error) {
+            this.isLoading = false;
             this.loading = false;
             console.log("Client Side Error")
           } else {
+            this.isLoading = false;
             this.loading = false;
             console.log(err)
           }
@@ -960,7 +1009,7 @@ export class InvoicesComponent implements OnInit {
 
   //Open PatientsList Model
   openPatientMethod(patientsModel) {
-    this.modalService.open(patientsModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then(
+    this.modalService.open(patientsModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
       }, (reason) => {
@@ -996,19 +1045,20 @@ export class InvoicesComponent implements OnInit {
   //Mat Snack Bar
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
+      panelClass: ['theme-snackbar'],
       duration: 5000,
-      verticalPosition: 'bottom', // 'top' | 'bottom'
-      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
-    })
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
   }
 
   //Mat Snack Bar
   openSnackBar1(message: string, action: string) {
     this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
       duration: 5000,
-      verticalPosition: 'bottom', // 'top' | 'bottom'
-      horizontalPosition: 'right',
-      panelClass: ['red-snackbar']
-    })
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
   }
 }

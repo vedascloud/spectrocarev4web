@@ -1,11 +1,7 @@
 <div class="container-fluid">
-
     <header class="w-100 p-3 ">
         <nav class="navbar navbar-expand-lg navbar-light d-flex w-100 p-0 ">
-            <!-- <h1 class="navbar-brand text-white  ml-5">SpectroCare</h1> -->
-
             <h1 class="logo-text ">
-                <!--style="letter-spacing: 3px;"-->
                 Spectro<span class="logo-highlight">Care</span>
             </h1>
             <div class="collapse navbar-collapse justify-content-end mr-5" id="navbarNavDropdown">
@@ -19,10 +15,6 @@
                         <button class="btn btn-sm text-white text-uppercase"
                             [routerLink]="['/medicalpersonnelsignup']">Medical Personnel</button>
                     </li>
-                    <li class="nav-item p-0 mx-1">
-                        <button class="btn btn-sm text-white text-uppercase"
-                            [routerLink]="['/medicalpersonnelsignup']">Patient</button>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -30,7 +22,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="signupForm example-container">
+            <div class="signupForm example-container" style="padding-bottom: 60px;">
                 <form [formGroup]="adminSignUpForm" (ngSubmit)="adminSignUp()" autocomplete="off">
                     <div class="col-md-4 align-self-center text-center m-auto">
                         <div formGroupName="hospitalAdmin">
@@ -38,8 +30,8 @@
                             <div class="justify-content-center" style="text-align: -webkit-center;">
                                 <div style="border-radius: 50% !important;width: 100px;height: 100px;">
                                     <img class="upload" (click)="fileInput.click()"
-                                        style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 50px;min-height: 50px;max-height: 100px;max-width: 100px;width: 100px;height: 100px;"
-                                        src="{{previewImg}}">
+                                        style="border: 2px solid rgb(150, 211, 235);border-radius: 50%;min-width: 50px;
+                                        min-height: 50px;max-height: 100px;max-width: 100px;width: 100px;height: 100px;" src="{{previewImg}}">
 
                                 </div>
                                 <div class="container">
@@ -71,20 +63,22 @@
                                 <label class="numberLabel">Identity *</label>
                             </div>
 
-                            <div class="row radio-item pb-2">
+                            <div class="row radio-item pb-2" style="padding-left: 5px;">
                                 <div class="col-6" style="padding-left: 0;margin: inherit;">
-                                    <label class="radio-inline" style="font-size: 14px;font-weight: 600 ;color: #9a9a9b;letter-spacing: 0.5px;">
-                                      <input type="radio" name="identity" value="System Manager" checked="checked" 
-                                        formControlName="identity"> &nbsp; System Manager
+                                    <label class="radio-inline"
+                                        style="font-size: 14px;font-weight: 600 ;color: #9a9a9b;letter-spacing: 0.5px;">
+                                        <input type="radio" name="identity" value="System Manager" checked="checked"
+                                            formControlName="identity"> &nbsp; System Manager
                                     </label>
-                                  </div>
-                      
-                                  <div class="col-6" style="padding-left: 0;margin: inherit;">
-                                    <label class="radio-inline" style="font-size: 14px;font-weight: 600 ;color: #9a9a9b;letter-spacing: 0.5px;">
-                                      <input type="radio" name="identity" value="General" 
-                                      formControlName="identity">&nbsp; General
+                                </div>
+
+                                <div class="col-6" style="padding-left: 0;margin: inherit;">
+                                    <label class="radio-inline"
+                                        style="font-size: 14px;font-weight: 600 ;color: #9a9a9b;letter-spacing: 0.5px;">
+                                        <input type="radio" name="identity" value="General"
+                                            formControlName="identity">&nbsp; General
                                     </label>
-                                  </div>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -153,17 +147,18 @@
 
                             <div class="pb-2">
                                 <label class="numberLabel">Phone Number</label>
-                                <ngx-intl-tel-input class="text-white" [cssClass]="'custom'"
-                                    [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="false"
-                                    [enablePlaceholder]="false" [searchCountryFlag]="true"
-                                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                                    [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India"
-                                    [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true"
-                                    [separateDialCode]="separateDialCode" name="phone" formControlName="checkPhone">
-
-                                </ngx-intl-tel-input>
+                                <div class="phno">
+                                    <ngx-intl-tel-input class="text-white adminSignupPh" [cssClass]="'custom'"
+                                        [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="false"
+                                        [enablePlaceholder]="false" [searchCountryFlag]="true"
+                                        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                        [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India"
+                                        [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true"
+                                        [separateDialCode]="separateDialCode" name="phone" formControlName="checkPhone">
+                                    </ngx-intl-tel-input>
+                                </div>
                                 <div *ngIf="adminSignUpForm.get('hospitalAdmin.checkPhone').touched && adminSignUpForm.get('hospitalAdmin.checkPhone').dirty && adminSignUpForm.get('hospitalAdmin.checkPhone').hasError('required')"
-                                    style="color: #f44336;;font-size: 75%;">
+                                    style="color: #f44336;;font-size: 75%;text-align: start;">
                                     Phone Number is required.
                                 </div>
                             </div>
@@ -238,17 +233,18 @@
 
                             <div class="pb-2">
                                 <label class="numberLabel">Phone Number</label>
-                                <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
-                                    [enableAutoCountrySelect]="false" [enablePlaceholder]="false"
-                                    [searchCountryFlag]="true"
-                                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
-                                    [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India"
-                                    [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true"
-                                    [separateDialCode]="separateDialCode" name="phone" formControlName="checkPhone">
-
-                                </ngx-intl-tel-input>
+                                <div class="phno">
+                                    <ngx-intl-tel-input class="adminSignupPh" [cssClass]="'custom'"
+                                        [preferredCountries]="preferredCountries" [enableAutoCountrySelect]="false"
+                                        [enablePlaceholder]="false" [searchCountryFlag]="true"
+                                        [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                        [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India"
+                                        [maxLength]="15" [tooltipField]="TooltipLabel.Name" [phoneValidation]="true"
+                                        [separateDialCode]="separateDialCode" name="phone" formControlName="checkPhone">
+                                    </ngx-intl-tel-input>
+                                </div>
                                 <div *ngIf="adminSignUpForm.get('hospitalInformation.checkPhone').touched && adminSignUpForm.get('hospitalInformation.checkPhone').dirty && adminSignUpForm.get('hospitalInformation.checkPhone').hasError('required')"
-                                    style="color: #f44336;;font-size: 75%;">
+                                    style="color: #f44336;;font-size: 75%;text-align: start;">
                                     Phone Number is required.
                                 </div>
                             </div>
@@ -287,38 +283,35 @@
                                     Country is required.
                                 </mat-error>
                             </mat-form-field>
-                            <mat-checkbox class="text-white">
-                                <span style="font-size: 15px;">I accept the <a class="nextPage"
-                                        (click)="openTerms(content)">terms of
-                                        conditions</a>
-                                    &
-                                    <a class="nextPage" (click)="openPrivacyPolicy(content1)">privacy
-                                        policy</a>
-                                </span>
+                            <mat-checkbox class="" style="" formControlName="isChecked">
                             </mat-checkbox>
-                            <!-- <mat-checkbox class="text-white">
-                                <span style="font-size: 15px;">I accept the                                    
-                                        <a class="nextPage"  (click)="openPrivacyPolicy(content1)">privacy
-                                        policy</a>
-                                    </span>
-                            </mat-checkbox> -->
-                            <!-- <div *ngIf="isLoading" style="display: flex; justify-content: center;">
-                                <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
-                                    [diameter]="30">
-                                </mat-progress-spinner>
-                            </div> -->
+                            <span style="font-weight: 500;color: #AFAEAE;font-size: 14px;">
+                                I accept the
+                            </span>
+                            <a class="nextPage"
+                                style="font-size: 14px; font-weight: bold;color: #12b2f9;cursor: pointer;"
+                                (click)="openTerms(content)">Terms of
+                                conditions
+                            </a>
+                            <span style="font-size: 14px;font-weight: 500;">&nbsp;& &nbsp;</span>
+                            <a class="nextPage"
+                                style="font-size: 14px; font-weight: bold;color: #12b2f9;cursor: pointer;"
+                                (click)="openPrivacyPolicy(content1)">Privacy
+                                policy
+                            </a>
 
-                            <button class="loginbtn btn mb-3 mt-3"  (click)="hideButton()"
+                            <button class="loginbtn btn mb-3 mt-3" (click)="hideButton()"
                                 style="letter-spacing: 1px; outline-style: none;background-color: #53B9C6 !important;">SIGN
                                 UP</button>
-                            <!---->
-                            <!--[disabled]="!adminSignUpForm.valid" [disabled]="adminSignUpForm.invalid"-->
-                            <div class="row  p-2 justify-content-center">
-                                <span (click)="signUp()">
-                                    <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
-                                    Already have an account?
-                                    <a class="nextPage"> LOGIN</a>
+
+                            <div class="row  p-2 ml-5">
+                                <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
+                                <span style="font-weight: 500;color: white;font-size: 14px;">
+                                    Already have an account? &nbsp;
                                 </span>
+                                <a (click)="signUp()"
+                                    style="font-size: 14px; font-weight: bold;color: #12b2f9;cursor: pointer;">LOGIN</a>
+
                             </div>
                         </div>
                     </div>
@@ -334,8 +327,8 @@
     <div class="modal-header p-2  justify-content-between" style="background-color: white;">
         <p class="modal-title justify-content-start pl-5" id="modal-basic-title">SpectroCare Terms of Conditions</p>
         <div class="matIcon pr-3">
-            <mat-icon class="handcursor" (click)="modal.dismiss('Cross click')">cancel</mat-icon>
-        </div>
+            <img style="width:26px;cursor: pointer;" class="crossImg" (click)="modal.dismiss('Cross click')"
+                src="../../../assets/images/ui/Icons/1x/cancel.png"></div>
     </div>
     <div class="modal-body  px-5">
         <div class="scroll container p-4" style="background-color: #F8FCFD!important;">
@@ -633,32 +626,15 @@
             </div>
         </div>
     </div>
-    <!-- <div class="modal-footer justify-content-center p-1 ">
-       
-        <div>
-            <div class="row justify-content-center mb-1" *ngIf="!isButton">
-                <button class="mdbtn btn btn-sm w-100 "  
-                (click)="changeBtn()" >I have read & accept the terms & conditions</button>
-            </div> 
-            <div class="row justify-content-center mb-1" *ngIf="isButton">
-                <button class="mdbtn btn"  style="height: 37px;width: 330px; background-color: #53B9C6; border-radius: 40px; font-weight: 500;font-size: medium;"
-                (click)="modal.close('Close click')" ><img src="../../../assets/images/ui/Icons/check.png" width="40px" style="margin-top: -7px;"></button>
-            </div> 
-           <div class="row justify-content-center">
-            <button  class="mdclbtn btn btn-sm w-25"
-            style="border-radius: 40px;font-weight: 500;font-size: medium;"
-            (click)="modal.close('Close click')">Cancel</button> 
-           </div>
-        </div>
-          
-    </div> -->
+
 </ng-template>
 
 <ng-template #content1 let-modal>
     <div class="modal-header p-2  justify-content-between" style="background-color: white; color: black;">
         <h5 class="modal-title justify-content-start pl-5 " id="modal-basic-title">SpectroCare Privacy policy</h5>
         <div class="matIcon pr-3">
-            <mat-icon class="handcursor" (click)="modal.dismiss('Cross click')">cancel</mat-icon>
+            <img style="width:26px;cursor: pointer;" class="crossImg" (click)="modal.dismiss('Cross click')"
+                src="../../../assets/images/ui/Icons/1x/cancel.png">
         </div>
     </div>
     <div class="modal-body  p-3">
@@ -1069,23 +1045,56 @@
             </div>
         </div>
     </div>
-    <!-- <div class="modal-footer justify-content-center p-1 " style="display:flex;">
-        <div>
-            <div class="row justify-content-center mb-1" *ngIf="!isButton">
-                <button class="mdbtn btn btn-sm  w-100 "  
-                (click)="changeBtn()" >I have read & accept the privacy policy</button>
-            </div> 
-            <div class="row justify-content-center mb-1" *ngIf="isButton">
-                <button class="mdbtn btn"  style="height: 37px;width: 300px; background-color: #53B9C6; border-radius: 40px; font-weight: 500;font-size: medium;"
-                (click)="modal.close('Close click')" ><img src="../../../assets/images/ui/Icons/check.png" width="40px" style="margin-top: -7px;"></button>
-            </div> 
-           <div class="row justify-content-center">
-            <button  class="mdclbtn btn btn-sm w-25"
-            style="border-radius: 40px;font-weight: 500;font-size: medium;"
-            (click)="modal.close('Close click')">Cancel</button> 
-           </div>
+</ng-template>
+
+<ng-template #viewSuccessContent let-modal>
+    <div class="modal-body">
+
+        <div style=" background-color: whitesmoke;">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center"
+                style="font-family:Lato; table-layout: fixed; margin: 10px auto; max-width: 700px;height: 60vh; background-color: white;">
+                <tr>
+                    <td style="padding: 40px 30px 40px 30px">
+                        <table class="content" width="100%" border="0" cellspacing="0" cellpadding="0" align="center"
+                            style="table-layout: fixed;  max-width: 700px;">
+                            <tr style="text-align: start;padding: 15px 30px 15px 30px;">
+                                <div style="text-align: center;padding: 15px 0 15px 0;font-weight: 600;
+                                        font-size: x-large;
+                                        color: #6CC1CC;white-space: nowrap;">Thanks for Signing up!
+                                </div>
+                                <div
+                                    style="text-align: center;padding: 15px ;font-size:20px; font-weight: 500;color:#090505">
+                                    Your account has been created and we have sent a verification
+                                    email to your registered email. Please check your inbox and click
+                                    on the verification link to active your account.
+                                </div>
+                                <div
+                                    style="text-align: center;padding: 15px;font-weight: bold;font-size: 22px;color:#3E454C">
+                                    Return to <a href="https://www.google.com/"
+                                        style="color: #6CC1CC;text-decoration:none">Sign in</a>
+                                </div>
+
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
         </div>
-       
-           
-    </div> -->
+    </div>
+</ng-template>
+<ng-template #viewFailureContent let-modal>
+    <div class="modal-header p-2  justify-content-end"
+        style="background-color:white; color: mintcream;border-bottom: transparent;">
+        <div class="matIcon pr-3">
+            <mat-icon (click)="modal.dismiss('Cross click')" style="cursor: pointer;"><img
+                    src="../../../assets/images/ui/Icons/1x/cancel.png"></mat-icon>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="" style="text-align: center;padding: 17px 0px 17px 0;">
+            <img src="../../../assets/images/ui/Icons/1x/adminfail.png" style="width: 25%;padding-bottom: 17px;"><br>
+            <div style="font-size: 14px;font-weight: 600;">{{viewFailureContent1}}</div><br>
+        </div>
+    </div>
 </ng-template>

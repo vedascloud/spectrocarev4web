@@ -37,7 +37,7 @@ export class AdminsignupComponent implements OnInit {
   isPassword: boolean = true;
   isPasswordOne: boolean = true;
   isLoading: boolean = false;
-  isButton:boolean = false;
+  isButton: boolean = false;
 
   gender = [
     { value: 'Male', viewValue: 'Male' },
@@ -45,18 +45,24 @@ export class AdminsignupComponent implements OnInit {
   ];
 
   departments = [
-    { value: 'Administrative', viewValue: 'Administrative' },    
+    { value: 'Administrative', viewValue: 'Administrative' },
     { value: 'Reception', viewValue: 'Reception' },
     { value: 'Pharmacy', viewValue: 'Pharmacy' },
     { value: 'Admissions', viewValue: 'Admissions' },
     { value: 'Cardiology', viewValue: 'Cardiology' }
   ];
 
+  viewSuccessContent1: string = "Registration mail has been successfully sent.";
+  viewFailureContent1: string = "Registration Failed!";
+  viewSuccessContent2: string = " Please check your email.";
+  viewFailureContent2: string = "Your password has not been changed.";
   @ViewChild('fileInput', { static: true }) el: ElementRef;
+  @ViewChild('viewSuccessContent', { static: true }) modalSuccessExample: ElementRef<any>;
+  @ViewChild('viewFailureContent', { static: true }) modalFailureExample: ElementRef<any>;
   // @ViewChild('phoneCode',{static:true}) phoneCodeElement:ElementRef;
   // @ViewChild('container-fluid',{static:true}) scrollElement:ElementRef;
   constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService,
-     private _snackBar: MatSnackBar,
+    private _snackBar: MatSnackBar,
     private modalService: NgbModal, private cd: ChangeDetectorRef, private http: HttpClient) { }
 
   ngOnInit() {
@@ -77,6 +83,7 @@ export class AdminsignupComponent implements OnInit {
           phoneNumber: [''],
         }),
         checkPhone: ['', [Validators.required]],
+        isChecked: ['']
       }),
       hospitalAdmin: this.fb.group({
         userID: ['', [Validators.required]],//,Validators.minLength(4),Validators.maxLength(8)
@@ -93,7 +100,7 @@ export class AdminsignupComponent implements OnInit {
         emailID: ['', [Validators.required, Validators.email]],
         preferLanguage: ['English'],
         department: ['', [Validators.required]],
-        identity:['',[Validators.required]]
+        identity: ['', [Validators.required]]
       }, {
         validators: this.passwordConfirming
       }
@@ -188,19 +195,26 @@ export class AdminsignupComponent implements OnInit {
 
   //Mat Snack Bar
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 5000, panelClass: ['theme-snackbar'] })
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
   }
-
-  //Mat Snack Bar
   openSnackBar1(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 5000, panelClass: ['red-snackbar'] })
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
   }
 
-  hideButton(){
-    this.isButton=true;
+  hideButton() {
+    this.isButton = true;
   }
   adminSignUp() {
-   // this.hideButton();
+    // this.hideButton();
     this.isLoading = true;
     let countryCode1 = this.adminSignUpForm.get(["hospitalInformation", "checkPhone"]).value;
     console.log("CountryDetails 1 :", countryCode1);
@@ -233,6 +247,7 @@ export class AdminsignupComponent implements OnInit {
     //delete payLoad.hospitalAdmin.gender;
     delete payLoad.profilePic;
     delete payLoad.hospitalAdmin.confirmPassword;
+    delete payLoad.hospitalInformation.isChecked;
     console.log("Admin Signup Req Data After payload : ", payLoad)
     let formData = new FormData()
     formData.append("hospitalData", JSON.stringify(payLoad));
@@ -243,17 +258,21 @@ export class AdminsignupComponent implements OnInit {
       if (posRes.response === 3) {
         this.isLoading = false;
         this.openSnackBar(posRes.message, "");
+        this.modalService.open(this.modalSuccessExample)
+        //openSuccessResponse(successResponse)
         //alert(posRes.message)
         this.router.navigateByUrl('/administrator')
       }
       else if (posRes.response === 5) {
         this.isLoading = false;
         this.openSnackBar1(posRes.message, "");
+        this.modalService.open(this.modalFailureExample)
         //alert(posRes.message);
       }
       else {
         this.isLoading = false;
         this.openSnackBar1(posRes.message, "");
+        this.modalService.open(this.modalFailureExample)
         //alert(posRes.message)
       }
     },
@@ -283,7 +302,7 @@ export class AdminsignupComponent implements OnInit {
 
   openTerms(content) {
     this.isButton = false;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'xl' }).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'xl', backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -292,11 +311,26 @@ export class AdminsignupComponent implements OnInit {
 
   openPrivacyPolicy(content1) {
     this.isButton = false;
-    this.modalService.open(content1, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'xl' }).result.then(
+    this.modalService.open(content1, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'xl', backdrop: false }).result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
-      }, 
+      },
       (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+  }
+
+  viewSuccessMethod(viewSuccessContent) {
+    this.modalService.open(viewSuccessContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md" }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  viewFailureMethod(viewFailureContent) {
+    this.modalService.open(viewFailureContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm" }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
@@ -319,7 +353,7 @@ export class AdminsignupComponent implements OnInit {
     this.title = 'Administrator'
   }
 
-  changeBtn(){
-    this.isButton=true
+  changeBtn() {
+    this.isButton = true
   }
 }

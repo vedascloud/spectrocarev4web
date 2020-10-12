@@ -21,34 +21,34 @@ export class PatientService {
       "hospital_reg_num": data.hospital_reg_num,
     }
     console.log("Req For Fetch All Patient for hospital from Patient Service : ", options)
-    return this._http.post("http://3.92.226.247:3000/api/hospital/getpatients", options, { headers: { 'x-access-token': access_token } });
+    return this._http.post("http://34.199.165.142:3000/api/hospital/getpatients", options, { headers: { 'x-access-token': access_token } });
   }
 
   //Fetch Patient Family History
   fetchPatientFamilyHistory(fetchPatientFamilyHistory, accessToken): any {
     console.log("Req For Fetch Patient Family History from Patient Service : ", fetchPatientFamilyHistory);
 
-    return this._http.post("http://3.92.226.247:3000/api/patient/familyhistory/fetch", fetchPatientFamilyHistory, { headers: { 'x-access-token': accessToken } });
+    return this._http.post("http://34.199.165.142:3000/api/patient/familyhistory/fetch", fetchPatientFamilyHistory, { headers: { 'x-access-token': accessToken } });
   }
 
   //Fetch Patient Immunization Record
   fetchImmunizationRecord(fetchImmunizationRecordData, accessToken): any {
-    return this._http.post("http://3.92.226.247:3000/api/patient/immunization/fetch", fetchImmunizationRecordData, { headers: { 'x-access-token': accessToken } });
+    return this._http.post("http://34.199.165.142:3000/api/patient/immunization/fetch", fetchImmunizationRecordData, { headers: { 'x-access-token': accessToken } });
   }
 
   //Update Patient
   updatePatientFamilyHistory(updateRelation, accessToken): any {
-    return this._http.put("http://3.92.226.247:3000/api/patient/familyhistory", updateRelation, { headers: { 'x-access-token': accessToken } });
+    return this._http.put("http://34.199.165.142:3000/api/patient/familyhistory", updateRelation, { headers: { 'x-access-token': accessToken } });
   }
 
   //
   fetchPatientPhysicalExamRecordsData(fetchPatientPhysicalReocrds, accessToken): any {
-    return this._http.post("http://3.92.226.247:3000/api/patient/physicalexamrecord/fetch", fetchPatientPhysicalReocrds, { headers: { 'x-access-token': accessToken } });
+    return this._http.post("http://34.199.165.142:3000/api/patient/physicalexamrecord/fetch", fetchPatientPhysicalReocrds, { headers: { 'x-access-token': accessToken } });
   }
 
   //
   fetchPatientMedicalRecordsData(fetchPatientMedicalReocrds, accessToken): any {
-    return this._http.post("http://3.92.226.247:3000/api/patient/medicalrecord/illness/fetchall", fetchPatientMedicalReocrds, { headers: { 'x-access-token': accessToken } });
+    return this._http.post("http://34.199.165.142:3000/api/patient/medicalrecord/illness/fetchall", fetchPatientMedicalReocrds, { headers: { 'x-access-token': accessToken } });
   }
 
 

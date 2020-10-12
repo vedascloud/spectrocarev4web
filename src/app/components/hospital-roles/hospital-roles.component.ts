@@ -12,30 +12,16 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class HospitalRolesComponent implements OnInit {
   term: any;
   selectedData: any;
-  selectedDoctorSubRole: string;
+  selectedDoctorSubRole: any = [];
   selectedNurseSubRole: string;
-  viewInput:Boolean = false;
-  newValue:string ;
-  departmentsData: any = [
-    { "deptName": "System Administrator", "location": "R101", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-03-13", "Status": "Draft" },
-    { "deptName": "Administrator", "location": "R101", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-03-14", "Status": "Paid" },
-    { "deptName": "Admissions Clerk", "location": "R101", "Items": "Urine test", "Amount": "50", "Issuedate": "2020-03-23", "Status": "Unpaid" },
-    { "deptName": "Admissions Director", "location": "R101", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-04-13", "Status": "Overdue" },
-    { "deptName": "Accountant", "location": "R101", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-02-23", "Status": "Paid" },
-    { "deptName": "Billing Manager", "location": "R101", "Items": "Urine test", "Amount": "60", "Issuedate": "2020-04-31", "Status": "Draft" },
-  ]
-  medicalRolesData: any = [
-    { "roleName": "Medical Person", "location": "R101", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-03-13", "Status": "Draft" },
-    { "roleName": "Doctor", "location": "R101", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-03-14", "Status": "Paid" },
-    { "roleName": "Nurse", "location": "R101", "Items": "Urine test", "Amount": "50", "Issuedate": "2020-03-23", "Status": "Unpaid" },
-    { "roleName": "Ward Men", "location": "R101", "Items": "Urine test", "Amount": "10", "Issuedate": "2020-04-13", "Status": "Overdue" },
-    { "roleName": "Ward Boy", "location": "R101", "Items": "Urine test", "Amount": "20", "Issuedate": "2020-02-23", "Status": "Paid" },
-  ];
+  viewInput: Boolean = false;
+  newValue: string;
+  newValue1: string;
   medicalRolesData1: any = [];
   doctorSubRoles: any = [];
   nurseSubRoles: any = [];
-  medicalRoleOne:string;
-  medicalRoleTwo:string;
+  medicalRoleOne: string;
+  medicalRoleTwo: string;
   signInRes: any;
   signObj: any;
   userID: string;
@@ -47,8 +33,8 @@ export class HospitalRolesComponent implements OnInit {
   fetchMedicalRolesDataObj: any;
   addHospitalDepartmentsDataObj: any;
   ServicesDataArray: any = [];
-  rolesObjArray:any = [];
-  readyToSendHospitalRoles:any = [];
+  rolesObjArray: any = [];
+  readyToSendHospitalRoles: any = [];
   sendedServicesDataArray: any = [];
   addServiceForm: FormGroup;
   //show date
@@ -57,7 +43,8 @@ export class HospitalRolesComponent implements OnInit {
   m = this.n.getMonth() + 1;
   d = this.n.getDate();
   presentDate = this.m + "/" + this.d + "/" + this.y;
-
+  hospitalMedicalReoles: any = [];
+  hospitalNurseRoles: any = [];
   constructor(private loginService: LoginService, private fb: FormBuilder,
     private _snackBar: MatSnackBar) { }
 
@@ -99,7 +86,7 @@ export class HospitalRolesComponent implements OnInit {
           this.selectedData = resForFetchAdministrativeRolesData.administrativeRoles;
 
           console.log("before add extra value : ", this.selectedData);
-          
+
           for (var value of this.selectedData) {
             this.rolesObjArray.push({ name: value, isAlter: true });
           }
@@ -124,22 +111,25 @@ export class HospitalRolesComponent implements OnInit {
     );
   }
 
-  selectDoctorsRole(selectedDoctorSubRole){
-    console.log("the select value ",selectedDoctorSubRole);
-    
+  selectDoctorsRole(selectedDoctorSubRole) {
+    console.log("the select value ", selectedDoctorSubRole);
+
   }
   addDepartmentToList() {
     //unshift
     this.rolesObjArray.push({
       name: [""],
     })
+    this.openSnackBar("Record created...", "");
   }
   addDepartmentToList1() {
-    //unshift
     this.medicalRolesData1.push({
-      value: [""],
-      viewValue: [""]
+      roleType: "",
+      isAlter: true,
+      subRoles: []
     })
+    console.log(" added new row to medical/clinical roles : ", this.medicalRolesData1);
+    this.openSnackBar("Record created...", "");
   }
 
   editDepartment(index) {
@@ -149,34 +139,78 @@ export class HospitalRolesComponent implements OnInit {
     console.log("data ", this.rolesObjArray);
 
   }
-  editDepartment1(index,selectedInvoicesData) {
-    console.log(index,selectedInvoicesData);
-    console.log(this.medicalRolesData1[index]);
-    this.medicalRolesData1[index].isAlter = selectedInvoicesData.isAlter;
-    this.medicalRolesData1[index].roleType = selectedInvoicesData.roleType;    
-    this.medicalRolesData1[index].viewValue = selectedInvoicesData.viewValue;
-    this.medicalRolesData1[index].subRoles = selectedInvoicesData.subRoles;
-    console.log("main roles : ", this.medicalRolesData1);
-
+  editDepartment1(index, selectedInvoicesData) {
+    console.log(index, selectedInvoicesData);
+    this.medicalRolesData1[index].isAlter = true;
   }
   removeService(index) {
-    this.rolesObjArray.splice(index,1);
+    this.rolesObjArray.splice(index, 1);
   }
   updatedIndexBasedValue(index, name) {
-    this.rolesObjArray[index] = {
-      name: name.value,
-      isAlter: true
+    if (name.value != '') {
+      // for (let i = 0; i <= this.rolesObjArray.length - 1; i++) {
+      //   if (this.rolesObjArray[i].name === name.value) {
+
+      //     this.openSnackBar1("value availbale...", "");
+      //   }
+      //   this.rolesObjArray[index] = {
+      //     name: name.value,
+      //     isAlter: true
+      //   }
+      // }
+      this.rolesObjArray[index] = {
+        name: name.value,
+        isAlter: true
+      }
     }
+    else {
+      this.openSnackBar1("Please insert data...", "");
+    }
+
   }
-  updatedIndexBasedValue1(index, name) {
-    this.medicalRolesData1[index] = {
-      roleType: name.roleType,
-      viewValue: name.viewValue,
-      subRoles: name.subRoles,
-      isAlter: true
+  updatedIndexBasedValue1(index, roleType) {
+
+    console.log("the data : ", roleType, this.medicalRolesData1[index].subRoles);
+    if (roleType != "" && this.medicalRolesData1[index].subRoles && this.medicalRolesData1[index].subRoles.length) {
+      this.medicalRolesData1[index].roleType = roleType;
+      this.medicalRolesData1[index].isAlter = false;
+
+      this.medicalRolesData1.forEach(val => {
+        return delete val.isAlter
+      })
+      let obj = {
+        "adminManagerUserID": this.signObj.hospitalAdmin.userID,
+        "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+        "medicalRoles": this.medicalRolesData1
+      }
+      console.log("Request data", obj)
+      //addMedicalRolesData
+      this.loginService.addMedicalRolesData(obj, this.signObj.access_token)
+        .subscribe(
+          (resForAddMedicalRolesData) => {
+            if (resForAddMedicalRolesData.response === 3) {
+              this.medicalRolesData1 = [];
+              this.loading = false;
+              this.openSnackBar(resForAddMedicalRolesData.message, "");
+              this.fetchMedicalRolesData();
+            }
+            else {
+              this.openSnackBar1(resForAddMedicalRolesData.message, "");
+            }
+          },
+          (err: HttpErrorResponse) => {
+            this.openSnackBar1("Please try after sometime...", "");
+            if (err.error instanceof Error) {
+              this.loading = false;
+              console.log("Client Side Error")
+            } else {
+              this.loading = false;
+              console.log(err)
+            }
+          })
+    } else {
+      this.openSnackBar("Add required date", "")
     }
-
-
   }
 
   addAdminPersonalSettingsSubmit() {
@@ -192,10 +226,10 @@ export class HospitalRolesComponent implements OnInit {
     //let obj = JSON.parse(this.sendedServicesDataArray)
     console.log(this.sendedServicesDataArray);
 
-    for(let i=0; i<=this.sendedServicesDataArray.length-1;i++){
+    for (let i = 0; i <= this.sendedServicesDataArray.length - 1; i++) {
       let obj2 = this.sendedServicesDataArray[i];
       var myobj = JSON.parse(JSON.stringify(obj2));
-      var obj3 = myobj.name;      
+      var obj3 = myobj.name;
       this.readyToSendHospitalRoles.push(obj3);
     }
     this.addHospitalDepartmentsDataObj = {
@@ -208,18 +242,29 @@ export class HospitalRolesComponent implements OnInit {
 
 
     this.loginService.addAdministrativeRolesData(this.addHospitalDepartmentsDataObj, this.signObj.access_token)
-    .subscribe(
-      (resForAddDepartmentsData) => {
-        if (resForAddDepartmentsData.response === 3) {
-          this.loading = false;
-          this.openSnackBar(resForAddDepartmentsData.message, "");
+      .subscribe(
+        (resForAddDepartmentsData) => {
+          if (resForAddDepartmentsData.response === 3) {
+            this.loading = false;
+            this.openSnackBar(resForAddDepartmentsData.message, "");
+            this.fetchAdministrativeRolesData();
+          }
+          else {
+            this.openSnackBar(resForAddDepartmentsData.message, "");
+          }
+        },
+        (err: HttpErrorResponse) => {
+          this.openSnackBar1("Please try after sometime...", "");
+          if (err.error instanceof Error) {
+            this.loading = false;
+            console.log("Client Side Error")
+          } else {
+            this.loading = false;
+            console.log(err)
+          }
+        })
 
-          this.fetchAdministrativeRolesData();
-        }
-        else{
-          this.openSnackBar(resForAddDepartmentsData.message, "");
-        }
-      })
+
 
   }
 
@@ -235,41 +280,14 @@ export class HospitalRolesComponent implements OnInit {
         if (resForFetchAdministrativeRolesData.response === 3) {
           this.loading = false;
           let doctorMainRoles = resForFetchAdministrativeRolesData.medicalRoles;
+          console.log("DOCTOR Main rol", doctorMainRoles);
+
           for (var value of doctorMainRoles) {
-            this.medicalRolesData1.push({ roleType: value.roleType, viewValue:value.roleType, isAlter: true, subRoles: value.subRoles });
+            this.medicalRolesData1.push({ roleType: value.roleType, isAlter: false, subRoles: value.subRoles });
           }
-         // this.medicalRolesData1 = resForFetchAdministrativeRolesData.medicalRoles;
           this.medicalRoleOne = this.medicalRolesData1[0];
           this.medicalRoleTwo = this.medicalRolesData1[1];
           console.log("fetched medical roles value : ", this.medicalRolesData1);
-          for(let i=0; i<=this.medicalRolesData1.length-1; i++){
-
-            if(this.medicalRolesData1[i].roleType === "Doctor"){
-               let doctorSubRolesObj = this.medicalRolesData1[i].subRoles;
-              for (var value of doctorSubRolesObj) {
-                this.doctorSubRoles.push({ value: value, viewValue:value, isAlter: true });
-              }
-              console.log(this.doctorSubRoles);         
-              this.selectedDoctorSubRole = this.doctorSubRoles[1].value;     
-            }
-            else if(this.medicalRolesData1[i].roleType === "Nurse"){
-              let doctornurseSubRoles = this.medicalRolesData1[i].subRoles;
-             for (var value of doctornurseSubRoles) {
-               this.nurseSubRoles.push({ value: value, viewValue:value, isAlter: true });
-             }
-              console.log(this.nurseSubRoles);
-              this.selectedNurseSubRole = this.nurseSubRoles[1].value;              
-            }
-          }
-
-          
-          // for (let i = 0; i <= this.selectedData.length - 1; i++) {
-          //   //console.log("the for loop data : ", this.selectedData[i]);
-          //   //this.ServicesDataArray.push(Object.assign({name:this.selectedData[i]}, { isAlter: true }));
-          //   this.ServicesDataArray.push(Object.assign(this.selectedData[i], { isAlter: true }));
-          //   //console.log(this.selectedData[i]);
-          // }
-          // console.log("after add extra value : ", this.ServicesDataArray);
 
         }
         else {
@@ -289,43 +307,89 @@ export class HospitalRolesComponent implements OnInit {
       }
     );
   }
-
-  addNurseSubRole()
-  {
-    console.log("addNurseSubRole Called");
-    
+  sendit1(data: any): void {
+    this.newValue1 = data;
+    console.log("Value", this.newValue1)
   }
   onSearchChange1(searchValue: string): void {
     console.log("keyup value is : ", searchValue);
     //this.doctorSubRoles.push(searchValue)
     console.log(this.doctorSubRoles);
-    
+
   }
-  sendit(data:any) : void {
+  sendit(data: any): void {
     this.newValue = data;
-    console.log("Value",this.newValue)
- }
- addToDoctorSubRoles(){
-  console.log(this.newValue);
-  this.viewInput = false;
-  this.doctorSubRoles.push({value:this.newValue,viewValue:this.newValue,isAlter:true})
-  console.log(this.doctorSubRoles);
-  
- }
-  addDoctorSubRole()
-  {
+    console.log("Value", this.newValue)
+  }
+  addToDoctorSubRoles(index, roleType) {
+    console.log(roleType, index);
+    this.medicalRolesData1[index].subRoles.push(roleType);
+    this.newValue = "";
+  }
+  addDoctorSubRole() {
     console.log("addDoctorSubRole Called");
     this.viewInput = true;
   }
+  addHospitalMedicalRoles() {
+    this.viewInput = false;
+    console.log("List Of Medical Roles : " + this.doctorSubRoles);
+
+    //let DataArray: any[] = this.doctorSubRoles;
+    let DataArray: any[] = this.medicalRolesData1;
+
+    for (let i = 0; i <= DataArray.length - 1; i++) {
+      let aleteredData = DataArray[i];
+      delete aleteredData.isAlter;
+      delete aleteredData.viewValue;
+      this.hospitalMedicalReoles.push(aleteredData.value);
+    }
+    console.log("Medical Roles : " + this.hospitalMedicalReoles);
+    let DataArray1: any[] = this.nurseSubRoles;
+    for (let i = 0; i <= DataArray1.length - 1; i++) {
+      let aleteredData = DataArray1[i];
+      delete aleteredData.isAlter;
+      delete aleteredData.viewValue;
+      this.hospitalNurseRoles.push(aleteredData.value);
+    }
+    console.log("Nurse Roles : " + this.hospitalNurseRoles);
+
+    let medicalRolesObj = {
+      "adminManagerUserID": this.signObj.hospitalAdmin.userID,
+      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+      "medicalRoles": [
+        {
+          "roleType": "Doctor",
+          "subRoles": this.hospitalMedicalReoles
+        },
+        {
+          "roleType": "Nurse",
+          "subRoles": this.hospitalNurseRoles
+        }
+      ]
+    }
+    console.log("the sended medical roles data : ", medicalRolesObj);
+
+  }
 
   //Mat Snack Bar
- openSnackBar(message: string, action: string) {
-  this._snackBar.open(message, action, {
-    duration: 5000,
-    verticalPosition: 'bottom', // 'top' | 'bottom'
-    horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
-  })
-}
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['theme-snackbar'],
+      duration: 5000,
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
+  }
+
+  //Mat Snack Bar
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
+      duration: 5000,
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
+  }
 
   //Tab Change Event
   onTabChange(event) {

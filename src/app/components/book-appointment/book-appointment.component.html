@@ -4,398 +4,327 @@
             <app-header [titleData]="titleArray"></app-header>
         </div>
     </div>
-    <div class="container-fluid  pb-3" style="background-color: #F8FCFD;">
+</div>
+<div class="container-fluid  pb-3" style="background-color: #F5F8FA;">
 
-        <div class="bg-white" style="justify-content: inherit;justify-content: space-between;">
-            <div class="pl-4 pb-1 pt-3" style="font-size: 14px;font-weight: 600;letter-spacing: 0.3;">
-                Book Appointment
-            </div>
-            <div class="pl-4" style="font-size: 12px;font-weight: 500;">Fill in below information to book a new
-                appointment</div>
+    <div class="row bg-white" style="display: block;">
+        <div class="pl-4 pt-3" style="font-size: 18px;font-weight: 600;letter-spacing: 0.3;color: #3E454C;">
+            Book Appointment
         </div>
+        <p class="pl-4 pt-1" style="font-size: 12px;font-weight: 500;padding-bottom: 20px;color: #7E7E7E;">Fill in below
+            information
+            to book a new
+            appointment</p>
+    </div>
 
-        <div class="row p-0" style="margin-top: 8px;">
-            <div class="col-md-12">
-                <form [formGroup]="bookAppointmentForm">
+    <div class="row p-0" style="margin-top: 8px;">
+        <div class="col-md-12">
+            <form [formGroup]="bookAppointmentForm">
 
-                    <div cass=" justify-content-around">
-                        <div class=" bg-white w-100 p-2">
-                            <div class="row border p-1 px-4  justify-content-between"
-                                style="margin: inherit;background-color: #f7f7f7;">
-                                <span class="profileTitle" style="font-weight: bold">Patient Details</span>
-                            </div>
-                            <div class="row p-1 pt-2">
-                                <div class="col-md-6">
-                                    <div style="font-size: 12px; font-weight: 600;">Patient Name</div>
-                                    <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                border: 1px solid rgb(58, 57, 57) !important;" formControlName="patientName">
-                                    <div class="calenderLogo1">
-                                        <button style="outline-style: none;"
-                                            (click)="openPatientModel(content1, patientsList)" class="p-0 btn calendar"
-                                            type="button">
-                                            <i class="fas fa-search" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div style="font-size: 12px; font-weight: 600;">Email Address</div>
-                                    <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                border: 1px solid rgb(58, 57, 57) !important;" formControlName="emailID">
-                                </div>
-                            </div>
+                <div cass=" justify-content-around">
+                    <div class=" bg-white w-100 p-2">
+                        <div class="row p-1 px-4  justify-content-between"
+                            style="margin: inherit;background-color: #f8f8f8;">
+                            <span class="profileTitle" style="font-weight: bold;color: #171819;">Patient Details</span>
+                        </div>
+                        <div class="row p-1 pt-2">
+                            <div class="col-md-6">
 
-                            <div class="row p-1 pt-2">
-                                <div class="col-md-6">
-                                    <div class="pb-1">
-                                        <div style="font-size: 12px; font-weight: 600;">Phone Number</div>
-                                        <input class="form-control" style="font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;" formControlName="phoneNumber">
-                                    </div>
-                                    <div class="">
-                                        <div style="font-size: 12px; font-weight: 600;">Appointment Type</div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <button class="btn btn-sm mr-2" style="font-size: 12px;font-weight: 600;box-shadow: none !important;
-                                                    border: 1px solid rgb(58, 57, 57) !important;width: inherit;"
-                                                     (click)="viewOnline()" [style.background-color]="color"
-                                                        [style.color]="textColor" name="visitType" value="online"  > 
-                                                    Online
-                                                </button>
+                                <div style="font-size: 12px; font-weight: 600;color: #171819;padding-bottom: 5px;">
+                                    Patient Name</div>
+                                <!-- <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
+                                border: 1px solid #707070 !important;" formControlName="patientName">
+                                <div class="calenderLogo1">
+                                    <button style="outline-style: none;"
+                                        (click)="openPatientModel(content1, patientsList)" class="p-0 btn calendar"
+                                        type="button">
+                                        <i class="fas fa-search" aria-hidden="true"></i>
+                                    </button>
+                                </div> -->
+
+                                <mat-form-field class="example-full-width">
+                                    <input matInput class="p-2 bg-white"
+                                        style="border: 1px solid #707070 !important;height: 36px;color: #171819;font-size: 16px;font-weight: 500;"
+                                        type="text" aria-label="Number" formControlName="patientName"
+                                        [matAutocomplete]="auto">
+                                    <mat-autocomplete #auto="matAutocomplete"
+                                        (optionSelected)="getPatientDetails($event)" [displayWith]="getOptionText">
+                                        <mat-option *ngFor="let option of filteredPatients" [value]="option">
+                                            <div class="row "
+                                                style="margin-top: 16px;margin-bottom: 16px; line-height: 1;">
+
+                                                <img src="{{imgURL+option.profilePic}}"
+                                                    style="padding: 15px;border-radius: 50%;
+                                            min-width: 70px;min-height: 70px;max-height: 70px;max-width: 70px;width: 70px;height: 70px;"
+                                                    onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+
+                                                <div class="" style="margin-top: 5px;">
+                                                    <span
+                                                        style="line-height: 2;font-size: 16px;font-weight: 600;color: #161718;">{{option.firstName}}</span><br>
+                                                    <span
+                                                        style="font-size: 16px;font-weight: 600;color: #8b8b8b;">{{option.patientID}}</span>
+                                                </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <button class="btn btn-sm" style="font-size: 12px;font-weight: 600;box-shadow: none !important;
-                                                    border: 1px solid rgb(58, 57, 57) !important;width: inherit;"
-                                                     (click)="viewOnsite()" [style.background-color]="color1"
-                                                        [style.color]="textColor1" name="visitType" value="onsite"  > 
-                                                    Onsite
-                                                </button>
-                                            </div>
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div style="font-size: 12px; font-weight: 600;color: #171819;padding-bottom: 5px;">Email
+                                    Address</div>
+                                <input class="form-control" style="width: inherit;box-shadow: none !important;
+                                border: 1px solid #707070 !important;color: #171819;font-size: 16px;font-weight: 500;"
+                                    formControlName="emailID">
+                            </div>
+                        </div>
+
+                        <div class="row p-1 pt-2">
+                            <div class="col-md-6">
+                                <div class="pb-1">
+                                    <div style="font-size: 12px; font-weight: 600;color: #171819;padding-bottom: 5px;">
+                                        Phone Number</div>
+                                    <input type="text" class="form-control" style="color: #171819;font-size: 16px;font-weight: 500;box-shadow: none !important;
+                                    border: 1px solid #707070 !important;" formControlName="phoneNumber">
+                                </div>
+                                <div class="">
+                                    <div style="font-size: 12px; font-weight: 600;color: #171819;padding-bottom: 5px;">
+                                        Appointment Type
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <button class="btn btn-sm mr-2" style="font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                                    border: 1px solid #707070 !important;width: inherit;height: 35px;"
+                                                (click)="viewOnline()" [style.background-color]="color"
+                                                [style.color]="textColor" [style.border]="border" name="visitType"
+                                                value="Online">
+                                                Online
+                                            </button>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button class="btn btn-sm" style="font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                                    border: 1px solid #707070 !important;width: inherit;height: 35px;"
+                                                (click)="viewOnsite()" [style.background-color]="color1"
+                                                [style.color]="textColor1" [style.border]="border1" name="visitType"
+                                                value="Onsite">
+                                                Onsite
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div style="font-size: 12px; font-weight: 600;">Reason for Visit</div>
-                                    <textarea class="form-control" rows="4" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                        border: 1px solid rgb(58, 57, 57) !important;"
-                                        formControlName="reasonForVisit">
+                            </div>
+                            <div class="col-md-6">
+                                <div style="font-size: 12px; font-weight: 600;color: #171819;padding-bottom: 5px;">
+                                    Reason for Visit</div>
+                                <textarea class="form-control" rows="4" style="width: inherit;color: #171819;font-size: 16px;font-weight: 500;box-shadow: none !important;
+                                        border: 1px solid #707070 !important;" formControlName="reasonForVisit">
                                     </textarea>
-                                </div>
                             </div>
+                        </div>
 
-                            <div class="row p-1 py-2">
-                                <div class="col-md-12">
-                                    <div style="font-size: 12px; font-weight: 600;">Notes</div>
-                                    <input class="form-control" style="font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                            border: 1px solid rgb(58, 57, 57) !important;">
+                        <div class="row p-1 py-2">
+                            <div class="col-md-12">
+                                <div style="font-size: 12px; font-weight: 600;color: #171819;padding-bottom: 5px;">Notes
                                 </div>
-                            </div>
+                                <textarea class="form-control" rows="4" style="width: inherit;color: #171819;font-size: 16px;font-weight: 500;box-shadow: none !important;
+                                        border: 1px solid #707070 !important;" formControlName="note">
+                                    </textarea>
 
-                            <div class="row border p-1 px-4  justify-content-between"
-                                style="margin: inherit;background-color: #f7f7f7;">
-                                <span class="profileTitle" style="font-weight: bold">Select a Doctor</span>
                             </div>
-                            <div class="row p-1 py-2">
-                                <div class="col-md-6">
-                                    <div style="font-size: 12px; font-weight: 600;">Doctor Name</div>
-                                    <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;" formControlName="doctorName">
-                                    <div class="calenderLogo1">
-                                        <button style="outline-style: none;" (click)="openDoctorModel(content2)"
-                                            class="p-0 btn calendar" type="button">
-                                            <i class="fas fa-search" aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div style="font-size: 12px; font-weight: 600;">Department</div>
-                                    <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;" formControlName="department">
-                                </div>
+                        </div>
+
+                        <div class="row p-1 px-4  justify-content-between"
+                            style="margin: inherit;background-color: #f8f8f8;">
+                            <span class="profileTitle" style="font-weight: bold;color: #171819;">Select a Doctor</span>
+                        </div>
+                        <div class="row p-1 py-2">
+                            <div class="col-md-6">
+
+                                <div style="font-size: 12px; font-weight: 600;color: #171819;padding-bottom: 5px;">
+                                    Doctor Name</div>
+
+                                <!-- <input class="form-control" style="width: inherit;font-size: 12px;font-weight: 500;box-shadow: none !important;
+                                    border: 1px solid #707070 !important;" formControlName="doctorName">
+                                <div class="calenderLogo1">
+                                    <button style="outline-style: none;" (click)="openDoctorModel(content2)"
+                                        class="p-0 btn calendar" type="button">
+                                        <i class="fas fa-search" aria-hidden="true"></i>
+                                    </button>
+                                </div> -->
+
+                                <mat-form-field class="example-full-width">
+                                    <input matInput class="border p-2 bg-white" type="text" aria-label="Number"
+                                        style="border: 1px solid #707070 !important;height: 36px;color: #171819;font-size: 16px;font-weight: 500;"
+                                        formControlName="doctorName" [matAutocomplete]="auto1">
+                                    <mat-autocomplete #auto1="matAutocomplete"
+                                        (optionSelected)="getDoctorDetails($event)" [displayWith]="getOptionText1">
+                                        <mat-option *ngFor="let option1 of filteredMedicalPersonnels" [value]="option1">
+                                            <img src="{{imgURL+option1.profile.userProfile.profilePic}}"
+                                                style="padding: 5px;border-radius: 50%;
+                                            min-width: 50px;min-height: 50px;max-height: 50px;max-width: 50px;width: 50px;height: 50px;"
+                                                onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+                                            {{option1.profile.userProfile.firstName}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+
                             </div>
-                            <div class="row border p-1 px-4  justify-content-between"
-                                style="margin: inherit;background-color: #f7f7f7;">
-                                <span class="profileTitle" style="font-weight: bold">Select Date & Time</span>
+                            <div class="col-md-6">
+                                <div style="font-size: 12px; font-weight: 600;color: #171819;padding-bottom: 5px;">
+                                    Department</div>
+                                <input class="form-control" style="width: inherit;color: #171819;font-size: 16px;font-weight: 500;box-shadow: none !important;
+                                    border: 1px solid #707070 !important;" formControlName="department">
                             </div>
-                            <div class="row p-1 pt-2">
-                                <div class="col-md-6" style="text-align: center;">
-                                    <ngb-datepicker #dp formControlName="appointmentDate">
-                                    </ngb-datepicker>
-                                </div>
-                                <div class="col-md-6" style="text-align: start;padding-top: 20px;
+                        </div>
+                        <div class="row p-1 px-4  justify-content-between"
+                            style="margin: inherit;background-color: #f8f8f8;">
+                            <span class="profileTitle" style="font-weight: bold;color: #171819;">Select Date &
+                                Time</span>
+                        </div>
+                        <div class="row p-1 pt-2">
+                            <div class="col-md-6" style="text-align: center;">
+                                <ngb-datepicker #dp formControlName="appointmentDate">
+                                </ngb-datepicker>
+                            </div>
+                            <div class="col-md-6" style="text-align: start;padding-top: 20px;
                                 padding-right: 72px;">
-                                    <div
-                                        style="font-size: 12px;font-weight: 600;border-bottom:1px solid rgb(109, 110, 110);">
-                                        Time Slots Available</div>
-                                    <div class="p-2" style="height: 60%;">
-                                        <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
-                                            border: 1px solid rgb(58, 57, 57) !important;" 
-                                            (click)="book1()" [style.background-color]="color2"
-                                                [style.color]="textColor2">
-                                            9:00 AM
-                                        </button>
-                                        <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
-                                            border: 1px solid rgb(58, 57, 57) !important;" (click)="book2()" [style.background-color]="color3"
-                                            [style.color]="textColor3">
-                                            9:30 AM
-                                        </button>
-                                        <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
-                                            border: 1px solid rgb(58, 57, 57) !important;" 
-                                            (click)="book3()" [style.background-color]="color4"
-                                            [style.color]="textColor4">
-                                            10:30 AM
-                                        </button>
-                                        <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
-                                            border: 1px solid rgb(58, 57, 57) !important;"
-                                             (click)="book4()" [style.background-color]="color5"
-                                            [style.color]="textColor5">
-                                            11:00 AM
-                                        </button>
+                                <div
+                                    style="font-size: 12px;font-weight: 600;border-bottom:1px solid rgb(109, 110, 110);padding-bottom: 5px;">
+                                    Time Slots Available</div>
+                                <div class="p-2" style="height: 60%;">
+                                    <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;
+                                        box-shadow: none !important;border: 1px solid #707070 !important;height: 30px;"
+                                        (click)="book1()" [style.background-color]="color2" [style.color]="textColor2"
+                                        [style.border]="border2">
+                                        9:00 AM
+                                    </button>
+                                    <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                            border: 1px solid #707070 !important;height: 30px;" (click)="book2()"
+                                        [style.background-color]="color3" [style.color]="textColor3"
+                                        [style.border]="border3">
+                                        9:30 AM
+                                    </button>
+                                    <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                            border: 1px solid #707070 !important;height: 30px;" (click)="book3()"
+                                        [style.background-color]="color4" [style.color]="textColor4"
+                                        [style.border]="border4">
+                                        10:30 AM
+                                    </button>
+                                    <button class="m-2 btn btn-sm mr-2 btnclr" style="width: 25%;font-size: 12px;font-weight: 600;box-shadow: none !important;
+                                            border: 1px solid #707070 !important;height: 30px;" (click)="book4()"
+                                        [style.background-color]="color5" [style.color]="textColor5"
+                                        [style.border]="border5">
+                                        11:00 AM
+                                    </button>
+                                </div>
+
+                                <div
+                                    style="font-size: 12px;font-weight: 600;border-bottom:1px solid rgb(109, 110, 110);padding-bottom: 5px;">
+                                    Duration</div>
+                                <div class="radio-item" style="display: flex;">
+                                    <div class="col-3" style="padding: 10px 0px 10px 20px;">
+                                        <label class="radio-inline row" style="font-size: 12px;">
+                                            <input type="radio" name="appointmentDuration" value="15 mins"
+                                                formControlName="appointmentDuration" style="box-shadow: none;"
+                                                checked>&nbsp;
+                                            <div style="margin-top: 5px;">15 Min</div>
+                                        </label>
                                     </div>
 
-                                    <div
-                                        style="font-size: 12px;font-weight: 600;border-bottom:1px solid rgb(109, 110, 110);">
-                                        Duration</div>
-                                    <div style="display: flex;">
-                                        <div class="col-3">
-                                            <label class="radio-inline" style="font-size: 12px;">
-                                                <input type="radio" name="appointmentTimeTo" value="15" formControlName="appointmentTimeTo"
-                                                    style="box-shadow: none;" checked>&nbsp;
-                                                15 Min
-                                            </label>
-                                        </div>
+                                    <div class="col-3" style="padding: 10px 0px 10px 20px;">
+                                        <label class="radio-inline row" style="font-size: 12px;">
+                                            <input type="radio" name="appointmentDuration" value="30 mins"
+                                                formControlName="appointmentDuration" style="box-shadow: none;">&nbsp;
+                                            <div style="margin-top: 5px;">30 Min</div>
+                                        </label>
+                                    </div>
+                                    <div class="col-3" style="padding: 10px 0px 10px 20px;">
+                                        <label class="radio-inline row" style="font-size: 12px;">
+                                            <input type="radio" name="appointmentDuration" value="45 mins"
+                                                formControlName="appointmentDuration" style="box-shadow: none;">&nbsp;
+                                            <div style="margin-top: 5px;">45 Min</div>
+                                        </label>
+                                    </div>
 
-                                        <div class="col-3">
-                                            <label class="radio-inline" style="font-size: 12px;">
-                                                <input type="radio" name="appointmentTimeTo" value="30" formControlName="appointmentTimeTo"
-                                                    style="box-shadow: none;">&nbsp; 30 Min
-                                            </label>
-                                        </div>
-                                        <div class="col-3">
-                                            <label class="radio-inline" style="font-size: 12px;">
-                                                <input type="radio" name="appointmentTimeTo" value="45" formControlName="appointmentTimeTo"
-                                                    style="box-shadow: none;">&nbsp;
-                                                45 Min
-                                            </label>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label class="radio-inline" style="font-size: 12px;">
-                                                <input type="radio" name="appointmentTimeTo" value="60" formControlName="appointmentTimeTo"
-                                                    style="box-shadow: none;">&nbsp; 60 Min
-                                            </label>
-                                        </div>
+                                    <div class="col-3" style="padding: 10px 0px 10px 20px;">
+                                        <label class="radio-inline row" style="font-size: 12px;">
+                                            <input type="radio" name="appointmentDuration" value="60 mins"
+                                                formControlName="appointmentDuration" style="box-shadow: none;">&nbsp;
+                                            <div style="margin-top: 5px;">60 Min</div>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row p-1 pt-2" style="justify-content: center;">
-                                <button class="btn btn-sm mr-2" style="width: 10%;font-size: 12px;font-weight: 600;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;" (click)="clearForm()">
+                        </div>
+                        <div style="text-align: center;" class="py-2">
+                            <div *ngIf="isLoading" style="display: flex; justify-content: center; padding-bottom: 5px;">
+                                <mat-progress-spinner class="example-margin" color="primary" mode="indeterminate"
+                                    [diameter]="30">
+                                </mat-progress-spinner>
+                            </div>
+
+                            <div class="row" style="justify-content: center;padding-top: 20px;">
+                                <button class="btn btn-sm mr-2" style="width: 10%;font-size: 12px;font-weight: 600;box-shadow: none !important;color: #474747;
+                                    border: 1px solid #707070 !important;border-radius: 10px;height: 30px;"
+                                    (click)="clearForm()">
                                     Clear
                                 </button>
-                                <button class="btn btn-sm" style="background-color: #53B9C6;color: white; width: 20%;font-size: 12px;font-weight: 600;box-shadow: none !important;
-                                    border: 1px solid rgb(58, 57, 57) !important;" (click)="bookAppointment()">
+                                <button class="btn btn-sm" style="background-color: #53B9C6;color: white; width: 15%;font-size: 12px;font-weight: 600;
+                                    box-shadow: none !important;border-radius: 10px;height: 30px;"
+                                    (click)="bookAppointment()">
                                     Book Appointment
                                 </button>
                             </div>
                         </div>
                     </div>
-
-                </form>
-            </div>
-        </div>
-
-        <!-- <div class="col-md-2"></div>
-        <div class="col-md-8">
-            <form [formGroup]="bookAppointmentForm">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Date</label>
-                                        <div class="input-group">
-                                            <input class="form-control" placeholder="choose date from calender"
-                                                style="border-radius: 5px ;" ngbDatepicker #d="ngbDatepicker"
-                                                formControlName="appointmentDate" readonly>
-                                            <div class="input-group-append">
-                                                <button style="border-radius: 5px ;"
-                                                    class="btn btn-outline-secondary calendar" (click)="d.toggle()"
-                                                    type="button">
-                                                    <i class="fas fa-calendar-alt mr-1" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Visit Type</label>
-                                        <select id="selectType" style="border-radius: 5px;"
-                                            class=" form-control bg-light" formControlName="visitType">
-                                            <option>Online</option>
-                                            <option>Onsite</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>From Time</label>
-                                        <input style="border-radius: 5px;" class="form-control bg-light"
-                                            formControlName="appointmentTimeFrom" (click)="onClick()" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>To Time</label>
-                                        <input style="border-radius: 5px;" class="form-control bg-light"
-                                            formControlName="appointmentTimeTo" (click)="onTimeClick()" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Reason</label>
-                                        <textarea style="border-radius: 5px;"
-                                            placeholder="describe the patient symptoms here..." type="text"
-                                            class="form-control bg-light" formControlName="reasonForVisit"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p class="font-weight-bold ">Patient Details</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-sm btn-success btn-outline-info text-white font-weight-bold"
-                                        (click)="openPatientModel(content1, patientsList)">Choose Patient</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Patient ID</label>
-                                        <input style="border-radius: 5px;" type="text" class="form-control bg-light"
-                                            formControlName="patientID">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Patient Name</label>
-                                        <input style="border-radius: 5px;" type="text" class="form-control bg-light"
-                                            placeholder="" formControlName="patientName">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Medical Record ID</label>
-                                        <input style="border-radius: 5px;" type="text" class="form-control bg-light"
-                                            placeholder="" formControlName="medicalRecordID">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <p class="font-weight-bold ">Doctor Details</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <button class="btn btn-sm btn-success btn-outline-info text-white font-weight-bold"
-                                        (click)="openDoctorModel(content2)">Choose Doctor</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Doctor Medical Personnel ID</label>
-                                        <input style="border-radius: 5px;" type="text" class="form-control bg-light"
-                                            placeholder="" formControlName="doctorMedicalPersonnelID">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Doctor Name</label>
-                                        <input style="border-radius: 5px;" type="text" class="form-control bg-light"
-                                            placeholder="" formControlName="doctorName">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Department</label>
-                                        <input style="border-radius: 5px;" type="text" class="form-control bg-light"
-                                            placeholder="" formControlName="department">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-md-12 p-3">
-                    <div class="row justify-content-center">
-                        <button class="btn btn-sm btn-success btn-outline-info text-white font-weight-bold"
-                            (click)="bookAppointment()">Book Appointment</button>
-                    </div>
-                </div>
+
             </form>
         </div>
-        <div class="col-md-2"></div> -->
     </div>
 </div>
+
 
 <!-- Open List Of Patient Model -->
 <ng-template #content1 let-modal>
     <div class="modal-header" style="background-color: #53B9C6;color: white;">
-        <h4 class="modal-title justify-content-center" id="modal-basic-title">Select Patient</h4>
-      <mat-icon (click)="modal.close('Close click')" class="handCursor">cancel</mat-icon>
+        <h4 class="modal-title justify-content-center" style="font-weight: bold;letter-spacing: 0.3px;"
+            id="modal-basic-title">Select Patient
+        </h4>
+        <mat-icon (click)="modal.close('Close click')" class="handCursor">cancel</mat-icon>
     </div>
     <div class="modal-body bg-light p-0">
         <div class="row justify-content-center">
             <div class="">
                 <div class="row p-3 justify-content-center">
                     <span class="font-weight-bold mr-2">Search by FirstName : </span>
-                    <input class="p-0" type="text" name="searchTerm" (keyup)='search($event.target.value)'>
+                    <input class="" style="padding-left: 5px;" type="text" name="searchTerm"
+                        (keyup)='search($event.target.value)'>
                 </div>
                 <div class="row scrollDoctor">
                     <table class="table table-sm table-striped">
-                        <thead  class="thead-dark ">
+                        <thead class=" " style="background-color: #3e454c;color: white;">
                             <tr class="medium" style="font-weight: normal;">
-                                <th scope="col" style="font-size: 12px; font-weight: 600;">No</th>
-                                <th scope="col" style="font-size: 12px; font-weight: 600;">FirstName</th>
-                                <th scope="col" style="font-size: 12px; font-weight: 600;">LastName</th>
-                                <th scope="col" style="font-size: 12px; font-weight: 600;">PatientID</th>
-                                <!-- <th scope="col" style="font-size: 12px; font-weight: 600;">MedicalRecordID</th> -->
+                                <th scope="col" style="font-size: 12px; font-weight: 500;">No</th>
+                                <th scope="col" style="font-size: 12px; font-weight: 500;">FirstName</th>
+                                <th scope="col" style="font-size: 12px; font-weight: 500;">LastName</th>
+                                <th scope="col" style="font-size: 12px; font-weight: 500;">PatientID</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr *ngIf="!(filteredPatients && filteredPatients.length)"
+                                style="text-align: center;background-color: white;padding: 20px;">
+                                <td style="text-align: center;font-size: 12px;font-weight: 600;" colspan="7">Don't have
+                                    Patients
+                                    Records
+                                </td>
+                            </tr>
                             <tr *ngFor="let patients of filteredPatients; let i = index"
                                 (click)="selectPatientFromList(patients)">
                                 <th style="font-size: 12px; font-weight: 550;">{{i +1}}</th>
                                 <td style="font-size: 12px; font-weight: 550;">{{patients.firstName}}</td>
                                 <td style="font-size: 12px; font-weight: 550;">{{patients.lastName}}</td>
                                 <td style="font-size: 12px; font-weight: 550;">{{patients.patientID}}</td>
-                                <!-- <td style="font-size: 12px; font-weight: 550;">{{patients.medical_record_id}}</td> -->
                             </tr>
                         </tbody>
                     </table>
@@ -408,42 +337,51 @@
 <!-- Open List Of Doctors Model -->
 <ng-template #content2 let-modal>
     <div class="modal-header" style="background-color: #53B9C6;color: white;">
-      <h5 class="modal-title justify-content-center" id="modal-basic-title">Select Doctor</h5>
-      <mat-icon (click)="modal.close('Close click')" class="handCursor">cancel</mat-icon>
+        <h5 class="modal-title justify-content-center" style="font-weight: bold;letter-spacing: 0.2px;"
+            id="modal-basic-title">Select Doctor</h5>
+        <mat-icon (click)="modal.close('Close click')" class="handCursor">cancel</mat-icon>
     </div>
     <div class="modal-body bg-light p-0">
-      <div class="row justify-content-center">
-        <div class="">
-          <div class="row p-3 justify-content-center">
-            <span class="font-weight-bold mr-2">Search by FirstName : </span>
-            <input class="px-2" type="text" name="searchTerm" (keyup)='searchDoctor($event.target.value)'>
-          </div>
-          <div class="row scrollDoctor">
-            <table class="table text-center ">
-              <thead class="thead-dark ">
-                <tr class="medium" style="font-weight: normal;">
-  
-                  <th scope="col" style="font-size: 12px; font-weight: 600;">No</th>
-                  <th scope="col" style="font-size: 12px; font-weight: 600;">FirstName</th>
-                  <th scope="col" style="font-size: 12px; font-weight: 600;">LastName</th>
-                  <!-- <th scope="col">DoctorID</th> -->
-                  <th scope="col" style="font-size: 12px; font-weight: 600;">Department</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let doctors of filteredMedicalPersonnels; let i = index" (click)="selectedRow = i"
-                  [class.highlighted]="i == selectedRow" (click)="selectDoctorFromList(doctors)"
-                  (click)="modal.close('Close click')" style="cursor:pointer;">
-                  <td style="font-size: 12px; font-weight: 550;">{{i +1}}</td>
-                  <td style="font-size: 12px; font-weight: 550;">{{doctors.profile.userProfile.firstName}}</td>
-                  <td style="font-size: 12px; font-weight: 550;">{{doctors.profile.userProfile.lastName}}</td>
-                  <!-- <td>{{doctors.medical_personnel_id}}</td> -->
-                  <td style="font-size: 12px; font-weight: 550;">{{doctors.profile.userProfile.department.slice(0,20)}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="row justify-content-center">
+            <div class="">
+                <div class="row p-3 justify-content-center">
+                    <span class="font-weight-bold mr-2">Search by FirstName : </span>
+                    <input class="px-2" type="text" name="searchTerm" (keyup)='searchDoctor($event.target.value)'>
+                </div>
+                <div class="row scrollDoctor">
+                    <table class="table text-center table-sm table-striped">
+                        <thead class="" style="background-color: #3e454c;color: white;">
+                            <tr class="medium" style="font-weight: normal;">
+                                <th scope="col" style="font-size: 12px; font-weight: 500;">No</th>
+                                <th scope="col" style="font-size: 12px; font-weight: 500;">FirstName</th>
+                                <th scope="col" style="font-size: 12px; font-weight: 500;">LastName</th>
+                                <th scope="col" style="font-size: 12px; font-weight: 500;">Department</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngIf="!(filteredMedicalPersonnels && filteredMedicalPersonnels.length)"
+                                style="text-align: center;background-color: white;padding: 20px;">
+                                <td style="text-align: center;font-size: 12px;font-weight: 600;" colspan="7">Don't have
+                                    Medical Personnels
+                                    Records
+                                </td>
+                            </tr>
+                            <tr *ngFor="let doctors of filteredMedicalPersonnels; let i = index"
+                                (click)="selectedRow = i" [class.highlighted]="i == selectedRow"
+                                (click)="selectDoctorFromList(doctors)" (click)="modal.close('Close click')"
+                                style="cursor:pointer;">
+                                <td style="font-size: 12px; font-weight: 550;">{{i +1}}</td>
+                                <td style="font-size: 12px; font-weight: 550;">{{doctors.profile.userProfile.firstName}}
+                                </td>
+                                <td style="font-size: 12px; font-weight: 550;">{{doctors.profile.userProfile.lastName}}
+                                </td>
+                                <td style="font-size: 12px; font-weight: 550;">
+                                    {{doctors.profile.userProfile.department.slice(0,20)}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </ng-template>
+</ng-template>

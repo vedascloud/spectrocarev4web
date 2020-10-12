@@ -1,3 +1,30 @@
+* {
+  font-family: "Muli reg", sans-serif !important;
+}
+
+table {
+  width: 100% !important;
+  border-collapse: separate;
+  border-spacing: 0 0.5em;
+}
+
+thead {
+  table-layout: fixed;
+}
+
+.tableFixHead {
+  overflow-y: auto;
+  height: 100px;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+  background-color: #3E454C;
+  color: white;
+  z-index: 10;
+}
+
 .calender-show {
   margin-top: -35px;
   margin-right: 15px;
@@ -45,9 +72,25 @@
   background-color: #53B9C6;
 }
 
-::ng-deep .mat-select-arrow{
+::ng-deep .mat-select-arrow {
   color: white;
 }
-::ng-deep .mat-select-value{
+
+::ng-deep .mat-select-value {
+  color: white !important;
+}
+
+::ng-deep .mat-menu-panel {
+  min-height: 48px;
+}
+
+button.mat-menu-item {
+  background-color: #f9f9f9;
+  color: #434343;
+}
+
+::ng-deep.mat-menu-content button:hover {
+  background: rgb(104, 104, 104) !important;
+  border-left: 5px solid #53b9c6;
   color: white;
 }

@@ -22,8 +22,8 @@ export class PatientResetPasswordComponent implements OnInit {
   closeResult: string;
   isLoading: boolean = false;
   changePatientPasswordForm: FormGroup;
-  successResponse:string;
-  failureResponse:string;
+  successResponse: string;
+  failureResponse: string;
   viewSuccessContent1: string = "Password Reset Successful!";
   viewFailureContent1: string = "Password Reset Failed!";
   viewSuccessContent2: string = "Your password has been changes successfully.";
@@ -32,7 +32,7 @@ export class PatientResetPasswordComponent implements OnInit {
   @ViewChild('viewFailureContent', { static: true }) modalFailureExample: ElementRef<any>;
   constructor(private activatedRoute: ActivatedRoute, private fb: FormBuilder,
     private _snackBar: MatSnackBar, private loginService: LoginService,
-    private modalService: NgbModal, ) { }
+    private modalService: NgbModal,) { }
 
   ngOnInit() {
     this.sub = this.activatedRoute.params.subscribe(params => {
@@ -66,7 +66,19 @@ export class PatientResetPasswordComponent implements OnInit {
 
   //Mat Snack Bar
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 5000 })
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
+  }
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
   }
 
   changePatientPwdSubmit() {
@@ -76,8 +88,8 @@ export class PatientResetPasswordComponent implements OnInit {
 
     let payLoad = this.changePatientPasswordForm.value;
     delete payLoad.newPassword;
-    console.log("req data : ",payLoad);
-    
+    console.log("req data : ", payLoad);
+
     this.loginService.changePatientPassword(payLoad).subscribe(
       (changePwdRes) => {
         console.log("Change Pwd Response : ", changePwdRes);

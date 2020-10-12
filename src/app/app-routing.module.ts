@@ -42,61 +42,65 @@ import { PatientResetPasswordComponent } from './components/patient-reset-passwo
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { AdminResetPasswordComponent } from './components/admin-reset-password/admin-reset-password.component';
+import { MedicapersonnelResetPasswordComponent } from './components/medicapersonnel-reset-password/medicapersonnel-reset-password.component';
 
 const routes: Routes = [
-  {path:"adminsignin",component:AdminsigninComponent},
-  {path:"adminsignup",component:AdminsignupComponent},
-  {path:"administrator",component:AdministartorComponent},
-  {path:"medicalpersonnel",component:MedicalPersonnelComponent},
-  {path:"patientmodule",component:PatientModuleComponent},
+  { path: "adminsignin", component: AdminsigninComponent },
+  { path: "adminsignup", component: AdminsignupComponent },
+  { path: "administrator", component: AdministartorComponent },
+  { path: "medicalpersonnel", component: MedicalPersonnelComponent },
+  { path: "patientmodule", component: PatientModuleComponent },
 
-  {path:"medicalpersonnelsignup",component:MedicalpersonnelsignupComponent},
-  
-  {path:"forgot",component:ForgotpasswordComponent},
-  {path:"changepassword",component:ChangepasswordComponent},
-  {path:"admincenter", component:AdmincenterComponent,
-  children:[
-    {path:'dashboard',component:DashboardComponent},
-    {path:'home',component:HomeComponent},
-    {path:"adminprofile",component:AdminProfileComponent},
-    {path:"manageuser",component:ManageuserComponent},
-    {path:"admingeneraluserprofile/:id",component:AdminGeneralUserProfileComponent},
-    {path:"medicalpersonnelprofile/:id",component:MedicalPersonnelProfileComponent},
-    {path:"managemedicalpersons",component:ManageMedicalPersonsComponent},
-    {path:"invoices",component:InvoicesComponent},
-    {path:"settings",component:SettingsComponent},
-    {path:"hospitaldepartments",component:HospitalDepartmentsComponent},
-    {path:"hospitalroles",component:HospitalRolesComponent},
-    {path:"hospitalfees",component:HospitalFeesComponent},
-    {path:"paymentTransactions",component:PaymentTransactionsComponent},
-    {path:"billandpayment",component:BillandpaymentComponent},
-    {path:"report",component:ReportComponent},
-    {path:"patient",component:PatientComponent},
-    {path:"patientprofile/:id",component:PatientProfileComponent},
-    {path:"patientgeneralinfo",component:PatientProfileeComponent},
-    {path:"patientmedicalrecords",component:PatientMedicalRecordsComponent},
-    {path:"patientappointmentrecords",component:PatientAppointmentRecordComponent},
-    {path:"patientscreeningrecord",component:PatientScreeningRecordComponent},
-    {path:"allmedicalrecord",component:AllMedicalRecordComponent},
-    {path:"appointmentlist",component:AppointmentListComponent},
-    {path:"upcomingappointment",component:UpcomingAppointmentComponent},
-    {path:"pastappointment",component:PastAppointmentComponent},
-    {path:"bookappointment",component:BookAppointmentComponent},
-    {path:"appointmentcalendar",component:AppointmentCalendarComponent},
-    {path:"",redirectTo:"home",pathMatch:"full" },
-  ]},
-    
+  { path: "medicalpersonnelsignup", component: MedicalpersonnelsignupComponent },
+
+  { path: "forgot", component: ForgotpasswordComponent },
+  { path: "changepassword", component: ChangepasswordComponent },
+  {
+    path: "admincenter", component: AdmincenterComponent,
+    children: [
+      { path: 'dashboard', component: DashboardComponent },
+      { path: 'home', component: HomeComponent },
+      { path: "adminprofile", component: AdminProfileComponent },
+      { path: "manageuser", component: ManageuserComponent },
+      { path: "admingeneraluserprofile/:id", component: AdminGeneralUserProfileComponent },
+      { path: "medicalpersonnelprofile/:id", component: MedicalPersonnelProfileComponent },
+      { path: "managemedicalpersons", component: ManageMedicalPersonsComponent },
+      { path: "invoices", component: InvoicesComponent },
+      { path: "settings", component: SettingsComponent },
+      { path: "hospitaldepartments", component: HospitalDepartmentsComponent },
+      { path: "hospitalroles", component: HospitalRolesComponent },
+      { path: "hospitalfees", component: HospitalFeesComponent },
+      { path: "paymentTransactions", component: PaymentTransactionsComponent },
+      { path: "billandpayment", component: BillandpaymentComponent },
+      { path: "report", component: ReportComponent },
+      { path: "patient", component: PatientComponent },
+      { path: "patientprofile/:id", component: PatientProfileComponent },
+      { path: "patientgeneralinfo", component: PatientProfileeComponent },
+      { path: "patientmedicalrecords", component: PatientMedicalRecordsComponent },
+      { path: "patientappointmentrecords", component: PatientAppointmentRecordComponent },
+      { path: "patientscreeningrecord", component: PatientScreeningRecordComponent },
+      { path: "allmedicalrecord", component: AllMedicalRecordComponent },
+      { path: "appointmentlist", component: AppointmentListComponent },
+      { path: "upcomingappointment", component: UpcomingAppointmentComponent },
+      { path: "pastappointment", component: PastAppointmentComponent },
+      { path: "bookappointment", component: BookAppointmentComponent },
+      { path: "appointmentcalendar", component: AppointmentCalendarComponent },
+      { path: "", redirectTo: "home", pathMatch: "full" },
+    ]
+  },
+
   //Patient Module 
-  {path:"patientresetpassword/:id",component:PatientResetPasswordComponent},
-  {path:"adminresetpassword",component:AdminResetPasswordComponent},
-  {path:"termsandconditions",component:TermsAndConditionsComponent},
-  {path:"privacypolicy",component:PrivacyPolicyComponent},
-  {path:"",redirectTo:"administrator",pathMatch:"full" },
-  
+  { path: "patientresetpassword/:id", component: PatientResetPasswordComponent },
+  { path: "adminresetpassword", component: AdminResetPasswordComponent },
+  { path: "medicalpersonnel/setpassword", component: MedicapersonnelResetPasswordComponent },
+  { path: "termsandconditions", component: TermsAndConditionsComponent },
+  { path: "privacypolicy", component: PrivacyPolicyComponent },
+  { path: "", redirectTo: "administrator", pathMatch: "full" },
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash:true})],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

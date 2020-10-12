@@ -11,8 +11,7 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './admin-reset-password.component.html',
   styleUrls: ['./admin-reset-password.component.css']
 })
-export class AdminResetPasswordComponent implements OnInit
- {
+export class AdminResetPasswordComponent implements OnInit {
   sub: any;
   id: string;
   isPasswordOne: boolean = true;
@@ -23,10 +22,10 @@ export class AdminResetPasswordComponent implements OnInit
   closeResult: string;
   isLoading: boolean = false;
   changePatientPasswordForm: FormGroup;
-  successResponse:string;
-  failureResponse:string;
-  queryObj:any = {};
-  urlLink:string;
+  successResponse: string;
+  failureResponse: string;
+  queryObj: any = {};
+  urlLink: string;
   viewSuccessContent1: string = "Password Reset Successful!";
   viewFailureContent1: string = "Password Reset Failed!";
   viewSuccessContent2: string = "Your password has been changes successfully.";
@@ -35,19 +34,20 @@ export class AdminResetPasswordComponent implements OnInit
   @ViewChild('viewFailureContent', { static: true }) modalFailureExample: ElementRef<any>;
   constructor(private activatedRoute: ActivatedRoute, private fb: FormBuilder,
     private _snackBar: MatSnackBar, private loginService: LoginService,
-    private modalService: NgbModal, ) { }
+    private modalService: NgbModal,) { }
 
   ngOnInit() {
     this.sub = this.activatedRoute.queryParamMap.subscribe(params => {
-      this.queryObj = {...params.keys, ...params}
+      this.queryObj = { ...params.keys, ...params }
     })
     var signInRes = localStorage.getItem("SignInRes");
     if (signInRes) {
       this.signObj = JSON.parse(signInRes);
     }
     this.id = this.queryObj.params && this.queryObj.params.userID ? this.queryObj.params.userID : "";
-    console.log("value of userID : ",this.id);
-    this.urlLink = "http://spectrocarev4web.surge.sh/#/adminresetpassword?userID="+this.id;
+    console.log("value of userID : ", this.id);
+    //http://spectrocare.vedaslabs.com/#/adminresetpassword?userID=petcare
+    this.urlLink = "http://spectrocare.vedaslabs.com/#/adminresetpassword?userID=" + this.id;
     this.changePatientPasswordForm = this.fb.group({
       "userID": [""],
       "password": ['', [Validators.required, Validators.minLength(8)]],
@@ -67,52 +67,64 @@ export class AdminResetPasswordComponent implements OnInit
 
   //Mat Snack Bar
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 5000 })
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
+  }
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
   }
 
   changePatientPwdSubmit() {
-    if(this.id != ""){
+    if (this.id != "") {
       this.isLoading = true;
       this.changePatientPasswordForm.get('userID').setValue(this.id)
-    //console.log(this.signObj.access_token);
-    console.log("adminResetPwd Req Data: ", this.changePatientPasswordForm.value);
+      //console.log(this.signObj.access_token);
+      console.log("adminResetPwd Req Data: ", this.changePatientPasswordForm.value);
 
-    let payLoad = this.changePatientPasswordForm.value;
-    delete payLoad.newPassword;
-    console.log("req data : ",payLoad);
-    
-    this.loginService.adminResetPassword(payLoad).subscribe(
-      (adminResetPwdRes) => {
-        console.log("admin reset Pwd Response : ", adminResetPwdRes);
+      let payLoad = this.changePatientPasswordForm.value;
+      delete payLoad.newPassword;
+      console.log("req data : ", payLoad);
 
-        if (adminResetPwdRes.response === 3) {
-          //this.changePatientPasswordForm.reset();
-          this.isLoading = false;
-          this.successResponse = adminResetPwdRes.message;
-          this.modalService.open(this.modalSuccessExample)
-          //this.openSnackBar(changePwdRes.message, "");
-        }
-        else {
-          this.isLoading = false;
-          this.failureResponse = adminResetPwdRes.message;
-          this.modalService.open(this.modalFailureExample)
-          //this.openSnackBar(changePwdRes.message, "");
-        }
-      },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          //this.loading = false;
-          this.isLoading = false;
-          console.log("Client Side Error", err);
+      this.loginService.adminResetPassword(payLoad).subscribe(
+        (adminResetPwdRes) => {
+          console.log("admin reset Pwd Response : ", adminResetPwdRes);
 
-        } else {
-          //this.loading = false;
-          this.isLoading = false;
-          console.log("Server Side", err)
+          if (adminResetPwdRes.response === 3) {
+            //this.changePatientPasswordForm.reset();
+            this.isLoading = false;
+            this.successResponse = adminResetPwdRes.message;
+            this.modalService.open(this.modalSuccessExample)
+            //this.openSnackBar(changePwdRes.message, "");
+          }
+          else {
+            this.isLoading = false;
+            this.failureResponse = adminResetPwdRes.message;
+            this.modalService.open(this.modalFailureExample)
+            //this.openSnackBar(changePwdRes.message, "");
+          }
+        },
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            //this.loading = false;
+            this.isLoading = false;
+            console.log("Client Side Error", err);
+
+          } else {
+            //this.loading = false;
+            this.isLoading = false;
+            console.log("Server Side", err)
+          }
         }
-      }
-    );
-    }else{
+      );
+    } else {
       alert("User ID not given")
     }
   }

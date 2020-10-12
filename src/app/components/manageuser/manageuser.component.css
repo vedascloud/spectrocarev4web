@@ -1,6 +1,6 @@
-/* * {
-  font-family: 'Muli',sans-serif;
-} */
+* {
+  font-family: "Muli reg", sans-serif !important;
+}
 
 select option {
   border: 5px solid #000;
@@ -12,8 +12,8 @@ select option {
 
 label {
   font-weight: 500;
-  font-size: small;
-  color: #242525;
+  font-size: 14px;
+  color: #140202;
 }
 
 button {
@@ -67,6 +67,25 @@ span.cross:hover {
 
 table {
   width: 100% !important;
+  border-collapse: separate;
+  border-spacing: 0 0.5em;
+}
+
+thead {
+  table-layout: fixed;
+}
+
+.tableFixHead {
+  overflow-y: auto;
+  height: 100px;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+  background-color: #3E454C;
+  color: white;
+  z-index: 10;
 }
 
 /* label style */
@@ -75,13 +94,8 @@ table {
   color: rgb(10, 10, 10);
 }
 
-th {
-  font-size: small;
-  font-weight: 300;
-}
-
 ::ng-deep .mat-menu-content {
-  background: rgb(212, 209, 209) !important;
+  background: #F9F9F9 !important;
   padding: 0% !important;
 }
 
@@ -141,7 +155,7 @@ th {
 }
 
 .inp {
-  color: black;
+  color: #090808;
 }
 
 ::ng-deep .mat-select-value-text {
@@ -157,8 +171,8 @@ th {
 }
 
 .modal-title {
-  font-weight: 500 !important;
-  font-size: medium;
+  font-weight: bold !important;
+  font-size: 14px;
 }
 
 ::ng-deep .mat-menu-panel {
@@ -166,11 +180,11 @@ th {
 }
 
 ::ng-deep .adminUserProfile .mat-form-field .mat-form-field-label {
-  color: #3E454C !important;
+  color: #160505 !important;
 }
 
 ::ng-deep .medicalUserProfile .mat-form-field .mat-form-field-label {
-  color: #3E454C !important;
+  color: #160505 !important;
 }
 
 ::ng-deep .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
@@ -221,6 +235,10 @@ th {
 }
 
 ::ng-deep .country-dropdown {
+  width: 18rem !important;
+}
+
+::ng-deep .addAdminGenUserForm .country-dropdown {
   width: 16rem !important;
 }
 
@@ -232,9 +250,8 @@ th {
   width: 24rem !important;
 }
 
-thead th {
-  position: sticky;
-  top: 0;
+::ng-deep .adminGeneralUserProfileForm .country-dropdown {
+  width: 20rem !important;
 }
 
 .scroll {
@@ -295,14 +312,14 @@ thead th {
   width: 12px;
   height: 12px;
   /* background: radial-gradient(ellipse at top left, rgb(245,255,200) 0%, rgb(225,250,100) 5%, rgb(75,175,0) 95%, rgb(25,100,0) 100%); */
-  background: #2c3136;
+  background: #3E454C;
   /* rgb(150, 211, 235); */
   content: "";
 }
 
 .radio-item input[type=radio].true:checked:after {
   /* background: radial-gradient(ellipse at top left, rgb(245,255,200) 0%, rgb(225,250,100) 5%, rgb(75,175,0) 95%, rgb(25,100,0) 100%); */
-  background: #2c3136;
+  background: #3E454C;
   /* rgb(150, 211, 235); */
 }
 

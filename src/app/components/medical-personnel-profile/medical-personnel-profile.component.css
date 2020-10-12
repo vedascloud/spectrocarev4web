@@ -1,3 +1,7 @@
-label{
+* {
+    font-family: "Muli reg", sans-serif !important;
+}
+
+label {
     font-weight: bold;
 }

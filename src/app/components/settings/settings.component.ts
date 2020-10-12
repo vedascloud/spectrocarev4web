@@ -66,7 +66,7 @@ export class SettingsComponent implements OnInit {
     { viewValue: 'HH/MM/SS' }
   ];
   unit: Unit[] = [
-    { viewValue: 'Metric'},
+    { viewValue: 'Metric' },
     { viewValue: 'Meter' },
     { viewValue: 'Centimeter' },
     { viewValue: 'Grams' },
@@ -79,8 +79,9 @@ export class SettingsComponent implements OnInit {
   loading: boolean;
   addAdminPersonalSettingsForm: FormGroup;
   addAdminPersonalSettingsObj: any;
+  isValue: any;
   constructor(private router: Router, private fb: FormBuilder,
-    private loginService: LoginService,private _snackBar: MatSnackBar) { }
+    private loginService: LoginService, private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.loading = true;
@@ -116,7 +117,7 @@ export class SettingsComponent implements OnInit {
       "userID": this.signObj.hospitalAdmin.userID,
       "personalSettings": payload
     }
-    console.log("the req data to add admin personal settings : ",this.addAdminPersonalSettingsObj);
+    console.log("the req data to add admin personal settings : ", this.addAdminPersonalSettingsObj);
     //addAdminPersonalSettings
     this.loginService.addAdminPersonalSettings(this.addAdminPersonalSettingsObj, this.signObj.access_token).
       subscribe(
@@ -149,7 +150,7 @@ export class SettingsComponent implements OnInit {
             console.log(err)
           }
         })
-    
+
 
   }
   //Tab Change Event
@@ -167,16 +168,19 @@ export class SettingsComponent implements OnInit {
   }
 
   callHospitalDepartments() {
+    this.isValue = 1;
     this.isViewHospitalDepartment = true;
     this.isViewHospitalRoles = false;
     this.isViewHospitalServiceFees = false;
   }
   callHospitalRoles() {
+    this.isValue = 2;
     this.isViewHospitalDepartment = false;
     this.isViewHospitalRoles = true;
     this.isViewHospitalServiceFees = false;
   }
   callServiceFees() {
+    this.isValue = 3;
     this.isViewHospitalDepartment = false;
     this.isViewHospitalRoles = false;
     this.isViewHospitalServiceFees = true;
@@ -184,6 +188,14 @@ export class SettingsComponent implements OnInit {
   //Mat Snack Bar
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
+  }
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
       duration: 5000,
       verticalPosition: 'bottom', // 'top' | 'bottom'
       horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'

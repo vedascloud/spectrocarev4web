@@ -3,19 +3,31 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { MatSnackBar } from '@angular/material';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
+import { SearchCountryField, TooltipLabel, CountryISO } from 'ngx-intl-tel-input';
 @Component({
   selector: 'app-medicalpersonnelsignup',
   templateUrl: './medicalpersonnelsignup.component.html',
   styleUrls: ['./medicalpersonnelsignup.component.css']
 })
 export class MedicalpersonnelsignupComponent implements OnInit {
+  separateDialCode = true;
+  SearchCountryField = SearchCountryField;
+  TooltipLabel = TooltipLabel;
+  CountryISO = CountryISO;
+  preferredCountries: CountryISO[] = [CountryISO.India, CountryISO.UnitedStates, CountryISO.UnitedKingdom, CountryISO.Taiwan, CountryISO.China, CountryISO.Malaysia];
+  changePreferredCountries() {
+    this.preferredCountries = [CountryISO.India, CountryISO.Canada];
+  }
+
   title: string = 'Administrator';
   isAdministrator: boolean = true;
   adminSignUpForm: FormGroup;
   medicalSignUpForm: FormGroup;
   previewImg: any;
-
+  isButton: boolean = false;
+  closeResult: string;
   identitys = [
     { value: 'Doctor', viewValue: 'Doctor' },
     { value: 'Nurse', viewValue: 'Nurse' },
@@ -41,7 +53,8 @@ export class MedicalpersonnelsignupComponent implements OnInit {
 
   @ViewChild('fileInput', { static: true }) el: ElementRef;
 
-  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService, private _snackBar: MatSnackBar, private cd: ChangeDetectorRef) { }
+  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService,
+    private _snackBar: MatSnackBar, private cd: ChangeDetectorRef, private modalService: NgbModal,) { }
 
   ngOnInit() {
     this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
@@ -68,6 +81,7 @@ export class MedicalpersonnelsignupComponent implements OnInit {
         //   validators: this.passwordConfirming
         // }
       ),
+      checkPhone: ['', [Validators.required]],
       profilePic: [""]
     })
   }
@@ -100,13 +114,25 @@ export class MedicalpersonnelsignupComponent implements OnInit {
 
   //Mat Snack Bar
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 5000 })
+    this._snackBar.open(message, action, {
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
+  }
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
+      duration: 5000,
+      verticalPosition: 'bottom', // 'top' | 'bottom'
+      horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
+    })
   }
 
   adminSignUp() {
-    console.log(this.adminSignUpForm.value);
+    console.log(this.medicalSignUpForm.value);
 
-    this.loginService.adminRegister(this.adminSignUpForm.value).subscribe((posRes) => {
+    this.loginService.adminRegister(this.medicalSignUpForm.value).subscribe((posRes) => {
       console.log("Pos", posRes)
       if (posRes.response === 3) {
         this.openSnackBar(posRes.message, "");
@@ -137,5 +163,33 @@ export class MedicalpersonnelsignupComponent implements OnInit {
   callAdministrator() {
     this.isAdministrator = true;
     this.title = 'Administrator'
+  }
+  openTerms(content) {
+    this.isButton = false;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'xl', backdrop: false }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  openPrivacyPolicy(content1) {
+    this.isButton = false;
+    this.modalService.open(content1, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'xl', backdrop: false }).result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

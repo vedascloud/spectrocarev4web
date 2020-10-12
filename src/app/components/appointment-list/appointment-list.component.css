@@ -1,3 +1,36 @@
+* {
+  font-family: "Muli reg", sans-serif !important;
+}
+
+table {
+  width: 100% !important;
+  border-collapse: separate;
+  border-spacing: 0 0.5em;
+}
+
+thead {
+  table-layout: fixed;
+}
+
+.tableFixHead {
+  overflow-y: auto;
+  height: 100px;
+}
+
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+  background-color: #3E454C;
+  color: white;
+  z-index: 10;
+}
+
+.active {
+  /* border: 1px solid white !important; */
+  color: white !important;
+  /* box-shadow: 0 0 5px rgb(44, 41, 41); */
+}
+
 .scroll {
   /* width: 700px !important; */
   height: 65vh !important;
@@ -21,7 +54,7 @@
 }
 
 ::ng-deep .mat-select-value {
-  color: white;
+  color: black;
 }
 
 ::ng-deep .mat-menu-content {
@@ -50,13 +83,64 @@
 }
 
 ::ng-deep .mat-menu-panel {
-min-height: 0px !important;
+  min-height: 0px !important;
 }
 
-/* ::ng-deep .modal-content {
-    width: 80% !important;
-  }
+::ng-deep .mat-select {
+  border: none;
+}
 
-  ::ng-deep .modal.show .modal-dialog {
-    justify-content: center !important;
-} */
+/* For Radio button */
+
+.radio-item input[type='radio'] {
+  visibility: hidden;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px 0 5px;
+  padding: 0;
+}
+
+.radio-item input[type=radio]:before {
+  position: relative;
+  margin: 4px -25px -4px 0;
+  display: inline-block;
+  visibility: visible;
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  /* border: 2px inset rgba(150,150,150,0.75); */
+  /* background: radial-gradient(ellipse at top left, rgb(255,255,255) 0%, rgb(250,250,250) 5%, rgb(230,230,230) 95%, rgb(225,225,225) 100%); */
+  border: 1px solid #3E454C;
+  background: transparent;
+  content: "";
+}
+
+.radio-item input[type=radio]:checked:after {
+  position: relative;
+  top: 0;
+  left: 9px;
+  display: inline-block;
+  visibility: visible;
+  border-radius: 6px;
+  width: 12px;
+  height: 12px;
+  /* background: radial-gradient(ellipse at top left, rgb(245,255,200) 0%, rgb(225,250,100) 5%, rgb(75,175,0) 95%, rgb(25,100,0) 100%); */
+  background: #53b9c6;
+  /* rgb(150, 211, 235) */
+  content: "";
+}
+
+.calenderLogo, .timeLogo {
+  margin-left: 165px;
+  margin-top: -28px;
+}
+
+.calenderLogo {
+  margin-left: -25px;
+  margin-top: -3px;
+}
+
+.calenderLogo1 {
+  margin-left: 500px;
+  margin-top: -33px;
+}

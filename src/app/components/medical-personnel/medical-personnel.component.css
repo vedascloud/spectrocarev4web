@@ -1,5 +1,5 @@
 * {
-    font-family: 'Muli';
+    font-family: "Muli reg", sans-serif !important;
 }
 
 .container-fluid {
@@ -60,8 +60,10 @@ input, span {
 
 .dot {
     font-size: x-small;
+    color: white;
+    align-self: center;
 }
 
-a {
+/* a {
     color: #53B9C6 !important;
-}
+} */

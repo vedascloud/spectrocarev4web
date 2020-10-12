@@ -1,4 +1,6 @@
-
+* {
+    font-family: "Muli reg", sans-serif !important;
+}
 
 .scroll {
     height: 80vh !important;
@@ -28,7 +30,6 @@
         font-weight: 500 !important;
         color: #53B9C6 !important;
     }
-    
     .title {
         color: #110A0A !important;
         font-size: 16px !important;
@@ -44,13 +45,11 @@
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para3 {
         font-size: 10px !important;
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para {
         font-size: 10px !important;
         color: #110A0A !important;
@@ -70,7 +69,6 @@
         font-weight: 500 !important;
         color: #53B9C6 !important;
     }
-    
     .title {
         color: #110A0A !important;
         font-size: 17px !important;
@@ -86,13 +84,11 @@
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para3 {
         font-size: 11px !important;
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para {
         font-size: 11px !important;
         color: #110A0A !important;
@@ -112,7 +108,6 @@
         font-weight: 500 !important;
         color: #53B9C6 !important;
     }
-    
     .title {
         color: #110A0A !important;
         font-size: 18px !important;
@@ -128,13 +123,11 @@
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para3 {
         font-size: 12px !important;
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para {
         font-size: 12px !important;
         color: #110A0A !important;
@@ -154,7 +147,6 @@
         font-weight: 500 !important;
         color: #53B9C6 !important;
     }
-    
     .title {
         color: #110A0A !important;
         font-size: 19px !important;
@@ -170,13 +162,11 @@
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para3 {
         font-size: 13px !important;
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para {
         font-size: 13px !important;
         color: #110A0A !important;
@@ -196,7 +186,6 @@
         font-weight: 500 !important;
         color: #53B9C6 !important;
     }
-    
     .title {
         color: #110A0A !important;
         font-size: 19px !important;
@@ -212,13 +201,11 @@
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para3 {
         font-size: 13px !important;
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para {
         font-size: 13px !important;
         color: #110A0A !important;
@@ -233,13 +220,11 @@
 
 @media (min-width:1281px) {
     /* hi-res laptops and desktops */
-    
     .modal-title {
         font-size: 26px !important;
         font-weight: 500 !important;
         color: #53B9C6 !important;
     }
-    
     .title {
         color: #110A0A !important;
         font-size: 20px !important;
@@ -255,13 +240,11 @@
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para3 {
         font-size: 14px !important;
         color: #110A0A !important;
         font-weight: 500;
     }
-
     .para {
         font-size: 14px !important;
         color: #110A0A !important;
@@ -271,6 +254,5 @@
         color: #53B9C6 !important;
         font-weight: bolder;
         margin-right: 5px;
-    }   
-      
+    }
 }

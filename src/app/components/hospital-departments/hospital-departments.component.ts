@@ -12,7 +12,7 @@ import { log } from 'console';
   styleUrls: ['./hospital-departments.component.css']
 })
 export class HospitalDepartmentsComponent implements OnInit {
-  selectedData: any;
+  selectedData: any = [];
   ServicesDataArray: any = [];
   sendedServicesDataArray: any = [];
   //departmentsData: any = [];
@@ -44,6 +44,7 @@ export class HospitalDepartmentsComponent implements OnInit {
     private _snackBar: MatSnackBar,) { }
 
   ngOnInit() {
+    this.selectedData = []
     this.signInRes = localStorage.getItem("SignInRes");
     if (this.signInRes) {
       this.signObj = JSON.parse(this.signInRes);
@@ -52,7 +53,7 @@ export class HospitalDepartmentsComponent implements OnInit {
 
     }
     this.loading = true;
-    this.selectedData = this.departmentsData;
+    //this.selectedData = this.departmentsData;
 
     this.addDepartmentForm = this.fb.group({
       addDepartmentArray: this.fb.array([
@@ -71,6 +72,7 @@ export class HospitalDepartmentsComponent implements OnInit {
 
   //Fetch fetchHospitalDepartmentsDataObj
   fetchHospitalDepartmentsData() {
+    this.selectedData = [];
     //this.isLoading = true;
     let fetchHospitalDepartmentsDataObj = {
       "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
@@ -82,9 +84,10 @@ export class HospitalDepartmentsComponent implements OnInit {
         if (resForFetchMedicalPersonnelData.response === 3) {
           this.loading = false;
           //this.isLoading = false;
+          this.selectedData = [];
           this.selectedData = resForFetchMedicalPersonnelData.records.departments;
           console.log(resForFetchMedicalPersonnelData);
-          
+
           console.log("Fetched Departments data before for loop : ", this.selectedData);
           for (let i = 0; i <= this.selectedData.length - 1; i++) {
 
@@ -115,36 +118,75 @@ export class HospitalDepartmentsComponent implements OnInit {
     );
   }
 
-  addDepartmentToList(){
-    //unshift
+  addDepartmentToList() {
+    console.log("add dept called");
+
     this.selectedData.push({
-      department: [""],
-      location: [""],
+      department: "",
+      location: "",
     })
+    this.openSnackBar("Record created, please insert data", "");
+    // this.selectedData.push({
+    //   department: "",
+    //   location: "",
+    // })
+    console.log(" added hosp dept data : ", this.selectedData);
+
   }
-  
-  removeService(index){
-    this.selectedData.splice(index,1);
+
+  removeService(index) {
+    this.selectedData.splice(index, 1);
   }
-  updatedIndexBasedValue(index,depart,loc){
-    this.selectedData[index] ={
-      department: depart.value,
-      location : loc.value,
-      isAlter: true
+  updatedIndexBasedValue(index, depart, loc) {
+    if (depart.value != '' && loc.value != '') {
+      console.log("added department value : ", depart.value);
+      for (let i = 0; i <= this.selectedData.length - 1; i++) {
+        console.log(this.selectedData[i].department);
+
+        if (this.selectedData[i].department === depart.value) {
+          this.openSnackBar1("value available...", "");
+          this.selectedData[index] = {
+            department: "",
+            location: "",
+            isAlter: false
+          }
+        }
+        else if (this.selectedData[i].department !== depart.value) {
+          this.openSnackBar("value not available...", "");
+          this.selectedData[index] = {
+            department: depart.value,
+            location: loc.value,
+            isAlter: true
+          }
+        }
+      }
+
+      // this.selectedData[index] = {
+      //   department: depart.value,
+      //   location: loc.value,
+      //   isAlter: true
+      // }
+
     }
+    else {
+      this.openSnackBar1("Insert values...", "");
+      console.log("insert values");
+
+    }
+
   }
   editDepartment(index) {
     this.selectedData[index].isAlter = false;
-    console.log("data ",this.selectedData);
-    
+    console.log("data ", this.selectedData);
+
   }
 
-  addAdminPersonalSettingsSubmit(){
-    
-    console.log("available data : ",this.selectedData);
+  addAdminPersonalSettingsSubmit() {
+
+    console.log("available data : ", this.selectedData);
     //this.ServicesDataArray = [];
-    let DataArray:any[] = this.selectedData;
-    for(let i=0; i <= DataArray.length-1; i++){
+    let DataArray: any[] = this.selectedData;
+    for (let i = 0; i <= DataArray.length - 1; i++) {
       let aleteredData = DataArray[i];
       delete aleteredData.isAlter;
       this.sendedServicesDataArray.push(aleteredData);
@@ -157,26 +199,37 @@ export class HospitalDepartmentsComponent implements OnInit {
     }
 
     this.loginService.addHospitalDepartmentsData(this.addHospitalDepartmentsDataObj, this.signObj.access_token)
-    .subscribe(
-      (resForAddDepartmentsData) => {
-        if (resForAddDepartmentsData.response === 3) {
-          this.loading = false;
-          this.openSnackBar(resForAddDepartmentsData.message, "");
-    
-          this.fetchHospitalDepartmentsData();
-        }
-        else{
-          this.openSnackBar(resForAddDepartmentsData.message, "");
-        }
-      })
-    
+      .subscribe(
+        (resForAddDepartmentsData) => {
+          if (resForAddDepartmentsData.response === 3) {
+            this.loading = false;
+            this.openSnackBar(resForAddDepartmentsData.message, "");
+
+            this.fetchHospitalDepartmentsData();
+          }
+          else {
+            this.openSnackBar(resForAddDepartmentsData.message, "");
+          }
+        })
+
   }
- //Mat Snack Bar
- openSnackBar(message: string, action: string) {
-  this._snackBar.open(message, action, {
-    duration: 5000,
-    verticalPosition: 'bottom', // 'top' | 'bottom'
-    horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
-  })
-}
+  //Mat Snack Bar
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['theme-snackbar'],
+      duration: 5000,
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
+  }
+
+  //Mat Snack Bar
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
+      duration: 5000,
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
+  }
 }

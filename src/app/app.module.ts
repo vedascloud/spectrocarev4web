@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ChartsModule } from 'ng2-charts';
@@ -13,8 +13,8 @@ import { AdminsignupComponent } from './components/adminsignup/adminsignup.compo
 import { MedicalpersonnelsignupComponent } from './components/medicalpersonnelsignup/medicalpersonnelsignup.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/home/home.component';
-import { FormsModule,ReactiveFormsModule } from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { ManageuserComponent } from './components/manageuser/manageuser.component';
 import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
 import { ReportComponent } from './components/report/report.component';
@@ -35,14 +35,14 @@ import { PastAppointmentComponent } from './components/past-appointment/past-app
 import { BookAppointmentComponent } from './components/book-appointment/book-appointment.component';
 import { AppointmentCalendarComponent } from './components/appointment-calendar/appointment-calendar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatSnackBarModule, MatCheckboxModule, MatSelectModule, MatSidenav, MatIconModule, MatMenuModule, MatButtonToggleModule, MatRadioModule, MatFormFieldModule} from '@angular/material';
+import { MatSnackBarModule, MatCheckboxModule, MatSelectModule, MatSidenav, MatIconModule, MatMenuModule, MatButtonToggleModule, MatRadioModule, MatFormFieldModule, MatAutocompleteModule } from '@angular/material';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderOneComponent } from './components/header-one/header-one.component';
 import { AdministartorComponent } from './components/administartor/administartor.component';
 import { MedicalPersonnelComponent } from './components/medical-personnel/medical-personnel.component';
@@ -64,6 +64,7 @@ import { MaterialDialogComponent } from './components/material-dialog/material-d
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { AdminResetPasswordComponent } from './components/admin-reset-password/admin-reset-password.component';
+import { MedicapersonnelResetPasswordComponent } from './components/medicapersonnel-reset-password/medicapersonnel-reset-password.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { AdminResetPasswordComponent } from './components/admin-reset-password/a
     TermsAndConditionsComponent,
     PrivacyPolicyComponent,
     AdminResetPasswordComponent,
+    MedicapersonnelResetPasswordComponent,
   ],
   imports: [
     BrowserModule,
@@ -132,13 +134,14 @@ import { AdminResetPasswordComponent } from './components/admin-reset-password/a
     MatRadioModule,
     MatProgressSpinnerModule,
     MatButtonToggleModule,
+    MatAutocompleteModule,
     NgxIntlTelInputModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
     }),
-    AmazingTimePickerModule ,
+    AmazingTimePickerModule,
     ChartsModule,
     Ng2SearchPipeModule,
     NgxLoadingModule.forRoot({
@@ -149,10 +152,10 @@ import { AdminResetPasswordComponent } from './components/admin-reset-password/a
       secondaryColour: '#ffffff',
       tertiaryColour: '#ffffff',
       fullScreenBackdrop: true
-      }),
+    }),
     BrowserAnimationsModule
-    
-  
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]

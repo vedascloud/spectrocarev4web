@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { JsonPipe } from '@angular/common';
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
@@ -86,9 +86,9 @@ export class ManageuserComponent implements OnInit {
   ];
 
   listOfIdenties = [
-    { value: 'General' },
+    // { value: 'General' },
     { value: 'general' },
-    { value: 'System Manager' },
+    // { value: 'System Manager' },
     { value: 'system manager' }
     // { value: 'General Manager' },
     // { value: 'Admin General Manager' },
@@ -171,28 +171,27 @@ export class ManageuserComponent implements OnInit {
       });
     this.autoAddAdminGenUserData(this.signObj);
 
-    //View Admin Gen User Form
+    //Edit Admin Gen User Form
     this.adminGeneralUserProfileForm = this.fb.group({
-      userID: [""],
+      userID: ["", [Validators.required]],
       verificationStatus: [""],
-      identity: [""],
-      gender: [""],
-      preferLanguage: [""],
-      hospital_reg_num: [""],
+      identity: ["", [Validators.required]],
+      gender: ["", [Validators.required]],
+      preferLanguage: ["", [Validators.required]],
+      hospital_reg_num: ["", [Validators.required]],
       registerTime: [""],
-      firstName: [""],
-      lastName: [""],
-      emailID: [""],
-      department: [""],
+      firstName: ["", [Validators.required]],
+      lastName: ["", [Validators.required]],
+      emailID: ["", [Validators.required]],
+      department: ["", [Validators.required]],
       checkPhone: ['', [Validators.required]],
       phoneNumber: this.fb.group({
-        countryCode: [''],
-        phoneNumber: [''],
+        countryCode: ['', [Validators.required]],
+        phoneNumber: ['', [Validators.required]],
       }),
       profilePic: [""],
-      password: [""]
+      password: ["", [Validators.required]]
     });
-    //this.adminGeneralUserProfileForm.disable();
 
     this.adminGeneralUserProfileFormView = this.fb.group({
       userID: [""],
@@ -287,7 +286,7 @@ export class ManageuserComponent implements OnInit {
     }
   }
   removeUploadedFile1() {
-    let newFileList = Array.from(this.el.nativeElement.files);
+    //let newFileList = Array.from(this.el.nativeElement.files);
     this.adminGeneralUserProfileForm.get('profilePic').setValue(null)
   }
   //Img Upload complete here
@@ -367,6 +366,8 @@ export class ManageuserComponent implements OnInit {
         }
       },
       (err: HttpErrorResponse) => {
+        this.isLoading = false;
+        this.openSnackBar1("Please try after sometime...", "");
         if (err.error instanceof Error) {
           this.loading = false;
           console.log("Client Side Error")
@@ -400,6 +401,8 @@ export class ManageuserComponent implements OnInit {
         }
       },
       (err: HttpErrorResponse) => {
+        this.isLoading = false;
+        //this.openSnackBar1("Please try after sometime...", "");
         if (err.error instanceof Error) {
           this.loading = false;
           console.log("Client Side Error")
@@ -457,6 +460,8 @@ export class ManageuserComponent implements OnInit {
         }
       },
       (err: HttpErrorResponse) => {
+        this.isLoading = false;
+        this.openSnackBar1("Please try after sometime...", "");
         if (err.error instanceof Error) {
           this.isLoading = false;
           this.loading = false;
@@ -480,7 +485,7 @@ export class ManageuserComponent implements OnInit {
 
   open(content) {
     this.patientService.isEditable.next(false)
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg' }).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg', backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
 
     }, (reason) => {
@@ -495,7 +500,7 @@ export class ManageuserComponent implements OnInit {
     this.adminGeneralUserProfileForm.patchValue({
       userID: adminTeam.userID,
       verificationStatus: adminTeam.verificationStatus,
-      identity: adminTeam.identity,//disabled:true,
+      identity: adminTeam.identity,
       preferLanguage: adminTeam.preferLanguage,
       hospital_reg_num: adminTeam.hospital_reg_num,
       registerTime: adminTeam.registerTime,
@@ -516,12 +521,13 @@ export class ManageuserComponent implements OnInit {
       this.previewImg1 = this.signObj.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg1 = "http://3.92.226.247:3000" + adminTeam.profilePic;
+      this.previewImg1 = "http://34.199.165.142:3000" + adminTeam.profilePic;
     }
-    this.openView()
+
   }
 
   openViewTwo(medicalTeam) {
+    this.isViewAdmin = false;
     console.log("Selected Medical User To View Data : ", medicalTeam);//medicalUserProfileForm
     this.medicalUserProfileForm.patchValue({
       userID: medicalTeam.profile.userProfile.userID,
@@ -539,19 +545,19 @@ export class ManageuserComponent implements OnInit {
         countryCode: medicalTeam.profile.userProfile.phoneNumber.countryCode
       }
     });
-    if (medicalTeam.profilePic === "") {
+    if (medicalTeam.profile.userProfile.profilePic === "") {
       this.previewImg2 = "../../../assets/images/ui/Icons/1x/profile-1.png";
     }
-    else if (medicalTeam.profilePic === "../../../assets/images/ui/Icons/1x/profile-1.png") {
+    else if (medicalTeam.profile.userProfile.profilePic === "../../../assets/images/ui/Icons/1x/profile-1.png") {
       this.previewImg2 = "../../../assets/images/ui/Icons/1x/profile-1.png";
     }
-    else if (medicalTeam.profilePic !== "") {
-      this.previewImg2 = "http://3.92.226.247:3000" + medicalTeam.profile.userProfile.profilePic;
+    else if (medicalTeam.profile.userProfile.profilePic !== "") {
+      this.previewImg2 = "http://34.199.165.142:3000" + medicalTeam.profile.userProfile.profilePic;
     }
     else {
       this.previewImg2 = "../../../assets/images/ui/Icons/1x/profile-1.png";
     }
-    this.openView()
+    //this.openView()
   }
 
   //update Admin Gen Data
@@ -566,7 +572,9 @@ export class ManageuserComponent implements OnInit {
         phoneNumber: str1
       }
     })
-    let payLoad = this.adminGeneralUserProfileForm.value
+    let payLoad = this.adminGeneralUserProfileForm.value;
+    console.log("admin person data before alter : ", payLoad);
+
     delete payLoad.profilePic;
     delete payLoad.checkPhone;
     delete payLoad.verificationStatus;
@@ -584,12 +592,11 @@ export class ManageuserComponent implements OnInit {
           this.isLoading = false;
           this.openSnackBar(updateAdminGenUserRes.message, "");
           this.loading = false;
-          //this.modalService.dismissAll();
-          //this.adminGeneralUserProfileForm.reset();
+          this.modalService.dismissAll();
           this.fetchAdminGenralData();
         }
         else {
-          alert(updateAdminGenUserRes.message);
+          //alert(updateAdminGenUserRes.message);
           console.log("res from update admin general user : ", updateAdminGenUserRes);
           this.isLoading = false;
           this.openSnackBar1(updateAdminGenUserRes.message, "");
@@ -597,6 +604,8 @@ export class ManageuserComponent implements OnInit {
         }
       },
       (err: HttpErrorResponse) => {
+        this.isLoading = false;
+        this.openSnackBar1("Please try after sometime...", "");
         if (err.error instanceof Error) {
           this.isLoading = false;
           this.loading = false;
@@ -640,14 +649,15 @@ export class ManageuserComponent implements OnInit {
       this.previewImg3 = this.signObj.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg3 = "http://3.92.226.247:3000" + adminTeam.profilePic;
+      this.previewImg3 = "http://34.199.165.142:3000" + adminTeam.profilePic;
     }
 
 
-    this.modalService.open(viewAdminUserContent, { centered: true, size: "lg" })
+    this.modalService.open(viewAdminUserContent, { centered: true, size: "lg", backdrop: false })
   }
   openEditAdminUserMethod(editAdminUserContent, adminTeam) {
-    console.log("Selected Admin User To View Data : ", adminTeam);
+
+    console.log("Selected Admin User To Edit Data : ", adminTeam);
     this.adminGeneralUserProfileForm.patchValue({
       userID: adminTeam.userID,
       verificationStatus: adminTeam.verificationStatus,
@@ -673,13 +683,13 @@ export class ManageuserComponent implements OnInit {
       this.previewImg4 = this.signObj.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg4 = "http://3.92.226.247:3000" + adminTeam.profilePic;
+      this.previewImg4 = "http://34.199.165.142:3000" + adminTeam.profilePic;
     }
-    this.modalService.open(editAdminUserContent, { centered: true, size: "lg" })
+    this.modalService.open(editAdminUserContent, { centered: true, size: "lg", backdrop: false })
   }
   //Delete Modal
   openDeleteModal(content1) {
-    this.modalService.open(content1, { centered: true, size: "md" })
+    this.modalService.open(content1, { centered: true, size: "md", backdrop: false })
   }
   deleteProject(clientObj) {
     this.isLoading = true;
@@ -704,6 +714,8 @@ export class ManageuserComponent implements OnInit {
         //alert(deleteAdminGenres.message);
       }
     }, (err: HttpErrorResponse) => {
+      this.isLoading = false;
+      this.openSnackBar1("Please try after sometime...", "");
       if (err.error instanceof Error) {
         this.isLoading = false;
         this.loading = false;
@@ -728,7 +740,7 @@ export class ManageuserComponent implements OnInit {
   }
 
   open4(content4) {
-    this.modalService.open(content4, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
+    this.modalService.open(content4, { ariaLabelledBy: 'modal-basic-title', centered: true, backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -747,10 +759,12 @@ export class ManageuserComponent implements OnInit {
         }
         else {
           this.openSnackBar1(changePwdRes.message, "");
-          alert(changePwdRes.message);
+          //alert(changePwdRes.message);
         }
       },
       (err: HttpErrorResponse) => {
+        this.isLoading = false;
+        this.openSnackBar1("Please try after sometime...", "");
         if (err.error instanceof Error) {
           this.loading = false;
           console.log("Client Side Error", err);
@@ -762,38 +776,10 @@ export class ManageuserComponent implements OnInit {
     );
   }
 
-  openAddNew() {
-    this.isAdminAdd = false;
-    this.nativeEl.nativeElement.focus();
-  }
-  closeAddNew() {
-    this.isAdminAdd = true;
-  }
-
-  openView() {
-    this.isViewAdmin = false;
-    this.adminGeneralUserProfileForm.disable();
-  }
   closeView() {
     this.isViewAdmin = true;
     this.disableUpdateBtn = false;
-    this.patientService.isEditable.next(true)
-    // this.modalService.dismissAll();
-    // this.addAdminGenUserForm.reset();    
-    // this.adminGeneralUserProfileForm.reset();
+    this.patientService.isEditable.next(true);
   }
 
-  openUpdate() {
-    if (this.disableUpdateBtn === false) {
-      this.disableUpdateBtn = true;
-      this.adminGeneralUserProfileForm.enable();
-      this.nativeEl.nativeElement.focus();
-      this.patientService.isEditable.next(false)
-    }
-    else {
-      this.disableUpdateBtn = false;
-      this.adminGeneralUserProfileForm.disable();
-      this.patientService.isEditable.next(true)
-    }
-  }
 }

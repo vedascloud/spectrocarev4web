@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, AbstractControl,FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
@@ -14,9 +14,9 @@ import { PatientService } from 'src/app/services/patient.service';
   styleUrls: ['./admin-profile.component.css']
 })
 export class AdminProfileComponent implements OnInit {
- 
+
   separateDialCode = true;
-  country:any;
+  country: any;
   SearchCountryField = SearchCountryField;
   TooltipLabel = TooltipLabel;
   CountryISO = CountryISO;
@@ -26,7 +26,7 @@ export class AdminProfileComponent implements OnInit {
     this.preferredCountries = [CountryISO.India, CountryISO.Canada];
   }
 
-  checkCountryData:any;
+  checkCountryData: any;
   adminProfileForm: FormGroup;
   changePasswordForm: FormGroup;
   signObj: any;
@@ -36,10 +36,17 @@ export class AdminProfileComponent implements OnInit {
   closeResult: string;
   userID: string;
   isPassword: boolean = true;
+  isPasswordOne: boolean = true;
+  isPasswordTwo: boolean = true;
+  isPasswordThree: boolean = true;
   password: string = "password";
+  password1: string = "password";
+  password2: string = "password";
+  password3: string = "password";
   disableUpdateBtn: boolean = false;
   previewImg: any;
   isLoading: boolean = false;
+  isLoading1: boolean = false;
   titleArray: any =
     {
       title: "Dashboard",
@@ -60,24 +67,26 @@ export class AdminProfileComponent implements OnInit {
     { value: 'Cardiology', viewValue: 'Cardiology' },
     { value: 'Administrative', viewValue: 'Administrative' }
   ];
-
+  blackColor: any = "black";
+  isValue: any;
+  changeColor: boolean = false;
   @ViewChild('autoFocusTest', { static: false }) nativeEl: ElementRef;
 
   @ViewChild('fileInput', { static: true }) el: ElementRef;
   @ViewChild('myInput', { static: true }) countryInput: ElementRef;
 
   // @ViewChild( NgxIntlTelInputComponent , {static: false }) telInput
-  
+
   constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService,
-     private modalService: NgbModal, private _snackBar: MatSnackBar, 
-     private cd: ChangeDetectorRef,private http:HttpClient, private patientService:PatientService) {
-      
-      }
+    private modalService: NgbModal, private _snackBar: MatSnackBar,
+    private cd: ChangeDetectorRef, private http: HttpClient, private patientService: PatientService) {
+
+  }
 
   ngOnInit() {
-    console.log("My input",this.countryInput);
+    console.log("My input", this.countryInput);
     this.patientService.isEditable.next(true)
-  
+
     this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
     this.checkAdministrator = localStorage.getItem("AdministratorSystemManager");
 
@@ -125,14 +134,15 @@ export class AdminProfileComponent implements OnInit {
 
     //Change Pwd
     this.changePasswordForm = this.fb.group({
-      "userID": ["", [Validators.required, Validators.email]],
+      "userID": this.signObj.hospitalAdmin.userID,
       "oldPassword": ['', [Validators.required, Validators.minLength(8)]],
       "newPassword": ['', [Validators.required, Validators.minLength(8)]],
       "confirmpassword": ['', Validators.required],
     },
       {
         validators: this.checkPasswords
-      })
+      });
+    this.changePasswordForm.markAsTouched();
 
   }
 
@@ -178,7 +188,7 @@ export class AdminProfileComponent implements OnInit {
       userID: this.signObj.hospitalAdmin.userID,
       verificationStatus: this.signObj.hospitalAdmin.verificationStatus,
       identity: this.signObj.hospitalAdmin.identity,
-      preferLanguage: this.signObj.hospitalAdmin.preferLanguage,
+      preferLanguage: this.signObj.hospitalAdmin.preferLanguage || 'English',
       hospital_reg_num: this.signObj.hospitalAdmin.hospital_reg_num,
       password: this.signObj.hospitalAdmin.password,
       firstName: this.signObj.hospitalAdmin.firstName,
@@ -197,9 +207,9 @@ export class AdminProfileComponent implements OnInit {
       this.previewImg = this.signObj.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg = "http://3.92.226.247:3000" + this.signObj.hospitalAdmin.profilePic;//"http://3.92.226.247:3000"+
-      this.http.get(this.previewImg,{responseType:"blob"}).subscribe((file)=>{
-        let imgFile = new File([file],"userimg.jpg");
+      this.previewImg = "http://34.199.165.142:3000" + this.signObj.hospitalAdmin.profilePic;//"http://3.92.226.247:3000"+
+      this.http.get(this.previewImg, { responseType: "blob" }).subscribe((file) => {
+        let imgFile = new File([file], "userimg.jpg");
         this.adminProfileForm.get('profilePic').setValue(imgFile)
       })
     }
@@ -215,6 +225,7 @@ export class AdminProfileComponent implements OnInit {
   }
   openSnackBar1(message: string, action: string) {
     this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
       duration: 5000,
       verticalPosition: 'bottom', // 'top' | 'bottom'
       horizontalPosition: 'right', //'start' | 'center' | 'end' | 'left' | 'right'
@@ -226,7 +237,7 @@ export class AdminProfileComponent implements OnInit {
     this.isLoading = true;
     let countryCode1 = this.adminProfileForm.get(["checkPhone"]).value;
     this.checkCountryData = countryCode1;
-    console.log("Check Country code data : ",this.checkCountryData);
+    console.log("Check Country code data : ", this.checkCountryData);
     console.log("CountryDetails 1 :", countryCode1);
     var str1 = countryCode1.number;
     str1 = str1.replace(/ +/g, "");
@@ -264,7 +275,7 @@ export class AdminProfileComponent implements OnInit {
           this.signObj.hospitalAdmin.lastName = payLoad.lastName;
           this.signObj.hospitalAdmin.preferLanguage = payLoad.preferLanguage;
           this.signObj.hospitalAdmin.department = payLoad.department;
-          this.loginService.isProfileUpdated.next("http://3.92.226.247:3000"+updateAdminGenUserData.profilePic)
+          this.loginService.isProfileUpdated.next("http://3.92.226.247:3000" + updateAdminGenUserData.profilePic)
           this.signObj.hospitalAdmin.profilePic = updateAdminGenUserData.profilePic;//"http://3.92.226.247:3000"+
 
           console.log("After update the hospital signObj data is : ", this.signObj);
@@ -320,7 +331,7 @@ export class AdminProfileComponent implements OnInit {
     }
   }
   open(content) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -330,6 +341,7 @@ export class AdminProfileComponent implements OnInit {
 
   //Add Change Pwd Data
   changePwdSubmit() {
+    this.isLoading1 = true;
     //console.log(this.signObj.access_token);
     console.log("Change Pwd Req : ", this.changePasswordForm.value);
 
@@ -344,17 +356,21 @@ export class AdminProfileComponent implements OnInit {
         if (changePwdRes.response === 3) {
           //this.router.navigateByUrl('/adminprofile')
           //this.loading= false;
+          this.isLoading1 = false;
           this.modalService.dismissAll();
           this.changePasswordForm.reset();
           //this.fetchAdminGenralData();
           this.openSnackBar(changePwdRes.message, "");
         }
         else {
+          this.isLoading1 = false;
           this.openSnackBar1(changePwdRes.message, "");
           //alert(changePwdRes.message);
         }
       },
       (err: HttpErrorResponse) => {
+        this.isLoading1 = false;
+        this.openSnackBar1("Please try after sometime...", "");
         if (err.error instanceof Error) {
           this.loading = false;
           console.log("Client Side Error", err);
@@ -376,15 +392,46 @@ export class AdminProfileComponent implements OnInit {
       this.isPassword = true;
     }
   }
+  showPassword1() {
+    if (this.isPasswordOne === true) {
+      this.password1 = "text";
+      this.isPasswordOne = false;
+    } else {
+      this.password1 = "password"
+      this.isPasswordOne = true;
+    }
+  }
+  showPassword2() {
+    if (this.isPasswordTwo === true) {
+      this.password2 = "text";
+      this.isPasswordTwo = false;
+    } else {
+      this.password2 = "password"
+      this.isPasswordTwo = true;
+    }
+  }
+  showPassword3() {
+    if (this.isPasswordThree === true) {
+      this.password3 = "text";
+      this.isPasswordThree = false;
+    } else {
+      this.password3 = "password"
+      this.isPasswordThree = true;
+    }
+  }
+
 
   openUpdate() {
+
     if (this.disableUpdateBtn === false) {
+      this.changeColor = true;
       this.disableUpdateBtn = true;
       this.adminProfileForm.enable();
       this.patientService.isEditable.next(false)
       this.nativeEl.nativeElement.focus()
     }
     else {
+      this.changeColor = false;
       this.disableUpdateBtn = false;
       this.adminProfileForm.disable();
       this.patientService.isEditable.next(true)
@@ -393,7 +440,7 @@ export class AdminProfileComponent implements OnInit {
 
   //Signout Modal
   openSignOut(content1) {
-    this.modalService.open(content1, { centered: true, size: "sm" })
+    this.modalService.open(content1, { centered: true, size: "sm", backdrop: false })
   }
   SignOut() {
     console.log("SignOut Called")

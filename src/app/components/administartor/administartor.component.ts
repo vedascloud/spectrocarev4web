@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
@@ -16,10 +16,10 @@ export class AdministartorComponent implements OnInit {
   password: string = "password";
   isPassword: boolean = true;
   isLoading: boolean = false;
-  mySubscription:any;
-  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService,private _snackBar: MatSnackBar) { }
+  mySubscription: any;
+  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService, private _snackBar: MatSnackBar) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.adminSignINForm = this.fb.group({
       "userID": ['', [Validators.required]],
       "password": ['', [Validators.required, Validators.minLength(8)]]
@@ -28,16 +28,26 @@ export class AdministartorComponent implements OnInit {
   }
 
   //Mat Snack Bar
-  openSnackBar(message:string,action:string){
-    this._snackBar.open(message,action,{duration:5000, panelClass: ['theme-snackbar']})
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['theme-snackbar'],
+      duration: 5000,
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
   }
 
   //Mat Snack Bar
-  openSnackBar1(message:string,action:string){
-    this._snackBar.open(message,action,{duration:5000, panelClass: ['red-snackbar']})
+  openSnackBar1(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      panelClass: ['red-snackbar'],
+      duration: 5000,
+      verticalPosition: "bottom", // 'top' | 'bottom'
+      horizontalPosition: "right", //'start' | 'center' | 'end' | 'left' | 'right'
+    });
   }
-   // validation error messages to display on web pages
-   validationMessageErrors = {
+  // validation error messages to display on web pages
+  validationMessageErrors = {
     'userID': {
       'required': "Email / UserID is required",
       //'email': "Enter a valid email / UserID"
@@ -73,52 +83,59 @@ export class AdministartorComponent implements OnInit {
 
   submitForm() {
     this.isLoading = true;
-    console.log("Admin SignIn Req Data : ",this.adminSignINForm.value)
-  
-    this.loginService.adminLogin(this.adminSignINForm.value).subscribe((res) => {
+
+    let userID = this.adminSignINForm.value.userID.trim();
+    let password = this.adminSignINForm.value.password.trim();
+    let obj = {
+      userID, password
+    };
+    console.log("after trim : ", obj);
+    this.loginService.adminLogin(obj).subscribe((res) => {
       console.log("SignIn Res", res)
       if (res.response === 3) {
         this.isLoading = false;
         localStorage.setItem("userID", this.adminSignINForm.value.userID);
         localStorage.setItem("SignInRes", JSON.stringify(res));
         this.router.navigateByUrl('/admincenter/dashboard');
-        this.openSnackBar(res.message,"");
-        if(res.hospitalAdmin.identity === "Administrator System Manager"){
-          localStorage.setItem("AdministratorSystemManager","3");
+        this.openSnackBar(res.message, "");
+        if (res.hospitalAdmin.identity === "Administrator System Manager") {
+          localStorage.setItem("AdministratorSystemManager", "3");
         }
-        else{
-          localStorage.setItem("AdministratorSystemManager","0");
-          
+        else {
+          localStorage.setItem("AdministratorSystemManager", "0");
+
         }
 
-      } 
-      else if(res.response === 0){
+      }
+      else if (res.response === 0) {
         this.isLoading = false;
-        this.openSnackBar1(res.message,"");
+        this.openSnackBar1(res.message, "");
         //this.bg_clr ="red_clr"
         //alert("No account associated with this user ID");
       }
       else {
         this.isLoading = false;
-        this.openSnackBar1(res.message,"");
+        this.openSnackBar1(res.message, "");
         //this.bg_clr ="red_clr"
         //alert("Your Details didn't Match")
       }
-    }, 
-    (err: HttpErrorResponse) => {
-      if (err.error instanceof Error) {
+    },
+      (err: HttpErrorResponse) => {
         this.isLoading = false;
-        console.log("Client Side Error")
-      } else {
-        this.isLoading = false;
-        console.log(err)
+        this.openSnackBar1("Please try after sometime...", "");
+        if (err.error instanceof Error) {
+          this.isLoading = false;
+          console.log("Client Side Error")
+        } else {
+          this.isLoading = false;
+          console.log(err)
+        }
       }
-    }
     )
   }
 
-  signUp() {   
-      this.router.navigateByUrl("/adminsignup");    
+  signUp() {
+    this.router.navigateByUrl("/adminsignup");
   }
 
   forgot() {

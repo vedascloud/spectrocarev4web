@@ -1,162 +1,147 @@
-/* angular-cli file: src/styles.css */
-
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 /* You can add global styles to this file, and also import other style files */
 
-body {
-	font-family: 'Muli', sans-serif;
-}
 html, body {
-    height: 100%;
+	height: 100%;
 }
 
 body {
-    margin: 0;
-    font-family: Muli, "Helvetica Neue", sans-serif;
+	margin: 0;
+	font-family: 'Muli', "Helvetica Neue", sans-serif;
 }
 
-.btn.focus,
-.btn:focus,
-.form-control:focus,
-.custom-select:focus,
-.custom-select:focus {
-  box-shadow: none !important;
-  outline: none !important;
+@font-face {
+	font-family: "Muli reg";
+	src: url("assets/fonts/Muli/Muli-Regular.ttf") format("opentype");
+	font-style: normal;
+}
+
+.btn.focus, .btn:focus, .form-control:focus, .custom-select:focus, .custom-select:focus {
+	box-shadow: none !important;
+	outline: none !important;
 }
 
 @media only screen and (min-width: 1440px) {
-	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+	.signupForm .phno .adminSignupPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 436px !important;
 	}
-  }
+}
 
-  /* :not(.adminProfile) */
-  @media only screen and (max-width: 1366px) {
-	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+/* :not(.adminProfile) */
+
+@media only screen and (max-width: 1366px) {
+	.signupForm .phno .adminSignupPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 412px !important;
 	}
-	
-  }
-  
-  @media only screen and (max-width: 1024px) {
-	.signupForm .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+}
+
+@media only screen and (max-width: 1024px) {
+	.signupForm .phno .adminSignupPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 300px !important;
 	}
-  }
+}
 
-  @media only screen and (max-width: 1440px) {
+@media only screen and (max-width: 1440px) {
 	.adminProfile1 .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 278px !important;
 		outline-style: none;
 	}
-  }
-  @media only screen and (max-width: 1366px) {
+}
+
+@media only screen and (max-width: 1366px) {
 	.adminProfile1 .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 257px !important;
 		outline-style: none;
 	}
-  }
+}
 
-  @media only screen and (max-width: 1440px) {
+@media only screen and (max-width: 1440px) {
 	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 400px !important;
+		width: 397px !important;
 		outline-style: none;
 	}
-  }
-  @media only screen and (max-width: 1366px) {
+}
+
+@media only screen and (max-width: 1366px) {
 	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 392px !important;
+		width: 389px !important;
 		outline-style: none;
 	}
-  }
+}
 
-  /* @media only screen and (max-width: 1440px) {
-	.adminProfile .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 452px !important;
-	}
-  } */
+/* .medicalPersonSignupForm .intl-tel-input input, */
 
-  /* @media only screen and (max-width: 1440px) {
-	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 765px !important;
+@media only screen and (max-width: 1440px) {
+	.medicalPersonSignupForm .phno .medicalPersonnelProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 450px !important;
+		outline-style: none;
 	}
-  } */
-  /* @media only screen and (max-width: 1366px) {
-	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 715px !important;
-	}
-  } */
-  
-  
-  /* @media only screen and (max-width: 600px) {
-	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 200px !important;
-	}
-  }
-  
-  @media only screen and (min-width: 600px) {
-	.adminProfile .phno .adminProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
-		width: 200px !important;
-	}
-  } */
+}
 
-  @media only screen and (max-width: 1440px) {
+@media only screen and (max-width: 1366px) {
+	.medicalPersonSignupForm .phno .medicalPersonnelProfilePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+		width: 420px !important;
+		outline-style: none;
+	}
+}
+
+@media only screen and (max-width: 1440px) {
 	.home .phno .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 569px !important;
 		outline-style: none;
 	}
-  }
-  
-  @media only screen and (max-width: 1366px) {
+}
+
+@media only screen and (max-width: 1366px) {
 	.home .phno .homePh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 530px !important;
 		outline-style: none;
 	}
-  }
+}
 
-  /* ::ng-deep .home .phno .homePh .intl-tel-input.separate-dial-code[_ngcontent-any-c9] input[_ngcontent-any-c9]{
+/* ::ng-deep .home .phno .homePh .intl-tel-input.separate-dial-code[_ngcontent-any-c9] input[_ngcontent-any-c9]{
 	outline-style: none;
   } */
-  
-  @media only screen and (max-width: 1024px) {
+
+@media only screen and (max-width: 1024px) {
 	.home .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 304px !important;
 	}
-  }
+}
 
-  @media only screen and (max-width: 1440px) {
+@media only screen and (max-width: 1440px) {
 	.adminUserProfile .adminUserPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 414px !important;
 	}
-  }
- 
-  @media only screen and (max-width: 1366px) {
+}
+
+@media only screen and (max-width: 1366px) {
 	.adminUserProfile .adminUserPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 384px !important;
 	}
-  }
-  
-  @media only screen and (max-width: 1024px) {
+}
+
+@media only screen and (max-width: 1024px) {
 	.adminUserProfile .adminUserPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 304px !important;
 	}
-  }
+}
 
-  @media only screen and (max-width: 1440px) {
+@media only screen and (max-width: 1440px) {
 	.medicalUserProfile .medicalPerPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 414px !important;
 	}
-  }
-  
-  @media only screen and (max-width: 1366px) {
+}
+
+@media only screen and (max-width: 1366px) {
 	.medicalUserProfile .medicalPerPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 384px !important;
 	}
-  }
-  
-  @media only screen and (max-width: 1024px) {
+}
+
+@media only screen and (max-width: 1024px) {
 	.medicalUserProfile .medicalPerPh .intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
 		width: 304px !important;
 	}
-  }
+}
