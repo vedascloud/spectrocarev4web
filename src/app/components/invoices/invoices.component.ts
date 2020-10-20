@@ -266,8 +266,6 @@ export class InvoicesComponent implements OnInit {
   removeService(index) {
     this.serviceData.removeAt(index);
     console.log(this.serviceData.value);
-
-
     this.subTotalAmount = 0;
     this.vat = 0;
     this.totalAmount = 0;

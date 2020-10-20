@@ -1771,7 +1771,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="!(Medications && Medications.length)"
+          <!--Medications-->
+          <tr *ngIf="!(fetchedMedications && fetchedMedications.length)"
             style="text-align: center;background-color: white;padding: 20px;">
             <td style="text-align: center;font-size: 12px;font-weight: 600;" colspan="7">Don't have Medications Records
             </td>
@@ -1783,14 +1784,17 @@
             <td scope="row" class="text-center">{{i+1}}</td>
             <td class="" style="padding-left: 4%;">
               {{selectedMedicationData.mannualPrescriptions.addedDate | date:"MM/dd/yy" }}</td>
-            <td class="" style="padding-left: 6%;">{{selectedMedicationData.mannualPrescriptions.medicines[0].name}}
-            </td>
-            <td class="" style="padding-left: 5%;">{{selectedMedicationData.mannualPrescriptions.medicines[0].dosage}}
-            </td>
-            <td class="" style="padding-left: 7%;">{{selectedMedicationData.mannualPrescriptions.medicines[0].freq}}
+            <td class="" style="padding-left: 6%;">
+              {{ selectedMedicationData.mannualPrescriptions.medicines && selectedMedicationData.mannualPrescriptions.medicines.length && selectedMedicationData.mannualPrescriptions.medicines[0].name}}
             </td>
             <td class="" style="padding-left: 5%;">
-              {{selectedMedicationData.mannualPrescriptions.medicines[0].moreDetails}}
+              {{ selectedMedicationData.mannualPrescriptions.medicines && selectedMedicationData.mannualPrescriptions.medicines.length && selectedMedicationData.mannualPrescriptions.medicines[0].dosage}}
+            </td>
+            <td class="" style="padding-left: 7%;">
+              {{ selectedMedicationData.mannualPrescriptions.medicines && selectedMedicationData.mannualPrescriptions.medicines.length && selectedMedicationData.mannualPrescriptions.medicines[0].freq}}
+            </td>
+            <td class="" style="padding-left: 5%;">
+              {{ selectedMedicationData.mannualPrescriptions.medicines && selectedMedicationData.mannualPrescriptions.medicines.length && selectedMedicationData.mannualPrescriptions.medicines[0].moreDetails}}
             </td>
             <td class="menu text-center text-info" style="padding: 0px; overflow: hidden; padding-top: 5px;">
               <button [matMenuTriggerFor]="beforeMenu" aria-label="Example icon-button with a menu" style="color: #53b8c5;background-color: Transparent;
@@ -2229,7 +2233,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngIf="!(SurgeryProcedures && SurgeryProcedures.length)"
+          <tr *ngIf="!(fetchPatientSurgicalRecordsData && fetchPatientSurgicalRecordsData.length)"
             style="text-align: center;background-color: white;padding: 20px;">
             <td style="text-align: center;font-size: 12px;font-weight: 600;" colspan="7">Don't have SurgeryProcedures
               Records
@@ -3074,22 +3078,26 @@
               </div>
             </div>
 
-            <div class="d-flex border p-2" *ngIf="isNoFile">
+            <div class="d-flex border p-2 mb-1" *ngFor="let selectedFile of addedFilesArray; let i = index">
+              <!--*ngIf="isNoFile"-->
               <div class="col-2" style="justify-content: center;">
                 <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon awesome-file-alt.png" class="">
               </div>
               <div class="col-8" style="justify-content: start;">
-                <span style="font-size: 12px;font-weight: 600; ">{{fileName}} {{fileSize}} {{fileValue}}</span>
+                <span style=" font-size: 12px;font-weight: 600; ">{{selectedFile.name}} {{selectedFile.size}}
+                  {{fileValue}}</span>
+                <!-- <span style=" font-size: 12px;font-weight: 600; ">{{fileName}} {{fileSize}} {{fileValue}}</span> -->
               </div>
-              <div class="col-2" style="text-align: end;">
+              <div class=" col-2" style="text-align: end;">
                 <div class=" ">
                   <img src="../../../assets/images/ui/Icons/patient-medical-module/Icon material-delete.png"
-                    class=" handCursor " width="30%" style="margin-right: 3px;" (click)="removeUploadedFile()">
+                    class=" handCursor " width="30%" style="margin-right: 3px;" (click)="removeUploadedFile(i)">
                 </div>
               </div>
             </div>
 
-            <div class="row py-2 " *ngIf="!isNoFile">
+            <div class="row py-2 ">
+              <!--*ngIf="!isNoFile"-->
               <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
                 aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg, .pdf"
                 (change)="fileProgress($event)" class="d-none">

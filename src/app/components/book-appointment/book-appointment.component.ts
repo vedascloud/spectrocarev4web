@@ -51,7 +51,7 @@ export class BookAppointmentComponent implements OnInit {
   border3: string;
   border4: string;
   border5: string;
-  isLoading: boolean;
+  isLoading: boolean = false;
   //filteredOptions: Observable<any>;
   filteredOptions: Observable<string[]>;
   imgURL: any = "http://34.199.165.142:3000"
@@ -368,7 +368,7 @@ export class BookAppointmentComponent implements OnInit {
   }
 
   bookAppointment() {
-
+    this.isLoading = true;
     let ngbDate = this.bookAppointmentForm.controls['appointmentDate'].value;
     let myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     console.log("date mydate", myDate);
@@ -396,14 +396,17 @@ export class BookAppointmentComponent implements OnInit {
         console.log(bookAppointmentRes);
 
         if (bookAppointmentRes.response === 3) {
+          this.isLoading = false;
           this.router.navigateByUrl("admincenter/appointmentlist");
           this.openSnackBar(bookAppointmentRes.message, "");
         }
         else {
+          this.isLoading = false;
           this.openSnackBar(bookAppointmentRes.message, "");
         }
       },
       (err: HttpErrorResponse) => {
+        this.isLoading = false;
         if (err.error instanceof Error) {
 
           console.log("Client Side Error", err);

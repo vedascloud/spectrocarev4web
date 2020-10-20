@@ -26,8 +26,9 @@
                             + Add New User</button>
                         </div>
                         <div class="col-md-10">
-                          <input type="text" [(ngModel)]="term" class=" p-2 w-100 " placeholder="Search by Key" style="border: none; border-radius: 22px; outline-style: none !important;font-size: 14px; font-weight: 500;padding-right: 100%;
-                            height: 34px;padding-left: 40px !important;background-color: #F5F5F5 ;">
+                          <input type="text" [(ngModel)]="term" class=" p-2 w-100 " placeholder="Search by Name" style="border: none; border-radius: 22px; outline-style: none !important;font-size: 14px; font-weight: 500;padding-right: 100%;
+                            height: 34px;padding-left: 40px !important;background-color: #F5F5F5 ;"
+                            (keyup)="findText(term)">
                           <div class="searchIcon" style="margin-left: 10px;margin-top: -28px;">
                             <i class="fas fa-search" aria-hidden="true"></i>
                           </div>
@@ -633,9 +634,9 @@
                 <!--style="padding: 0px;"-->
                 <div class="card " *ngIf=" isViewAdmin">
                   <div class="p-2">
-                    <input type="text" [(ngModel)]="term" class="p-2 w-100 " placeholder="Serch by User ID / Name"
-                      style="border: none; border-radius: 22px; outline-style: none !important;font-size: 14px; font-weight: 500;padding-right: 100%;
-                      height: 34px;padding-left: 40px !important;background-color: #F5F5F5 ;">
+                    <input type="text" [(ngModel)]="term" class="p-2 w-100 " placeholder="Serch by Name" style="border: none; border-radius: 22px; outline-style: none !important;font-size: 14px; font-weight: 500;padding-right: 100%;
+                      height: 34px;padding-left: 40px !important;background-color: #F5F5F5 ;"
+                      (keyup)="findTextOnMedicalPersonnel(term)">
                   </div>
                   <div class="card-body p-2">
                     <div>

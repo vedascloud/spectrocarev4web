@@ -140,40 +140,28 @@ export class HospitalDepartmentsComponent implements OnInit {
   updatedIndexBasedValue(index, depart, loc) {
     if (depart.value != '' && loc.value != '') {
       console.log("added department value : ", depart.value);
-      for (let i = 0; i <= this.selectedData.length - 1; i++) {
-        console.log(this.selectedData[i].department);
-
-        if (this.selectedData[i].department === depart.value) {
-          this.openSnackBar1("value available...", "");
-          this.selectedData[index] = {
-            department: "",
-            location: "",
-            isAlter: false
-          }
-        }
-        else if (this.selectedData[i].department !== depart.value) {
-          this.openSnackBar("value not available...", "");
-          this.selectedData[index] = {
-            department: depart.value,
-            location: loc.value,
-            isAlter: true
-          }
+      let i = -1;
+      i = this.selectedData.findIndex(x => {
+        console.log("index value : ", x)
+        return x.department.trim().toLowerCase() == depart.value.trim().toLowerCase();
+      })
+      if (i == -1) {
+        this.openSnackBar("department added...", "");
+        this.selectedData[index] = {
+          department: depart.value,
+          location: loc.value,
+          isAlter: true
         }
       }
-
-      // this.selectedData[index] = {
-      //   department: depart.value,
-      //   location: loc.value,
-      //   isAlter: true
-      // }
+      else {
+        this.openSnackBar1("department is there...", "")
+      }
 
     }
     else {
       this.openSnackBar1("Insert values...", "");
       console.log("insert values");
-
     }
-
   }
   editDepartment(index) {
     this.selectedData[index].isAlter = false;

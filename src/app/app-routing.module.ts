@@ -43,6 +43,8 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { AdminResetPasswordComponent } from './components/admin-reset-password/admin-reset-password.component';
 import { MedicapersonnelResetPasswordComponent } from './components/medicapersonnel-reset-password/medicapersonnel-reset-password.component';
+import { AdminVerifyAccountComponent } from './components/admin-verify-account/admin-verify-account.component';
+import { MedicalpersonnelVerifyAccountComponent } from './components/medicalpersonnel-verify-account/medicalpersonnel-verify-account.component';
 
 const routes: Routes = [
   { path: "adminsignin", component: AdminsigninComponent },
@@ -93,6 +95,8 @@ const routes: Routes = [
   { path: "patientresetpassword/:id", component: PatientResetPasswordComponent },
   { path: "adminresetpassword", component: AdminResetPasswordComponent },
   { path: "medicalpersonnel/setpassword", component: MedicapersonnelResetPasswordComponent },
+  { path: "admin/verifyaccount", component: AdminVerifyAccountComponent },
+  { path: "medicalpersonnel/verify", component: MedicalpersonnelVerifyAccountComponent },
   { path: "termsandconditions", component: TermsAndConditionsComponent },
   { path: "privacypolicy", component: PrivacyPolicyComponent },
   { path: "", redirectTo: "administrator", pathMatch: "full" },

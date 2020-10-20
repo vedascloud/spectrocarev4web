@@ -40,7 +40,9 @@ export class ManageuserComponent implements OnInit {
 
   adminTeam: any = [];
   adminTeamData: any = [];
+  filteredAdminTeam: any = [];
   medicalPersonnels: any = [];
+  filteredMedicalPersonnels: any = [];
   checkAdministrator: string;
   isAdminSystmMngr: boolean = false;
   isAdminAdd: boolean = true;
@@ -265,7 +267,7 @@ export class ManageuserComponent implements OnInit {
     }
   }
   removeUploadedFile() {
-    let newFileList = Array.from(this.el.nativeElement.files);
+    //let newFileList = Array.from(this.el.nativeElement.files);
     this.addAdminGenUserForm.get('profilePic').setValue(null)
   }
   //Img Upload complete here
@@ -359,6 +361,7 @@ export class ManageuserComponent implements OnInit {
           this.loading = false;
           this.adminTeam = resAdminWithGenUserData.adminusers;
           this.adminTeamData = resAdminWithGenUserData.adminusers;
+          this.filteredAdminTeam = resAdminWithGenUserData.adminusers;
           console.log("admin team data : ", this.adminTeam);
         }
         else {
@@ -392,6 +395,7 @@ export class ManageuserComponent implements OnInit {
         if (resForFetchMedicalPersonnelData.response === 3) {
           this.loading = false;
           this.medicalPersonnels = resForFetchMedicalPersonnelData.medicalPersonnels;
+          this.filteredMedicalPersonnels = resForFetchMedicalPersonnelData.medicalPersonnels;
           console.log("Resp from fetched medical personnels : ", resForFetchMedicalPersonnelData);
 
           console.log("Medical Personnels data : ", this.medicalPersonnels);
@@ -418,6 +422,30 @@ export class ManageuserComponent implements OnInit {
   onTabChange(event) {
     console.log("event", event)
     this.isViewAdmin = true;
+  }
+
+  findText(term: string) {
+    this.adminTeam;
+    this.filteredAdminTeam;
+    if (!term) {
+      this.adminTeam = this.filteredAdminTeam;
+    } else {
+      this.adminTeam = this.filteredAdminTeam.filter(x =>
+        x.firstName.trim().toLowerCase().startsWith(term.trim().toLowerCase())
+      );
+    }
+  }
+
+  findTextOnMedicalPersonnel(term: string) {
+    this.medicalPersonnels;
+    this.filteredAdminTeam;
+    if (!term) {
+      this.medicalPersonnels = this.filteredMedicalPersonnels;
+    } else {
+      this.medicalPersonnels = this.filteredMedicalPersonnels.filter(x =>
+        x.profile.userProfile.firstName.trim().toLowerCase().startsWith(term.trim().toLowerCase())
+      );
+    }
   }
 
   //Add Admin Gen Data
@@ -487,11 +515,17 @@ export class ManageuserComponent implements OnInit {
     this.patientService.isEditable.next(false)
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg', backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
-
+      this.addAdminGenUserForm.reset();
+      this.addAdminGenUserForm.patchValue({
+        profilePic: [""]
+      });
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.patientService.isEditable.next(true)
-
+      this.patientService.isEditable.next(true);
+      this.addAdminGenUserForm.reset();
+      this.addAdminGenUserForm.patchValue({
+        profilePic: [""]
+      });
     });
   }
 

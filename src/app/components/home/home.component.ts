@@ -160,6 +160,7 @@ export class HomeComponent implements OnInit {
     })
 
     this.homeForm.disable();
+    //this.webSiteDataForm.disable();
     this.getCurrentLocation()
     this.loading = true;
     this.autoAddAdminData(this.signObj);
@@ -803,7 +804,9 @@ export class HomeComponent implements OnInit {
       this.patientService.isEditable.next(true)
     }
   }
+
   openUpdateWebData() {
+
     if (this.disableUpdateBtn3 === false) {
       this.disableUpdateBtn3 = true;
       this.webSiteDataForm.enable();

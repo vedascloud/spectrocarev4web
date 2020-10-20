@@ -85,6 +85,8 @@ export class AppComponent {
       (this.router.url.indexOf('patientresetpassword') == -1) &&
       (this.router.url.indexOf('adminresetpassword') == -1) &&
       (this.router.url.indexOf('medicalpersonnel/setpassword') == -1) &&
+      (this.router.url.indexOf('admin/verifyaccount') == -1) &&
+      (this.router.url.indexOf('medicalpersonnel/verify') == -1) &&
       (this.router.url != "/adminappointment") &&
       (this.router.url != "/admincenter/appointmentlist") &&
       (this.router.url != "/admincenter/upcomingappointment") &&

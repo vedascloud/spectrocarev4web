@@ -84,14 +84,15 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label class="label" style="color: #140202;">Date of Birth</label>
-                      <input type="text" style="
+                      <label class="label" style="color: #140202;">Date of Birth (yyyy/mm/dd)</label>
+                      <input type="text" (input)="onSearchChange1($event.target.value)" style="
                           font-size: 12px;
                           border-radius: 5px;
                           height: 30px;
                           color: #140202;
                           border: 1px solid #cccccc;
                         " class="form-control bg-white" formControlName="dob" />
+                      <!--(input)="onSearchChange1($event.target.value)"-->
                     </div>
                   </div>
                 </div>

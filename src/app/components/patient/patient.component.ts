@@ -29,6 +29,7 @@ export class PatientComponent implements OnInit {
   signObj: any;
   userID: string;
   patients: any = [];
+  filteredPatients: any = [];
   patientData: any;
   loading: boolean;
   isViewPatient: boolean = true;
@@ -103,6 +104,18 @@ export class PatientComponent implements OnInit {
     // this.isViewPatient = true;
   }
 
+  findText(term: string) {
+    this.patients;
+    this.filteredPatients;
+    if (!term) {
+      this.patients = this.filteredPatients;
+    } else {
+      this.patients = this.filteredPatients.filter(x =>
+        x.emailID.trim().toLowerCase().startsWith(term.trim().toLowerCase())
+      );
+    }
+  }
+
   getPatientData(obj) {
     this.patientService.getPatientData(obj).subscribe(
       (res) => {
@@ -110,11 +123,10 @@ export class PatientComponent implements OnInit {
         if (res.response === 3) {
           this.loading = false;
           this.patients = res.patients;
+          this.filteredPatients = res.patients;
           let count: any[] = this.patients;
           this.listSize = count.length;
           console.log("Num Of Patients : ", this.listSize);
-
-
         } else if (res.response === 0) {
           this.loading = false;
         }

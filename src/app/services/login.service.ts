@@ -52,6 +52,12 @@ export class LoginService {
   medicalPersonnelResetPassword(data): any {
     return this._http.post("http://34.199.165.142:3000/api/medicalpersonnel/setpassword", data);
   }
+  adminAccoutVerification(data): any {
+    return this._http.post("http://34.199.165.142:3000/api/hospital/admin/verify", data);
+  }
+  medicalPersonnelAccoutVerification(data): any {
+    return this._http.post("http://34.199.165.142:3000/api/medicalpersonnel/verify", data);
+  }
   //Get Admin adn Gen-User Data
   getAdminWithGenUserData(addAdminAndGenData, accessToken): any {
     return this._http.post("http://34.199.165.142:3000/api/hospital/getadmins", addAdminAndGenData, { headers: { 'x-access-token': accessToken } });

@@ -6,6 +6,8 @@ import { MatSnackBar } from '@angular/material';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { SearchCountryField, TooltipLabel, CountryISO } from 'ngx-intl-tel-input';
+import { MedicalPersonnelService } from 'src/app/services/medical-personnel.service';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
   selector: 'app-medicalpersonnelsignup',
   templateUrl: './medicalpersonnelsignup.component.html',
@@ -50,47 +52,65 @@ export class MedicalpersonnelsignupComponent implements OnInit {
     { value: '+886', viewValue: '+886' },
     { value: '+60', viewValue: '+60' }
   ];
-
+  isLoading: boolean = false;
+  viewSuccessContent1: string = "Registration mail has been successfully sent.";
+  viewFailureContent1: string = "Registration Failed!";
+  viewSuccessContent2: string = " Please check your email.";
+  viewFailureContent2: string = "Your password has not been changed.";
+  signObj: any;
+  hospital_reg_num: any;
   @ViewChild('fileInput', { static: true }) el: ElementRef;
+  @ViewChild('viewSuccessContent', { static: true }) modalSuccessExample: ElementRef<any>;
+  @ViewChild('viewFailureContent', { static: true }) modalFailureExample: ElementRef<any>;
 
   constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService,
+    private medialPersonnelService: MedicalPersonnelService,
     private _snackBar: MatSnackBar, private cd: ChangeDetectorRef, private modalService: NgbModal,) { }
 
   ngOnInit() {
+    var signInRes = localStorage.getItem("SignInRes");
+    if (signInRes) {
+      this.signObj = JSON.parse(signInRes);
+      this.hospital_reg_num = this.signObj.hospitalInformation.hospital_reg_num;
+      console.log(this.signObj, this.hospital_reg_num);
+    }
+
     this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
     this.medicalSignUpForm = this.fb.group({
-      userId: ['', Validators.required],
-      identity: ['', Validators.required],
-      gender: ['', Validators.required],
-      lastName: ['', Validators.required],
-      firstName: ['', Validators.required],
-      email: ['', Validators.required],
-      phCode: ['', Validators.required],
-      number: ['', Validators.required],
+      userID: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      rgNo: ['', Validators.required],
-      hospital_reg_num: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      emailID: ['', [Validators.required, Validators.email]],
       department: ['', Validators.required],
+      identity: ['', [Validators.required]],
+      userType: ['Doctor'],
+      preferLanguage: ['English'],
+      hospital_reg_num: [this.hospital_reg_num],
+      gender: ['', Validators.required],
+      age: ['0'],
+      latitude: ['0.0'],
+      longitude: ['0.0'],
       checkBox: ['', Validators.required],
       phoneNumber: this.fb.group({
-        countryCode: ['', [Validators.required]],
-        phoneNumber: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
-      },
-        // {
-        //   validators: this.passwordConfirming
-        // }
-      ),
+        countryCode: [''],
+        phoneNumber: [''],
+      }),
       checkPhone: ['', [Validators.required]],
       profilePic: [""]
-    })
+    },
+      {
+        validators: this.passwordConfirming
+      },
+    )
   }
-  // passwordConfirming(c: AbstractControl) { //: { invalid: boolean }
-  //   if (c.get('password').value !== c.get('confirmPassword').value) {
-  //     c.get('confirmPassword').setErrors({ NoPassswordMatch: true });
-  //     //return { invalid: true };
-  //   }
-  // }
+  passwordConfirming(c: AbstractControl) { //: { invalid: boolean }
+    if (c.get('password').value !== c.get('confirmPassword').value) {
+      c.get('confirmPassword').setErrors({ NoPassswordMatch: true });
+      //return { invalid: true };
+    }
+  }
   //Image Upload
   fileProgress(event: any) {
     let reader = new FileReader(); // HTML5 FileReader API
@@ -129,25 +149,66 @@ export class MedicalpersonnelsignupComponent implements OnInit {
     })
   }
 
-  adminSignUp() {
+  medicalPersonnelSignUp() {
+    this.isLoading = true;
     console.log(this.medicalSignUpForm.value);
+    let countryCode = this.medicalSignUpForm.get(["checkPhone"]).value;
+    console.log("CountryDetails : ", countryCode);
+    var str = countryCode.number;
+    str = str.replace(/ +/g, "");
 
-    this.loginService.adminRegister(this.medicalSignUpForm.value).subscribe((posRes) => {
+    let formData = new FormData();
+    formData.append("userID", this.medicalSignUpForm.value.userID);
+    formData.append("password", this.medicalSignUpForm.value.password);
+    formData.append("firstName", this.medicalSignUpForm.value.firstName);
+    formData.append("lastName", this.medicalSignUpForm.value.lastName);
+    formData.append("phoneNumber", str);
+    formData.append("phoneNumberCountryCode", countryCode.dialCode);
+    formData.append("emailID", this.medicalSignUpForm.value.emailID);
+    formData.append("department", this.medicalSignUpForm.value.department);
+    formData.append("userType", this.medicalSignUpForm.value.userType);
+    formData.append("preferLanguage", this.medicalSignUpForm.value.preferLanguage);
+    formData.append("hospital_reg_num", this.medicalSignUpForm.value.hospital_reg_num);
+    formData.append("gender", this.medicalSignUpForm.value.gender);
+    formData.append("age", this.medicalSignUpForm.value.age);
+    formData.append("emergencyPhoneNumber", str);
+    formData.append("emergencyPhoneNumberCountryCode", countryCode.dialCode);
+    formData.append("emergencyPhoneNumberExtension", "0");
+    formData.append("latitude", this.medicalSignUpForm.value.latitude);
+    formData.append("longitude", this.medicalSignUpForm.value.longitude);
+    formData.append("profilePic", this.medicalSignUpForm.get('profilePic').value);
+    this.medialPersonnelService.medicalPersonnelRegister(formData).subscribe((posRes) => {
       console.log("Pos", posRes)
       if (posRes.response === 3) {
+        this.isLoading = false;
         this.openSnackBar(posRes.message, "");
-        //alert(posRes.message)
-        this.router.navigateByUrl('/administrator')
+        this.modalService.open(this.modalSuccessExample);
+        this.router.navigateByUrl('/medicalpersonnel');
       }
       else if (posRes.response === 5) {
-        alert(posRes.message);
+        this.isLoading = false;
+        this.openSnackBar1(posRes.message, "");
+        this.modalService.open(this.modalFailureExample);
+        //alert(posRes.message);
       }
       else {
-        alert(posRes.message)
+        this.isLoading = false;
+        this.openSnackBar1(posRes.message, "");
+        this.modalService.open(this.modalFailureExample)
+        //alert(posRes.message);
       }
-    }, (err) => {
-      console.log(err)
-    })
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        this.isLoading = false;
+        this.openSnackBar1("Please try another time...", "");
+        console.log("Client Side Error : ", err);
+      } else {
+        this.isLoading = false;
+        this.openSnackBar1("Please try another time...", "");
+        console.log(err)
+      }
+    }
+    )
   }
 
   signUp() {
@@ -183,6 +244,21 @@ export class MedicalpersonnelsignupComponent implements OnInit {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
   }
+  viewSuccessMethod(viewSuccessContent) {
+    this.modalService.open(viewSuccessContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "xl", backdrop: false }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  viewFailureMethod(viewFailureContent) {
+    this.modalService.open(viewFailureContent, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "sm", backdrop: false }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';

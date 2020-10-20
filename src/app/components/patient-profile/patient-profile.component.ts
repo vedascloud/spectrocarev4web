@@ -112,7 +112,7 @@ export class PatientProfileComponent implements OnInit {
               this.patientProfileForm.get('profilePic').setValue(imgFile)
             })
 
-            let dob = this.selectedPatient.dob / 1000;
+            let dob = this.selectedPatient.dob / 1000;//| this.selectedPatient.dob
             let unixDates = dob;
             var date1 = new Date(unixDates * 1000);
             let timeToShow = date1.getFullYear() + '/' + ('0' + (date1.getMonth() + 1)).slice(-2) + '/' + ('0' + date1.getDate()).slice(-2);

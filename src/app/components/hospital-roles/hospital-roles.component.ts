@@ -118,9 +118,12 @@ export class HospitalRolesComponent implements OnInit {
   addDepartmentToList() {
     //unshift
     this.rolesObjArray.push({
-      name: [""],
+      name: "",
+      //name: [""],
     })
     this.openSnackBar("Record created...", "");
+
+    console.log(" added hosp role data : ", this.rolesObjArray);
   }
   addDepartmentToList1() {
     this.medicalRolesData1.push({
@@ -148,20 +151,25 @@ export class HospitalRolesComponent implements OnInit {
   }
   updatedIndexBasedValue(index, name) {
     if (name.value != '') {
-      // for (let i = 0; i <= this.rolesObjArray.length - 1; i++) {
-      //   if (this.rolesObjArray[i].name === name.value) {
-
-      //     this.openSnackBar1("value availbale...", "");
-      //   }
-      //   this.rolesObjArray[index] = {
-      //     name: name.value,
-      //     isAlter: true
-      //   }
-      // }
-      this.rolesObjArray[index] = {
-        name: name.value,
-        isAlter: true
+      let i = -1;
+      i = this.rolesObjArray.findIndex(x => {
+        console.log("index value : ", x)
+        return x.name.trim().toLowerCase() == name.value.trim().toLowerCase();
+      })
+      if (i == -1) {
+        this.openSnackBar("Administrative-Role added...", "");
+        this.rolesObjArray[index] = {
+          name: name.value,
+          isAlter: true
+        }
       }
+      else {
+        this.openSnackBar1("Administrative-Role is there...", "")
+      }
+      // this.rolesObjArray[index] = {
+      //   name: name.value,
+      //   isAlter: true
+      // }
     }
     else {
       this.openSnackBar1("Please insert data...", "");
@@ -171,7 +179,16 @@ export class HospitalRolesComponent implements OnInit {
   updatedIndexBasedValue1(index, roleType) {
 
     console.log("the data : ", roleType, this.medicalRolesData1[index].subRoles);
-    if (roleType != "" && this.medicalRolesData1[index].subRoles && this.medicalRolesData1[index].subRoles.length) {
+    if (roleType != "" && this.medicalRolesData1[index].subRoles &&
+      this.medicalRolesData1[index].subRoles.length) {
+      console.log("list of medical roles: ", this.medicalRolesData1);
+
+
+      let i = -1;
+      i = this.medicalRolesData1.findIndex(x => {
+        console.log("index value : ", x)
+        return x.roleType.trim().toLowerCase() == roleType.trim().toLowerCase();
+      })
       this.medicalRolesData1[index].roleType = roleType;
       this.medicalRolesData1[index].isAlter = false;
 
@@ -184,6 +201,7 @@ export class HospitalRolesComponent implements OnInit {
         "medicalRoles": this.medicalRolesData1
       }
       console.log("Request data", obj)
+
       //addMedicalRolesData
       this.loginService.addMedicalRolesData(obj, this.signObj.access_token)
         .subscribe(
@@ -208,6 +226,7 @@ export class HospitalRolesComponent implements OnInit {
               console.log(err)
             }
           })
+
     } else {
       this.openSnackBar("Add required date", "")
     }
@@ -323,6 +342,24 @@ export class HospitalRolesComponent implements OnInit {
   }
   addToDoctorSubRoles(index, roleType) {
     console.log(roleType, index);
+
+    // if (roleType != '') {
+    //   console.log("added subrole value : ", roleType);
+    //   let i = -1;
+    //   i = this.medicalRolesData1.findIndex(x => {
+    //     console.log("index value : ", x)
+    //     return x.subrole.trim().toLowerCase() == roleType.trim().toLowerCase();
+    //   })
+    //   if (i == -1) {
+    //     this.openSnackBar("subrole added...", "");
+    //     this.medicalRolesData1[index].subRoles.push(roleType);
+    //     this.newValue = "";
+    //   }
+    //   else {
+    //     this.openSnackBar1("subrole is there...", "")
+    //   }
+    // }
+
     this.medicalRolesData1[index].subRoles.push(roleType);
     this.newValue = "";
   }

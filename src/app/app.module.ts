@@ -65,6 +65,8 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { AdminResetPasswordComponent } from './components/admin-reset-password/admin-reset-password.component';
 import { MedicapersonnelResetPasswordComponent } from './components/medicapersonnel-reset-password/medicapersonnel-reset-password.component';
+import { AdminVerifyAccountComponent } from './components/admin-verify-account/admin-verify-account.component';
+import { MedicalpersonnelVerifyAccountComponent } from './components/medicalpersonnel-verify-account/medicalpersonnel-verify-account.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +115,8 @@ import { MedicapersonnelResetPasswordComponent } from './components/medicaperson
     PrivacyPolicyComponent,
     AdminResetPasswordComponent,
     MedicapersonnelResetPasswordComponent,
+    AdminVerifyAccountComponent,
+    MedicalpersonnelVerifyAccountComponent,
   ],
   imports: [
     BrowserModule,

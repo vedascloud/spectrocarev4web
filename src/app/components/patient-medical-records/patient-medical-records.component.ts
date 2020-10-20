@@ -151,6 +151,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
   fileName: any;
   fileSize: any;
   fileValue: any;
+  addedFilesArray: any = [];
   color: string;
   color1: string;
   color2: string;
@@ -282,6 +283,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
     havingData: ''
   }]
   availableIllnessIDs: any = [];
+  arrayData: any = [];
   @ViewChild('fileInput', { static: true }) el: ElementRef;
   constructor(private loginService: LoginService, private modalService: NgbModal,
     private patProComponent: PatientProfileComponent, private fb: FormBuilder,
@@ -1165,28 +1167,27 @@ export class PatientMedicalRecordsComponent implements OnInit {
   fileProgress(event: any) {
     this.isNoFile = true;
     let reader = new FileReader();
-    let file = event.target.files[0];//event.target.files[0]
-    this.fileName = file.name;
-    this.fileSize = file.size;
-    this.fileSize = this.fileSize / 1024;
-    this.fileValue = "kb";//event.target.files[0]
+    let file = event.target.files[0];
+    this.fileValue = "kb";
     if (event.target.files && event.target.files[0]) {
       reader.readAsDataURL(file);
-      // When file uploads set it to file formcontrol
+      this.addedFilesArray.push(file);
       reader.onload = () => {
-        this.addPatientPhysicalExamFileForm.get('profilePic').setValue(file);
-        this.previewImg = reader.result
+        // this.addPatientPhysicalExamFileForm.get('profilePic').setValue(this.addedFilesArray);
+        //this.previewImg = reader.result;
       }
     }
   }
-  removeUploadedFile() {
-    // let newFileList = Array.from(this.el.nativeElement.files);
-    //this.isNoFile = ;
-    this.addPatientPhysicalExamFileForm.get('profilePic').setValue(null)
-    this.fileName = null;
-    this.fileSize = null;
-    this.fileValue = null;
-    this.isNoFile = false;
+  removeUploadedFile(index) {
+
+    this.addedFilesArray.splice(index, 1);
+    //this.addPatientPhysicalExamFileForm.get('profilePic').setValue(null)
+    //this.fileName = null;
+    //this.fileSize = null;
+    //this.fileValue = null;
+    if (this.addedFilesArray.length === 0) {
+      this.isNoFile = false;
+    }
   }
   //Img Upload complete here
 
@@ -1644,14 +1645,28 @@ export class PatientMedicalRecordsComponent implements OnInit {
   addPatientPhysicalExamFileSubmit() {
     this.isLoading = true;
 
-    let payLoad = this.addPatientPhysicalExamFileForm.value
+    let payLoad = this.addPatientPhysicalExamFileForm.value;
+    console.log("the files data : ", payLoad);
+    let value = JSON.stringify(this.addedFilesArray)
+    console.log("data files : ", value);
+    // let arrayData = [];
+    // this.addedFilesArray.forEach((file) => {
+    //   this.arrayData.push(formData.append('physicalExamRecord', file));
+    // });
+    // console.log("data files : ", this.arrayData);
+
+    this.addedFilesArray.splice(1, this.addedFilesArray.length)
     let formData = new FormData()
 
     formData.append("byWhomID", this.signObj.hospitalAdmin.userID);
     formData.append("hospital_reg_num", this.selectedPatientData.hospital_reg_num);
     formData.append("patientID", this.selectedPatientData.patientID);
     formData.append("medical_record_id", this.selectedPatientData.medical_record_id);
-    formData.append("physicalExamRecord", this.addPatientPhysicalExamFileForm.get('profilePic').value);
+    //formData.append("physicalExamRecord", this.addPatientPhysicalExamFileForm.get('profilePic').value);
+    //formData.append("physicalExamRecord", this.arrayData);
+    this.addedFilesArray.forEach((file) => {
+      formData.append('physicalExamRecord', file);
+    });
     formData.append("byWhom", "admin");
 
     this.loginService.addPatientPhysicalExamRecordAttachmentData(formData, this.signObj.access_token).subscribe(
@@ -1659,7 +1674,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
         console.log("res from add patient phy exam Attachment data : ", updateAdminGenUserData);
         if (updateAdminGenUserData.response === 3) {
           this.isLoading = false;
-          this.removeUploadedFile();
+          this.addedFilesArray = [];
+          //this.removeUploadedFile();
           this.openSnackBar(updateAdminGenUserData.message, "");
           this.modalService.dismissAll();
           this.ngOnInit();
@@ -2695,15 +2711,15 @@ export class PatientMedicalRecordsComponent implements OnInit {
 
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
-      this.removeUploadedFile();
+      //this.removeUploadedFile();
       this.removeUploadedFile1();
       return 'by pressing ESC';
     } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      this.removeUploadedFile();
+      //this.removeUploadedFile();
       this.removeUploadedFile1();
       return 'by clicking on a backdrop';
     } else {
-      this.removeUploadedFile();
+      //this.removeUploadedFile();
       this.removeUploadedFile1();
       return `with: ${reason}`;
     }
@@ -2729,8 +2745,14 @@ export class PatientMedicalRecordsComponent implements OnInit {
       centered: true, size: "md", backdrop: false
     }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.basicExamForm.reset();
+      this.belowForm.reset();
+      this.addPatientPhysicalExamFileForm.reset();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.basicExamForm.reset();
+      this.belowForm.reset();
+      this.addPatientPhysicalExamFileForm.reset();
     });
   }
 
@@ -2741,8 +2763,18 @@ export class PatientMedicalRecordsComponent implements OnInit {
     this.viewManualInput();
     this.modalService.open(addMedicalHistoryModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.addPatIllnessForm.reset();
+      this.addPatIllnessDiagnosisForm.reset();
+      this.addPatIllMedicationManuallyForm.reset();
+      this.addPatientMedHistoryFileForm.reset();
+      this.addPatIllnessSurgicalForm.reset();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.addPatIllnessForm.reset();
+      this.addPatIllnessDiagnosisForm.reset();
+      this.addPatIllMedicationManuallyForm.reset();
+      this.addPatientMedHistoryFileForm.reset();
+      this.addPatIllnessSurgicalForm.reset();
     });
   }
 
@@ -2966,24 +2998,32 @@ export class PatientMedicalRecordsComponent implements OnInit {
     this.viewManualInput();
     this.modalService.open(addMedicationsModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.addPatIllMedicationManuallyFormDirectly.reset();
+      this.addPatientMedHistoryFileFormDirect.reset();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.addPatIllMedicationManuallyFormDirectly.reset();
+      this.addPatientMedHistoryFileFormDirect.reset();
     });
   }
 
   openAddSurgicalProceduresMethod(addSurgicalProceduresModel) {
     this.modalService.open(addSurgicalProceduresModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.addPatIllnessSurgicalFormDirect.reset();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.addPatIllnessSurgicalFormDirect.reset();
     });
   }
 
   openAddImmunizationsMethod(addImmunizationsModel) {
     this.modalService.open(addImmunizationsModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
+      this.addPatImmunizationForm.reset();
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.addPatImmunizationForm.reset();
     });
   }
 
@@ -3128,9 +3168,39 @@ export class PatientMedicalRecordsComponent implements OnInit {
     this.modalService.open(viewMedicalHistoryModel, { ariaLabelledBy: 'modal-basic-title', centered: true, size: "md", backdrop: false }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
       this.medicinesData = [];
+      this.fetchedmedicinesData = [];
+      this.viewPatDiagnosticForm.patchValue({
+        "diagnosisDate": "",
+        "doctorName": "",
+        "diagnosis": "",
+        "prescription": "",
+        "remark": ""
+      });
+      this.viewPatSurgicalForm.patchValue({
+        "lastUpdateDate": "",
+        "time": "",
+        "doctorName": "",
+        "surgeryProcedure": "",
+        "moreInfo": ""
+      })
+
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       this.medicinesData = [];
+      this.viewPatDiagnosticForm.patchValue({
+        "diagnosisDate": "",
+        "doctorName": "",
+        "diagnosis": "",
+        "prescription": "",
+        "remark": ""
+      });
+      this.viewPatSurgicalForm.patchValue({
+        "lastUpdateDate": "",
+        "time": "",
+        "doctorName": "",
+        "surgeryProcedure": "",
+        "moreInfo": ""
+      })
     });
   }
 
@@ -3708,10 +3778,10 @@ export class PatientMedicalRecordsComponent implements OnInit {
         (res) => {
           if (res.response === 3) {
             this.isLoading = false;
-            //this.loading = false;
+            this.ngOnInit();
+            //this.fetchPatientImmunizationRecords();
             this.openSnackBar(res.message, "");
             this.modalService.dismissAll();
-            this.fetchPatientImmunizationRecords();
             // this.ngOnInit()
             console.log("Res from Patient Immunization Record Data Delete : ", res.message);
           }

@@ -141,6 +141,26 @@ export class PatientProfileeComponent implements OnInit {
       };
       this.getPatientData(medicalObj);
     }
+    this.patProComponent.ngOnInit();
+  }
+
+  onSearchChange1(searchValue: string): void {
+    console.log("changed dob value : ", searchValue.substr(0, 4));
+    var d1: any = searchValue.substr(0, 4);
+    var presentDate: any = Math.round(new Date().getTime() / 1000)
+    console.log("present data : ", presentDate);
+    var timestamp: any = presentDate;
+    var date = new Date(timestamp * 1000);
+    //var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+    var formattedDate: any = date.getFullYear();
+
+    console.log(formattedDate);
+    var calculatedDate: any = formattedDate - d1;
+    console.log(calculatedDate);
+    this.patientProfileForm.patchValue({
+      "age": calculatedDate
+    });
+    //this.calculateAmount1();
   }
 
   //Mat Snack Bar
@@ -676,8 +696,8 @@ export class PatientProfileeComponent implements OnInit {
       hospital_reg_num: this.selectedPatient.hospital_reg_num,
       patientID: this.selectedPatient.patientID,
       medical_record_id: this.selectedPatient.medical_record_id,
-      byWhomID: this.selectedPatient.medical_personnel_id,
-      byWhom: "medical personnel",
+      byWhomID: this.signObj.hospitalAdmin.userID,
+      byWhom: "admin",
     };
     console.log(
       "the req for fetch pat phy exam records obj : ",

@@ -36,6 +36,7 @@ export class AppointmentListComponent implements OnInit {
   loading: boolean;
   isValue: any;
   listOfAppointments: any = [];
+  filteredListOfAppointments: any = [];
   allAppointments: any = [];
   currentDate: any;
   pastAppointments: any = [];
@@ -194,9 +195,6 @@ export class AppointmentListComponent implements OnInit {
       emailID: [""],
       phoneNumber: [""],
     })
-
-
-
 
     //patient.appointmentDetails.visitType;
     if (patient.appointmentDetails.visitType === "onsite") {
@@ -372,6 +370,18 @@ export class AppointmentListComponent implements OnInit {
     }
   }
 
+  findText(term: string) {
+    this.listOfAppointments;
+    this.filteredListOfAppointments;
+    if (!term) {
+      this.listOfAppointments = this.filteredListOfAppointments;
+    } else {
+      this.listOfAppointments = this.filteredListOfAppointments.filter(x =>
+        x.patientDetails.patientName.trim().toLowerCase().startsWith(term.trim().toLowerCase())
+      );
+    }
+  }
+
   selectDoctorFromList(value: any) {
     console.log(value);
     let index = -1
@@ -409,6 +419,7 @@ export class AppointmentListComponent implements OnInit {
         if (res.response === 3) {
           this.loading = false;
           this.listOfAppointments = res.appointments;
+          this.filteredListOfAppointments = res.appointments;
           this.allAppointments = res.appointments;
           let count: any[] = this.listOfAppointments;
           this.listSize = count.length;
@@ -434,67 +445,66 @@ export class AppointmentListComponent implements OnInit {
     console.log("past appointments called");
     this.isValue = 3;
     var presentDate = Math.round(new Date().getTime() / 1000)
+    console.log("present data : ", presentDate);
+
+    var timestamp = presentDate;
+    var date = new Date(timestamp * 1000);
+    var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+    //console.log(formattedDate);
 
     this.listOfAppointments = this.allAppointments.filter(date => {
-      return date.appointmentDetails.appointmentDate < presentDate
+      var timestamp1 = date.appointmentDetails.appointmentDate;
+      var date1: any = new Date(timestamp1 * 1000);
+      var formattedDate1 = ('0' + date1.getDate()).slice(-2) + '/' + ('0' + (date1.getMonth() + 1)).slice(-2) + '/' + date1.getFullYear();
+      //console.log(formattedDate1);
+
+      return formattedDate1 < formattedDate
+      //return date.appointmentDetails.appointmentDate < presentDate
     })
-
-    // var t1 = Math.round(new Date().getTime() / 1000)
-    // console.log(t1);
-
-    // this.currentDate = new Date().toLocaleDateString()
-    // this.currentDate = this.currentDate
-    // console.log("Current date from PAst button : ", this.currentDate);
-    // console.log(parseInt((new Date(this.currentDate).getTime() / 1000).toFixed(0)));
-    // var timeToCheck = (parseInt((new Date(this.currentDate).getTime() / 1000).toFixed(0))) + (60 * 60 * 60);
-    // console.log(timeToCheck);
-
-    // this.listOfAppointments = this.allAppointments.filter(date => {
-    //   console.log("Fetched data from past : ", new Date(date.appointmentDetails.appointmentDate).toLocaleDateString());
-    //   console.log("month : ", new Date(date.appointmentDetails.appointmentDate).getMonth() + 1);
-    //   console.log("day : ", new Date(date.appointmentDetails.appointmentDate).getDate());
-    //   console.log("year : ", new Date(date.appointmentDetails.appointmentDate).getFullYear());
-
-    //   var t2 = new Date(date.appointmentDetails.appointmentDate).getMonth() + 1 + "/" +
-    //     new Date(date.appointmentDetails.appointmentDate).getDate() + "/" +
-    //     new Date(date.appointmentDetails.appointmentDate).getFullYear();
-    //   console.log("t2 : ", Math.round(new Date(t2).getTime() / 1000));
-
-    //   console.log("Fetched data from past UNIX Format : ", Math.round((new Date(date.appointmentDetails.appointmentDate).getTime()) / 1000).toFixed(0));
-    //   return new Date(date.appointmentDetails.appointmentDate).toLocaleDateString() < this.currentDate
-    // })
   }
 
   getUpcomingAppointments() {
     this.isValue = 2;
     console.log("upcoming appointments called");
-    //this.currentDate = new Date().toLocaleDateString()
     var presentDate = Math.round(new Date().getTime() / 1000)
-    console.log(" Present Date : ", presentDate);
+    console.log("present data : ", presentDate);
+
+    var timestamp = presentDate;
+    var date = new Date(timestamp * 1000);
+    var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+    //console.log(formattedDate);
 
     this.listOfAppointments = this.allAppointments.filter(date => {
-      return date.appointmentDetails.appointmentDate > presentDate
+      var timestamp1 = date.appointmentDetails.appointmentDate;
+      var date1: any = new Date(timestamp1 * 1000);
+      var formattedDate1 = ('0' + date1.getDate()).slice(-2) + '/' + ('0' + (date1.getMonth() + 1)).slice(-2) + '/' + date1.getFullYear();
+      //console.log(formattedDate1);
+      return formattedDate1 > formattedDate
+      //return date.appointmentDetails.appointmentDate > presentDate
     })
-
-    // this.listOfAppointments = this.allAppointments.filter(date => {
-    //   return new Date(date.appointmentDate).toLocaleDateString() > this.currentDate
-    // })
-
   }
 
   getTodayAppointments() {
     this.isValue = 1;
+
     console.log("today appointments called : ", this.allAppointments);
     var presentDate = Math.round(new Date().getTime() / 1000)
+    console.log("present data : ", presentDate);
+
+    var timestamp = presentDate;
+    var date = new Date(timestamp * 1000);
+    var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear();
+    //console.log(formattedDate);
 
     this.listOfAppointments = this.allAppointments.filter(date => {
-      return date.appointmentDetails.appointmentDate === presentDate
-    })
-    // this.currentDate = new Date().toLocaleDateString()
 
-    // this.listOfAppointments = this.allAppointments.filter(date => {
-    //   return new Date(date.appointmentDetails.appointmentDate).toLocaleDateString() == this.currentDate
-    // })
+      var timestamp1 = date.appointmentDetails.appointmentDate;
+      var date1: any = new Date(timestamp1 * 1000);
+      var formattedDate1 = ('0' + date1.getDate()).slice(-2) + '/' + ('0' + (date1.getMonth() + 1)).slice(-2) + '/' + date1.getFullYear();
+      //console.log(formattedDate1);
+      return formattedDate1 === formattedDate
+      //      return date.appointmentDetails.appointmentDate === presentDate
+    })
   }
   viewOnline() {
     this.textColor = 'white';

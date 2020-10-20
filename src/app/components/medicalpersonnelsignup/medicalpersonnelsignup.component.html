@@ -23,12 +23,12 @@
         <div class="col-md-4"></div>
         <div class="col-md-4 align-self-center text-center">
             <div class="medicalPersonSignupForm example-container">
-                <form [formGroup]="medicalSignUpForm" (ngSubmit)="adminSignUp()" autocomplete="off">
+                <form [formGroup]="medicalSignUpForm" (ngSubmit)="medicalPersonnelSignUp()" autocomplete="off">
                     <!--Upload IMg-->
                     <div class="justify-content-center" style="text-align: -webkit-center;">
                         <div style="border-radius: 50% !important;width: 70px;height: 70px;">
-                            <img class=""
-                                style="border: 2px solid #53B9C6;border-radius: 50%;min-width: 70px;min-height: 70px;max-width: 70px;max-height: 70px;width: 70px;height: 70px;"
+                            <img (click)="fileInput.click()" style="cursor: pointer; border: 2px solid #53B9C6;border-radius: 50%;min-width: 70px;
+                                min-height: 70px;max-width: 70px;max-height: 70px;width: 70px;height: 70px;"
                                 src="{{previewImg}}">
                         </div>
                         <div class="container">
@@ -37,8 +37,8 @@
                                     <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
                                         aria-describedby="inputGroupFileAddon01" accept=".png, .jpg, .jpeg"
                                         (change)="fileProgress($event)" class="d-none">
-                                    <span class="m-auto" (click)="fileInput.click()"
-                                        style=" color: rgb(196, 190, 190) !important;font-weight: 200;">
+                                    <span class="m-auto" (click)="fileInput.click()" style="cursor: pointer; color: rgb(196, 190, 190) !important;
+                                        font-weight: 200;font-size: small;">
                                         Upload Photo
                                     </span>
                                 </div>
@@ -47,8 +47,8 @@
                     </div>
                     <!-- Upload IMG Ends-->
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="User ID *" formControlName="userId">
-                        <mat-error *ngIf="medicalSignUpForm.get('userId').hasError('required')">
+                        <input matInput placeholder="User ID *" formControlName="userID">
+                        <mat-error *ngIf="medicalSignUpForm.get('userID').hasError('required')">
                             User ID is Required!
                         </mat-error>
                     </mat-form-field>
@@ -102,11 +102,11 @@
                     </div>
 
                     <mat-form-field class="full-width">
-                        <input matInput placeholder="Email *" formControlName="email">
-                        <mat-error *ngIf="medicalSignUpForm.get('email').hasError('required')">
+                        <input matInput placeholder="Email *" formControlName="emailID">
+                        <mat-error *ngIf="medicalSignUpForm.get('emailID').hasError('required')">
                             Email is Required!
                         </mat-error>
-                        <mat-error *ngIf="medicalSignUpForm.get('email').hasError('email')">
+                        <mat-error *ngIf="medicalSignUpForm.get('emailID').hasError('emailID')">
                             Email is in this way abc@gmail.com
                         </mat-error>
                     </mat-form-field>
@@ -190,11 +190,11 @@
                         UP</button>
                     <!-- <button mat-raised-button class="loginbtn mb-3 mt-3"   (click)="hideButton()"
                         style="letter-spacing: 1px; outline-style: none;">SIGN UP</button> -->
-                    <div class="row  p-2 justify-content-center">
+                    <div class="row justify-content-center" style="padding: 20px 0 50px 0;">
                         <span (click)="signUp()">
                             <i class="dot fa fa-circle mr-2" aria-hidden="true"></i>
                             Already have an account?
-                            <a> LOGIN</a>
+                            <a style="font-weight: bold;"> LOGIN</a>
                         </span>
                     </div>
 
@@ -926,6 +926,54 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #viewSuccessContent let-modal>
+    <div class="modal-body">
+        <div class="scroll container p-4 " style="background-color: #F8FCFD !important;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="align-items-center">
+                        <div style=" background-color: whitesmoke;">
+                            <div style="text-align: center;padding: 15px 0 15px 0;font-weight: 600;
+                                                        font-size: x-large;
+                                                        color: #6CC1CC;white-space: nowrap;">Thanks for Signing up!
+                            </div>
+                            <div
+                                style="text-align: center;padding: 15px ;font-size:20px; font-weight: 500;color:#090505">
+                                Your account has been verified and we have sent a verification
+                                email to your registered email. Please check your inbox and click
+                                on the verification link to active your account.
+                            </div>
+                            <div
+                                style="text-align: center;padding: 15px;font-weight: bold;font-size: 22px;color:#3E454C">
+                                Return to <a href="http://spectrocare.vedaslabs.com/#/medicalpersonnel"
+                                    style="color: #6CC1CC;text-decoration:none">Sign In</a>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+<ng-template #viewFailureContent let-modal>
+    <div class="modal-header p-2  justify-content-end"
+        style="background-color:white; color: mintcream;border-bottom: transparent;">
+        <div class="matIcon pr-3">
+            <mat-icon (click)="modal.dismiss('Cross click')" style="cursor: pointer;"><img
+                    src="../../../assets/images/ui/Icons/1x/cancel.png"></mat-icon>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="" style="text-align: center;padding: 17px 0px 17px 0;">
+            <img src="../../../assets/images/ui/Icons/1x/adminfail.png" style="width: 25%;padding-bottom: 17px;"><br>
+            <div style="font-size: 14px;font-weight: 600;">{{viewFailureContent1}}</div><br>
         </div>
     </div>
 </ng-template>
