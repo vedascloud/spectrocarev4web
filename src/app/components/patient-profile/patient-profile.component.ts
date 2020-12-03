@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./patient-profile.component.css']
 })
 export class PatientProfileComponent implements OnInit {
-
+  baseURL: string = "http://34.231.177.197:3000";
   signInRes: any;
   signObj: any;
   userID: any;
@@ -65,13 +65,26 @@ export class PatientProfileComponent implements OnInit {
       this.signObj = JSON.parse(this.signInRes);
       this.userID = localStorage.getItem('userID');
 
-      let medicalObj = {
-        "userID": this.userID,
-        "category": "All",
-        "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
-        "token": this.signObj.access_token
+      if (this.signObj && this.signObj.hospitalAdmin) {
+        let getPatientsData = {
+          "byWhom": "admin",
+          "byWhomID": this.signObj.hospitalAdmin.userID,
+          "category": "All",
+          "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+          "token": this.signObj.access_token
+        }
+        this.getPatientData(getPatientsData)
       }
-      this.getPatientData(medicalObj)
+      else {
+        let getPatientsDataObj = {
+          "byWhom": "medical personnel",
+          "byWhomID": this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id,
+          "category": "all",
+          "hospital_reg_num": this.signObj.medicalPersonnel.profile.userProfile.hospital_reg_num,
+          "token": this.signObj.access_token
+        }
+        this.getPatientData(getPatientsDataObj);
+      }
     }
     this.patientProfileForm = this.fb.group({
       profilePic: [""],
@@ -104,7 +117,7 @@ export class PatientProfileComponent implements OnInit {
             console.log("selected patient from patient medical module : ", this.selectedPatient);
             console.log("SelectedPatient : ", this.SelectedPatient);
 
-            this.previewImg = "http://34.199.165.142:3000" + this.selectedPatient.profilePic;
+            this.previewImg = this.baseURL + this.selectedPatient.profilePic;
 
             //this.theImg = "http://34.199.165.142:3000" + this.patProComponent.SelectedPatient.profilePic;
             this.http.get(this.previewImg, { responseType: "blob" }).subscribe((file) => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { time } from 'console';
@@ -16,6 +16,7 @@ interface SearchByValue {
   styleUrls: ['./appointment-list.component.css']
 })
 export class AppointmentListComponent implements OnInit {
+  baseURL: string = "http://34.231.177.197:3000";
   isViewBottom: boolean = false;
   bookAppointmentForm: FormGroup;
   cancelPatientAppointmentForm: FormGroup;
@@ -93,8 +94,9 @@ export class AppointmentListComponent implements OnInit {
   border5: string;
   visitType: string;
   dp: any;
-
-  constructor(private loginService: LoginService, private modalService: NgbModal, private fb: FormBuilder, private _snackBar: MatSnackBar) { }
+  dateToShow: any;
+  constructor(private loginService: LoginService, private modalService: NgbModal, private fb: FormBuilder,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
@@ -144,14 +146,26 @@ export class AppointmentListComponent implements OnInit {
     //this.viewOnline();
     //this.autoAddAppointmentData(this.signObj);
     //this.book1();
-    let objForFetchPatients = {
-      "userID": this.userID,
-      "category": "All",
-      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
-      "token": this.signObj.access_token
+    if (this.signObj && this.signObj.hospitalAdmin) {
+      let getPatientsData = {
+        "byWhom": "admin",
+        "byWhomID": this.signObj.hospitalAdmin.userID,
+        "category": "All",
+        "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+        "token": this.signObj.access_token
+      }
+      this.getPatientData(getPatientsData)
     }
-    this.getPatientData(objForFetchPatients);
-
+    else {
+      let getPatientsDataObj = {
+        "byWhom": "medical personnel",
+        "byWhomID": this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id,
+        "category": "all",
+        "hospital_reg_num": this.signObj.medicalPersonnel.profile.userProfile.hospital_reg_num,
+        "token": this.signObj.access_token
+      }
+      this.getPatientData(getPatientsDataObj);
+    }
     let medicalObj = {
       "userID": this.userID,
       "category": "All",
@@ -159,41 +173,46 @@ export class AppointmentListComponent implements OnInit {
       "token": this.signObj.access_token
     }
     this.getDoctorData(medicalObj);
-    //this.getUpcomingAppointments();
+    this.getUpcomingAppointments();
   }
   openReschedule(patient) {
     this.isViewBottom = true;
-    console.log("Selected Patient Details : " + patient.appointmentDetails, patient.doctorDetails, patient.hospitalDetails, patient.patientDetails);
+    console.log("Selected Patient Details : " + patient.appointmentDetails, patient.doctorDetails, patient.hospital_reg_num, patient.patientDetails);
     let time2 = patient.appointmentDetails.appointmentDuration.split(" ");
     console.log("time2 : " + time2[0]);
     console.log("Appointment Date : ", patient.appointmentDetails.appointmentDate);
+    this.dateToShow = patient.appointmentDetails.appointmentDate;
     this.dp = new Date(patient.appointmentDetails.appointmentDate);
+    var date1 = new Date(patient.appointmentDetails.appointmentDate * 1000);
+    this.dateToShow = (date1.getFullYear()) + '-' + ('0' + (date1.getMonth() + 1)).slice(-2) + '-' + date1.getDate();
 
     //let ngbDate = this.bookAppointmentForm.controls['appointmentDate'].value;
     let ngbDate = patient.appointmentDetails.appointmentDate;
     var dateAr = ngbDate.split('/');
     var newDate = dateAr[2] + '/' + dateAr[0] + '/' + dateAr[1];
 
-    console.log("start date : ", newDate);
+    console.log("start date : ", this.dateToShow, (date1.getFullYear()), (date1.getMonth() + 1), date1.getDate());
 
     this.bookAppointmentForm.patchValue({
-      hospital_reg_num: patient.hospitalDetails.hospital_reg_num,
+      hospital_reg_num: patient.hospital_reg_num,
       appointmentID: patient.appointmentDetails.appointmentID,
-      appointmentDate: patient.appointmentDetails.appointmentDate || newDate,
-      appointmentTime: [""],
+      appointmentDate: new NgbDate((date1.getFullYear()), (date1.getMonth() + 1), date1.getDate()),
+      //patient.appointmentDetails.appointmentDate,
+      //|| newDate
+      appointmentTime: patient.appointmentDetails.appointmentTime || [""],
       appointmentDuration: patient.appointmentDetails.appointmentDuration,
       visitType: patient.appointmentDetails.visitType,
-      doctorName: patient.doctorDetails.doctorName,
-      doctorMedicalPersonnelID: patient.doctorDetails.doctorMedicalPersonnelID,
-      patientName: [""],
-      patientID: [""],
-      department: patient.doctorDetails.department,
+      doctorName: patient.doctorDetails.profile.userProfile.firstName,
+      doctorMedicalPersonnelID: patient.doctorDetails.profile.userProfile.medical_personnel_id,
+      patientName: patient.patientDetails.firstName || [""],
+      patientID: patient.patientDetails.patientID || [""],
+      department: patient.doctorDetails.profile.userProfile.department,
       reasonForVisit: patient.appointmentDetails.reasonForVisit,
-      medicalRecordID: [""],
+      medicalRecordID: patient.patientDetails.medical_record_id || [""],
       byWhom: "admin",
       byWhomID: this.signObj.hospitalAdmin.userID,
-      emailID: [""],
-      phoneNumber: [""],
+      emailID: patient.patientDetails.emailID || [""],
+      phoneNumber: patient.patientDetails.phoneNumber.phoneNumber || [""],
     })
 
     //patient.appointmentDetails.visitType;
@@ -234,13 +253,13 @@ export class AppointmentListComponent implements OnInit {
 
     let rescheduleAppointmentObj = {
       "hospital_reg_num": this.bookAppointmentForm.value.hospital_reg_num,
-      "appointmentDate": "" + new Date(newDate).getTime() / 1000,
+      "appointmentDate": "" + new Date(newDate).getTime(),
       "appointmentTime": this.bookAppointmentForm.value.appointmentTime,
       "appointmentDuration": this.bookAppointmentForm.value.appointmentDuration,
       "appointmentID": this.bookAppointmentForm.value.appointmentID,
       "visitType": this.bookAppointmentForm.value.visitType,
-      "byWhom": "admin",
-      "byWhomID": this.signObj.hospitalAdmin.userID
+      "byWhom": this.bookAppointmentForm.value.doctorName,
+      "byWhomID": this.bookAppointmentForm.value.doctorMedicalPersonnelID
     }
 
     console.log("The Sended Data to Reschedule Appointment : " + rescheduleAppointmentObj);
@@ -620,6 +639,7 @@ export class AppointmentListComponent implements OnInit {
         else {
           this.isLoading = false;
           this.loading = false;
+          this.openSnackBar1(resForCancelAppointment.message, "");
           console.log(resForCancelAppointment.message);
           //alert(resForCancelAppointment.message);
         }

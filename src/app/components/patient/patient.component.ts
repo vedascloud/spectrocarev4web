@@ -15,6 +15,7 @@ import { SearchCountryField, TooltipLabel, CountryISO } from 'ngx-intl-tel-input
   styleUrls: ['./patient.component.css']
 })
 export class PatientComponent implements OnInit {
+  baseURL: string = "http://34.231.177.197:3000";
   separateDialCode = true;
   SearchCountryField = SearchCountryField;
   TooltipLabel = TooltipLabel;
@@ -50,7 +51,7 @@ export class PatientComponent implements OnInit {
   seasons: string[] = ['Normal', 'Abnormal', 'Not Examined'];
   physicalExamination: any = [];
   listSize: any = 0;
-
+  hospitalRegNum: string;
   titleArray: any =
     {
       title: "Patient",
@@ -71,14 +72,34 @@ export class PatientComponent implements OnInit {
       this.signObj = JSON.parse(this.signInRes);
       this.userID = localStorage.getItem('userID');
 
-      let getPatientsData = {
-        "userID": this.userID,
-        "category": "All",
-        "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
-        "token": this.signObj.access_token
+      if (this.signObj && this.signObj.hospitalAdmin) {
+        this.hospitalRegNum = this.signObj.hospitalAdmin.hospital_reg_num;
+      }
+      else {
+        this.hospitalRegNum = this.signObj.medicalPersonnel.profile.userProfile.hospital_reg_num
+      }
+      if (this.signObj && this.signObj.hospitalAdmin) {
+        let getPatientsData = {
+          "byWhom": "admin",
+          "byWhomID": this.signObj.hospitalAdmin.userID,
+          "category": "All",
+          "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+          "token": this.signObj.access_token
+        }
+        this.getPatientData(getPatientsData)
+      }
+      else {
+        let getPatientsDataObj = {
+          "byWhom": "medical personnel",
+          "byWhomID": this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id,
+          "category": "all",
+          "hospital_reg_num": this.signObj.medicalPersonnel.profile.userProfile.hospital_reg_num,
+          "token": this.signObj.access_token
+        }
+        this.getPatientData(getPatientsDataObj);
       }
       this.loading = true;
-      this.getPatientData(getPatientsData)
+
     }
   }
 

@@ -87,6 +87,7 @@ export class AppComponent {
       (this.router.url.indexOf('medicalpersonnel/setpassword') == -1) &&
       (this.router.url.indexOf('admin/verifyaccount') == -1) &&
       (this.router.url.indexOf('medicalpersonnel/verify') == -1) &&
+      (this.router.url.indexOf('viewappointmentdetails') == -1) &&
       (this.router.url != "/adminappointment") &&
       (this.router.url != "/admincenter/appointmentlist") &&
       (this.router.url != "/admincenter/upcomingappointment") &&
@@ -97,7 +98,18 @@ export class AppComponent {
       (this.router.url != "/admincenter/report") &&
       // (this.router.url != "/forgot") &&
       (this.router.url != "/termsandconditions") &&
-      (this.router.url != "/privacypolicy")) {
+      (this.router.url != "/privacypolicy") &&
+
+      (this.router.url != "/medicalpersonnelmodule/dashboard") &&
+      (this.router.url != "/medicalpersonnelmodule/accountcenter") &&
+      (this.router.url != "/medicalpersonnelmodule/patient") &&
+      (this.router.url != "/medicalpersonnelmodule/allmedicalrecord") &&
+      (this.router.url != "/medicalpersonnelmodule/medicalpersonappointments") &&
+      (this.router.url != "/medicalpersonnelmodule/bookappointment") &&
+      (this.router.url != "/medicalpersonnelmodule/testrecords") &&
+      (this.router.url != "/medicalpersonnelmodule/createnewtest") &&
+      (this.router.url != "/medicalpersonnelmodule/managedevice")
+    ) {
       return true;
     }
     return false;

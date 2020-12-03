@@ -108,7 +108,7 @@ export class AdminsignupComponent implements OnInit {
       profilePic: [""],
     })
     this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
-    //this.getCurrentLocation()
+    this.getCurrentLocation()
     this.setImg()
   }
 

@@ -45,6 +45,14 @@ import { AdminResetPasswordComponent } from './components/admin-reset-password/a
 import { MedicapersonnelResetPasswordComponent } from './components/medicapersonnel-reset-password/medicapersonnel-reset-password.component';
 import { AdminVerifyAccountComponent } from './components/admin-verify-account/admin-verify-account.component';
 import { MedicalpersonnelVerifyAccountComponent } from './components/medicalpersonnel-verify-account/medicalpersonnel-verify-account.component';
+import { ViewAppointmentDetailsComponent } from './components/view-appointment-details/view-appointment-details.component';
+import { MedicalPersonnelCenterComponent } from './components/medicalPersonnelModule/medical-personnel-center/medical-personnel-center.component';
+import { MedicalPersonnelDashboardComponent } from './components/medicalPersonnelModule/medical-personnel-dashboard/medical-personnel-dashboard.component';
+import { AccountCenterComponent } from './components/medicalPersonnelModule/account-center/account-center.component';
+import { TestRecordsComponent } from './components/medicalPersonnelModule/test-records/test-records.component';
+import { CreateNewTestComponent } from './components/medicalPersonnelModule/create-new-test/create-new-test.component';
+import { ManageDeviceComponent } from './components/medicalPersonnelModule/manage-device/manage-device.component';
+import { MedicalPersonnelAppointmentsComponent } from './components/medicalPersonnelModule/medical-personnel-appointments/medical-personnel-appointments.component';
 
 const routes: Routes = [
   { path: "adminsignin", component: AdminsigninComponent },
@@ -91,12 +99,29 @@ const routes: Routes = [
     ]
   },
 
+  {
+    path: "medicalpersonnelmodule", component: MedicalPersonnelCenterComponent,
+    children: [
+      { path: 'dashboard', component: MedicalPersonnelDashboardComponent },
+      { path: 'accountcenter', component: AccountCenterComponent },
+      { path: "patient", component: PatientComponent },
+      { path: "allmedicalrecord", component: AllMedicalRecordComponent },
+      { path: "bookappointment", component: BookAppointmentComponent },
+      { path: "testrecords", component: TestRecordsComponent },
+      { path: "createnewtest", component: CreateNewTestComponent },
+      { path: "managedevice", component: ManageDeviceComponent },
+      { path: "medicalpersonappointments", component: MedicalPersonnelAppointmentsComponent },
+      { path: "", redirectTo: "dashboard", pathMatch: "full" },
+    ]
+  },
+
   //Patient Module 
   { path: "patientresetpassword/:id", component: PatientResetPasswordComponent },
   { path: "adminresetpassword", component: AdminResetPasswordComponent },
   { path: "medicalpersonnel/setpassword", component: MedicapersonnelResetPasswordComponent },
   { path: "admin/verifyaccount", component: AdminVerifyAccountComponent },
   { path: "medicalpersonnel/verify", component: MedicalpersonnelVerifyAccountComponent },
+  { path: "viewappointmentdetails", component: ViewAppointmentDetailsComponent },
   { path: "termsandconditions", component: TermsAndConditionsComponent },
   { path: "privacypolicy", component: PrivacyPolicyComponent },
   { path: "", redirectTo: "administrator", pathMatch: "full" },

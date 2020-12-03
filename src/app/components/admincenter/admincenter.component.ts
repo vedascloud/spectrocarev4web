@@ -8,7 +8,7 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./admincenter.component.css']
 })
 export class AdmincenterComponent implements OnInit {
-
+  baseURL: string = "http://34.231.177.197:3000";
   events: string[] = [];
   opened: boolean;
   listInlist: boolean = false;
@@ -19,7 +19,7 @@ export class AdmincenterComponent implements OnInit {
   previewImg: any;
   pic: any;
   name: string;
-
+  loginAsAdmin: boolean = false;
   shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
 
   checkAdministrator: string;
@@ -40,12 +40,14 @@ export class AdmincenterComponent implements OnInit {
       this.signObj = JSON.parse(signInRes);
       this.userID = localStorage.getItem('userID');
       console.log(this.signObj);
+      //if (this.signObj && this.signObj.hospitalAdmin) {
+      this.loginAsAdmin = true;
       if (this.signObj.hospitalAdmin.profilePic === "") {
         this.pic = "../../../assets/images/ui/Icons/1x/profile-1.png"
       }
       else {
         let a = this.signObj.hospitalAdmin.profilePic;
-        this.pic = "http://34.199.165.142:3000" + a
+        this.pic = this.baseURL + a
         console.log("picture url from sidebar (admincenter) of the Admin : ", a);
       }
     }

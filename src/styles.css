@@ -1,6 +1,13 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "./swiper.css";
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+	font-family: "Muli reg";
+	src: url("assets/fonts/Muli/Muli-Medium.ttf") format("opentype");
+	font-style: normal;
+}
 
 html, body {
 	height: 100%;
@@ -11,10 +18,20 @@ body {
 	font-family: 'Muli', "Helvetica Neue", sans-serif;
 }
 
-@font-face {
-	font-family: "Muli reg";
-	src: url("assets/fonts/Muli/Muli-Regular.ttf") format("opentype");
-	font-style: normal;
+.f-13b {
+	font-size: 13px !important;
+	font-weight: bold !important;
+}
+
+.f-13 {
+	font-size: 13px !important;
+	font-weight: 500 !important;
+}
+
+.f-12 {
+	font-size: 12px !important;
+	font-weight: 500 !important;
+	color: #828282 !important;
 }
 
 .btn.focus, .btn:focus, .form-control:focus, .custom-select:focus, .custom-select:focus {

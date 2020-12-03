@@ -15,6 +15,7 @@ import { PatientService } from 'src/app/services/patient.service';
 })
 export class AdminProfileComponent implements OnInit {
 
+  baseURL: string = "http://34.231.177.197:3000";
   separateDialCode = true;
   country: any;
   SearchCountryField = SearchCountryField;
@@ -207,7 +208,7 @@ export class AdminProfileComponent implements OnInit {
       this.previewImg = this.signObj.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg = "http://34.199.165.142:3000" + this.signObj.hospitalAdmin.profilePic;//"http://3.92.226.247:3000"+
+      this.previewImg = this.baseURL + this.signObj.hospitalAdmin.profilePic;//"http://3.92.226.247:3000"+
       this.http.get(this.previewImg, { responseType: "blob" }).subscribe((file) => {
         let imgFile = new File([file], "userimg.jpg");
         this.adminProfileForm.get('profilePic').setValue(imgFile)
@@ -275,7 +276,7 @@ export class AdminProfileComponent implements OnInit {
           this.signObj.hospitalAdmin.lastName = payLoad.lastName;
           this.signObj.hospitalAdmin.preferLanguage = payLoad.preferLanguage;
           this.signObj.hospitalAdmin.department = payLoad.department;
-          this.loginService.isProfileUpdated.next("http://3.92.226.247:3000" + updateAdminGenUserData.profilePic)
+          this.loginService.isProfileUpdated.next(this.baseURL + updateAdminGenUserData.profilePic)
           this.signObj.hospitalAdmin.profilePic = updateAdminGenUserData.profilePic;//"http://3.92.226.247:3000"+
 
           console.log("After update the hospital signObj data is : ", this.signObj);

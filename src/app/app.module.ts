@@ -35,7 +35,7 @@ import { PastAppointmentComponent } from './components/past-appointment/past-app
 import { BookAppointmentComponent } from './components/book-appointment/book-appointment.component';
 import { AppointmentCalendarComponent } from './components/appointment-calendar/appointment-calendar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSnackBarModule, MatCheckboxModule, MatSelectModule, MatSidenav, MatIconModule, MatMenuModule, MatButtonToggleModule, MatRadioModule, MatFormFieldModule, MatAutocompleteModule } from '@angular/material';
+import { MatSnackBarModule, MatCheckboxModule, MatSelectModule, MatSidenav, MatIconModule, MatMenuModule, MatButtonToggleModule, MatRadioModule, MatFormFieldModule, MatAutocompleteModule, MatDialogModule } from '@angular/material';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -67,6 +67,15 @@ import { AdminResetPasswordComponent } from './components/admin-reset-password/a
 import { MedicapersonnelResetPasswordComponent } from './components/medicapersonnel-reset-password/medicapersonnel-reset-password.component';
 import { AdminVerifyAccountComponent } from './components/admin-verify-account/admin-verify-account.component';
 import { MedicalpersonnelVerifyAccountComponent } from './components/medicalpersonnel-verify-account/medicalpersonnel-verify-account.component';
+import { ViewAppointmentDetailsComponent } from './components/view-appointment-details/view-appointment-details.component';
+import { MedicalPersonnelDashboardComponent } from './components/medicalPersonnelModule/medical-personnel-dashboard/medical-personnel-dashboard.component';
+import { MedicalPersonnelCenterComponent } from './components/medicalPersonnelModule/medical-personnel-center/medical-personnel-center.component';
+import { AccountCenterComponent } from './components/medicalPersonnelModule/account-center/account-center.component';
+import { TestRecordsComponent } from './components/medicalPersonnelModule/test-records/test-records.component';
+import { CreateNewTestComponent } from './components/medicalPersonnelModule/create-new-test/create-new-test.component';
+import { ManageDeviceComponent } from './components/medicalPersonnelModule/manage-device/manage-device.component';
+import { MedicalPersonnelAppointmentsComponent } from './components/medicalPersonnelModule/medical-personnel-appointments/medical-personnel-appointments.component';
+import { ChatComponent } from './components/medicalPersonnelModule/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -117,7 +126,17 @@ import { MedicalpersonnelVerifyAccountComponent } from './components/medicalpers
     MedicapersonnelResetPasswordComponent,
     AdminVerifyAccountComponent,
     MedicalpersonnelVerifyAccountComponent,
+    ViewAppointmentDetailsComponent,
+    MedicalPersonnelDashboardComponent,
+    MedicalPersonnelCenterComponent,
+    AccountCenterComponent,
+    TestRecordsComponent,
+    CreateNewTestComponent,
+    ManageDeviceComponent,
+    MedicalPersonnelAppointmentsComponent,
+    ChatComponent,
   ],
+  entryComponents: [ChatComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -139,6 +158,7 @@ import { MedicalpersonnelVerifyAccountComponent } from './components/medicalpers
     MatProgressSpinnerModule,
     MatButtonToggleModule,
     MatAutocompleteModule,
+    MatDialogModule,
     NgxIntlTelInputModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot({

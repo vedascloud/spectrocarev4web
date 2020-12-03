@@ -86,14 +86,27 @@ export class InvoicesComponent implements OnInit {
     this.userID = localStorage.getItem('userID');
     this.fetchListOfServicesData();
     this.fetchInvoicesData();
-    let getPatientsData = {
-      "userID": this.userID,
-      "category": "All",
-      "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
-      "token": this.signObj.access_token
+    if (this.signObj && this.signObj.hospitalAdmin) {
+      let getPatientsData = {
+        "byWhom": "admin",
+        "byWhomID": this.signObj.hospitalAdmin.userID,
+        "category": "All",
+        "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+        "token": this.signObj.access_token
+      }
+      this.getPatientData(getPatientsData)
+    }
+    else {
+      let getPatientsDataObj = {
+        "byWhom": "medical personnel",
+        "byWhomID": this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id,
+        "category": "all",
+        "hospital_reg_num": this.signObj.medicalPersonnel.profile.userProfile.hospital_reg_num,
+        "token": this.signObj.access_token
+      }
+      this.getPatientData(getPatientsDataObj);
     }
     this.loading = true;
-    this.getPatientData(getPatientsData)
     this.selectedData = this.invoicesData
     this.showData;
     console.log("Invoices Data : ", this.invoicesData);
@@ -274,9 +287,9 @@ export class InvoicesComponent implements OnInit {
       let numberValue: number = 0;
       let totalValue: number = 0;
 
-      this.vat += parseFloat(this.serviceData.value[i].vat);
-      totalValue = parseFloat(this.serviceData.value[i].amount)
-      numberValue = parseFloat(this.serviceData.value[i].amount) - parseFloat(this.serviceData.value[i].vat);
+      this.vat += (parseFloat(this.serviceData.value[i].cost) / 10) * parseFloat(this.serviceData.value[i].units);
+      totalValue = parseFloat(this.serviceData.value[i].amount);
+      numberValue = (parseFloat(this.serviceData.value[i].cost) * parseFloat(this.serviceData.value[i].units))//- parseFloat(this.serviceData.value[i].vat);
       this.subTotalAmount += numberValue;
       this.totalAmount += totalValue
       console.log(this.subTotalAmount);
@@ -638,10 +651,10 @@ export class InvoicesComponent implements OnInit {
 
   calculateAmount1() {
     let calculatedAmount: Number = this.serviceData.at(this.indexValue).value.cost *
-      this.serviceData.at(this.indexValue).value.units +
-      parseInt(this.serviceData.at(this.indexValue).value.vat);
+      this.serviceData.at(this.indexValue).value.units + ((parseInt((this.serviceData.at(this.indexValue).value.cost))) * this.serviceData.at(this.indexValue).value.units / 10);
+    //parseInt(this.serviceData.at(this.indexValue).value.vat);
 
-    console.log("the Amount value is : ", calculatedAmount);
+    console.log("the Amount value with VAT is : ", calculatedAmount);
     this.serviceData.at(this.indexValue).patchValue({
       amount: "" + calculatedAmount
     })
@@ -654,9 +667,9 @@ export class InvoicesComponent implements OnInit {
       console.log("Service Array", this.serviceData.value[i].amount);
       let numberValue: number = 0;
       let totalValue: number = 0;
-      this.vat += parseFloat(this.serviceData.value[i].vat);
+      this.vat += (parseFloat(this.serviceData.value[i].cost) * parseFloat(this.serviceData.value[i].units)) / 10;
       totalValue = parseFloat(this.serviceData.value[i].amount)
-      numberValue = parseFloat(this.serviceData.value[i].amount) - parseFloat(this.serviceData.value[i].vat);
+      numberValue = (parseFloat(this.serviceData.value[i].cost) * parseFloat(this.serviceData.value[i].units)); //- (parseFloat(this.serviceData.value[i].amount) / 10) //- parseFloat(this.serviceData.value[i].vat)
       this.subTotalAmount += numberValue;
       this.totalAmount += totalValue;
       console.log(this.subTotalAmount);

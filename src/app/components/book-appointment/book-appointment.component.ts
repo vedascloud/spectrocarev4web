@@ -54,13 +54,17 @@ export class BookAppointmentComponent implements OnInit {
   isLoading: boolean = false;
   //filteredOptions: Observable<any>;
   filteredOptions: Observable<string[]>;
-  imgURL: any = "http://34.199.165.142:3000"
+  imgURL: any = "http://34.231.177.197:3000"
   options: Array<any>;
   options1: Array<any>;
   patientData: any;
   queryObj: any = {};
   sub: any;
   id: string;
+  byWhom: string;
+  byWhomID: string;
+  hospitalRegNum: string;
+  creatorName: string;
   constructor(private router: Router, private modalService: NgbModal, private loginService: LoginService,
     private fb: FormBuilder, private config: NgbDatepickerConfig, private _snackBar: MatSnackBar,
     private atp: AmazingTimePickerService, private activatedRoute: ActivatedRoute,) {
@@ -82,7 +86,31 @@ export class BookAppointmentComponent implements OnInit {
     if (this.signInRes) {
       this.signObj = JSON.parse(this.signInRes);
       this.userID = localStorage.getItem('userID');
+      if (this.signObj && this.signObj.hospitalAdmin) {
+        this.byWhom = "admin";
+        this.byWhomID = this.signObj.hospitalAdmin.userID;
+        this.hospitalRegNum = this.signObj.hospitalAdmin.hospital_reg_num;
+        this.creatorName = this.signObj.hospitalAdmin.firstName;
+        let medicalObj = {
+          "userID": this.userID,
+          "category": "All",
+          "hospital_reg_num": this.hospitalRegNum,
+          "token": this.signObj.access_token
+        }
+        this.getDoctorData(medicalObj);
+      }
+      else {
+        this.byWhom = "medical personnel";
+        this.byWhomID = this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id;
+        this.hospitalRegNum = this.signObj.medicalPersonnel.profile.userProfile.hospital_reg_num;
+        this.creatorName = this.signObj.medicalPersonnel.profile.userProfile.firstName;
 
+        // this.bookAppointmentForm.patchValue({
+        //   doctorName: this.signObj.medicalPersonnel.profile.userProfile.firstName,
+        //   doctorMedicalPersonnelID: this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id,
+        //   department: this.signObj.medicalPersonnel.profile.userProfile.department
+        // })
+      }
       this.bookAppointmentForm = this.fb.group({
         hospital_reg_num: [""],
         appointmentDate: [""],
@@ -97,30 +125,31 @@ export class BookAppointmentComponent implements OnInit {
         reasonForVisit: [""],
         note: [""],
         medicalRecordID: [""],
-        byWhom: "admin",
-        byWhomID: this.signObj.hospitalAdmin.userID,
+        byWhom: this.byWhom,
+        byWhomID: this.byWhomID,
+        //this.signObj.hospitalAdmin.userID,
         emailID: [""],
         phoneNumber: [""],
         //creatorName: [""],
         //createrMedicalPersonnelID: [""],
+        paymentDetails: {
+          paymentDate: "2020/10/29",
+          txnStatus: "success",
+          paymentMode: "Paypal",
+          paymentCard: "198391892019",
+          txnAmount: "3.00",
+          txnCurrency: "USD"
+        }
       });
 
       let objForFetchPatients = {
-        "userID": this.userID,
-        "category": "All",
-        "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+        "byWhom": this.byWhom,
+        "byWhomID": this.byWhomID,
+        "category": "all",
+        "hospital_reg_num": this.hospitalRegNum,
         "token": this.signObj.access_token
       }
       this.getPatientData(objForFetchPatients);
-
-      let medicalObj = {
-        "userID": this.userID,
-        "category": "All",
-        "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
-        "token": this.signObj.access_token
-      }
-      this.getDoctorData(medicalObj);
-
     }
 
     if (this.queryObj && this.queryObj.firstName ? this.queryObj.firstName : "") {
@@ -186,6 +215,7 @@ export class BookAppointmentComponent implements OnInit {
     return option1
   }
   getPatientData(obj) {
+    console.info("fetching patients data : ", obj);
     this.loginService.getPatientData(obj).subscribe(
       (res) => {
         console.log(res)
@@ -208,7 +238,6 @@ export class BookAppointmentComponent implements OnInit {
         }
       })
   }
-
 
   viewOnline() {
     this.textColor = 'white';
@@ -316,11 +345,29 @@ export class BookAppointmentComponent implements OnInit {
   }
 
   autoAddAppointmentData(data) {
-    this.bookAppointmentForm.patchValue({
-      hospital_reg_num: data.hospitalAdmin.hospital_reg_num,
-      creatorName: data.hospitalAdmin.firstName,
-      createrMedicalPersonnelID: data.hospitalAdmin.userID
-    })
+    if (this.signObj && this.signObj.hospitalAdmin) {
+      this.bookAppointmentForm.patchValue({
+        hospital_reg_num: this.hospitalRegNum,
+        creatorName: this.creatorName,
+        createrMedicalPersonnelID: this.byWhomID,
+        //   doctorName: this.signObj.medicalPersonnel.profile.userProfile.firstName,
+        //   doctorMedicalPersonnelID: this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id,
+        //   department: this.signObj.medicalPersonnel.profile.userProfile.department
+
+      })
+    }
+    else {
+      this.bookAppointmentForm.patchValue({
+        hospital_reg_num: this.hospitalRegNum,
+        creatorName: this.creatorName,
+        createrMedicalPersonnelID: this.byWhomID,
+        doctorName: this.signObj.medicalPersonnel.profile.userProfile.firstName,
+        doctorMedicalPersonnelID: this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id,
+        department: this.signObj.medicalPersonnel.profile.userProfile.department
+
+      })
+    }
+
   }
 
   getDoctorData(medicalObj) {
@@ -372,7 +419,7 @@ export class BookAppointmentComponent implements OnInit {
     let ngbDate = this.bookAppointmentForm.controls['appointmentDate'].value;
     let myDate = new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day);
     console.log("date mydate", myDate);
-    var presentDate = Math.round(new Date(myDate).getTime() / 1000)
+    var presentDate = Math.round(new Date(myDate).getTime()) // / 1000
 
     this.bookAppointmentForm.patchValue({
       //appointmentDate: myDate.toLocaleDateString(),
@@ -394,10 +441,15 @@ export class BookAppointmentComponent implements OnInit {
     this.loginService.bookAppointmentService(payLoad, this.signObj.access_token).subscribe(
       (bookAppointmentRes) => {
         console.log(bookAppointmentRes);
-
         if (bookAppointmentRes.response === 3) {
           this.isLoading = false;
-          this.router.navigateByUrl("admincenter/appointmentlist");
+          if (this.signObj && this.signObj.hospitalAdmin) {
+            this.router.navigateByUrl("admincenter/appointmentlist");
+          }
+          else {
+            this.router.navigateByUrl("medicalpersonnelmodule/medicalpersonappointments");
+          }
+          //this.router.navigateByUrl("admincenter/appointmentlist");
           this.openSnackBar(bookAppointmentRes.message, "");
         }
         else {
@@ -408,15 +460,13 @@ export class BookAppointmentComponent implements OnInit {
       (err: HttpErrorResponse) => {
         this.isLoading = false;
         if (err.error instanceof Error) {
-
           console.log("Client Side Error", err);
-
         } else {
-
           console.log("Server Side", err);
         }
       }
     );
+
   }
 
   //Open PatientList Model

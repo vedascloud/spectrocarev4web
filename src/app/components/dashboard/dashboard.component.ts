@@ -110,14 +110,27 @@ export class DashboardComponent implements OnInit {
       this.signObj = JSON.parse(this.signInRes);
       this.userID = localStorage.getItem('userID');
 
-      let getPatientsData = {
-        "userID": this.userID,
-        "category": "All",
-        "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
-        "token": this.signObj.access_token
+      if (this.signObj && this.signObj.hospitalAdmin) {
+        let getPatientsData = {
+          "byWhom": "admin",
+          "byWhomID": this.signObj.hospitalAdmin.userID,
+          "category": "All",
+          "hospital_reg_num": this.signObj.hospitalAdmin.hospital_reg_num,
+          "token": this.signObj.access_token
+        }
+        this.getPatientData(getPatientsData);
       }
-      this.loading = true;
-      this.getPatientData(getPatientsData);
+      else {
+
+        let getPatientsDataObj = {
+          "byWhom": "medical personnel",
+          "byWhomID": this.signObj.medicalPersonnel.profile.userProfile.medical_personnel_id,
+          "category": "all",
+          "hospital_reg_num": this.signObj.medicalPersonnel.profile.userProfile.hospital_reg_num,
+          "token": this.signObj.access_token
+        }
+        this.getPatientData(getPatientsDataObj);
+      } this.loading = true;
       this.fetchMedicalPersonnelsData();
 
       let getHospitalAppointmentsDataObj = {

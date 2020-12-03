@@ -1486,6 +1486,7 @@ export class AllMedicalRecordComponent implements OnInit {
             );
           } else if (res.response === 0) {
             this.loading = false;
+            this.PhysicalExamination = [];
           }
         },
         (err: HttpErrorResponse) => {
@@ -1712,6 +1713,7 @@ export class AllMedicalRecordComponent implements OnInit {
               this.Immunizations
             );
           } else if (res.response === 0) {
+            this.Immunizations = [];
             this.loading = false;
           }
         },
@@ -1932,6 +1934,7 @@ export class AllMedicalRecordComponent implements OnInit {
 
           } else if (res.response === 0) {
             this.loading = false;
+            this.MedicalHistory = [];
           }
         },
         (err: HttpErrorResponse) => {
@@ -4232,6 +4235,7 @@ export class AllMedicalRecordComponent implements OnInit {
           }
           else if (res.response === 0) {
             this.loading = false;
+            this.fetchedMedications = [];
           }
         },
         (err: HttpErrorResponse) => {
@@ -4468,6 +4472,7 @@ export class AllMedicalRecordComponent implements OnInit {
           }
           else if (res.response === 0) {
             this.loading = false;
+            this.fetchPatientSurgicalRecordsData = [];
           }
         },
         (err: HttpErrorResponse) => {

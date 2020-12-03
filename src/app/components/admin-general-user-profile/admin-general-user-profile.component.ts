@@ -11,21 +11,22 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AdminGeneralUserProfileComponent implements OnInit {
 
-  adminGeneralUserProfileForm:FormGroup;
-  signInRes:any;
-  signObj:any;
-  token:any;
-  userID:any;
-  id:string;
-  sub:any;
-  selectedAdminGenUser:any;
-  loading:boolean;
-  adminTeamData:any= [];
+  baseURL: string = "http://34.231.177.197:3000";
+  adminGeneralUserProfileForm: FormGroup;
+  signInRes: any;
+  signObj: any;
+  token: any;
+  userID: any;
+  id: string;
+  sub: any;
+  selectedAdminGenUser: any;
+  loading: boolean;
+  adminTeamData: any = [];
 
-  checkAdministrator:string;
-  isAdminSystmMngr:boolean;
+  checkAdministrator: string;
+  isAdminSystmMngr: boolean;
 
-  constructor(private router:Router, private fb:FormBuilder,private loginService:LoginService,private activatedRoute:ActivatedRoute) { }
+  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.checkAdministrator = localStorage.getItem("AdministratorSystemManager");
@@ -36,25 +37,25 @@ export class AdminGeneralUserProfileComponent implements OnInit {
 
     var signInRes = localStorage.getItem("SignInRes");
     if (signInRes) {
-       this.signObj = JSON.parse(signInRes);
-       console.log(this.signObj);
-       this.token=this.signObj.access_token;
+      this.signObj = JSON.parse(signInRes);
+      console.log(this.signObj);
+      this.token = this.signObj.access_token;
     }
 
     this.adminGeneralUserProfileForm = this.fb.group({
-      userID:[""],
-      verificationStatus:[""],
-      identity:[""],
-      preferLanguage:[""],
-      hospital_reg_num:[""],
-      registerTime:[""],
-      firstName:[""],
-      lastName:[""],
-      emailID:[""],
-      department:[""],
+      userID: [""],
+      verificationStatus: [""],
+      identity: [""],
+      preferLanguage: [""],
+      hospital_reg_num: [""],
+      registerTime: [""],
+      firstName: [""],
+      lastName: [""],
+      emailID: [""],
+      department: [""],
       phoneNumber: this.fb.group({
-        countryCode:[''],
-        phoneNumber:[''],
+        countryCode: [''],
+        phoneNumber: [''],
       })
     });
 
@@ -71,45 +72,42 @@ export class AdminGeneralUserProfileComponent implements OnInit {
     }
 
     //Giving Access Controls to AdministratorSystemManager & AdministratorGeneral
-    if(this.checkAdministrator === "3"){
-      this.isAdminSystmMngr = true; 
+    if (this.checkAdministrator === "3") {
+      this.isAdminSystmMngr = true;
       this.adminGeneralUserProfileForm.enable()
     }
-    else{
+    else {
       this.isAdminSystmMngr = false;
       this.adminGeneralUserProfileForm.disable()
     }
 
   }
 
-  
+
 
   getAdminWithGenUserData(obj) {
-    this.loginService.getAdminWithGenUserData(obj,this.token).subscribe(
+    this.loginService.getAdminWithGenUserData(obj, this.token).subscribe(
       (res) => {
         console.log(res)
-        if (res.response === 3) 
-        {
+        if (res.response === 3) {
           this.adminTeamData = res.adminusers;
-          console.log("Admin Team Data for Admin Profile : ",this.adminTeamData)
-          let index= -1
-          index = this.adminTeamData.findIndex(val=>{
+          console.log("Admin Team Data for Admin Profile : ", this.adminTeamData)
+          let index = -1
+          index = this.adminTeamData.findIndex(val => {
             //console.log("val data : ",val.userID);
             //console.log("id data : ",this.id);
             return val.userID == this.id
           })
-          if(index != -1)
-          {
+          if (index != -1) {
             this.selectedAdminGenUser = this.adminTeamData[index]
           }
           this.autoAddAdminGeneralUserProfileData(this.selectedAdminGenUser)
         }
-        else if(res.response === 0)
-        {
+        else if (res.response === 0) {
           this.loading = false;
           alert(res.message)
         }
-      }, 
+      },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.log("Client Side Error")
@@ -120,51 +118,51 @@ export class AdminGeneralUserProfileComponent implements OnInit {
   }
 
   //Show Admin Data
-  autoAddAdminGeneralUserProfileData(adminTeamData){
-    
-     console.log("Admin Team Data : ",adminTeamData);
-     this.adminGeneralUserProfileForm.patchValue({
-       userID:adminTeamData.userID,
-       verificationStatus:adminTeamData.verificationStatus,
-       identity:adminTeamData.identity,
-       preferLanguage:adminTeamData.preferLanguage,
-       hospital_reg_num:adminTeamData.hospital_reg_num,
-       registerTime:adminTeamData.registerTime,
-       firstName:adminTeamData.firstName,
-       lastName:adminTeamData.lastName,
-       emailID:adminTeamData.emailID,
-       department:adminTeamData.department,
-       phoneNumber:{
-        phoneNumber:adminTeamData.phoneNumber.phoneNumber,
-        countryCode:adminTeamData.phoneNumber.countryCode
+  autoAddAdminGeneralUserProfileData(adminTeamData) {
+
+    console.log("Admin Team Data : ", adminTeamData);
+    this.adminGeneralUserProfileForm.patchValue({
+      userID: adminTeamData.userID,
+      verificationStatus: adminTeamData.verificationStatus,
+      identity: adminTeamData.identity,
+      preferLanguage: adminTeamData.preferLanguage,
+      hospital_reg_num: adminTeamData.hospital_reg_num,
+      registerTime: adminTeamData.registerTime,
+      firstName: adminTeamData.firstName,
+      lastName: adminTeamData.lastName,
+      emailID: adminTeamData.emailID,
+      department: adminTeamData.department,
+      phoneNumber: {
+        phoneNumber: adminTeamData.phoneNumber.phoneNumber,
+        countryCode: adminTeamData.phoneNumber.countryCode
       }
-     })
+    })
 
-     console.log("Admin Gen User Full Details",this.adminGeneralUserProfileForm.value)
-   }
+    console.log("Admin Gen User Full Details", this.adminGeneralUserProfileForm.value)
+  }
 
-   //Update Admin General User Data
-   updateAdminGeneralUser(){
-     this.loginService.updateAdminGenUser(this.adminGeneralUserProfileForm.value,this.signObj.access_token).subscribe(
-       (updateAdminGenUserData)=>{
-        console.log("req for update admin gen user data : ",updateAdminGenUserData);
-         if(updateAdminGenUserData.response === 3){
+  //Update Admin General User Data
+  updateAdminGeneralUser() {
+    this.loginService.updateAdminGenUser(this.adminGeneralUserProfileForm.value, this.signObj.access_token).subscribe(
+      (updateAdminGenUserData) => {
+        console.log("req for update admin gen user data : ", updateAdminGenUserData);
+        if (updateAdminGenUserData.response === 3) {
           alert(updateAdminGenUserData.message);
-         }
-         else{
+        }
+        else {
           alert(updateAdminGenUserData.message);
-         }
-       },
-       (err:HttpErrorResponse)=>{
-        if(err.error instanceof Error){
-          console.log("Client Side Error",err);
-          
-        }else{
-          console.log("Server Side",err)
+        }
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log("Client Side Error", err);
+
+        } else {
+          console.log("Server Side", err)
         }
       }
-     );
-   }
+    );
+  }
 
 
 }

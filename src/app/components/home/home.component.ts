@@ -15,6 +15,7 @@ import { PatientService } from 'src/app/services/patient.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  baseURL: string = "http://34.231.177.197:3000";
   separateDialCode = true;
   SearchCountryField = SearchCountryField;
   TooltipLabel = TooltipLabel;
@@ -292,7 +293,6 @@ export class HomeComponent implements OnInit {
     })
 
     if (hospitalData.hospitalAdmin.profilePic === "") {
-      //http://3.92.226.247:3000/Email-Template-Data/profile-1.png
       this.previewImg = "../../../assets/images/ui/Icons/1x/profile-1.png";
       this.previewImg1 = "../../../assets/images/ui/Icons/1x/profile-1.png";
     }
@@ -300,7 +300,7 @@ export class HomeComponent implements OnInit {
       this.previewImg = hospitalData.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg = "http://34.199.165.142:3000" + hospitalData.hospitalAdmin.profilePic;//"http://3.92.226.247:3000"+
+      this.previewImg = this.baseURL + hospitalData.hospitalAdmin.profilePic;
       this.http.get(this.previewImg, { responseType: "blob" }).subscribe((file) => {
         let imgFile = new File([file], "userimg.jpg");
         this.adminProfileForm.get('profilePic').setValue(imgFile)
@@ -401,7 +401,7 @@ export class HomeComponent implements OnInit {
     })
     if (hospitalData.hospitalInformation.hospitalPics.length !== 0) {
       //this.previewImg1 = "../../../assets/images/ui/Icons/1x/profile-1.png";
-      this.previewImg1 = "http://34.199.165.142:3000" + hospitalData.hospitalInformation.hospitalPics[0].imagePath;//"http://3.92.226.247:3000"+
+      this.previewImg1 = this.baseURL + hospitalData.hospitalInformation.hospitalPics[0].imagePath;
       this.http.get(this.previewImg1, { responseType: "blob" }).subscribe((file) => {
         let imgFile = new File([file], "userimg.jpg");
         this.homeForm.get('profilePic').setValue(imgFile)
@@ -415,7 +415,7 @@ export class HomeComponent implements OnInit {
       this.previewImg1 = hospitalData.hospitalInformation.hospitalPics[0].imagePath;
     }
     else {
-      this.previewImg1 = "http://34.199.165.142:3000" + hospitalData.hospitalInformation.hospitalPics[0].imagePath;//"http://3.92.226.247:3000"+
+      this.previewImg1 = this.baseURL + hospitalData.hospitalInformation.hospitalPics[0].imagePath;
       this.http.get(this.previewImg1, { responseType: "blob" }).subscribe((file) => {
         let imgFile = new File([file], "userimg.jpg");
         this.homeForm.get('profilePic').setValue(imgFile)
@@ -639,8 +639,8 @@ export class HomeComponent implements OnInit {
           this.signObj.hospitalAdmin.gender = payLoad.gender;
           this.signObj.hospitalAdmin.preferLanguage = payLoad.preferLanguage;
           this.signObj.hospitalAdmin.department = payLoad.department;
-          this.loginService.isProfileUpdated.next("http://34.199.165.142:3000" + updateAdminGenUserData.profilePic)
-          this.signObj.hospitalAdmin.profilePic = updateAdminGenUserData.profilePic;//"http://3.92.226.247:3000"+
+          this.loginService.isProfileUpdated.next(this.baseURL + updateAdminGenUserData.profilePic)
+          this.signObj.hospitalAdmin.profilePic = updateAdminGenUserData.profilePic;
 
           console.log("After update the hospital signObj data is : ", this.signObj);
           console.log("updated phone num : " + this.signObj.hospitalInformation.phoneNumber.phoneNumber);

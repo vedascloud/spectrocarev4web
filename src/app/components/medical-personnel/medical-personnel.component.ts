@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
+import { MedicalPersonnelService } from 'src/app/services/medical-personnel.service';
 
 @Component({
   selector: 'app-medical-personnel',
@@ -14,7 +15,8 @@ export class MedicalPersonnelComponent implements OnInit {
   password: string = "password";
   isPassword: boolean = true;
 
-  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService) { }
+  constructor(private router: Router, private fb: FormBuilder, private loginService: LoginService,
+    private medicalPersonService: MedicalPersonnelService) { }
 
   ngOnInit() {
     this.adminSignINForm = this.fb.group({
@@ -58,25 +60,25 @@ export class MedicalPersonnelComponent implements OnInit {
   }
 
   submitForm() {
-    console.log("Admin SignIn Req Data : ",this.adminSignINForm.value)
-  
-    this.loginService.adminLogin(this.adminSignINForm.value).subscribe((res) => {
+    console.log("MedicalPErsonnel SignIn Req Data : ", this.adminSignINForm.value)
+
+    this.medicalPersonService.medicalPersonnelLogin(this.adminSignINForm.value).subscribe((res) => {
       console.log("SignIn Res", res)
       if (res.response === 3) {
         localStorage.setItem("userID", this.adminSignINForm.value.userID);
         localStorage.setItem("SignInRes", JSON.stringify(res));
-        this.router.navigateByUrl('/admincenter/home');
+        this.router.navigateByUrl('/medicalpersonnelmodule/dashboard');
 
-        if(res.hospitalAdmin.identity === "Administrator System Manager"){
-          localStorage.setItem("AdministratorSystemManager","3");
-        }
-        else{
-          localStorage.setItem("AdministratorSystemManager","0");
-        }
+        // if (res.hospitalAdmin.identity === "Administrator System Manager") {
+        //   localStorage.setItem("AdministratorSystemManager", "3");
+        // }
+        // else {
+        //   localStorage.setItem("AdministratorSystemManager", "0");
+        // }
 
-      } 
-      else if(res.response === 0){
-        
+      }
+      else if (res.response === 0) {
+
         alert("No account associated with this user ID");
       }
       else {
@@ -88,9 +90,9 @@ export class MedicalPersonnelComponent implements OnInit {
   }
 
   signUp() {
-   
-      this.router.navigateByUrl('/medicalpersonnelsignup');
-    
+
+    this.router.navigateByUrl('/medicalpersonnelsignup');
+
   }
 
   forgot() {

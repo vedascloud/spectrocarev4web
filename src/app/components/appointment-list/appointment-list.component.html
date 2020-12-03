@@ -84,23 +84,41 @@
                                     <div class="col-2" style="border-radius: 50% !important;width: 50px;height: 50px;">
                                         <img class=""
                                             style=" border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 50px;height: 50px;min-width: 50px;min-height: 50px;"
-                                            src="{{'http://34.199.165.142:3000'+patient.doctorDetails.doctorProfilePic}}"
+                                            src="{{baseURL+patient.patientDetails.profilePic}}"
                                             onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
                                     </div>
                                     <div class="col-10" style="padding-top: 7px;padding-left: 50px;">
-                                        <div>{{patient.patientDetails.patientName}}</div>
+                                        <div>{{patient.patientDetails.firstName}}</div>
                                         <div>{{patient.patientDetails.patientID}}</div>
                                     </div>
                                 </div>
                             </td>
-                            <td class="pl-5" style="padding-top: 25px;">{{patient.doctorDetails.doctorName}}</td>
-                            <td class="pl-5" style="padding-top: 14px;">
-                                <div>{{patient.appointmentDetails.appointmentDate *1000 | date:"MM/dd/yy" }}</div>
+                            <!-- <td class="pl-5" style="padding-top: 25px;">
+                                {{patient.doctorDetails.profile.userProfile.firstName}}
+                            </td> -->
+                            <td class="p-2" style="">
+                                <div class="row" style="justify-content: space-around;">
+                                    <div class="col-2" style="border-radius: 50% !important;width: 50px;height: 50px;">
+                                        <img class=""
+                                            style=" border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 50px;height: 50px;min-width: 50px;min-height: 50px;"
+                                            src="{{baseURL+patient.doctorDetails.profile.userProfile.profilePic}}"
+                                            onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+                                    </div>
+                                    <div class="col-10" style="padding-top: 7px;padding-left: 50px;">
+                                        <div>{{patient.doctorDetails.profile.userProfile.firstName}}</div>
+                                        <div>{{patient.doctorDetails.profile.userProfile.medical_personnel_id}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="pl-5" style="padding-top: 20px;">
+                                <div>
+                                    {{((patient.appointmentDetails.appointmentDate) || (patient.appointmentDetails.appointmentDate *1000)) | date:"MM/dd/yy" }}
+                                </div>
                                 <div>{{patient.appointmentDetails.appointmentTime}}</div>
                             </td>
                             <td class="pl-5" style="padding-top: 25px;">{{patient.appointmentDetails.visitType}}</td>
                             <td class="" style="padding-left: 70px;padding-top: 25px;font-weight: bold;" [ngClass]="{
-                                                'text-success': patient.appointmentDetails.appointmentStatus == 'Accepted',
+                                                'text-success': patient.appointmentDetails.appointmentStatus == 'Confirmed',
                                                 'text-warning': patient.appointmentDetails.appointmentStatus == 'Waiting for confirmation',                                           
                                                 'text-danger': patient.appointmentDetails.appointmentStatus == 'Cancelled'                                            
                                               }">{{patient.appointmentDetails.appointmentStatus}}</td>
@@ -147,7 +165,7 @@
                                                                 style="max-width: 15%;margin-right: 5px;">
                                                             <div
                                                                 style="padding-top: 3px;color: #302e2e;font-weight: 600;">
-                                                                {{patient.appointmentDetails.appointmentDate}}
+                                                                {{patient.appointmentDetails.appointmentDate | date: 'dd-MM-yyyy'}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -170,7 +188,7 @@
                                                             style="border-radius: 50% !important;width: 60px;height: 60px;padding-bottom: 5px;margin-left: 33px;">
                                                             <img class=""
                                                                 style=" border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 60px;height: 60px;min-width: 60px;min-height: 60px;"
-                                                                src="{{'http://34.199.165.142:3000'+patient.doctorProfilePic}}"
+                                                                src="{{baseURL+patient.patientDetails.profilePic}}"
                                                                 onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
                                                         </div>
                                                         <button class="btn btn-sm"
@@ -187,7 +205,7 @@
                                                             </div>
                                                             <div class="col-md-7">
                                                                 <div style="font-size: 12px;color: #464444;">
-                                                                    {{patient.patientDetails.patientName}}
+                                                                    {{patient.patientDetails.firstName}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -199,7 +217,8 @@
                                                                     Address</div>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <div style="font-size: 12px;color: #464444;">--------
+                                                                <div style="font-size: 12px;color: #464444;">
+                                                                    {{patient.patientDetails.emailID}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -211,7 +230,8 @@
                                                                     Number</div>
                                                             </div>
                                                             <div class="col-md-7">
-                                                                <div style="font-size: 12px;color: #464444;">--------
+                                                                <div style="font-size: 12px;color: #464444;">
+                                                                    {{patient.patientDetails.phoneNumber.phoneNumber}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -265,7 +285,8 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div style="font-size: 12px;color: #464444;">
-                                                                {{patient.doctorDetails.doctorName}}</div>
+                                                                {{patient.doctorDetails.profile.userProfile.firstName}}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="row p-1">
@@ -277,7 +298,8 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div style="font-size: 12px;color: #464444;">
-                                                                {{patient.doctorDetails.department}}</div>
+                                                                {{patient.doctorDetails.profile.userProfile.department}}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="row p-1">

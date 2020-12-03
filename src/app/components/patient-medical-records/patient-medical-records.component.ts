@@ -1921,6 +1921,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
             console.log("Res from Patient Phy Exam Records Data : ", this.PhysicalExamination);
           }
           else if (res.response === 0) {
+            this.PhysicalExamination = [];
             this.loading = false;
           }
         },
@@ -1948,12 +1949,19 @@ export class PatientMedicalRecordsComponent implements OnInit {
     this.loginService.getPatientImmunizationRecordsData(this.fetchPatientImmunizationObj, this.signObj.access_token).
       subscribe(
         (res) => {
+
+          console.log("res form fetch immunizations : ", res);
+
+          this.Immunizations = [];
           if (res.response === 3) {
+
             this.loading = false;
             this.Immunizations = res.immunization_records;
             console.log("Res from Patient immunization_records Records Data : ", this.Immunizations);
           }
           else if (res.response === 0) {
+
+            this.Immunizations = [];
             this.loading = false;
           }
         },
@@ -1994,6 +2002,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
 
           }
           else if (res.response === 0) {
+            this.MedicalHistory = [];
             this.loading = false;
           }
         },
@@ -2028,6 +2037,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
           }
           else if (res.response === 0) {
             this.loading = false;
+            this.fetchedMedications = [];
           }
         },
         (err: HttpErrorResponse) => {
@@ -2061,6 +2071,7 @@ export class PatientMedicalRecordsComponent implements OnInit {
           }
           else if (res.response === 0) {
             this.loading = false;
+            this.fetchPatientSurgicalRecordsData = [];
           }
         },
         (err: HttpErrorResponse) => {
@@ -3778,8 +3789,8 @@ export class PatientMedicalRecordsComponent implements OnInit {
         (res) => {
           if (res.response === 3) {
             this.isLoading = false;
-            this.ngOnInit();
-            //this.fetchPatientImmunizationRecords();
+            //this.ngOnInit();
+            this.fetchPatientImmunizationRecords();
             this.openSnackBar(res.message, "");
             this.modalService.dismissAll();
             // this.ngOnInit()

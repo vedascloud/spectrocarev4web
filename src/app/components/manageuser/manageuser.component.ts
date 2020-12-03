@@ -15,6 +15,7 @@ import { PatientService } from 'src/app/services/patient.service';
   styleUrls: ['./manageuser.component.css']
 })
 export class ManageuserComponent implements OnInit {
+  baseURL: string = "http://34.231.177.197:3000";
   separateDialCode = true;
   SearchCountryField = SearchCountryField;
   TooltipLabel = TooltipLabel;
@@ -555,7 +556,7 @@ export class ManageuserComponent implements OnInit {
       this.previewImg1 = this.signObj.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg1 = "http://34.199.165.142:3000" + adminTeam.profilePic;
+      this.previewImg1 = this.baseURL + adminTeam.profilePic;
     }
 
   }
@@ -586,7 +587,7 @@ export class ManageuserComponent implements OnInit {
       this.previewImg2 = "../../../assets/images/ui/Icons/1x/profile-1.png";
     }
     else if (medicalTeam.profile.userProfile.profilePic !== "") {
-      this.previewImg2 = "http://34.199.165.142:3000" + medicalTeam.profile.userProfile.profilePic;
+      this.previewImg2 = this.baseURL + medicalTeam.profile.userProfile.profilePic;
     }
     else {
       this.previewImg2 = "../../../assets/images/ui/Icons/1x/profile-1.png";
@@ -683,7 +684,7 @@ export class ManageuserComponent implements OnInit {
       this.previewImg3 = this.signObj.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg3 = "http://34.199.165.142:3000" + adminTeam.profilePic;
+      this.previewImg3 = this.baseURL + adminTeam.profilePic;
     }
 
 
@@ -717,7 +718,7 @@ export class ManageuserComponent implements OnInit {
       this.previewImg4 = this.signObj.hospitalAdmin.profilePic;
     }
     else {
-      this.previewImg4 = "http://34.199.165.142:3000" + adminTeam.profilePic;
+      this.previewImg4 = this.baseURL + adminTeam.profilePic;
     }
     this.modalService.open(editAdminUserContent, { centered: true, size: "lg", backdrop: false })
   }
