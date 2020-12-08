@@ -77,75 +77,54 @@
             <div *ngIf="viewFiles">Files / Documents</div>
             <div *ngIf="viewChat">
 
-                <div id="chat-message-list" class="scroll">
-                    <div class="message-row you-message">
-                        <div class="message-content">
-                            <div style="display: flex;justify-self: normal;">
-                                <div class="messager-name">you</div>
-                                <div class="message-time">Nov 16</div>
+                <div id="chat-message-list" class="scroll" #mainScroll>
+                    <div *ngFor="let message of fetchedMessages; let i=index">
+                        <div class="message-row you-message" *ngIf="message.userID === userID">
+                            <div class="message-content">
+                                <div style="display: flex;justify-self: normal;">
+                                    <div class="messager-name">you</div>
+                                    <div class="message-time">{{message.timeStamp | date: 'dd/MM/yyyy h:mm a'}}
+                                    </div>
+                                    <div class="menu text-center text-info" style="padding: 0px;margin-top: -12px;">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu"
+                                            style="margin-left: -10px !important;">
+                                            <img style="width: 0.2rem;"
+                                                src="../../../assets/images/ui/Icons/1x/menu.png">
+                                        </button>
+                                        <mat-menu #menu="matMenu" xPosition="before" class="menudata">
+                                            <button mat-menu-item (click)="editMessage(message)">
+                                                <span>Edit</span>
+                                            </button>
+                                            <button mat-menu-item (click)="deleteMessage(message)">
+                                                <span>Delete</span>
+                                            </button>
+                                        </mat-menu>
+                                    </div>
+                                </div>
+                                <div class="message-text">{{message.message}}</div>
                             </div>
-                            <div class="message-text">Ok then</div>
-
                         </div>
-                    </div>
 
-                    <div class="message-row other-message">
-                        <div class="message-content">
-                            <div class="top-data">
-                                <div class="messager-name">patient</div>
-                                <div class="message-time">Nov 16</div>
+                        <div class="message-row other-message" *ngIf="message.userID !== userID">
+                            <div class="message-content">
+                                <div class="top-data">
+                                    <div class="messager-name">patient</div>
+                                    <div class="message-time">{{message.timeStamp | date: 'dd/MM/yyyy h:mm a'}}
+                                    </div>
+                                </div>
+                                <div class="message-text">{{message.message}}</div>
                             </div>
-                            <div class="message-text">Just checking the conversitation among the memebers</div>
-                        </div>
-                    </div>
-                    <div class="message-row you-message">
-                        <div class="message-content">
-                            <div style="display: flex;justify-self: normal;">
-                                <div class="messager-name">you</div>
-                                <div class="message-time">Nov 16</div>
-                            </div>
-                            <div class="message-text">Just checking the conversitation among the memebers</div>
-
-                        </div>
-                    </div>
-
-                    <div class="message-row other-message">
-                        <div class="message-content">
-                            <div class="top-data">
-                                <div class="messager-name">patient</div>
-                                <div class="message-time">Nov 16</div>
-                            </div>
-                            <div class="message-text">Just checking the conversitation among the memebers</div>
-                        </div>
-                    </div>
-                    <div class="message-row you-message">
-                        <div class="message-content">
-                            <div style="display: flex;justify-self: normal;">
-                                <div class="messager-name">you</div>
-                                <div class="message-time">Nov 16</div>
-                            </div>
-                            <div class="message-text">Ok then</div>
-
-                        </div>
-                    </div>
-
-                    <div class="message-row other-message">
-                        <div class="message-content">
-                            <div class="top-data">
-                                <div class="messager-name">patient</div>
-                                <div class="message-time">Nov 16</div>
-                            </div>
-                            <div class="message-text">Just checking the conversitation among the memebers</div>
                         </div>
                     </div>
                 </div>
                 <div id=chat-form>
                     <!-- <input type="text" placeholder="type message here" /> -->
-                    <textarea rows="2" class="form-control" style="padding: 2px 0 2px 10px;border: none; resize: none;"
+                    <textarea rows="2" class="form-control" [(ngModel)]="message"
+                        style="padding: 2px 0 2px 10px;border: none; resize: none;"
                         placeholder="type message here"></textarea>
                     <img style="width: 1rem;"
                         src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon metro-attachment.png">
-                    <img style="width: 1.3rem;margin-right: 10px;"
+                    <img style="width: 1.3rem;margin-right: 10px;" (click)="sendChatMessages()"
                         src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-send.png">
                 </div>
                 <!-- <div class="">

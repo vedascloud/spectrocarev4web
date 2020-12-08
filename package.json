@@ -41,6 +41,7 @@
     "ngx-bootstrap": "^5.5.0",
     "ngx-intl-tel-input": "^2.3.1",
     "ngx-loading": "^8.0.0",
+    "ngx-socket-io": "^3.2.0",
     "nodemon": "^1.19.4",
     "resize-observer-polyfill": "^1.5.1",
     "rxjs": "~6.4.0",

@@ -5,7 +5,7 @@ import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ChartsModule } from 'ng2-charts';
 import { NgxIntlTelInputModule } from 'projects/ngx-intl-tel-input/src/lib/ngx-intl-tel-input.module';
-
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AdminsigninComponent } from './components/adminsignin/adminsignin.component';
@@ -76,7 +76,9 @@ import { CreateNewTestComponent } from './components/medicalPersonnelModule/crea
 import { ManageDeviceComponent } from './components/medicalPersonnelModule/manage-device/manage-device.component';
 import { MedicalPersonnelAppointmentsComponent } from './components/medicalPersonnelModule/medical-personnel-appointments/medical-personnel-appointments.component';
 import { ChatComponent } from './components/medicalPersonnelModule/chat/chat.component';
-
+import { ChatService } from './services/chat.service';
+ 
+const config: SocketIoConfig = { url: 'http://34.231.177.197:3000', options: {} };
 @NgModule({
   declarations: [
     AppComponent,
@@ -161,6 +163,7 @@ import { ChatComponent } from './components/medicalPersonnelModule/chat/chat.com
     MatDialogModule,
     NgxIntlTelInputModule,
     BrowserAnimationsModule,
+    SocketIoModule.forRoot(config),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
@@ -181,7 +184,7 @@ import { ChatComponent } from './components/medicalPersonnelModule/chat/chat.com
 
 
   ],
-  providers: [],
+  providers: [ChatService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

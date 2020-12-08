@@ -2,6 +2,19 @@
     padding: 0 !important;
 }
 
+::ng-deep .mat-menu-content {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+::ng-deep .mat-menu-item {
+    line-height: 35px;
+    height: 35px;
+    /* background: #5d5f5f;
+    color: white;
+    font-size: 12px; */
+}
+
 .active {
     background: white;
 }
@@ -9,7 +22,8 @@
 .scroll {
     /* width: 700px !important; */
     /* height: 40vh !important; */
-    overflow: auto;
+    /* overflow: auto; */
+    overflow-y: auto;
 }
 
 .scroll::-webkit-scrollbar-track {
@@ -32,7 +46,7 @@
     height: 50vh;
     grid-area: chat-message-list;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     padding: 0px;
     /* padding: 0 20px; */
     /* overflow-y: scroll; */
@@ -67,7 +81,7 @@
 .message-row {
     display: grid;
     grid-template-columns: 90%;
-    margin-bottom: 20px;
+    margin-bottom: 7px;
 }
 
 .message-content {
@@ -121,9 +135,10 @@ input {
 }
 
 .message-text {
-    padding: 9px 14px;
+    padding: 4px 8px;
     font-size: 0.8rem;
-    margin-bottom: 5px;
+    margin-bottom: 1px;
+    min-width: 8rem !important;
 }
 
 .message-time {
