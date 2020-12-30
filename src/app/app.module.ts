@@ -77,8 +77,11 @@ import { ManageDeviceComponent } from './components/medicalPersonnelModule/manag
 import { MedicalPersonnelAppointmentsComponent } from './components/medicalPersonnelModule/medical-personnel-appointments/medical-personnel-appointments.component';
 import { ChatComponent } from './components/medicalPersonnelModule/chat/chat.component';
 import { ChatService } from './services/chat.service';
- 
-const config: SocketIoConfig = { url: 'http://34.231.177.197:3000', options: {} };
+
+//http://127.0.0.1:3000?userID=MPIDXCOO&userType=Doctor
+//const config: SocketIoConfig = { url: 'http://34.231.177.197:3000?userID=MPIDnIJN&userType=Doctor', options: {} };
+const config: SocketIoConfig = { url: 'http://34.231.177.197:3000', options: { autoConnect: false } };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -163,6 +166,7 @@ const config: SocketIoConfig = { url: 'http://34.231.177.197:3000', options: {} 
     MatDialogModule,
     NgxIntlTelInputModule,
     BrowserAnimationsModule,
+    // SocketIoModule.forRoot(config),
     SocketIoModule.forRoot(config),
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -187,4 +191,8 @@ const config: SocketIoConfig = { url: 'http://34.231.177.197:3000', options: {} 
   providers: [ChatService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {
+  userID: string;
+  userType: string = 'Doctor';
+}

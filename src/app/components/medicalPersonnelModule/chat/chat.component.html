@@ -6,166 +6,549 @@
                 src="../../../../assets/images/ui/Icons/2x/cancel@2x.png">
         </div>
     </div>
-    <div class="row" style="height: 80vh;">
-        <div class="col-md-7">
-            <video style="width: inherit;height: 75vh;" controls>
+    <div class="row" style="height: 77vh;">
+        <div class="col-md-7" style="text-align: center;background: darkgray;display: flex;
+        justify-content: center;align-items: center;">
+            <div class="btn btn-sm btn-success" style="font-size: 14px;font-weight: 600;" *ngIf="!isViewVideo"
+                (click)="openVideoCall()">Make
+                Video Call</div>
+            <video *ngIf="isViewVideo" style="width: inherit;height: 75vh;" controls>
                 <source src="" type="video/mp4">
                 <source src="" type="video/ogg">
                 Your browser does not support HTML video.
             </video>
         </div>
-        <div class="col-md-4" style="padding: 0px !important;margin: 0px !important;">
+        <div class="col-md-4" style="">
+            <!--padding: 0px !important;margin: 0px !important;-->
             <div class="container">
-                <div class="row" style="justify-content: space-around;">
+                <div class="row" style="justify-content: space-around;margin-bottom: 5px;">
+                    <!--border-bottom: 1px solid rgb(197, 195, 195);-->
                     <div class="col-md-3"
                         style="padding: 15px; border-radius: 50% !important;width: 50px;height: 50px;">
                         <img class=""
                             style=" border: 2px solid rgb(150, 211, 235);border-radius: 50%;width: 50px;height: 50px;min-width: 50px;min-height: 50px;"
-                            src="{{baseURL+patient.patientDetails.profilePic}}"
+                            src="{{baseURL+patient.patient.patientDetails.profilePic}}"
                             onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
                     </div>
                     <div class="col-md-9" style="padding: 5px;">
-                        <div>{{patient.patientDetails.firstName}} {{patient.patientDetails.lastName}}</div>
-                        <div>{{patient.patientDetails.emailID}}</div>
-                        <div>{{patient.patientDetails.age}} Yrs {{patient.patientDetails.phoneNumber.phoneNumber}}</div>
+                        <div class="row" style="height: 20px;">
+                            <div class="col"
+                                style="font-size: 14px;font-weight: 600;color: #140202;white-space: nowrap;text-transform: uppercase;">
+                                {{patient.patient.patientDetails.firstName}}
+                                {{patient.patient.patientDetails.lastName}}</div>
+                            <div class="col" style="line-height: normal;">
+                                <div *ngIf="(patient.patient.patientDetails.gender) != 'Male'">
+                                    <img style="width: 1rem;"
+                                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-female.png">
+                                </div>
+                                <div *ngIf="(patient.patient.patientDetails.gender) === 'Male'">
+                                    <img style="width: 1rem;"
+                                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-male.png">
+                                </div>
+                            </div>
+                            <div class="col menu" [matMenuTriggerFor]="menu1">
+                                <img src="../../../../assets/images/ui/Icons/1x/menu.png">
+
+                                <mat-menu #menu1="matMenu" xPosition="before" class="menudata">
+                                    <button mat-menu-item (click)="clearMessage()">
+                                        <span>Clear Messages</span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px;font-weight: 500;color: #53b9c6;">
+                            {{patient.patient.patientDetails.emailID}}
+                        </div>
+                        <div style="font-size: 12px;font-weight: 500;color: #919697;display: flex;">
+                            {{patient.patient.patientDetails.age}} Yrs
+                            &nbsp;&nbsp;&nbsp;
+                            {{patient.patient.patientDetails.phoneNumber.phoneNumber}}
+                            <div *ngIf="patient.patient.patientDetails.isOnline"
+                                style="margin-left: 5px;color: green !important;">Online</div>
+                            <div *ngIf="!patient.patient.patientDetails.isOnline"
+                                style="margin-left: 5px;color: orangered !important;">Offline</div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div *ngIf="viewGeneralInfo">
-                <div class="row" style="justify-content: center;background: #F1F1F1;font-size: 14px;font-weight: bold;">
+                <div class="row"
+                    style="justify-content: start;padding: 5px 0 5px 20px;background: #F1F1F1;font-size: 14px;font-weight: bold;">
                     General Information
                 </div>
                 <div style="height: 22vh;" style="padding: 5px;">
-                    <div class="row">
+                    <div class="row" style="padding: inherit;">
                         <div class="col-md-6">
-                            <div style="font-size: 12px;font-weight: bold;">Patient ID</div>
-                            <div style="font-size: 12px;font-weight: 500;">{{patient.patientDetails.patientID}}</div>
+                            <div style="font-size: 12px;font-weight: bold;color: #140202;">Patient ID</div>
+                            <div style="font-size: 11px;font-weight: 500;color: #919697;">
+                                {{patient.patient.patientDetails.patientID}}</div>
                         </div>
                         <div class="col-md-6">
-                            <div style="font-size: 12px;font-weight: bold;">Date of Birth</div>
-                            <div style="font-size: 12px;font-weight: 500;">
-                                {{patient.patientDetails.dob | date:'dd/MM/yyyy'}}</div>
+                            <div style="font-size: 12px;font-weight: bold;color: #140202;">Date of Birth</div>
+                            <div style="font-size: 11px;font-weight: 500;color: #919697;">
+                                {{patient.patient.patientDetails.dob | date:'dd/MM/yyyy'}}</div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="padding: inherit;">
                         <div class="col-md-12">
-                            <div style="font-size: 12px;font-weight: bold;">Medical Record Number</div>
-                            <div style="font-size: 12px;font-weight: 500;">{{patient.patientDetails.medical_record_id}}
+                            <div style="font-size: 12px;font-weight: bold;color: #140202;">Medical Record Number</div>
+                            <div style="font-size: 11px;font-weight: 500;color: #919697;">
+                                {{patient.patient.patientDetails.medical_record_id}}
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" style="padding: inherit;">
                         <div class="col-md-12">
-                            <div style="font-size: 12px;font-weight: bold;">Address</div>
-                            <div style="font-size: 12px;font-weight: 500;">{{patient.patientDetails.address}}</div>
+                            <div style="font-size: 12px;font-weight: bold;color: #140202;">Address</div>
+                            <div style="font-size: 11px;font-weight: 500;color: #919697;">
+                                {{patient.patient.patientDetails.address}}</div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12"></div>
                     </div>
                 </div>
-                <div class="row" style="justify-content: center;background: #F1F1F1;font-size: 14px;font-weight: bold;">
+                <div class="row"
+                    style="justify-content: start;padding: 5px 0 5px 20px;background: #F1F1F1;font-size: 14px;font-weight: bold;">
                     Family History
                 </div>
-                <div style="height: 15vh;"></div>
-                <div class="row" style="justify-content: center;background: #F1F1F1;font-size: 14px;font-weight: bold;">
+                <div class="" style="height: 15vh;">
+                    <div *ngIf="!(patientFamilyHistory && patientFamilyHistory.length)" style="text-align: center;">
+                        <span style="color: #140202;">Don't have Family History Records
+                        </span>
+                    </div>
+                    <div class="row p-1 pl-3" *ngFor="
+                            let patientFamilyData of patientFamilyHistory;
+                            let i = index
+                          ">
+                        <div class="col-md-2 p-0">
+                            <div class="text-center">
+                                <img style="width: 0.6rem;"
+                                    src="../../../assets/images/ui/Icons/patient-medical-module/Ellipse.png" />
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-0">
+                            <div class="">
+                                <span class="size11" style="color: #140202;">{{
+                                patientFamilyData.dieseaseName ||
+                                  patientFamilyData.healthCondition
+                              }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 p-0">
+                            <div class="">
+                                <span class="size11" style="color: #140202;">{{
+                                patientFamilyData.relationship
+                              }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"
+                    style="justify-content: start;padding: 5px 0 5px 20px;background: #F1F1F1;font-size: 14px;font-weight: bold;">
                     Allergies
                 </div>
-                <div style="height: 15vh;"></div>
-            </div>
-            <div *ngIf="viewPatientInfo">Patient Information</div>
-            <div *ngIf="viewFiles">Files / Documents</div>
-            <div *ngIf="viewChat">
+                <div style="height: 15vh;">
+                    <div>
+                        <div *ngIf="!(patientFamilyAllergies && patientFamilyAllergies.length)"
+                            style="text-align: center;">
+                            <span style="color: #140202;">Don't have Allergies Records</span>
+                        </div>
 
-                <div id="chat-message-list" class="scroll" #mainScroll>
-                    <div *ngFor="let message of fetchedMessages; let i=index">
-                        <div class="message-row you-message" *ngIf="message.userID === userID">
-                            <div class="message-content">
-                                <div style="display: flex;justify-self: normal;">
-                                    <div class="messager-name">you</div>
-                                    <div class="message-time">{{message.timeStamp | date: 'dd/MM/yyyy h:mm a'}}
+                        <div class="row p-1 pl-3" *ngFor="
+                            let patientFamilyAllergie of patientFamilyAllergies;
+                            let i = index
+                          ">
+                            <div class="col-md-2 p-0">
+                                <div class="text-center">
+                                    <img style="width: 0.6rem;"
+                                        src="../../../assets/images/ui/Icons/patient-medical-module/Ellipse.png" />
+                                </div>
+                            </div>
+                            <div class="col-md-6 p-0">
+                                <div class="">
+                                    <span class="size11" style="color: #140202;">{{
+                                patientFamilyAllergie.allergyInformation ||
+                                  patientFamilyAllergie.name
+                              }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="viewPatientInfo">
+                <div *ngIf="(!moveDiagnosticNotes)">
+                    <div class="row"
+                        style="justify-content: space-between;padding: 5px 18px 5px 20px;background: #F1F1F1;">
+                        <div style="font-size: 14px;font-weight: bold;">Patient Information</div>
+                        <img style="width: 1.5rem;cursor: pointer;" (click)="openDiagnosticNotes()"
+                            src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-arrow-dropright-circle.png">
+                    </div>
+
+                    <div>
+                        <label class="p-info-label">Date</label>
+                        <div class="p-info-div">
+                            10/12/2020</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Time</label>
+                        <div class="p-info-div">
+                            10:00 AM</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Illness Condition</label>
+                        <div class="p-info-div">
+                            Diabetes</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Start Date</label>
+                        <div class="p-info-div">
+                            10/12/2020</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">End Date</label>
+                        <div class="p-info-div">
+                            12/12/2020</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Symptoms</label>
+                        <div class="p-info-div">
+                            Weight gain</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Description</label>
+                        <div class="p-info-div">
+                            want togain waight</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Treatment</label>
+                        <div class="p-info-div">
+                            still continue</div>
+                    </div>
+                </div>
+                <div *ngIf="(moveDiagnosticNotes)">
+                    <div class="row"
+                        style="justify-content: space-between;padding: 5px 18px 5px 20px;background: #F1F1F1;">
+                        <img style="width: 1.5rem;cursor: pointer;" (click)="openPatientData()"
+                            src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-arrow-dropright-circle1@2x.png">
+                        <div style="font-size: 14px;font-weight: bold;">Diagnostic Notes</div>
+                        <img style="width: 1.5rem;cursor: pointer;" (click)="openPatientData()"
+                            src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-arrow-dropright-circle.png">
+                    </div>
+                    <div>
+                        <label class="p-info-label">Date of Diagnosis</label>
+                        <div class="p-info-div">
+                            10/12/2020</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Doctor</label>
+                        <div class="p-info-div">
+                            Christopher</div>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Diagnosis</label>
+                        <textarea rows="2" class="form-control"
+                            style="padding: 2px 0 2px 10px; resize: none;font-size: 14px;font-weight: 500;color: #404041;border:1px solid #CCCCCC;">diagnosis</textarea>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Prescription</label>
+                        <textarea rows="2" class="form-control"
+                            style="padding: 2px 0 2px 10px; resize: none;font-size: 14px;font-weight: 500;color: #404041;border:1px solid #CCCCCC;">diagnosis prescription</textarea>
+                    </div>
+                    <div>
+                        <label class="p-info-label">Remarks</label>
+                        <textarea rows="2" class="form-control"
+                            style="padding: 2px 0 2px 10px; resize: none;font-size: 14px;font-weight: 500;color: #404041;border:1px solid #CCCCCC;">diagnosis remarks</textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="viewFiles">
+                <div class="row" style="justify-content: space-between;padding: 5px 18px 5px 20px;background: #F1F1F1;">
+                    <div style="font-size: 14px;font-weight: bold;">Files / Documents</div>
+                    <img style="width: 1.5rem;cursor: pointer;"
+                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-add-circle.png">
+                </div>
+                <div style="justify-content: space-around;text-align: center;padding: 10px;">
+                    <button class="btn btn-sm mr-2" style="width: min-content;height: 35px; background-color: #F5F5F5 ;
+                    font-size: 13px;font-weight: 500;color: #000000;" (click)="openScreeningRecords()"
+                        [ngClass]="{ 'isactive' : viewScreeningRecords }">Screening Report</button>
+                    <button class="btn btn-sm" style="width: min-content;height: 35px; background-color: #F5F5F5 ;
+                    font-size: 13px;font-weight: 500;color: #000000;" (click)="openOthers()"
+                        [ngClass]="{ 'isactive' : !viewScreeningRecords }">Others</button>
+                </div>
+                <div *ngIf="(viewScreeningRecords)">
+                    <div class="container-fluid">
+                        <div class="row"
+                            style="padding: 5px; border: 1px solid #CCCCCC;border-radius: 5px;justify-content: space-around;">
+                            <div class="col-1" style="padding: inherit;">
+                                <img style="width: 0.9rem;cursor: pointer;"
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon-awesome-file-alt.png">
+                            </div>
+                            <div class="col-9">
+                                <div style="font-size: 13px;color: #503838;">filename</div>
+                                <div style="font-size: 10px;color: #503838;">11/11/2020 10:00 AM</div>
+                            </div>
+                            <div class="col-1" style="padding: inherit;"><img style="width: 0.9rem;cursor: pointer;"
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon feather-download.png">
+                            </div>
+                            <div class="col-1" style="padding: inherit;"><img style="width: 0.9rem;cursor: pointer;"
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon material-delete.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="(!viewScreeningRecords)">
+                    <div class="container-fluid">
+                        <div class="row"
+                            style="padding: 5px; border: 1px solid #CCCCCC;border-radius: 5px;justify-content: space-around;">
+                            <div class="col-1" style="padding: inherit;">
+                                <img style="width: 0.9rem; cursor: pointer;"
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon-awesome-file-alt.png">
+                            </div>
+                            <div class="col-9">
+                                <div style="font-size: 13px;color: #503838;">filename</div>
+                                <div style="font-size: 10px;color: #503838;">11/11/2020 10:00 AM</div>
+                            </div>
+                            <div class="col-1" style="padding: inherit;"><img style="width: 0.9rem;cursor: pointer;"
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon feather-download.png">
+                            </div>
+                            <div class="col-1" style="padding: inherit;"><img style="width: 0.9rem;cursor: pointer;"
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon material-delete.png">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="viewChat">
+                <div *ngIf="!viewImgSelection">
+                    <div class="scroll scrollingContainer chat-message-list" #mainScroll>
+                        <div *ngFor="let message of fetchedMessages; let i=index" #items>
+                            <div class="message-row you-message" *ngIf="message.userID === userID">
+                                <div class="message-content">
+                                    <div style="display: flex;justify-self: normal;">
+                                        <div class="you-message-time"> {{message.timeStamp | date: 'dd/MM h:mm a'}}
+                                        </div>
+                                        <div class="messager-you">you
+                                        </div>
                                     </div>
-                                    <div class="menu text-center text-info" style="padding: 0px;margin-top: -12px;">
-                                        <button mat-icon-button [matMenuTriggerFor]="menu"
-                                            style="margin-left: -10px !important;">
-                                            <img style="width: 0.2rem;"
-                                                src="../../../assets/images/ui/Icons/1x/menu.png">
-                                        </button>
+                                    <div class="message-text box2 menu " [matMenuTriggerFor]="menu">
+                                        <div *ngIf="(message.type === 'reply')"
+                                            style="background: #bdbbbb;border-radius: 5px;border-left: 4px solid #53b9c6;padding: 0 0 0 5px;">
+                                            <!-- <div style="color: white;"> &quot; {{message.message1}}</div> -->
+
+                                            <div style="color: white;" *ngIf="!message.message1.startsWith('http')">
+                                                &quot; {{message.message1}}</div>
+                                            <div style="color: white;" *ngIf="message.message1.startsWith('http')">
+                                                <img style="border-radius: 10px;width: 3rem;height: 3rem;"
+                                                    src="{{message.message1}}"
+                                                    onerror="this.src='../../../../assets/images/ui/Icons/patient-medical-module/Icon metro-cancel@2x.png';">
+                                            </div>
+                                            <div style="color: #000000; font-size: 8px;font-weight: 600;">
+                                                {{message.recipientRepliedName}}</div>
+
+                                            <!-- <div style="color: #000000; font-size: 8px;font-weight: 600;">
+                                                {{message.recipientRepliedName}}</div> -->
+                                        </div>
+                                        <div *ngIf="(message.attachments && message.attachments.length)">
+                                            <img src="{{baseURL+message.attachments[0].filePath}}"
+                                                onerror="this.src='../../../../assets/images/ui/Icons/patient-medical-module/Icon metro-cancel@2x.png';"
+                                                style="border-radius: 0px;">
+                                            <!--width: 3rem;height: 3rem;-->
+                                        </div>
+                                        <div>{{message.message}}</div>
+                                        <div *ngIf="(message.type === 'offline') && (message.isRead === !true)"
+                                            style="margin-top: -10px;text-align: end;">
+                                            <img style="width:0.8rem"
+                                                src="../../../../assets/images/ui/Medical-Personnel-Module/icons/check-mark-black.png">
+                                        </div>
+                                        <div *ngIf="(message.type === 'regular') && (message.isRead === !true)"
+                                            style="margin-top: -7px;margin-bottom: -6px; text-align: end;">
+                                            <div>
+                                                <!--*ngIf="(messageDelivered === !true)"-->
+                                                <img style="width:0.8rem"
+                                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/double-tick-indicator.png">
+                                            </div>
+                                        </div>
+                                        <div *ngIf=" (message.isRead === true)"
+                                            style="margin-top: -10px;text-align: end;">
+                                            <img style="width:0.8rem"
+                                                src="../../../../assets/images/ui/Medical-Personnel-Module/icons/double-checking.png">
+                                        </div>
                                         <mat-menu #menu="matMenu" xPosition="before" class="menudata">
-                                            <button mat-menu-item (click)="editMessage(message)">
+                                            <button mat-menu-item (click)="editMessage(message,i)">
                                                 <span>Edit</span>
                                             </button>
-                                            <button mat-menu-item (click)="deleteMessage(message)">
-                                                <span>Delete</span>
+                                            <button mat-menu-item (click)="deleteForMeMessage(message,i)">
+                                                <span>Delete For Me</span>
+                                            </button>
+                                            <button mat-menu-item (click)="deleteMessage(message,i)">
+                                                <span>Delete For EveryOne</span>
+                                            </button>
+                                            <button mat-menu-item (click)="replyMessage(message,i)">
+                                                <span>Reply</span>
                                             </button>
                                         </mat-menu>
                                     </div>
                                 </div>
-                                <div class="message-text">{{message.message}}</div>
-                            </div>
-                        </div>
-
-                        <div class="message-row other-message" *ngIf="message.userID !== userID">
-                            <div class="message-content">
-                                <div class="top-data">
-                                    <div class="messager-name">patient</div>
-                                    <div class="message-time">{{message.timeStamp | date: 'dd/MM/yyyy h:mm a'}}
-                                    </div>
+                                <div
+                                    style="line-height: 3;margin:4px;border-radius: 50% !important;width: 30px;height: 30px;">
+                                    <img style=" border: none;border-radius: 50%;width: 30px;height: 30px;min-width: 30px;min-height: 30px;"
+                                        src="{{baseURL+patient.patient.doctorDetails.profile.userProfile.profilePic}}"
+                                        onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
                                 </div>
-                                <div class="message-text">{{message.message}}</div>
+                            </div>
+
+                            <div class="message-row other-message" *ngIf="message.userID !== userID">
+                                <div
+                                    style="line-height: 4;margin:4px;border-radius: 50% !important;width: 30px;height: 30px;">
+                                    <img style=" border: none;border-radius: 50%;width: 30px;height: 30px;min-width: 30px;min-height: 30px;"
+                                        src="{{baseURL+patient.patient.patientDetails.profilePic}}"
+                                        onerror="this.src='../../../assets/images/ui/Icons/1x/profile-1.png';">
+                                </div>
+                                <div class="message-content">
+                                    <div class="top-data">
+                                        <div class="messager-name">{{patient.patient.patientDetails.firstName}}</div>
+                                        <div class="message-time">{{message.timeStamp | date: 'dd/MM h:mm a'}}</div>
+                                    </div>
+                                    <div class="message-text menu" [matMenuTriggerFor]="menu">
+                                        <div *ngIf="(message.type === 'reply')"
+                                            style="background: #bdbbbb;border-radius: 5px;border-left: 4px solid #53b9c6;padding: 0 0 0 5px;">
+                                            <div style="color: white;" *ngIf="!message.message1.startsWith('http')">
+                                                &quot; {{message.message1}}</div>
+                                            <div style="color: white;" *ngIf="message.message1.startsWith('http')">
+                                                <img style="border-radius: 10px;width: 3rem;height: 3rem;"
+                                                    src="{{message.message1}}"
+                                                    onerror="this.src='../../../../assets/images/ui/Icons/patient-medical-module/Icon metro-cancel@2x.png';">
+                                            </div>
+                                            <div style="color: #000000; font-size: 8px;font-weight: 600;">
+                                                {{message.recipientRepliedName}}</div>
+                                        </div>
+                                        <div *ngIf="(message.attachments && message.attachments.length)">
+                                            <img src="{{baseURL+message.attachments[0].filePath}}"
+                                                onerror="this.src='../../../../assets/images/ui/Icons/patient-medical-module/Icon metro-cancel@2x.png';"
+                                                style="border-radius: 0px;">
+                                        </div>
+                                        {{message.message}}
+                                        <mat-menu #menu="matMenu" xPosition="before" class="menudata">
+                                            <button mat-menu-item (click)="editMessage(message,i)">
+                                                <span>Edit</span>
+                                            </button>
+                                            <button mat-menu-item
+                                                *ngIf="(message.attachments && message.attachments.length)">
+                                                <a href="message.attachments[0].filePath"
+                                                    download='file.png'>Download</a>
+
+                                            </button>
+                                            <button mat-menu-item (click)="deleteForMeMessage(message,i)">
+                                                <span>Delete For Me</span>
+                                            </button>
+                                            <button mat-menu-item (click)="replyMessage(message,i)">
+                                                <span>Reply</span>
+                                            </button>
+                                        </mat-menu>
+                                    </div>
+                                    <!-- <img
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/check-mark-black.png"> -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id=chat-form>
-                    <!-- <input type="text" placeholder="type message here" /> -->
-                    <textarea rows="2" class="form-control" [(ngModel)]="message"
-                        style="padding: 2px 0 2px 10px;border: none; resize: none;"
-                        placeholder="type message here"></textarea>
-                    <img style="width: 1rem;"
-                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon metro-attachment.png">
-                    <img style="width: 1.3rem;margin-right: 10px;" (click)="sendChatMessages()"
-                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-send.png">
-                </div>
-                <!-- <div class="">
-                    <div class="" style="height: 50vh; max-height: 50vh;border: 1px solid gray;">
-                        <div
-                            style="text-align: left;border: 1px solid black;width: max-content;padding: 5px;float: left;margin: 5px;">
-                            patient
-                            message</div>
-                        <div
-                            style="text-align: right;border: 1px solid black;width: max-content;padding: 5px;float: right;margin: 5px;">
-                            doctor
-                            message</div>
+
+                    <div style="margin-top:-30px;" *ngIf="(viewReplyMsg)">
+                        <form [formGroup]="replyMessageForm">
+                            <div class="form-group" style="margin-bottom: 0px ;">
+                                <div id=chat-form>
+                                    <div *ngIf="replyImg != '' ">
+                                        <img style="border-radius: 10px;width: 3rem;height: 3rem;" src="{{replyImg}}"
+                                            onerror="this.src='../../../../assets/images/ui/Icons/patient-medical-module/Icon metro-cancel@2x.png';">
+                                    </div>
+                                    <div *ngIf="replyImg === '' ">
+
+                                    </div>
+                                    <textarea rows="2" class="form-control" formControlName="typedMessage"
+                                        style="padding: 2px 0 2px 10px;border: none; resize: none;font-size: 14px;font-weight: 500;color: #404041;border: #CCCCCC;">&quot;</textarea>
+                                    <img style="width: 1.3rem;margin-right: 10px;cursor: pointer;"
+                                        (click)="closeReply()" src="../../../../assets/images/ui/Icons/1x/cancel.png">
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="" style="border: 1px solid gray;">
-                        <div class="row" style="padding: 0px 0px 0px 15px;">
-                            <textarea rows="2" style="padding: 2px 0 2px 10px;"></textarea>
-                            <img style="width: 1.9rem;padding: 10px 12px 10px 5px;"
-                                src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon metro-attachment.png">
-                            <img style="width: 2rem;padding: 10px 15px 10px 0px;"
-                                src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-send.png">
+
+
+
+                    <form [formGroup]="sendMessageForm" style="position: relative;">
+                        <div style="position: absolute;top: -25px;">
+                            <!--style="margin-top:-30px;"-->
+                            <label *ngIf="typingOccured"
+                                style="font-size: 10px;font-weight: 500;">{{patient.patient.patientDetails.firstName}}
+                                typing...</label>
                         </div>
+                        <!--(ngSubmit)="sendChatMessages()"-->
+                        <div class="form-group" style="margin-bottom: 0px ;">
+                            <div id=chat-form>
+                                <textarea (keyup)="isTypingByMe()" rows="2" class="form-control"
+                                    formControlName="typedMessage"
+                                    style="padding: 2px 0 2px 10px;border: none; resize: none;font-size: 14px;font-weight: 500;color: #404041;border: #CCCCCC;"
+                                    placeholder="Type a Message..."></textarea>
+                                <!--[(ngModel)]="message"-->
+                                <input type="file" class="form-control" name="file" id="inputGroupFile01" #fileInput
+                                    aria-describedby="inputGroupFileAddon01" (change)="fileProgress($event)"
+                                    class="d-none">
+                                <!--accept=".png, .jpg, .jpeg"-->
+                                <img style="width: 1rem;cursor: pointer; " (click)="fileInput.click()"
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon metro-attachment.png">
+                                <img style="width: 1.3rem;margin-right: 10px;cursor: pointer;"
+                                    (click)="sendChatMessages()"
+                                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-send.png">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="viewImgSelection">
+                    <div style="text-align: end;">
+                        <img (click)="closeImg()" style="cursor: pointer; width: 1.5rem;"
+                            src="../../../../assets/images/ui/Icons/2x/cancel@2x.png">
                     </div>
-                </div> -->
+                    <div class="row" style="height: 48vh; justify-content: center;">
+                        <img class="" style="border: 1px solid #DCDCDC;
+                            border-radius: 5%;
+                            min-width: 80%;
+                            min-height: 50vh;
+                            max-height: 50vh;
+                            max-width: 80%;
+                            width: 100% !important;
+                            height: 50vh !important;
+                            padding: 5px;" src="{{showImg}}">
+                    </div>
+
+                    <div class="row" style="justify-content: flex-end;
+                    padding: 30px 40px;">
+                        <div (click)="sendFileAsChunk()" class="btn btn-sm btn-success">send</div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-1">
-            <div
-                style="text-align: center;background: #F5F8FA;display: flex;flex-direction: column;width: 80%;height: 100%;">
-                <img [ngClass]="{ 'active' : isValue == 1 }" (click)="openGeneralInfo()"
-                    style="cursor: pointer; width: 2.5rem;padding: 5px;margin: 5px 0px 5px 2px;"
-                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon-awesome-user-circle.png">
-                <img [ngClass]="{ 'active' : isValue == 2 }" (click)="openPatientInfo()"
-                    style="cursor: pointer;width: 2rem;padding: 5px;margin: 5px 0px 5px 8px;"
-                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon-awesome-file-alt.png">
-                <img [ngClass]="{ 'active' : isValue == 3 }" (click)="openFile()"
-                    style="cursor: pointer;width: 1.5rem;padding: 5px;margin: 5px 0px 5px 10px;"
-                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon material-attach-file.png">
-                <img [ngClass]="{ 'active' : isValue == 4 }" (click)="openChat()"
-                    style="cursor: pointer;width: 2.5rem;padding: 5px;margin: 5px;"
-                    src="../../../../assets/images/ui/Medical-Personnel-Module/icons/chat.png">
-            </div>
+        <div class="col-md-1" style="padding: 0px;background: #F5F8FA;">
+            <ul style="text-align: center;">
+                <li style="text-align: center;" [ngClass]="{ 'active' : isValue == 1 }" (click)="openGeneralInfo()">
+                    <img style=" width: 2rem;"
+                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon-awesome-user-circle.png">
+                </li>
+                <li style="text-align: center;" [ngClass]="{ 'active' : isValue == 2 }" (click)="openPatientInfo()">
+                    <img style="width: 1.5rem;"
+                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon-awesome-file-alt.png">
+                </li>
+                <li style="text-align: center;" [ngClass]="{ 'active' : isValue == 3 }" (click)="openFile()">
+                    <img style="width: 1rem;"
+                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon material-attach-file.png">
+                </li>
+                <li style="text-align: center;" [ngClass]="{ 'active' : isValue == 4 }" (click)="openChat()">
+                    <img style="width: 1.7rem;"
+                        src="../../../../assets/images/ui/Medical-Personnel-Module/icons/Icon ionic-ios-chatbubbles.png">
+                </li>
+            </ul>
         </div>
     </div>
 </div>

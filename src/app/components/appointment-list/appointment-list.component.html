@@ -112,7 +112,8 @@
                             </td>
                             <td class="pl-5" style="padding-top: 20px;">
                                 <div>
-                                    {{((patient.appointmentDetails.appointmentDate) || (patient.appointmentDetails.appointmentDate *1000)) | date:"MM/dd/yy" }}
+                                    <!--(patient.appointmentDetails.appointmentDate) || (patient.appointmentDetails.appointmentDate)) | date:"MM/dd/yy"-->
+                                    {{(patient.appointmentDetails.appointmentDate) | date:"MM/dd/yy" }}
                                 </div>
                                 <div>{{patient.appointmentDetails.appointmentTime}}</div>
                             </td>

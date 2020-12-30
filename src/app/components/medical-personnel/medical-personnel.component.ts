@@ -66,6 +66,7 @@ export class MedicalPersonnelComponent implements OnInit {
       console.log("SignIn Res", res)
       if (res.response === 3) {
         localStorage.setItem("userID", this.adminSignINForm.value.userID);
+        localStorage.setItem("medicalPersonnelID", res.medicalPersonnel.profile.userProfile.medical_personnel_id);
         localStorage.setItem("SignInRes", JSON.stringify(res));
         this.router.navigateByUrl('/medicalpersonnelmodule/dashboard');
 

@@ -16,14 +16,21 @@ export class AppComponent {
   isConnected = true;
   //Mat Snack Bar
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 5000, verticalPosition: 'top', panelClass: ['theme-snackbar'] })
+    this._snackBar.open(message, action, {
+      duration: 5000, verticalPosition: 'top',
+      panelClass: ['theme-snackbar']
+    })
   }
 
   //Mat Snack Bar
   openSnackBar1(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: 5000, verticalPosition: 'top', panelClass: ['red-snackbar'] })
+    this._snackBar.open(message, action, {
+      duration: 5000, verticalPosition: 'top',
+      panelClass: ['red-snackbar']
+    })
   }
-  constructor(private router: Router, private connectionService: ConnectionService, private _snackBar: MatSnackBar) {
+  constructor(private router: Router, private connectionService: ConnectionService,
+    private _snackBar: MatSnackBar) {
     this.connectionService.monitor().subscribe(isConnected => {
       this.isConnected = isConnected;
       if (this.isConnected) {

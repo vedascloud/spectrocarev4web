@@ -58,7 +58,7 @@ export class MedicalpersonnelsignupComponent implements OnInit {
   viewSuccessContent2: string = " Please check your email.";
   viewFailureContent2: string = "Your password has not been changed.";
   signObj: any;
-  hospital_reg_num: any;
+  hospital_reg_num: any = "AP2317293903";
   @ViewChild('fileInput', { static: true }) el: ElementRef;
   @ViewChild('viewSuccessContent', { static: true }) modalSuccessExample: ElementRef<any>;
   @ViewChild('viewFailureContent', { static: true }) modalFailureExample: ElementRef<any>;
@@ -71,7 +71,8 @@ export class MedicalpersonnelsignupComponent implements OnInit {
     var signInRes = localStorage.getItem("SignInRes");
     if (signInRes) {
       this.signObj = JSON.parse(signInRes);
-      this.hospital_reg_num = this.signObj.hospitalInformation.hospital_reg_num;
+      this.hospital_reg_num = "AP2317293903";
+      //this.signObj.hospitalInformation.hospital_reg_num;
       console.log(this.signObj, this.hospital_reg_num);
     }
 

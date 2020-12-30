@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { ModalDismissReasons, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ChatService } from 'src/app/services/chat.service';
 import { LoginService } from 'src/app/services/login.service';
 import { MedicalPersonnelService } from 'src/app/services/medical-personnel.service';
 import { ChatComponent } from '../chat/chat.component';
@@ -115,8 +116,35 @@ export class MedicalPersonnelAppointmentsComponent implements OnInit {
   patientsList: any = [];
   filteredPatients: any = [];
   options: Array<any>;
+  onlineObj = {
+    userID: '',
+    userType: '',
+    online: true
+  };
+  offlineObj: any;
   constructor(private medicalPersonService: MedicalPersonnelService, private modalService: NgbModal,
-    private fb: FormBuilder, private _snackBar: MatSnackBar, private loginService: LoginService, private dialogRef: MatDialog) { }
+    private fb: FormBuilder, private _snackBar: MatSnackBar,
+    private loginService: LoginService, private dialogRef: MatDialog,
+    private chatService: ChatService,) {
+    this.chatService.userConnectedObj.subscribe((val: any) => {
+      if (val && val.userID) {
+        console.log("userConnectedObj called in medical-personnel-appointments component...", val);
+        this.onlineObj.userID = val.userID;
+        this.onlineObj.userType = val.userType;
+        this.onlineObj.online = true;
+        //this.patient.patient.patientDetails.isOnline = true;
+      }
+    });
+    this.chatService.userDisconnectedObj.subscribe((val: any) => {
+      if (val && val.userID) {
+        console.warn("userDisconnectedObj called in chat component...", val);
+        this.onlineObj.userID = val.userID;
+        this.onlineObj.userType = val.userType;
+        this.onlineObj.online = false;
+        //this.patient.patient.patientDetails.isOnline = false;
+      }
+    });
+  }
 
   ngOnInit() {
     this.showData;
@@ -379,7 +407,17 @@ export class MedicalPersonnelAppointmentsComponent implements OnInit {
           this.getUpcomingAppointments();
           console.log("Hospital/Admin having num of Appointments size is : ", this.listSize);
           console.log("Appointments Data : ", this.listOfAppointments);
-
+          //this.onlineObj.userID
+          for (let i = 0; i < this.listOfAppointments.length - 1; i++) {
+            if (this.listOfAppointments[i].patientDetails.patientID === this.onlineObj.userID) {
+              if (this.listOfAppointments[i].patientDetails.isOnline === this.onlineObj.online) {
+                this.listOfAppointments[i].patientDetails.isOnline = this.onlineObj.online;
+              }
+              else {
+                this.listOfAppointments[i].patientDetails.isOnline = this.onlineObj.online;
+              }
+            }
+          }
         } else if (res.response === 0) {
           this.loading = false;
         }
@@ -426,7 +464,7 @@ export class MedicalPersonnelAppointmentsComponent implements OnInit {
   getUpcomingAppointments() {
     this.isValue = 2;
     console.log("upcoming appointments called");
-    var presentDate = Math.round(new Date().getTime() / 1000)
+    var presentDate = Math.round(new Date().getTime())
     console.log("present data : ", presentDate);
     //this.showData("All");
     var timestamp = presentDate;
@@ -447,7 +485,7 @@ export class MedicalPersonnelAppointmentsComponent implements OnInit {
     this.isValue = 1;
 
     console.log("today appointments called : ", this.allAppointments);
-    var presentDate = Math.round(new Date().getTime() / 1000)
+    var presentDate = Math.round(new Date().getTime())
     console.log("present data : ", presentDate);
 
     var timestamp = presentDate;
@@ -468,7 +506,7 @@ export class MedicalPersonnelAppointmentsComponent implements OnInit {
   getPastAppointments() {
     console.log("past appointments called");
     this.isValue = 3;
-    var presentDate = Math.round(new Date().getTime() / 1000)
+    var presentDate = Math.round(new Date().getTime())
     console.log("present data : ", presentDate);
     //this.showData("All");
     var timestamp = presentDate;
@@ -1067,12 +1105,16 @@ export class MedicalPersonnelAppointmentsComponent implements OnInit {
   }
   //call open video model
   openVideoModel(patient) {
+    let dataRequired = {
+      patient: patient,
+      signObj: this.signObj
+    }
     let dialogRef = this.dialogRef.open(
       ChatComponent, {
       panelClass: 'col-md-12',
       hasBackdrop: true,
       disableClose: true,
-      data: patient
+      data: dataRequired
     }
     );
   }
